@@ -34,7 +34,8 @@ import nbaquery.data.query.Query;
  * you should process if you retrieve it.
  * 
  * @author luohaoran
- *
+ * @see nbaquery.data.Table
+ * @see nbaquery.data.DirtyDataInfo
  */
 
 public interface TableHost

@@ -1,8 +1,25 @@
 package nbaquery.data;
 
 /**
- * Providing services of modifying and accessing rows in the table.
+ * <p>Providing services of modifying and accessing rows in the table.</p>
+ * 
+ * <p>By calling <i>Column.getAttribute(row)</i>, you could get the 
+ * corresponding row in the table, while you could set by calling 
+ * <i>Column.setAttribute(row)</i>.</p>
+ * 
+ * <p>The column could be obtained by calling <i>Table.getColumn(columnName)</i>,
+ * or <i>TableHost.getColumn(columnName)</i>. The latter method should pass
+ * "tableName.columnName" as parameter if it is ambiguous, or a wrong answer
+ * will be returned.</p>
+ * 
+ * <p>Both column and row have its belonging table, and a column can only get
+ * a the attribute of a row if their belonging tables are the same, or a null
+ * will be returned.</p>
+ * 
  * @author luohaoran
+ * @see nbaquery.data.Row
+ * @see nbaquery.data.Table
+ * @see nbaquery.data.TableHost
  */
 
 public interface Column
