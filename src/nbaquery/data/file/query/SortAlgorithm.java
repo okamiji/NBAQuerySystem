@@ -59,7 +59,7 @@ public class SortAlgorithm implements FileTableAlgorithm
 				node.row = row[i];
 				
 				node.keyword = mapper.getKeyword(keyword.getAttribute(row[i]));
-				if(sort.ascend) node.keyword = -node.keyword;
+				if(sort.descend) node.keyword = -node.keyword;
 				
 				current.next = node;
 				current = node;
@@ -75,6 +75,9 @@ public class SortAlgorithm implements FileTableAlgorithm
 					resultColumns[i].setAttribute(tuple, originColumns[i].getAttribute(currentRow));
 				
 				iterator = iterator.next;
+				
+				sort.interval --;
+				if(sort.interval == 0) break;
 			}
 		}
 		

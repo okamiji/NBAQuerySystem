@@ -6,7 +6,7 @@ public class RadixSort
 	{
 		if(dummyHead == null) return;
 		if(dummyHead.next == null) return;
-		//Do radix sort here.
+		
 		final int length = Integer.SIZE / 8;
 		for(int i = 0; i < length; i ++)
 		{

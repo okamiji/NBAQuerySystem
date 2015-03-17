@@ -15,7 +15,6 @@ import nbaquery.data.query.JoinQuery;
 import nbaquery.data.query.Query;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
-import nbaquery.data.query.expression.ExpressionFactory;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -141,11 +140,8 @@ public class TestFileTableHost
 	@Test
 	public void aggregateMatchRecord() throws Exception
 	{
-		JoinQuery query = new JoinQuery();
-		query.leftTable = match;
-		query.rightTable = quarter_score;
-		query.projectColumns = new String[]{"match_host_abbr", "match_guest_abbr", "quarter_number", "quarter_host_score", "quarter_guest_score"};
-		query.expression = ExpressionFactory.getInstance().parse(host, "match.match_id = quarter_score.match_id");
+		JoinQuery query = new JoinQuery("match.match_id = quarter_score.match_id", match, quarter_score,
+				"match_host_abbr", "match_guest_abbr", "quarter_number", "quarter_host_score", "quarter_guest_score");
 		
 		host.performQuery(query, "resultMatchScore");
 		output.add("resultMatchScore");
@@ -154,9 +150,7 @@ public class TestFileTableHost
 	@Test
 	public void sortMatchRecord() throws Exception
 	{
-		SortQuery query = new SortQuery();
-		query.table = performance;
-		query.keyword = "three_shoot_score";
+		SortQuery query = new SortQuery(performance, "three_shoot_score", 100, true);
 		
 		host.performQuery(query, "resultSort");
 		output.add("resultSort");
