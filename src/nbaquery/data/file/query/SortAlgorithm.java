@@ -30,10 +30,7 @@ public class SortAlgorithm implements FileTableAlgorithm
 			columnNames[i] = columns[i].getColumnName();
 			columnDataClasses[i] = columns[i].getDataClass();
 			if(columns[i].getColumnName().equalsIgnoreCase(sort.keyword))
-			{
 				keyword = columns[i];
-				break;
-			}
 		}
 		
 		MultivaluedTable resultTable = new MultivaluedTable((FileTableHost) sort.table.getTableHost(), columnNames, columnDataClasses);
@@ -59,6 +56,7 @@ public class SortAlgorithm implements FileTableAlgorithm
 			for(int i = 0; i < row.length; i ++)
 			{
 				RowLinkedListNode node = new RowLinkedListNode();
+				node.row = row[i];
 				
 				node.keyword = mapper.getKeyword(keyword.getAttribute(row[i]));
 				if(sort.ascend) node.keyword = -node.keyword;

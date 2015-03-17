@@ -155,8 +155,8 @@ public class TestFileTableHost
 	public void sortMatchRecord() throws Exception
 	{
 		SortQuery query = new SortQuery();
-		query.table = quarter_score;
-		
+		query.table = performance;
+		query.keyword = "three_shoot_score";
 		
 		host.performQuery(query, "resultSort");
 		output.add("resultSort");
