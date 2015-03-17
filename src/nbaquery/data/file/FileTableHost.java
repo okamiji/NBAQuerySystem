@@ -18,6 +18,7 @@ import nbaquery.data.file.loader.PlayerLoader;
 import nbaquery.data.file.loader.TeamLoader;
 import nbaquery.data.file.query.DeriveAlgorithm;
 import nbaquery.data.file.query.FileTableAlgorithm;
+import nbaquery.data.file.query.JoinAlgorithm;
 import nbaquery.data.file.query.SelectProjectAlgorithm;
 import nbaquery.data.file.query.SetOperationAlgorithm;
 import nbaquery.data.query.Query;
@@ -72,7 +73,7 @@ public class FileTableHost implements TableHost
 	public FileTableHost(File root)
 	{
 		this(root, new Class<?>[]{MatchLoader.class, PlayerLoader.class, TeamLoader.class},
-				new Class<?>[]{SetOperationAlgorithm.class, SelectProjectAlgorithm.class, DeriveAlgorithm.class});
+				new Class<?>[]{SetOperationAlgorithm.class, SelectProjectAlgorithm.class, DeriveAlgorithm.class, JoinAlgorithm.class});
 	}
 	
 	public FileTableHost(final File root, Class<?>[] loaderClasses, Class<?>[] queryAlgorithmClasses)
