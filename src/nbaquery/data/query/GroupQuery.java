@@ -15,5 +15,5 @@ public abstract class GroupQuery implements Query
 		
 	}
 	
-	public abstract void collapse(Row[] row, Row resultRow);
+	public abstract void collapse(Row[] rows, Row resultRow);
 }

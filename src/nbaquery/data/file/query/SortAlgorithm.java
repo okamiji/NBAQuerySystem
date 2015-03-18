@@ -1,5 +1,6 @@
 package nbaquery.data.file.query;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,6 +105,24 @@ public class SortAlgorithm implements FileTableAlgorithm
 			public Integer getKeyword(Object mapping)
 			{
 				return (int)mapping;
+			}
+		});
+		
+		keywordMappers.put(Long.class, new KeywordMapper()
+		{
+			@Override
+			public Integer getKeyword(Object mapping)
+			{
+				return ((Long)mapping).intValue();
+			}
+		});
+		
+		keywordMappers.put(Date.class, new KeywordMapper()
+		{
+			@Override
+			public Integer getKeyword(Object mapping)
+			{
+				return (int) ((Date)mapping).getTime();
 			}
 		});
 		

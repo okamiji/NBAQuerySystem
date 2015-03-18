@@ -70,7 +70,7 @@ public class GroupAlgorithm implements FileTableAlgorithm
 			ThreadGroup thread = new ThreadGroup();
 			thread.keywordFields = entry.getKey().objects;
 			thread.query = group;
-			thread.resultColumns = referColumns;
+			thread.resultColumns = resultColumns;
 			thread.resultTable = resultTable;
 			thread.rowsList = entry.getValue();
 			thread.start();
@@ -131,11 +131,18 @@ public class GroupAlgorithm implements FileTableAlgorithm
 		
 		public void run()
 		{
-			Row[] rows = rowsList.toArray(new Row[0]);
-			Tuple tuple = resultTable.createTuple();
-			for(int i = 0; i < resultColumns.length; i ++)
-				resultColumns[i].setAttribute(tuple, keywordFields[i]);
-			query.collapse(rows, tuple);
+			try
+			{
+				Row[] rows = rowsList.toArray(new Row[0]);
+				Tuple tuple = resultTable.createTuple();
+				for(int i = 0; i < resultColumns.length; i ++)
+					resultColumns[i].setAttribute(tuple, keywordFields[i]);
+				query.collapse(rows, tuple);
+			}
+			catch(Exception e)
+			{
+				
+			}
 		}
 	}
 	
