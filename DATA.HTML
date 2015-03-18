@@ -1,0 +1,400 @@
+<html>
+<head>
+<title>数据库表头定义</title>
+<style>
+body
+{
+	font-family: Courier New;
+	font-size: 13px;
+}
+table, th, td
+{
+	font-family: Courier New;
+	font-size: 13px;
+	border-collapse: collapse;
+	width: 700px;
+	border: 1px solid black;
+	border-color: #000;
+}
+</style>
+</head>
+<body>
+
+<table>
+<th>所属表格</th>
+<th>表头缩写</th>
+<th>中文名称</th>
+<th>数据类型</th>
+
+<tr>
+<td rowspan="8">TEAM<br>含有队伍信息</td>
+<td><u>TEAM_NAME_ABBR</u></td>
+<td>队名缩写</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>TEAM_NAME</td>
+<td>队名</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>TEAM_LOCATION</td>
+<td>队伍所在地</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>TEAM_MATCH_AREA</td>
+<td>赛区</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>TEAM_SECTOR</td>
+<td>分区</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>TEAM_HOST</td>
+<td>主场</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>TEAM_FOUNDATION</td>
+<td>创建时间(年份)</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>TEAM_LOGO</td>
+<td>队伍LOGO</td>
+<td>Image</td>
+</tr>
+
+<tr>
+<td rowspan="11">PLAYER<br>含有球员信息</td>
+<td><u>PLAYER_NAME</u></td>
+<td>球员名称</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>PLAYER_NUMBER</td>
+<td>球衣编号</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>PLAYER_POSITION</td>
+<td>球员位置</td>
+<td>Character</td>
+</tr>
+
+<tr>
+<td>PLAYER_HEIGHT</td>
+<td>球员身高</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>PLAYER_WEIGHT</td>
+<td>球员体重</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>PLAYER_BIRTH</td>
+<td>出生日期</td>
+<td>Date</td>
+</tr>
+
+<tr>
+<td>PLAYER_AGE</td>
+<td>年龄</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>PLAYER_EXP</td>
+<td>球龄</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>PLAYER_SCHOOL</td>
+<td>毕业学校</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>PLAYER_PORTRAIT</td>
+<td>半身照</td>
+<td>Image</td>
+</tr>
+
+<tr>
+<td>PLAYER_ACTION</td>
+<td>全身照</td>
+<td>Image</td>
+</tr>
+
+<tr>
+<td rowspan="7">MATCH<br>含有部分比赛信息</td>
+<td><u>MATCH_ID</u></td>
+<td>比赛编号（系统生成）</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>MATCH_SEASON</td>
+<td>赛季</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>MATCH_DATE</td>
+<td>比赛日期</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td><i>MATCH_HOST_ABBR</i></td>
+<td>主场队伍缩写</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td><i>MATCH_GUEST_ABBR</i></td>
+<td>客场队伍缩写</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>MATCH_HOST_SCORE</td>
+<td>主场队伍得分</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>MATCH_GUEST_SCORE</td>
+<td>客场队伍得分</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td rowspan="4">QUARTER_SCORE<br>含有比赛的场次记录</td>
+<td><i>MATCH_ID</i></td>
+<td>比赛编号</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>QUARTER_NUMBER</td>
+<td>比赛场次编号（从1开始，加时赛从5开始）</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>QUARTER_HOST_SCORE</td>
+<td>场次主场得分</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>QUARTER_GUEST_SCORE</td>
+<td>场次客场得分</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td rowspan="21">PERFORMANCE<br>含有球员在每场比赛的表现</td>
+<td><i>MATCH_ID</i></td>
+<td>比赛编号</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td><i>TEAM_NAME_ABBR</i></td>
+<td>球队缩写</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td><i>PLAYER_NAME</i></td>
+<td>球队名称</td>
+<td>String</td>
+</tr>
+
+<tr>
+<td>PLAYER_POSITION</td>
+<td>球员位置</td>
+<td>Character</td>
+</tr>
+
+<tr>
+<td>GAME_TIME_MINUTE</td>
+<td>上场时间（分钟部分）</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>GAME_TIME_SECOND</td>
+<td>上场时间（秒钟部分）</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>SHOOT_SCORE</td>
+<td>二分进球数</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>SHOOT_NUMBER</td>
+<td>二分出手数</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>THREE_SHOOT_SCORE</td>
+<td>三分进球数</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>THREE_SHOOT_NUMBER</td>
+<td>三分出手数</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>FOUL_SHOOT_SCORE</td>
+<td>罚球进球数</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>FOUL_SHOOT_NUMBER</td>
+<td>罚球出手数</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>ATTACK_BOARD</td>
+<td>进攻篮板</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>DEFENCE_BOARD</td>
+<td>防守篮板</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>TOTAL_BOARD</td>
+<td>总篮板</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>ASSIST</td>
+<td>助攻</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>STEAL</td>
+<td>抢断</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>CAP</td>
+<td>盖帽</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>MISS</td>
+<td>失误</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>FOUL</td>
+<td>犯规</td>
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>SELF_SCORE</td>
+<td>个人得分</td>
+<td>Integer</td>
+</tr>
+
+</table>
+
+<!--
+	TEAM_NAME_ABBR(new EnumTable[]{EnumTable.TEAM, EnumTable.PERFORMANCE}, String.class, new boolean[]{true, false}),
+	TEAM_NAME(EnumTable.TEAM, String.class),
+	TEAM_LOCATION(EnumTable.TEAM, String.class),
+	TEAM_MATCH_AREA(EnumTable.TEAM, String.class),
+	TEAM_SECTOR(EnumTable.TEAM, String.class),
+	TEAM_HOST(EnumTable.TEAM, String.class),
+	TEAM_FOUNDATION(EnumTable.TEAM, Integer.class),
+	TEAM_LOGO(EnumTable.TEAM, Image.class),
+
+	PLAYER_NAME(new EnumTable[]{EnumTable.PLAYER, EnumTable.PERFORMANCE}, String.class, new boolean[]{true, false}),
+	PLAYER_NUMBER(EnumTable.PLAYER, Integer.class),
+	PLAYER_POSITION(new EnumTable[]{EnumTable.PLAYER, EnumTable.PERFORMANCE}, Character.class, new boolean[]{false, false}),
+	PLAYER_HEIGHT(EnumTable.PLAYER, String.class),
+	PLAYER_WEIGHT(EnumTable.PLAYER, Integer.class),
+	PLAYER_BIRTH(EnumTable.PLAYER, Date.class),
+	PLAYER_AGE(EnumTable.PLAYER, Integer.class),
+	PLAYER_EXP(EnumTable.PLAYER, Integer.class),
+	PLAYER_SCHOOL(EnumTable.PLAYER, String.class),
+	PLAYER_PORTRAIT(EnumTable.PLAYER, Image.class),
+	PLAYER_ACTION(EnumTable.PLAYER, Image.class),
+	
+	MATCH_ID(new EnumTable[]{EnumTable.MATCH, EnumTable.QUARTER_SCORE, EnumTable.PERFORMANCE}, Long.class, new boolean[]{true, false, false}),
+	MATCH_SEASON(EnumTable.MATCH, String.class),
+	MATCH_DATE(EnumTable.MATCH, String.class),
+	MATCH_HOST_ABBR(EnumTable.MATCH, String.class),
+	MATCH_GUEST_ABBR(EnumTable.MATCH, String.class),
+	MATCH_HOST_SCORE(EnumTable.MATCH, Integer.class),
+	MATCH_GUEST_SCORE(EnumTable.MATCH, Integer.class),
+
+	QUARTER_NUMBER(EnumTable.QUARTER_SCORE, Integer.class),
+	QUARTER_HOST_SCORE(EnumTable.QUARTER_SCORE, Integer.class),
+	QUARTER_GUEST_SCORE(EnumTable.QUARTER_SCORE, Integer.class),
+
+	GAME_TIME_MINUTE(EnumTable.PERFORMANCE, Integer.class),
+	GAME_TIME_SECOND(EnumTable.PERFORMANCE, Integer.class),
+	SHOOT_SCORE(EnumTable.PERFORMANCE, Integer.class),
+	SHOOT_COUNT(EnumTable.PERFORMANCE, Integer.class),
+	THREE_SHOOT_SCORE(EnumTable.PERFORMANCE, Integer.class),
+	THREE_SHOOT_COUNT(EnumTable.PERFORMANCE, Integer.class),
+	FOUL_SHOOT_SCORE(EnumTable.PERFORMANCE, Integer.class),
+	FOUL_SHOOT_COUNT(EnumTable.PERFORMANCE, Integer.class),
+	ATTACK_BOARD(EnumTable.PERFORMANCE, Integer.class),
+	DEFENCE_BOARD(EnumTable.PERFORMANCE, Integer.class),
+	TOTAL_BOARD(EnumTable.PERFORMANCE, Integer.class),
+	ASSIST(EnumTable.PERFORMANCE, Integer.class),
+	STEAL(EnumTable.PERFORMANCE, Integer.class),
+	CAP(EnumTable.PERFORMANCE, Integer.class),
+	MISS(EnumTable.PERFORMANCE, Integer.class),
+	FOUL(EnumTable.PERFORMANCE, Integer.class),
+	SELF_SCORE(EnumTable.PERFORMANCE, Integer.class);
+-->
+
+<p>
+（注：上表中，加下划线代表该属性为所属表格主关键字，斜体代表为该表格外关键字）
+</p>
+
+<body>
+</html>
