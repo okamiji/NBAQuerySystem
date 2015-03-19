@@ -11,6 +11,7 @@ import nbaquery.data.query.DeriveColumnInfo;
 import nbaquery.data.query.DeriveQuery;
 import nbaquery.data.query.ExpressionDeriveColumnInfo;
 import nbaquery.data.query.ExpressionDeriveQuery;
+import nbaquery.data.query.GroupQuery;
 import nbaquery.data.query.JoinQuery;
 import nbaquery.data.query.Query;
 import nbaquery.data.query.SelectProjectQuery;
@@ -154,6 +155,72 @@ public class TestFileTableHost
 		
 		host.performQuery(query, "resultSort");
 		output.add("resultSort");
+	}
+	
+	@Test
+	public void sumupMatchRecord() throws Exception
+	{
+		GroupQuery query = new GroupQuery()
+		{
+			Column three_shoot_score;
+			Column three_shoot_count;
+			Column three_shoot_sum;
+			Column three_shoot_score_sum;
+			
+			Column shoot_score;
+			Column shoot_count;
+			Column shoot_sum;
+			Column shoot_score_sum;
+			
+			@Override
+			public void retrieve(Table resultTable)
+			{
+				three_shoot_score = this.table.getColumn("three_shoot_score");
+				three_shoot_count = this.table.getColumn("three_shoot_count");
+				three_shoot_sum = resultTable.getColumn("three_shoot_sum");
+				three_shoot_score_sum = resultTable.getColumn("three_shoot_score_sum");
+				
+				shoot_score = this.table.getColumn("shoot_score");
+				shoot_count = this.table.getColumn("shoot_count");
+				shoot_sum = resultTable.getColumn("shoot_sum");
+				shoot_score_sum = resultTable.getColumn("shoot_score_sum");
+			}
+
+			@Override
+			public void collapse(Row[] rows, Row resultRow)
+			{
+				Integer three_shoot_score_sum = 0;
+				Integer three_shoot_sum = 0;
+				
+				Integer shoot_score_sum = 0;
+				Integer shoot_sum = 0;
+				
+				for(Row row : rows)
+				{
+					three_shoot_score_sum += (Integer) three_shoot_score.getAttribute(row);
+					three_shoot_sum += (Integer) three_shoot_count.getAttribute(row);
+					
+					shoot_score_sum += (Integer) shoot_score.getAttribute(row);
+					shoot_sum += (Integer) shoot_count.getAttribute(row);
+				}
+				this.three_shoot_score_sum.setAttribute(resultRow, three_shoot_score_sum);
+				this.three_shoot_sum.setAttribute(resultRow, three_shoot_sum);
+				
+				this.shoot_score_sum.setAttribute(resultRow, shoot_score_sum);
+				this.shoot_sum.setAttribute(resultRow, shoot_sum);
+			}
+		};
+		
+		query.table = performance;
+		query.collapseColumn = new String[]{"team_name_abbr", "match_id"};
+		query.derivedColumn = new String[]{"three_shoot_sum", "three_shoot_score_sum", "shoot_sum", "shoot_score_sum"};
+		query.derivedClass = new Class<?>[]{Integer.class, Integer.class, Integer.class, Integer.class};
+		
+		host.performQuery(query, "collapseResult");
+		host.performQuery(new SortQuery(host.getTable("collapseResult"), "match_id"), "sortedCollapseResult");
+		
+		//output.add("collapseResult");
+		output.add("sortedCollapseResult");
 	}
 	
 	@AfterClass
