@@ -1,8 +1,9 @@
-package GUI;
+package nbaquery.presentation;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
+@SuppressWarnings({"serial", "rawtypes", "unchecked"})
 public class PlayerTableModel extends AbstractTableModel{
 	Vector columnNames,rows;
 	

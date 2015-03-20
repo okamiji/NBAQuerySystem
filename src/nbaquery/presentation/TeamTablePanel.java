@@ -1,8 +1,7 @@
-package GUI;
+package nbaquery.presentation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JPanel;
@@ -16,18 +15,19 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
+import nbaquery.logic.IBusinessLogic;
 
-
-
+@SuppressWarnings("serial")
 public class TeamTablePanel  extends JPanel implements TableModelListener {
 	JTable table;
 	TeamTableModel tableModel;
 	TeamTablePanel panel=this;
-	JComboBox headBox,upDownBox,typeBox;
-	Presentation_Stub ps=new Presentation_Stub();
+	JComboBox<String> headBox,upDownBox,typeBox;
+	IBusinessLogic bls;
 	String[][] strs=null;
 	
-	public TeamTablePanel(){
+	public TeamTablePanel(IBusinessLogic bls){
+		this.bls = bls;
 		setSize(800,420);
 		tableModel=new TeamTableModel();
 		table=new JTable(tableModel);
@@ -47,11 +47,11 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		label.setBounds(624, 190, 72, 18);
 		add(label);
 
-		headBox = new JComboBox();
+		headBox = new JComboBox<String>();
 		headBox.setBounds(624, 221, 82, 24);
 		add(headBox);
 	
-		upDownBox = new JComboBox();
+		upDownBox = new JComboBox<String>();
 		upDownBox.setBounds(718, 221, 68, 24);
 		add(upDownBox);
 		
@@ -60,7 +60,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		button.addActionListener(new searchListener());
 		add(button);
 		
-		typeBox = new JComboBox();
+		typeBox = new JComboBox<String>();
 		typeBox.setBounds(624, 153, 105, 24);
 		add(typeBox);
 		
@@ -93,7 +93,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		}
 		if(strs!=null)
 			for(int i=0;i<strs.length;i++){
-				Vector v=new Vector();
+				Vector<String> v=new Vector<String>();
 				for(int j=0;j<strs[i].length;j++){
 					v.add(strs[i][j]);}
 				tableModel.addRow(v);
@@ -121,7 +121,7 @@ class searchListener implements ActionListener{
 		else
 			upDown=false;
 		
-		strs=ps.searchForTeams(type,head, upDown);
+		strs=bls.searchForTeams(type,head, upDown);
 		updateTable(strs);
 	}
 	

@@ -1,8 +1,7 @@
-package GUI;
+package nbaquery.presentation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JPanel;
@@ -16,18 +15,19 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
+import nbaquery.logic.IBusinessLogic;
 
-
-
+@SuppressWarnings("serial")
 public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	JTable table;
 	PlayerTableModel tableModel;
 	PlayerTablePanel panel=this;
-	JComboBox positionBox,headBox,leagueBox,upDownBox,typeBox;
-	Presentation_Stub ps=new Presentation_Stub();
+	JComboBox<String> positionBox,headBox,leagueBox,upDownBox,typeBox;
+	IBusinessLogic bls;
 	String[][] strs=null;
 	
-	public PlayerTablePanel(){
+	public PlayerTablePanel(IBusinessLogic bls){
+		this.bls = bls;
 		setSize(800,420);
 		tableModel=new PlayerTableModel();
 		table=new JTable(tableModel);
@@ -56,19 +56,19 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		add(label_1);
 		
 		
-		headBox = new JComboBox();
+		headBox = new JComboBox<String>();
 		headBox.setBounds(624, 221, 82, 24);
 		add(headBox);
 	
-		positionBox = new JComboBox();
+		positionBox = new JComboBox<String>();
 		positionBox.setBounds(624, 37, 105, 24);
 		add(positionBox);
 		
-		leagueBox = new JComboBox();
+		leagueBox = new JComboBox<String>();
 		leagueBox.setBounds(624, 92, 105, 24);
 		add(leagueBox);
 		
-		upDownBox = new JComboBox();
+		upDownBox = new JComboBox<String>();
 		upDownBox.setBounds(718, 221, 68, 24);
 		add(upDownBox);
 		
@@ -77,7 +77,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		button.addActionListener(new searchListener());
 		add(button);
 		
-		typeBox = new JComboBox();
+		typeBox = new JComboBox<String>();
 		typeBox.setBounds(624, 153, 105, 24);
 		add(typeBox);
 		
@@ -110,7 +110,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		}
 		if(strs!=null)
 			for(int i=0;i<strs.length;i++){
-				Vector v=new Vector();
+				Vector<String> v=new Vector<String>();
 				for(int j=0;j<strs[i].length;j++){
 					v.add(strs[i][j]);}
 				tableModel.addRow(v);
@@ -140,7 +140,7 @@ class searchListener implements ActionListener{
 		else
 			upDown=false;
 		
-		strs=ps.searchForPlayers(type,head, upDown, position, league);
+		strs=bls.searchForPlayers(type,head, upDown, position, league);
 		updateTable(strs);
 	}
 	

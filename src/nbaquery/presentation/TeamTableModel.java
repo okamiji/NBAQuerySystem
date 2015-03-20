@@ -1,8 +1,9 @@
-package GUI;
+package nbaquery.presentation;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
+@SuppressWarnings({"rawtypes", "unchecked", "serial"})
 public class TeamTableModel extends AbstractTableModel{
 	Vector columnNames,rows;
 	

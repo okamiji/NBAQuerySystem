@@ -1,48 +1,32 @@
-package GUI;
-
-import java.awt.EventQueue;
+package nbaquery.presentation;
 
 import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JToolBar;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JMenuItem;
+
+import nbaquery.logic.IBusinessLogic;
 
 
 public class MainFrame {
 
 	private JFrame frame;
 	JPanel mainPanel;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainFrame window = new MainFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
+	IBusinessLogic bls;
+	
 	/**
 	 * Create the application.
 	 */
-	public MainFrame() {
+	public MainFrame(IBusinessLogic bls) {
 		initialize();
+		this.bls = bls;
 	}
 
 	/**
@@ -89,12 +73,17 @@ public class MainFrame {
 		mainPanel.setLayout(null);
 	}
 	
+	public void setVisible(boolean visible)
+	{
+		this.frame.setVisible(visible);
+	}
+	
 	class PlayerListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			mainPanel.removeAll();
-			PlayerTablePanel d=new PlayerTablePanel();
+			PlayerTablePanel d=new PlayerTablePanel(bls);
 			mainPanel.add(d);
 			mainPanel.paintComponents(mainPanel.getGraphics());
 			mainPanel.repaint();
@@ -102,13 +91,12 @@ public class MainFrame {
 		
 	}
 	
-
 	class TeamListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			mainPanel.removeAll();
-			TeamTablePanel d=new TeamTablePanel();
+			TeamTablePanel d=new TeamTablePanel(bls);
 			mainPanel.add(d);
 			mainPanel.paintComponents(mainPanel.getGraphics());
 			mainPanel.repaint();
