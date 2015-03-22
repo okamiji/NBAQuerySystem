@@ -35,7 +35,7 @@ public class TestFileTableHost
 	@BeforeClass
 	public static void loadingHostFromFileSystem() throws Exception
 	{
-		host = new FileTableHost(new File("D:\\迭代一数据"));
+		host = new FileTableHost(new File("E:\\大二课程\\软工三\\tss迭代一要求\\CSEIII data\\迭代一数据"));
 		
 		match = host.getTable("match");
 		quarter_score = host.getTable("quarter_score");
