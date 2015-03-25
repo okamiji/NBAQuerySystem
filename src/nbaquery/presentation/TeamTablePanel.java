@@ -2,33 +2,51 @@ package nbaquery.presentation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
 import nbaquery.logic.IBusinessLogic;
+import nbaquery.presentation.PlayerTablePanel.ClickAdapter;
+import nbaquery.presentation.PlayerTablePanel.ClickListener;
+import nbaquery.presentation.PlayerTablePanel.SearchListener;
 
 @SuppressWarnings("serial")
 public class TeamTablePanel  extends JPanel implements TableModelListener {
 	JTable table;
 	TeamTableModel tableModel;
 	TeamTablePanel panel=this;
-	JComboBox<String> headBox,upDownBox,typeBox;
+	JComboBox<String> typeBox;
 	IBusinessLogic bls;
 	String[][] strs=null;
+	JButton button,searchButton;
+	JTextField searchField;
+
+	String head=null;
+	boolean upDown=true;
+	boolean type=false;
 	
-	public TeamTablePanel(IBusinessLogic bls){
+	
+	public TeamTablePanel(final IBusinessLogic bls){
 		this.bls = bls;
-		setSize(800,420);
+		setSize(900,640);
 		tableModel=new TeamTableModel();
 		table=new JTable(tableModel);
 		table.getModel().addTableModelListener(this);
@@ -39,41 +57,59 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 13, 600, 397);
+		scrollPane.setBounds(14, 53, 600, 390);
 		add(scrollPane);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
-		JLabel label = new JLabel("\u6392\u5E8F\u4F9D\u636E");
-		label.setBounds(624, 190, 72, 18);
-		add(label);
-
-		headBox = new JComboBox<String>();
-		headBox.setBounds(624, 221, 82, 24);
-		add(headBox);
-	
-		upDownBox = new JComboBox<String>();
-		upDownBox.setBounds(718, 221, 68, 24);
-		add(upDownBox);
-		
-		JButton button = new JButton("\u7B5B\u9009");
-		button.setBounds(624, 292, 105, 27);
-		button.addActionListener(new searchListener());
-		add(button);
-		
-		typeBox = new JComboBox<String>();
-		typeBox.setBounds(624, 153, 105, 24);
-		add(typeBox);
-		
-		JLabel label_2 = new JLabel("\u6570\u636E\u7C7B\u578B");
-		label_2.setBounds(624, 129, 72, 18);
-		add(label_2);
 		int columncount = this.table.getColumnCount();
         for (int i = 1; i < columncount; i++) {
             this.table.getColumnModel().getColumn(i).setPreferredWidth(80);
         }
         table.getTableHeader().setReorderingAllowed(false); 
+        table.setColumnSelectionAllowed (true);  
+        table.setRowSelectionAllowed (true);  
+        final JTableHeader header = table.getTableHeader();  
+        //表头增加监听 
+        header.addMouseListener (new MouseAdapter() {  
+                public void mouseReleased (MouseEvent e) {  
+                    if (! e.isShiftDown())  
+                        table.clearSelection();  
+                    //获取点击的列索引  
+                    int pick = header.columnAtPoint(e.getPoint());  
+                    head=table.getColumnName(pick);
+                    strs=bls.searchForTeams(type,head,upDown);
+                    updateTable(strs);
+                    upDown=!upDown;
+                    //System.out.println(upDown);
+                    //设置选择模型  
+                    table.addColumnSelectionInterval (pick, pick);  
+                }  
+            });  
         table.repaint();
+		
+		JPanel searchPanel = new JPanel();
+		searchPanel.setBounds(14, 13, 593, 40);
+		add(searchPanel);
+		searchPanel.setLayout(null);
+		
+		searchField = new JTextField();
+		searchField.setText("\u8F93\u5165\u8981\u67E5\u8BE2\u7684\u4FE1\u606F");
+		searchField.setBounds(0, 0, 126, 27);
+		searchPanel.add(searchField);
+		searchField.setColumns(10);
+		searchField.addFocusListener(new ClickAdapter());
+		
+		searchButton = new JButton("\u68C0\u7D22");
+		searchButton.setBounds(530, 0, 63, 27);
+		searchPanel.add(searchButton);
+		
+		typeBox = new JComboBox<String>();
+		typeBox.setBounds(201, 1, 105, 24);
+		searchPanel.add(typeBox);
 		boxInitialization();
+		JLabel label_2 = new JLabel("\u6570\u636E\u7C7B\u578B");
+		label_2.setBounds(134, 4, 72, 18);
+		searchPanel.add(label_2);
+		searchButton.addActionListener(new ClickListener());
 	}
 
 	public void tableChanged(TableModelEvent e) {
@@ -86,7 +122,6 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
         
 	}
 	
-
 	public void updateTable(String[][] strs){
 		while(tableModel.getRowCount()>0){
 			 tableModel.removeRow(tableModel.getRowCount()-1);
@@ -101,26 +136,42 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		table.revalidate();
 		repaint();
 	}
-	
-class searchListener implements ActionListener{
+
+class ClickAdapter implements FocusListener {
+
+	@Override
+	public void focusGained(FocusEvent arg0) {
+		// TODO Auto-generated method stub
+		if (searchField.getText().equals("输入要查询的信息"))
+			searchField.setText("");
+	}
+
+	@Override
+	public void focusLost(FocusEvent arg0) {
+		// TODO Auto-generated method stub
+		if (searchField.getText().equals(""))
+				searchField.setText("输入要查询的信息");
+	}
+}
+
+class ClickListener implements ActionListener{
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		SearchListener s = new SearchListener();
+		s.actionPerformed((ActionEvent)searchButton.getAction());
+	}
+}
+
+class SearchListener implements ActionListener{
 
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		String head=null;
-		boolean upDown=false;
-		boolean type=false;
-		head=(String) headBox.getSelectedItem();
-		
-		if(((String)upDownBox.getSelectedItem()).equals("降序"))
-			upDown=true;
-		else
-			upDown=false;
-		
 		if(((String)typeBox.getSelectedItem()).equals("全局数据"))
 			upDown=true;
 		else
 			upDown=false;
-		
 		strs=bls.searchForTeams(type,head, upDown);
 		updateTable(strs);
 	}
@@ -128,40 +179,8 @@ class searchListener implements ActionListener{
 }
 	
 public void boxInitialization(){
-	headBox.addItem("球队名称");
-	headBox.addItem("比赛场数");
-	headBox.addItem("投篮命中数");
-	headBox.addItem("投篮出手次数");
-	headBox.addItem("三分命中数");
-	headBox.addItem("三分出手数");
-	headBox.addItem("罚球命中数");
-	headBox.addItem("进攻篮板数");
-	headBox.addItem("防守篮板数");
-	headBox.addItem("篮板数");
-	headBox.addItem("助攻数");
-	headBox.addItem("抢断数");
-	headBox.addItem("盖帽数");
-	headBox.addItem("失误数");
-	headBox.addItem("犯规数");
-	headBox.addItem("比赛得分");
-	headBox.addItem("投篮命中率");
-	headBox.addItem("三分命中率");
-	headBox.addItem("罚球命中率");
-	headBox.addItem("胜率");
-	headBox.addItem("进攻回合");
-	headBox.addItem("进攻效率");
-	headBox.addItem("防守效率");
-	headBox.addItem("篮板效率");
-	headBox.addItem("抢断效率");
-	headBox.addItem("助攻效率");
-	
-	upDownBox.addItem("升序");
-	upDownBox.addItem("降序");
-	
 	typeBox.addItem("全局数据");
 	typeBox.addItem("场均数据");
-	
 }
-
 }
 
