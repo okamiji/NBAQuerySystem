@@ -110,6 +110,9 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		label_2.setBounds(134, 4, 72, 18);
 		searchPanel.add(label_2);
 		searchButton.addActionListener(new ClickListener());
+		
+		SearchListener s = new SearchListener();
+		s.actionPerformed((ActionEvent)searchButton.getAction());
 	}
 
 	public void tableChanged(TableModelEvent e) {

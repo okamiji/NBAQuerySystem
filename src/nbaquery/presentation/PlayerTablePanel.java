@@ -50,7 +50,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		table=new JTable(tableModel);
 		table.getModel().addTableModelListener(this);
 		setLayout(null);
-
+		
 		setVisible(true);
 		table.setFillsViewportHeight(true);  
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -84,7 +84,6 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
                 }
             });  
         table.repaint();
-	
 		
 		JPanel searchPanel = new JPanel();
 		searchPanel.setBounds(14, 13, 600, 40);
@@ -126,9 +125,9 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 					searchField.addFocusListener(new ClickAdapter());
 					searchButton.addActionListener(new ClickListener());
 		boxInitialization();
-		
+		SearchListener s = new SearchListener();
+		s.actionPerformed((ActionEvent)searchButton.getAction());
 	}
-
 	
 	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
