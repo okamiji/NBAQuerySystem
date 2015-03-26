@@ -1,6 +1,8 @@
-package GUI;
+package nbaquery_test.presentation;
 
-public class Presentation_Stub {
+import nbaquery.logic.IBusinessLogic;
+
+public class Presentation_Stub implements IBusinessLogic{
 	String[][] strs=new String[50][31];
 	
 	public String[][] searchForPlayers(boolean type,String head,boolean upDown,String position,String league){
