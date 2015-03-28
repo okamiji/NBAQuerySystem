@@ -3,6 +3,6 @@ import nbaquery.data.Table;
 
 public interface TeamService {
 	
-	public Table searchForTeams(boolean type,String head,boolean upOrDown);
+	public String[][] searchForTeams(boolean type,String head,boolean upOrDown);
 
 }
