@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -30,10 +31,10 @@ public class MainFrame {
 	JPanel mainPanel;
 	JTextField searchField ;
 	//LogicService lcs;
-	PlayerService pls;
-	TeamService tms;
 	private JTextField textField;
 	boolean isTeam=true;
+	PlayerService ps;
+	TeamService ts;
 	
 	/**
 	 * Create the application.
@@ -44,8 +45,8 @@ public class MainFrame {
 	}*/
 	
 	public MainFrame(PlayerService pls,TeamService tms){
-		this.pls=pls;
-		this.tms=tms;
+		this.ps=pls;
+		this.ts=tms;
 		initialize();
 	}
 
@@ -108,7 +109,7 @@ public class MainFrame {
 		
 		public void newPlayerPanel(){
 			mainPanel.removeAll();
-			PlayerTablePanel d=new PlayerTablePanel(pls);
+			PlayerTablePanel d=new PlayerTablePanel(ps);
 			mainPanel.add(d);
 			mainPanel.paintComponents(mainPanel.getGraphics());
 			mainPanel.repaint();
@@ -125,7 +126,7 @@ public class MainFrame {
 		
 		public void newTeamPanel(){
 			mainPanel.removeAll();
-			TeamTablePanel d=new TeamTablePanel(tms);
+			TeamTablePanel d=new TeamTablePanel(ts);
 			mainPanel.add(d);
 			mainPanel.paintComponents(mainPanel.getGraphics());
 			mainPanel.repaint();

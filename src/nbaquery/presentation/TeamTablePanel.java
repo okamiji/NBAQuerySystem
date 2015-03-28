@@ -36,11 +36,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 	TeamTableModel tableModel;
 	TeamTablePanel panel=this;
 	JComboBox<String> typeBox;
-<<<<<<< HEAD
-	TeamService tms;
-=======
 	TeamService ts;
->>>>>>> branch 'master' of https://github.com/okamiji/NBAQuerySystem
 	String[][] strs=null;
 	JButton button,searchButton;
 	JTextField searchField;
@@ -50,13 +46,8 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 	boolean type=false;
 	
 	
-<<<<<<< HEAD
-	public TeamTablePanel(final TeamService tms){
-		this.tms = tms;
-=======
 	public TeamTablePanel(final TeamService ts){
 		this.ts = ts;
->>>>>>> branch 'master' of https://github.com/okamiji/NBAQuerySystem
 		setSize(900,640);
 		tableModel=new TeamTableModel();
 		table=new JTable(tableModel);
@@ -87,13 +78,8 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
                     //获取点击的列索引  
                     int pick = header.columnAtPoint(e.getPoint());  
                     head=table.getColumnName(pick);
-<<<<<<< HEAD
-                    strs=tms.searchForTeams(type,head,upDown);
-=======
-                    //XXX Try convert from table to String[][].
-                    Table result = ts.searchForTeams(type,head,upDown);
+                    strs=ts.searchForTeams(type,head,upDown);
                     strs= null;
->>>>>>> branch 'master' of https://github.com/okamiji/NBAQuerySystem
                     updateTable(strs);
                     upDown=!upDown;
                     //System.out.println(upDown);
@@ -192,13 +178,7 @@ class SearchListener implements ActionListener{
 			upDown=true;
 		else
 			upDown=false;
-<<<<<<< HEAD
-		strs=tms.searchForTeams(type,head, upDown);
-=======
-		//XXX try to convert from Table to String[][].
-		Table tableResult=ts.searchForTeams(type,head, upDown);
-		strs = null;
->>>>>>> branch 'master' of https://github.com/okamiji/NBAQuerySystem
+		strs=ts.searchForTeams(type,head, upDown);
 		updateTable(strs);
 	}
 	

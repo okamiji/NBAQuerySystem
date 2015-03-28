@@ -33,10 +33,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-<<<<<<< HEAD
 import nbaquery.data.Column;
-=======
->>>>>>> branch 'master' of https://github.com/okamiji/NBAQuerySystem
 import nbaquery.data.Table;
 import nbaquery.logic.IBusinessLogic;
 import nbaquery.presentation.MainFrame.PlayerListener;
@@ -51,11 +48,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	PlayerTableModel tableModel;
 	PlayerTablePanel panel=this;
 	JComboBox<String> positionBox,leagueBox,typeBox;
-<<<<<<< HEAD
-	PlayerService pls;
-=======
 	PlayerService ps;
->>>>>>> branch 'master' of https://github.com/okamiji/NBAQuerySystem
 	String[][] strs=null;
 	private JTextField searchField;
 	JButton searchButton;
@@ -64,13 +57,8 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	boolean type=false;
 	JLabel playerLabel;
 	
-<<<<<<< HEAD
-	public PlayerTablePanel(final PlayerService pls){
-		this.pls = pls;
-=======
 	public PlayerTablePanel(final PlayerService ps){
 		this.ps = ps;
->>>>>>> branch 'master' of https://github.com/okamiji/NBAQuerySystem
 		setSize(900,640);
 		tableModel=new PlayerTableModel();
 		table=new JTable(tableModel);
@@ -241,18 +229,12 @@ class SearchListener implements ActionListener{
 		if(((String)typeBox.getSelectedItem()).equals("全局数据"))
 			upDown=true;
 		else
-<<<<<<< HEAD
 			upDown=false;	
 		
-		strs=pls.searchForPlayers(type,head, upDown, position, league);
-=======
+		strs=ps.searchForPlayers(type,head, upDown, position, league);
 			upDown=false;
 		
-		//XXX try to change from table to String[][]
-		Table table = ps.searchForPlayers(type,head, upDown, position, league);
-		
 		strs = null;
->>>>>>> branch 'master' of https://github.com/okamiji/NBAQuerySystem
 		updateTable(strs);
 		
 	}
