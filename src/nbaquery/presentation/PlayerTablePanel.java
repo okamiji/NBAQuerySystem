@@ -1,20 +1,30 @@
 package nbaquery.presentation;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.JTableHeader;
@@ -23,9 +33,12 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
+import nbaquery.data.Column;
+import nbaquery.data.Table;
 import nbaquery.logic.IBusinessLogic;
 import nbaquery.presentation.MainFrame.PlayerListener;
 import nbaquery.presentation.MainFrame.TeamListener;
+import nbaqueryBusinessLogicService.PlayerService;
 
 import javax.swing.JTextField;
 
@@ -35,16 +48,17 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	PlayerTableModel tableModel;
 	PlayerTablePanel panel=this;
 	JComboBox<String> positionBox,leagueBox,typeBox;
-	IBusinessLogic bls;
+	PlayerService pls;
 	String[][] strs=null;
 	private JTextField searchField;
 	JButton searchButton;
 	String head=null,position=null,league=null;
 	boolean upDown=true;
 	boolean type=false;
+	JLabel playerLabel;
 	
-	public PlayerTablePanel(final IBusinessLogic bls){
-		this.bls = bls;
+	public PlayerTablePanel(final PlayerService pls){
+		this.pls = pls;
 		setSize(900,640);
 		tableModel=new PlayerTableModel();
 		table=new JTable(tableModel);
@@ -64,7 +78,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
             this.table.getColumnModel().getColumn(i).setPreferredWidth(80);
         }
         table.getTableHeader().setReorderingAllowed(false); 
-        table.setColumnSelectionAllowed (true);  
+        table.setColumnSelectionAllowed (false);  
         table.setRowSelectionAllowed (true);  
         final JTableHeader header = table.getTableHeader();  
         //表头增加监听 
@@ -83,7 +97,19 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
                     //table.addColumnSelectionInterval(pick, pick);
                 }
             });  
-        table.repaint();
+        
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){	
+        	public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				int row=table.getSelectedRow();
+				String name=(String) table.getValueAt(row, 0);
+				playerLabel.setIcon(new ImageIcon("D:/data/players/portrait/"+name+".png"));
+				playerLabel.repaint();
+			}
+        }
+        );
+        
+        table.repaint();        
 		
 		JPanel searchPanel = new JPanel();
 		searchPanel.setBounds(14, 13, 600, 40);
@@ -122,6 +148,17 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 					searchField.setBounds(0, 0, 126, 27);
 					searchPanel.add(searchField);
 					searchField.setColumns(10);
+					
+					JPanel playerPanel = new JPanel();
+					playerPanel.setBounds(628, 13, 230, 430);
+					add(playerPanel);
+					playerPanel.setLayout(null);
+					
+					playerLabel = new JLabel("");
+					playerLabel.setBounds(0, 0, 230, 245);
+					playerPanel.add(playerLabel);
+					
+					
 					searchField.addFocusListener(new ClickAdapter());
 					searchButton.addActionListener(new ClickListener());
 		boxInitialization();
@@ -151,6 +188,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 					v.add(strs[i][j]);}
 				tableModel.addRow(v);
 			}
+		
 		table.revalidate();
 		repaint();
 	}
@@ -191,9 +229,11 @@ class SearchListener implements ActionListener{
 		if(((String)typeBox.getSelectedItem()).equals("全局数据"))
 			upDown=true;
 		else
-			upDown=false;		
-		strs=bls.searchForPlayers(type,head, upDown, position, league);
+			upDown=false;	
+		
+		strs=pls.searchForPlayers(type,head, upDown, position, league);
 		updateTable(strs);
+		
 	}
 	
 }

@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JMenuItem;
 
 import nbaquery.logic.IBusinessLogic;
+import nbaqueryBusinessLogicService.PlayerService;
+import nbaqueryBusinessLogicService.TeamService;
+
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -26,16 +29,24 @@ public class MainFrame {
 	private JFrame frame;
 	JPanel mainPanel;
 	JTextField searchField ;
-	IBusinessLogic bls;
+	//LogicService lcs;
+	PlayerService pls;
+	TeamService tms;
 	private JTextField textField;
 	boolean isTeam=true;
 	
 	/**
 	 * Create the application.
 	 */
-	public MainFrame(IBusinessLogic bls) {
+	/*public MainFrame(LogicService lcs) {
 		initialize();
-		this.bls = bls;
+		this.lcs = lcs;
+	}*/
+	
+	public MainFrame(PlayerService pls,TeamService tms){
+		this.pls=pls;
+		this.tms=tms;
+		initialize();
 	}
 
 	/**
@@ -81,8 +92,6 @@ public class MainFrame {
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
 		
-
-		
 	}
 	
 	public void setVisible(boolean visible)
@@ -99,7 +108,7 @@ public class MainFrame {
 		
 		public void newPlayerPanel(){
 			mainPanel.removeAll();
-			PlayerTablePanel d=new PlayerTablePanel(bls);
+			PlayerTablePanel d=new PlayerTablePanel(pls);
 			mainPanel.add(d);
 			mainPanel.paintComponents(mainPanel.getGraphics());
 			mainPanel.repaint();
@@ -116,7 +125,7 @@ public class MainFrame {
 		
 		public void newTeamPanel(){
 			mainPanel.removeAll();
-			TeamTablePanel d=new TeamTablePanel(bls);
+			TeamTablePanel d=new TeamTablePanel(tms);
 			mainPanel.add(d);
 			mainPanel.paintComponents(mainPanel.getGraphics());
 			mainPanel.repaint();

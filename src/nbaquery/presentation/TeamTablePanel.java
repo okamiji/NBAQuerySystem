@@ -27,6 +27,7 @@ import nbaquery.logic.IBusinessLogic;
 import nbaquery.presentation.PlayerTablePanel.ClickAdapter;
 import nbaquery.presentation.PlayerTablePanel.ClickListener;
 import nbaquery.presentation.PlayerTablePanel.SearchListener;
+import nbaqueryBusinessLogicService.TeamService;
 
 @SuppressWarnings("serial")
 public class TeamTablePanel  extends JPanel implements TableModelListener {
@@ -34,7 +35,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 	TeamTableModel tableModel;
 	TeamTablePanel panel=this;
 	JComboBox<String> typeBox;
-	IBusinessLogic bls;
+	TeamService tms;
 	String[][] strs=null;
 	JButton button,searchButton;
 	JTextField searchField;
@@ -44,8 +45,8 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 	boolean type=false;
 	
 	
-	public TeamTablePanel(final IBusinessLogic bls){
-		this.bls = bls;
+	public TeamTablePanel(final TeamService tms){
+		this.tms = tms;
 		setSize(900,640);
 		tableModel=new TeamTableModel();
 		table=new JTable(tableModel);
@@ -76,7 +77,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
                     //获取点击的列索引  
                     int pick = header.columnAtPoint(e.getPoint());  
                     head=table.getColumnName(pick);
-                    strs=bls.searchForTeams(type,head,upDown);
+                    strs=tms.searchForTeams(type,head,upDown);
                     updateTable(strs);
                     upDown=!upDown;
                     //System.out.println(upDown);
@@ -175,7 +176,7 @@ class SearchListener implements ActionListener{
 			upDown=true;
 		else
 			upDown=false;
-		strs=bls.searchForTeams(type,head, upDown);
+		strs=tms.searchForTeams(type,head, upDown);
 		updateTable(strs);
 	}
 	
