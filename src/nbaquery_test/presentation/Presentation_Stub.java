@@ -1,8 +1,10 @@
 package nbaquery_test.presentation;
 
 import nbaquery.logic.IBusinessLogic;
+import nbaqueryBusinessLogicService.PlayerService;
+import nbaqueryBusinessLogicService.TeamService;
 
-public class Presentation_Stub implements IBusinessLogic{
+public class Presentation_Stub implements PlayerService , TeamService{
 	String[][] strs=new String[50][31];
 	
 	public String[][] searchForPlayers(boolean type,String head,boolean upDown,String position,String league){
