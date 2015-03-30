@@ -55,7 +55,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	String head=null,position=null,league=null;
 	boolean upDown=true;
 	boolean type=false;
-	JLabel playerLabel;
+	JLabel playerLabel,lblName,lblTeam;
 	
 	public PlayerTablePanel(final PlayerService ps){
 		this.ps = ps;
@@ -103,12 +103,14 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 				// TODO Auto-generated method stub
 				int row=table.getSelectedRow();
 				String name=(String) table.getValueAt(row, 0);
+				String team=(String) table.getValueAt(row, 1);
 				playerLabel.setIcon(new ImageIcon("D:/data/players/portrait/"+name+".png"));
 				playerLabel.repaint();
+				lblName.setText(name);
+				lblTeam.setText(team);
 			}
         }
         );
-        
         table.repaint();        
 		
 		JPanel searchPanel = new JPanel();
@@ -158,6 +160,22 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 					playerLabel.setBounds(0, 0, 230, 245);
 					playerPanel.add(playerLabel);
 					
+					JLabel lblNewLabel_1 = new JLabel("\u7403\u5458\u59D3\u540D");
+					lblNewLabel_1.setBounds(0, 296, 99, 18);
+					playerPanel.add(lblNewLabel_1);
+					
+					JLabel label = new JLabel("\u6240\u5C5E\u7403\u961F");
+					label.setBounds(0, 327, 99, 18);
+					playerPanel.add(label);
+					
+					lblName = new JLabel("Name");
+					lblName.setBounds(117, 296, 99, 18);
+					playerPanel.add(lblName);
+					
+					lblTeam = new JLabel("Team");
+					lblTeam.setBounds(117, 327, 99, 18);
+					playerPanel.add(lblTeam);
+					
 					
 					searchField.addFocusListener(new ClickAdapter());
 					searchButton.addActionListener(new ClickListener());
@@ -173,9 +191,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
         TableModel model = (TableModel)e.getSource();  
         String columnName = model.getColumnName(column);  
         Object data = model.getValueAt(row, column); 
-        
 	}
-	
 
 	public void updateTable(String[][] strs){
 		while(tableModel.getRowCount()>0){
@@ -188,7 +204,6 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 					v.add(strs[i][j]);}
 				tableModel.addRow(v);
 			}
-		
 		table.revalidate();
 		repaint();
 	}
@@ -232,18 +247,11 @@ class SearchListener implements ActionListener{
 			upDown=false;	
 		
 		strs=ps.searchForPlayers(type,head, upDown, position, league);
-			upDown=false;
+		upDown=false;
 		
-		strs = null;
 		updateTable(strs);
-		
 	}
-	
 }
-	
-		
-
-
 
 public void boxInitialization(){
 	

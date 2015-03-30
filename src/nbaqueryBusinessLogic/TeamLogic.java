@@ -5,7 +5,6 @@ import nbaquery.data.Table;
 import nbaqueryBusinessLogicService.TeamService;
 import nbaquery.data.Column;
 import nbaquery.data.Row;
-import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.ExpressionDeriveColumnInfo;
 import nbaquery.data.query.ExpressionDeriveQuery;
@@ -17,8 +16,15 @@ import nbaquery.data.query.SortQuery;
 public class TeamLogic implements TeamService{
 
 	TableHost host;
-	Table performance = host.getTable("performance");
-	Table match = host.getTable("match");
+	public TeamLogic(TableHost host)
+	{
+		this.host = host;
+		performance = host.getTable("performance");
+		match = host.getTable("match");
+	}
+	
+	Table performance;
+	Table match;
 	
 	public void getTotalData()throws Exception{
 		GroupQuery queryTeam = new GroupQuery(){
@@ -244,18 +250,21 @@ public class TeamLogic implements TeamService{
 		queryRival.derivedClass = new Class<?>[]{Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class};
 		
 		host.performQuery(queryRival, "collapseRivalTotal");
+		
+		collapseTeamTotal = host.getTable("collapseTeamTotal");
+		collapseRivalTotal = host.getTable("collapseRivalTotal");
 	}
 	
-	Table collapseTeamTotal = host.getTable("collapseTeamTotal");
-	Table collapseRivalTotal = host.getTable("collapseRivalTotal");
+	Table collapseTeamTotal;
+	Table collapseRivalTotal;
 	
 	public void getCompleteTeamTable()throws Exception{
 		Query query = new ExpressionDeriveQuery(collapseTeamTotal, new DeriveColumnInfo[]{
 				new ExpressionDeriveColumnInfo("three_shoot_accuracy", Float.class,
-						"1.0F * collapseTeamTotal.team_three_shoot_score_sum / collapseTeamTotal.team_three_shoot_sum")
+						"1.0F * collapseTeamTotal.three_shoot_score_sum / collapseTeamTotal.three_shoot_sum")
 				,
 				new ExpressionDeriveColumnInfo("shoot_accuracy", Float.class,
-						"1.0F * collapseTeamTotal.team_shoot_score_sum / collapseTeamTotal.team_shoot_sum")
+						"1.0F * collapseTeamTotal.shoot_score_sum / collapseTeamTotal.shoot_sum")
 				,
 				new ExpressionDeriveColumnInfo("foul_accuracy",Float.class,
 						"1.0F * collapseTeamTotal.team_foul_shoot_score_sum/collapseTeamTotal.team_foul_shoot_sum")
@@ -289,9 +298,10 @@ public class TeamLogic implements TeamService{
 				}, "team_three_shoot_sum", "team_three_shoot_score_sum", "team_shoot_sum", "team_shoot_score_sum", "team_foul_shoot_sum","attack_round","defence_round","team_steal_sum","team_assist_sum","player_name");
 		
 		host.performQuery(query, "resultTeam");
+		resultTeam = host.getTable("resultTeam");
 	}
 	
-	Table resultTeam = host.getTable("resultTeam");
+	Table resultTeam;
 	
 	@Override
 	public Table searchForTeams(boolean type, String head, boolean upOrDown) {

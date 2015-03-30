@@ -1,9 +1,9 @@
 package nbaqueryBusinessLogic;
+
 import nbaquery.data.Table;
 import nbaqueryBusinessLogicService.PlayerService;
 import nbaquery.data.Column;
 import nbaquery.data.Row;
-import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.ExpressionDeriveColumnInfo;
 import nbaquery.data.query.ExpressionDeriveQuery;
@@ -17,9 +17,17 @@ import java.util.*;
 public class PlayerLogic implements PlayerService{
 
 	TableHost host;
-	Table performance=host.getTable("performance");
-	Table match=host.getTable("match");
-	Table team=host.getTable("team");
+	public PlayerLogic(TableHost host)
+	{
+		this.host = host;
+		performance = host.getTable("performance");
+		match = host.getTable("match");
+		team = host.getTable("team");
+	}
+	
+	Table performance;
+	Table match;
+	Table team;
 	
 	public void getTotalData()throws Exception{
 		
@@ -392,14 +400,18 @@ public class PlayerLogic implements PlayerService{
 		queryRival.table = host.getTable("collapseTeam");
 		queryRival.collapseColumn = new String[]{"team_name_abbr"};
 		queryRival.derivedColumn = new String[]{"rival_attack_board_sum","rival_defence_board_sum", "rival_total_board_sum", "rival_shoot_sum", "rival_shoot_score_sum"};
-		queryRival.derivedClass = new Class<?>[]{Integer.class, Integer.class, Integer.class};
+		queryRival.derivedClass = new Class<?>[]{Integer.class, Integer.class, Integer.class, Integer.class, Integer.class};
 		
 		host.performQuery(queryRival, "collapseRival");
+		
+		collapsePlayer = host.getTable("collapsePlayer");
+		collapseTeam = host.getTable("collapseTeam");
+		collapseRival = host.getTable("collapseRival");
 	}
 	
-	Table collapsePlayer = host.getTable("collapsePlayer");
-	Table collapseTeam = host.getTable("collapseTeam");
-	Table collapseRival = host.getTable("collapseRival");
+	Table collapsePlayer;
+	Table collapseTeam;
+	Table collapseRival;
 	
 	public void getCompletePlayerTable()throws Exception{
 		Query query = new ExpressionDeriveQuery(collapsePlayer, new DeriveColumnInfo[]{
@@ -410,10 +422,10 @@ public class PlayerLogic implements PlayerService{
 						"1.0F * collapsePlayer.shoot_score_sum / collapsePlayer.shoot_sum")
 				,
 				new ExpressionDeriveColumnInfo("foul_accuracy",Float.class,
-						"1.0F * collapsePlayer.foul_shoot_score_sum / collapsePlayer.foul_shoot_number_sum")
+						"1.0F * collapsePlayer.foul_shoot_score_sum / collapsePlayer.foul_shoot_sum")
 				,
 				new ExpressionDeriveColumnInfo("efficiency",Integer.class,
-						"(collapsePlayer.self_score_sum + collapsePlayer.total_board_sum + collapsePlayer.assist_sum + collapsePlayer.steal_sum + collapsePlayer.cap_sum)-(collapsePlayer.shoot_sum + collapsePlayer.three_shoot_sum - collapsePlayer.shoot_score_sum - collapsePlayer.three_shoot_score_sum)-(collapsePlayer.foul_shoot_sum - performance.foul_shoot_score_sum)-collapsePlayer.miss_sum")
+						"(collapsePlayer.self_score_sum + collapsePlayer.total_board_sum + collapsePlayer.assist_sum + collapsePlayer.steal_sum + collapsePlayer.cap_sum)-(collapsePlayer.shoot_sum + collapsePlayer.three_shoot_sum - collapsePlayer.shoot_score_sum - collapsePlayer.three_shoot_score_sum)-(collapsePlayer.foul_shoot_sum - collapsePlayer.foul_shoot_score_sum)-collapsePlayer.miss_sum")
 				,
 				new ExpressionDeriveColumnInfo("GmSc_efficiency",Float.class,
 						"collapsePlayer.self_score_sum + 0.4 * collapsePlayer.shoot_score_sum - 0.7 * collapsePlayer.shoot_sum - 0.4 * (collapsePlayer.foul_shoot_sum - collapsePlayer.foul_shoot_score_sum) + 0.7 * collapsePlayer.attack_board_sum + 0.3 * collapsePlayer.defence_board_sum + collapsePlayer.steal_sum + 0.7 * collapsePlayer.assist_sum + 0.7 * collapsePlayer.cap_sum - 0.4 * collapsePlayer.foul_sum - collapsePlayer.miss_sum")
@@ -449,15 +461,16 @@ public class PlayerLogic implements PlayerService{
 						"((collapsePlayer.shoot_sum + collapsePlayer.three_shoot_sum) + 0.44 * collapsePlayer.foul_shoot_sum + collapsePlayer.miss_sum) * ((collapseTeam.team_game_time_minute_sum * 60 + collapseTeam.team_game_time_second_sum) / 5) / (collapsePlayer.game_time_minute_sum * 60 + collapsePlayer.game_time_second_sum) / (collapseTeam.team_shoot_sum + collapseTeam.team_three_shoot_sum + 0.44 * collapseTeam.team_foul_shoot_sum + collapseTeam.team_miss_sum)")
 				}, "three_shoot_sum", "three_shoot_score_sum", "shoot_sum", "shoot_score_sum","foul_shoot_sum","foul_shoot_score_sum","self_score_sum","total_board_sum","assist_sum","steal_sum","cap_sum","miss_sum","foul_sum","game_time_minute_sum","game_time_second_sum","team_game_time_minute_sum","team_game_time_second_sum","team_shoot_sum","team_three_shoot_sum","team_shoots_score_sum","team_three_shoot_score_sum","rival_total_board_sum","rival_attack_board_sum","rival_defence_board_sum","rival_shoot_sum","rival_three_shoots_sum","team_foul_shoot_sum","team_miss_sum","team_total_board_sum","team_attack_board_sum","team_defence_board_sum","player_name");
 		host.performQuery(query, "resultPlayer");
+		resultPlayer = host.getTable("resultPlayer");
 	}
 	
-	Table resultPlayer = host.getTable("resultPlayer");
+	Table resultPlayer;
 	
 	@Override
 	public Table searchForPlayers(boolean type, String head, boolean upOrDown,String position, String league) {
 		// TODO Auto-generated method stub
 		if(type==true){
-			if(position.equals(null)||league.equals(null)){
+			if(position == null||league == null){
 				if(upOrDown==true){
 					SortQuery query = new SortQuery(resultPlayer, head,  true);
 					host.performQuery(query, "resultSort");
