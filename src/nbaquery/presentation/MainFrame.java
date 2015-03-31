@@ -104,21 +104,6 @@ public class MainFrame extends JFrame{
         shadowPanel.setLayout(null);
         shadowPanel.setBackground(white);
         
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar(menuBar);
-		
-		JMenu mnNewMenu = new JMenu("\u6587\u4EF6");
-		menuBar.add(mnNewMenu);
-		
-		JMenuItem menuItem = new JMenuItem("\u6DFB\u52A0\u6570\u636E");
-		mnNewMenu.add(menuItem);
-		
-		JMenu menu = new JMenu("\u8BBE\u7F6E");
-		menuBar.add(menu);
-		
-		JMenu menu_1 = new JMenu("...");
-		menuBar.add(menu_1);
-		this.getContentPane().setLayout(null);
 		
 		teamButton = new JButton("\u7403\u961F\u6570\u636E",new ImageIcon("C:/Users/小南/Desktop/大作业UI/a.png"));
 		teamButton.setBounds(0, 130, 202, 150);
