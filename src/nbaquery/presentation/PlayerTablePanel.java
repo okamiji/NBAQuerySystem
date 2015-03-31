@@ -1,8 +1,13 @@
 package nbaquery.presentation;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -56,8 +61,10 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	boolean upDown=true;
 	boolean type=false;
 	JLabel playerLabel,lblName,lblTeam;
+	JScrollPane scrollPane;
 	
 	public PlayerTablePanel(final PlayerService ps){
+		Color background=new Color(33,122,197);
 		this.ps = ps;
 		setSize(900,640);
 		tableModel=new PlayerTableModel();
@@ -69,14 +76,17 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		table.setFillsViewportHeight(true);  
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		
-		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(14, 53, 600, 390);
+		
 		add(scrollPane);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int columncount = this.table.getColumnCount();
-        for (int i = 1; i < columncount; i++) {
-            this.table.getColumnModel().getColumn(i).setPreferredWidth(80);
+        for (int i = 0; i < columncount; i++) {
+            this.table.getColumnModel().getColumn(i).setPreferredWidth(95);
         }
+       
+        
         table.getTableHeader().setReorderingAllowed(false); 
         table.setColumnSelectionAllowed (false);  
         table.setRowSelectionAllowed (true);  
@@ -102,6 +112,8 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
         	public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
 				int row=table.getSelectedRow();
+				if(row==-1)
+					return;
 				String name=(String) table.getValueAt(row, 0);
 				String team=(String) table.getValueAt(row, 1);
 				playerLabel.setIcon(new ImageIcon("D:/data/players/portrait/"+name+".png"));
@@ -115,6 +127,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		
 		JPanel searchPanel = new JPanel();
 		searchPanel.setBounds(14, 13, 600, 40);
+		searchPanel.setOpaque(false);//透明
 		add(searchPanel);
 		searchPanel.setLayout(null);
 		
@@ -124,6 +137,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		
 			positionBox = new JComboBox<String>();
 			positionBox.setBounds(194, 0, 71, 24);
+			positionBox.setBackground(background);
 			searchPanel.add(positionBox);
 			
 					JLabel label_1 = new JLabel("\u8054\u76DF");
@@ -153,6 +167,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 					
 					JPanel playerPanel = new JPanel();
 					playerPanel.setBounds(628, 13, 230, 430);
+					playerPanel.setOpaque(false);
 					add(playerPanel);
 					playerPanel.setLayout(null);
 					
@@ -176,14 +191,50 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 					lblTeam.setBounds(117, 327, 99, 18);
 					playerPanel.add(lblTeam);
 					
-					
 					searchField.addFocusListener(new ClickAdapter());
 					searchButton.addActionListener(new ClickListener());
 		boxInitialization();
 		SearchListener s = new SearchListener();
 		s.actionPerformed((ActionEvent)searchButton.getAction());
+		this.table.setRowHeight(30);
+		
 	}
 	
+	public void resizeTable(boolean bool) { 
+        Dimension containerwidth = null; 
+        if (!bool) { 
+            //初始化时，父容器大小为首选大小，实际大小为0 
+            containerwidth = scrollPane.getPreferredSize(); 
+        } else { 
+            //界面显示后，如果父容器大小改变，使用实际大小而不是首选大小 
+            containerwidth = scrollPane.getSize(); 
+        } 
+        //计算表格总体宽度 
+        int allwidth = table.getIntercellSpacing().width; 
+        for (int j = 0; j < table.getColumnCount(); j++) { 
+           
+            //计算表头的宽度 
+            int headerwidth = table. 
+              getTableHeader(). 
+              getDefaultRenderer().getTableCellRendererComponent( 
+              table, table.getColumnModel(). 
+              getColumn(j).getIdentifier(), false, false, 
+              -1, j).getPreferredSize().width; 
+            //设置列宽 
+            table.getColumnModel(). 
+              getColumn(j).setPreferredWidth(headerwidth); 
+            //给表格的整体宽度赋值，记得要加上单元格之间的线条宽度1个像素 
+            allwidth += table.getIntercellSpacing().width; 
+        } 
+        allwidth += table.getIntercellSpacing().width; 
+        //如果表格实际宽度大小父容器的宽度，则需要我们手动适应；否则让表格自适应 
+        if (allwidth > containerwidth.width) { 
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 
+        } else { 
+            table. 
+              setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS); 
+        } 
+}
 	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
 		int row = e.getFirstRow();  

@@ -61,6 +61,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(14, 53, 600, 390);
 		add(scrollPane);
+		this.table.setRowHeight(30);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int columncount = this.table.getColumnCount();
         for (int i = 1; i < columncount; i++) {
@@ -79,7 +80,6 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
                     int pick = header.columnAtPoint(e.getPoint());  
                     head=table.getColumnName(pick);
                     strs=ts.searchForTeams(type,head,upDown);
-                    strs= null;
                     updateTable(strs);
                     upDown=!upDown;
                     //System.out.println(upDown);
@@ -91,6 +91,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		
 		JPanel searchPanel = new JPanel();
 		searchPanel.setBounds(14, 13, 593, 40);
+		searchPanel.setOpaque(false);//Í¸Ã÷
 		add(searchPanel);
 		searchPanel.setLayout(null);
 		
@@ -116,6 +117,8 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		
 		SearchListener s = new SearchListener();
 		s.actionPerformed((ActionEvent)searchButton.getAction());
+		
+		
 	}
 
 	public void tableChanged(TableModelEvent e) {
