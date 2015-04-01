@@ -65,30 +65,19 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	JButton searchButton;
 	String head=null,position=null,league=null;
 	boolean upDown=true;
-	boolean type=false;
-	JLabel playerLabel,lblName,lblTeam;
+	boolean isGlobal=true;
+	JLabel playerLabel,lblName,lblTeam,lblLeague,lblPosition,playerImageLabel;
 	JScrollPane scrollPane;
 	Color white = new Color(245,245,245);
 	Color background=new Color(33,122,197);
 	
 	public PlayerTablePanel(final PlayerService ps){
-	
 		this.ps = ps;
-		setSize(800,570);
+		setSize(865,570);
 		setLayout(null);
 		setVisible(true);
 		tableModel=new PlayerTableModel();
-		table=new JTable(tableModel){ 
-			// 设置jtable的单元格为透明的
-			   public Component prepareRenderer(TableCellRenderer renderer,
-					     int row, int column) {
-					    Component c = super.prepareRenderer(renderer, row, column);
-					    if (c instanceof JComponent) {
-					     ((JComponent) c).setOpaque(false);
-					    }
-					    return c;
-					   }
-					  };
+		table=new JTable(tableModel);
 					  
 		table.getModel().addTableModelListener(this);
 		
@@ -96,20 +85,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(14, 53, 600, 500);
-		
-		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
-		render.setOpaque(false);
-		table.setDefaultRenderer(Object.class, render);
-		//设置显示范围
-		Dimension viewSize = new Dimension();
-		viewSize.width = table.getColumnModel().getTotalColumnWidth();;
-		viewSize.height = 10*table.getRowHeight();
-		table.setPreferredScrollableViewportSize(viewSize);
-		//将JScrollPane设置为透明
-		scrollPane.getViewport().setOpaque(false);  //jScrollPanel 为table存放的容器，一般在Swing创    //  建表格时，它自动生成，原代码为：jScrollPane1 = new javax.swing.JScrollPane();
-		scrollPane.setOpaque(false);     //将中间的viewport设置为透明
-		scrollPane.setViewportView(table); //装载表格 
+		scrollPane.setBounds(14, 63, 600, 500);
 		
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int columncount = this.table.getColumnCount();
@@ -129,6 +105,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
                     //获取点击的列索引  
                     int pick = header.columnAtPoint(e.getPoint());  
                     head=table.getColumnName(pick);
+                    System.out.println(pick);
                     SearchListener s = new SearchListener();
             		s.actionPerformed((ActionEvent)searchButton.getAction());
                     upDown=!upDown;
@@ -144,111 +121,157 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 				int row=table.getSelectedRow();
 				if(row==-1)
 					return;
-				String name=(String) table.getValueAt(row, 0);
+				//String name=(String) table.getValueAt(row, 0);
+				String name = "Beno Udrih";
 				String team=(String) table.getValueAt(row, 1);
-				playerLabel.setIcon(new ImageIcon("D:/data/players/portrait/"+name+".png"));
-				playerLabel.repaint();
+				String pos=(String) table.getValueAt(row, 29);
+				String league=(String) table.getValueAt(row, 30);
+				ImageIcon icon=new ImageIcon("D:/迭代一数据/players/portrait/"+name+".png");
+				
+				playerImageLabel.setIcon(icon);
+				playerImageLabel.repaint();
 				lblName.setText(name);
 				lblTeam.setText(team);
+				lblPosition.setText(pos);
+				lblLeague.setText(league);
 			}
         }
         );
         table.repaint();        
 		
 		JPanel searchPanel = new JPanel();
-		searchPanel.setBounds(14, 13, 844,40);
-		//searchPanel.setOpaque(false);//透明
+		searchPanel.setBounds(14, 13, 786,40);
 		add(searchPanel);
 		searchPanel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("\u4F4D\u7F6E");
-		lblNewLabel.setBounds(169, 3, 71, 18);
-		searchPanel.add(lblNewLabel);
-		
+		JLabel positionLabel = new JLabel(" ");
+		positionLabel.setBounds(168, 0, 700, 30);
+		positionLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/搜索.png"));
 		
 		positionBox = new JComboBox<String>();
-		positionBox.setBounds(218, 0, 100, 24);
-		 positionBox.setOpaque(false);
-	        positionBox.setUI(new BasicComboBoxUI() {
-	            public void installUI(JComponent comboBox) {
-	                super.installUI(positionBox);
-	                listBox.setForeground(Color.WHITE);
-	                listBox.setSelectionBackground(new Color(0,0,0,0));
-	                listBox.setSelectionForeground(Color.BLACK);
+		positionBox.setBounds(231, 3, 113, 24);
+		positionBox.setOpaque(false);
+	    positionBox.setUI(new BasicComboBoxUI() {
+	       public void installUI(JComponent comboBox) {
+	           super.installUI(positionBox);
+	              listBox.setForeground(Color.WHITE);
+	              listBox.setSelectionBackground(new Color(0,0,0,0));
+	              listBox.setSelectionForeground(Color.BLACK);
 	            }
-	             
+	          
 	            /**
 	             * 该方法返回右边的按钮
 	             */
-	            protected JButton createArrowButton() {
-	                return super.createArrowButton();
+	          protected JButton createArrowButton() {
+	              return null;
 	            }
 	        });
-	        searchPanel.add(positionBox);
-		
-		
-		
-		
-		JLabel label_1 = new JLabel("\u8054\u76DF");
-		label_1.setBounds(279, 3, 30, 18);
-		searchPanel.add(label_1);
-					
+	    searchPanel.add(positionBox);
+	    
 		leagueBox = new JComboBox<String>();
-		leagueBox.setBounds(332, 0, 100, 24);
+		leagueBox.setBounds(410, 3, 113, 24);
+		leagueBox.setUI(new BasicComboBoxUI() {
+		       public void installUI(JComponent comboBox) {
+		           super.installUI(leagueBox);
+		              listBox.setForeground(Color.WHITE);
+		              listBox.setSelectionBackground(new Color(0,0,0,0));
+		              listBox.setSelectionForeground(Color.BLACK);
+		            }
+		          
+		            /**
+		             * 该方法返回右边的按钮
+		             */
+		          protected JButton createArrowButton() {
+		              return null;
+		            }
+		        });
 		searchPanel.add(leagueBox);
 					
 		typeBox = new JComboBox<String>();
-		typeBox.setBounds(523, 0, 100, 24);
+		typeBox.setBounds(595, 3, 120, 24);
+		typeBox.setUI(new BasicComboBoxUI() {
+		       public void installUI(JComponent comboBox) {
+		           super.installUI(typeBox);
+		              listBox.setForeground(Color.WHITE);
+		              listBox.setSelectionBackground(new Color(0,0,0,0));
+		              listBox.setSelectionForeground(Color.BLACK);
+		            }
+		          
+		            /**
+		             * 该方法返回右边的按钮
+		             */
+		          protected JButton createArrowButton() {
+		              return null;
+		        	  //return super.createArrowButton();
+		            }
+		        });
 		searchPanel.add(typeBox);
 					
-		JLabel label_2 = new JLabel("\u7C7B\u578B");
-		label_2.setBounds(446, 3, 63, 18);
-		searchPanel.add(label_2);
-					
-		searchButton = new JButton("\u68C0\u7D22");
-		searchButton.setBounds(767, 3, 63, 27);
+		searchButton = new JButton("",new ImageIcon("C:/Users/小南/Desktop/大作业UI/GUI/search.png"));
+		searchButton.setBounds(729, 3, 35, 40);
+		searchButton.setFocusPainted(false);
+		searchButton.setBorderPainted(false);
+		searchButton.setContentAreaFilled(false);
 		searchPanel.add(searchButton);
-					
+		
 		searchField = new JTextField("输入要查询的信息");
-		searchField.setBounds(0, 0, 158, 27);
+		searchField.setBounds(2, 2, 160, 30);
+		JLabel searchLabel=new JLabel("");
+		searchLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/searchfield.png"));
+		searchLabel.setBounds(0, 0, 165, 34);
 		searchPanel.add(searchField);
+		searchPanel.add(searchLabel);
 		searchField.setColumns(10);
 		
 		searchPanel.setOpaque(false);
 		
+		
+		
 		JPanel playerPanel = new JPanel();
-		playerPanel.setBounds(628, 53, 230, 430);
+		playerPanel.setBounds(615, 103, 240, 470);
 		playerPanel.setOpaque(false);
 		playerPanel.setLayout(null);
 		add(playerPanel);
 		
 		playerLabel = new JLabel("");
-		playerLabel.setBounds(0, 0, 230, 245);
+		playerLabel.setBounds(0, 0, 240, 470);
+		playerLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/球员信息.png"));
 		playerPanel.add(playerLabel);
-					
-		JLabel lblNewLabel_1 = new JLabel("\u7403\u5458\u59D3\u540D");
-		lblNewLabel_1.setBounds(0, 296, 99, 18);
-		playerPanel.add(lblNewLabel_1);
-					
-		JLabel label = new JLabel("\u6240\u5C5E\u7403\u961F");
-		label.setBounds(0, 327, 99, 18);
-		playerPanel.add(label);
-					
+		
+		playerImageLabel = new JLabel("");
+		playerImageLabel.setBounds(0,65,230,200);
+		playerPanel.add(playerImageLabel);
+		
 		lblName = new JLabel("Name");
-		lblName.setBounds(117, 296, 99, 18);
+		lblName.setBounds(60, 301, 300, 18);
 		playerPanel.add(lblName);
 		
 		lblTeam = new JLabel("Team");
-		lblTeam.setBounds(117, 327, 99, 18);
+		lblTeam.setBounds(60, 334, 300, 18);
 		playerPanel.add(lblTeam);
+
+		lblLeague = new JLabel("League");
+		lblLeague.setBounds(60, 367, 99, 18);
+		playerPanel.add(lblLeague);
+		
+		lblPosition = new JLabel("Position");
+		lblPosition.setBounds(60, 400, 99, 18);
+		playerPanel.add(lblPosition);
+		
+		JLabel tableLabel=new JLabel("");
+		tableLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/tableShadow.png"));
+		tableLabel.setBounds(9, 58, 610, 510);
 		
 		searchField.addFocusListener(new ClickAdapter());
 		searchButton.addActionListener(new ClickListener());
+		
 		boxInitialization();
 		typeBox.setOpaque(false);
 		add(scrollPane);
+		this.add(tableLabel);
 		SearchListener s = new SearchListener();
 		s.actionPerformed((ActionEvent)searchButton.getAction());
+		searchPanel.add(positionLabel);
 		this.table.setRowHeight(30);
 	}
 	
@@ -333,6 +356,7 @@ class ClickListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+		//if()
 		SearchListener s = new SearchListener();
 		s.actionPerformed((ActionEvent)searchButton.getAction());
 	}
@@ -345,13 +369,11 @@ class SearchListener implements ActionListener{
 		league=(String) leagueBox.getSelectedItem();
 		
 		if(((String)typeBox.getSelectedItem()).equals("全局数据"))
-			upDown=true;
+			isGlobal=true;
 		else
-			upDown=false;	
+			isGlobal=false;	
 		
-		strs=ps.searchForPlayers(type,head, upDown, position, league);
-		upDown=false;
-		
+		strs=ps.searchForPlayers(isGlobal,head, upDown, position, league);
 		updateTable(strs);
 	}
 }

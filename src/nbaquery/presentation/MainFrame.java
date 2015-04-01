@@ -43,7 +43,7 @@ import java.util.Enumeration;
 public class MainFrame extends JFrame{
 
 	JPanel mainPanel,containPanel,shadowPanel,systemPanel,sPanel;
-	JButton playerButton,teamButton,exitButton,vanishButton;
+	JButton playerButton,teamButton,exitButton,vanishButton,logoButton;
 	JTextField searchField ;
 	
 	//LogicService lcs;
@@ -58,7 +58,7 @@ public class MainFrame extends JFrame{
 	Color white = new Color(245,245,245);
 	Color gray = new Color(41,48,62);
 	Color blue = new Color(16,133,253);
-	Font font=new Font("造字工房尚黑G0v1细体", Font.PLAIN, 16);
+	Font font=new Font("方正正纤黑简体", Font.BOLD, 16);
 	Toolkit toolkit=Toolkit.getDefaultToolkit();
     Dimension screen=toolkit.getScreenSize();
 	
@@ -87,7 +87,7 @@ public class MainFrame extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1118,618);
 		this.setResizable(false);
-		this.setTitle("NBAQS");
+		this.setTitle("NBAQuery");
 		
 		//下面为居中
         this.LocationX=(screen.width -this.getWidth())/2;
@@ -119,7 +119,6 @@ public class MainFrame extends JFrame{
         sPanel.setLayout(null);
         sPanel.setOpaque(true);
         
-
         shadowPanel = new JPanel() {  
             @Override  
             protected void paintComponent(Graphics g) {  
@@ -156,6 +155,13 @@ public class MainFrame extends JFrame{
 		playerButton.setContentAreaFilled(false);
 		playerButton.addMouseListener(new PlayerMouseListener());
 		mainPanel.add(playerButton);
+		
+		logoButton= new JButton("",new ImageIcon("C:/Users/小南/Desktop/大作业UI/logo.png"));
+		logoButton.setBounds(20,0,150,120);
+		logoButton.setFocusPainted(false);
+		logoButton.setBorderPainted(false);
+		logoButton.setContentAreaFilled(false);
+		mainPanel.add(logoButton);
 		
 	 	exitButton = new JButton("", new ImageIcon("C:/Users/小南/Desktop/大作业UI/close.png"));
 		exitButton.setForeground(gray);
@@ -224,7 +230,7 @@ public class MainFrame extends JFrame{
 		public void newPlayerPanel(){
 			shadowPanel.removeAll();
 			PlayerTablePanel d=new PlayerTablePanel(ps);
-			d.setBounds(0,0,800,650);
+			d.setSize(850,650);
 			d.setOpaque(false);
 			shadowPanel.add(d);
 			shadowPanel.paintComponents(shadowPanel.getGraphics());
@@ -243,7 +249,7 @@ public class MainFrame extends JFrame{
 		public void newTeamPanel(){
 			shadowPanel.removeAll();
 			TeamTablePanel d=new TeamTablePanel(ts);
-			d.setSize(800,650);
+			d.setSize(850,650);
 			d.setBackground(background);
 			d.setOpaque(false);
 			shadowPanel.add(d);
