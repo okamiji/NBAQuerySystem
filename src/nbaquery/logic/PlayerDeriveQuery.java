@@ -67,6 +67,7 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, efficiency);
 				}
 			},
+			
 			new DeriveColumnInfo("gmsc_efficiency", Float.class)
 			{
 				Column self_score;
@@ -130,6 +131,7 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, gmsc_efficiency);
 				}
 			},
+			
 			new DeriveColumnInfo("game_time", Integer.class)
 			{
 				Column game_time_minute;
@@ -177,6 +179,7 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, 0.2f * total_game_time_n / game_time_n);
 				}
 			},
+			
 			new DeriveColumnInfo("true_shoot_rate", Float.class)
 			{
 
@@ -208,6 +211,7 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, true_shoot_rate);
 				}
 			},
+			
 			new DeriveColumnInfo("shoot_efficiency", Float.class)
 			{
 				Column three_shoot;
@@ -248,6 +252,7 @@ public class PlayerDeriveQuery extends DeriveQuery
 			new BoardEfficiencyColumnInfo("total_board_efficiency", "total_board"),
 			new BoardEfficiencyColumnInfo("attack_board_efficiency", "attack_board"),
 			new BoardEfficiencyColumnInfo("defence_board_efficiency", "defence_board"),
+			
 			new DeriveColumnInfo("assist_rate", Float.class)
 			{
 				Column assist;
@@ -294,6 +299,7 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, assist_rate);
 				}
 			},
+			
 			new DeriveColumnInfo("steal_rate", Float.class)
 			{
 				Column steal;
@@ -319,6 +325,7 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, steal_rate);
 				}
 			},
+			
 			new DeriveColumnInfo("cap_rate", Float.class)
 			{
 				Column cap;
@@ -342,6 +349,87 @@ public class PlayerDeriveQuery extends DeriveQuery
 					
 					Float cap_rate = game_time_ratio_n * cap_n / rival_shoot_sum_n;
 					getDeriveColumn().setAttribute(resultRow, cap_rate);
+				}
+			},
+			
+			new DeriveColumnInfo("miss_rate", Float.class)
+			{
+				Column shoot;
+				Column foul_shoot;
+				Column miss;
+				
+				@Override
+				public void retrieve(Table resultTable)
+				{
+					shoot = resultTable.getColumn("shoot_count");
+					foul_shoot = resultTable.getColumn("foul_shoot_count");
+					miss = resultTable.getColumn("miss");
+				}
+	
+				@Override
+				public void derive(Row resultRow)
+				{
+					Integer shoot_n = (Integer) shoot.getAttribute(resultRow);
+					Integer foul_shoot_n = (Integer) foul_shoot.getAttribute(resultRow);
+					Integer miss_n = (Integer) miss.getAttribute(resultRow);
+					
+					Float miss_rate = 1.f * miss_n /(shoot_n + 0.44f * foul_shoot_n + miss_n);
+					getDeriveColumn().setAttribute(resultRow, miss_rate);
+				}
+			},
+			
+			new DeriveColumnInfo("usage", Float.class)
+			{
+				Column three_shoot;
+				Column shoot;
+				Column foul_shoot;
+				Column miss;
+				
+				Column three_shoot_sum;
+				Column shoot_sum;
+				Column foul_shoot_sum;
+				Column miss_sum;
+				
+				Column game_time_ratio;
+				
+				@Override
+				public void retrieve(Table resultTable)
+				{
+					three_shoot = resultTable.getColumn("three_shoot_count");
+					shoot = resultTable.getColumn("shoot_count");
+					foul_shoot = resultTable.getColumn("foul_shoot_count");
+					miss = resultTable.getColumn("miss");
+					
+					three_shoot_sum = resultTable.getColumn("three_shoot_sum");
+					shoot_sum = resultTable.getColumn("shoot_sum");
+					foul_shoot_sum = resultTable.getColumn("foul_shoot_sum");
+					miss_sum = resultTable.getColumn("miss_sum");
+					
+					game_time_ratio = resultTable.getColumn("game_time_ratio");
+				}
+	
+				@Override
+				public void derive(Row resultRow)
+				{
+					Integer three_shoot_n = (Integer) three_shoot.getAttribute(resultRow);
+					Integer shoot_n = (Integer) shoot.getAttribute(resultRow);
+					Integer foul_shoot_n = (Integer) foul_shoot.getAttribute(resultRow);
+					Integer miss_n = (Integer) miss.getAttribute(resultRow);
+					
+					Integer three_shoot_sum_n = (Integer) three_shoot_sum.getAttribute(resultRow);
+					Integer shoot_sum_n = (Integer) shoot_sum.getAttribute(resultRow);
+					Integer foul_shoot_sum_n = (Integer) foul_shoot_sum.getAttribute(resultRow);
+					Integer miss_sum_n = (Integer) miss_sum.getAttribute(resultRow);
+					
+					Float game_time_ratio_n = (Float) game_time_ratio.getAttribute(resultRow);
+					
+					Integer total_shoot_count = shoot_n + three_shoot_n + foul_shoot_n;
+					Integer total_shoot_sum = shoot_sum_n + three_shoot_sum_n + foul_shoot_sum_n;
+					
+					Float dividend = (float)(total_shoot_count + 0.44f * foul_shoot_n + miss_n);
+					Float divisor = (float)(total_shoot_sum + 0.44f * foul_shoot_sum_n + miss_sum_n);
+					
+					getDeriveColumn().setAttribute(resultRow, dividend * game_time_ratio_n / divisor);
 				}
 			},
 		});

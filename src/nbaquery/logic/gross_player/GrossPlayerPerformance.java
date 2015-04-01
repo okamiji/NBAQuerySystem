@@ -28,12 +28,15 @@ public class GrossPlayerPerformance
 		{
 			GroupQuery groupQuery = new GroupQuery(base.getTable(), new String[]{"match_season", "player_name", "team_name_abbr"},
 					new SumColumnInfo("foul_shoot_count", "foul_shoot_count"),
+					new SumColumnInfo("foul_shoot_sum", "foul_shoot_sum"),
 					new SumColumnInfo("foul_shoot_score", "foul_shoot_score"),
 					new SumColumnInfo("foul_shoot_score_sum", "foul_shoot_score_sum"),
 					new SumColumnInfo("shoot_count", "shoot_count"),
+					new SumColumnInfo("shoot_sum", "shoot_sum"),
 					new SumColumnInfo("shoot_score", "shoot_score"),
 					new SumColumnInfo("shoot_score_sum", "shoot_score_sum"),
 					new SumColumnInfo("three_shoot_count", "three_shoot_count"),
+					new SumColumnInfo("three_shoot_sum", "three_shoot_sum"),
 					new SumColumnInfo("three_shoot_score", "three_shoot_score"),
 					new SumColumnInfo("three_shoot_score_sum", "three_shoot_score_sum"),
 					new SumColumnInfo("attack_board", "attack_board"),
@@ -44,6 +47,7 @@ public class GrossPlayerPerformance
 					new SumColumnInfo("cap", "cap"),
 					new SumColumnInfo("foul", "foul"),
 					new SumColumnInfo("miss", "miss"),
+					new SumColumnInfo("miss_sum", "miss_sum"),
 					new SumColumnInfo("self_score", "self_score"),
 					new GroupColumnInfo("game_count", Integer.class)
 					{
