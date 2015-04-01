@@ -31,7 +31,7 @@ public class GrossPlayer
 			tableHost.performQuery(joinQuery, "gross_player");
 			intermediateTable = tableHost.getTable("gross_player");
 			
-			new NaturalJoinQuery(intermediateTable, tableHost.getTable("player"),
+			joinQuery = new NaturalJoinQuery(intermediateTable, tableHost.getTable("player"),
 					new String[]{"player_name"}, new String[]{"player_name"});
 			tableHost.performQuery(joinQuery, "gross_player");
 			table = tableHost.getTable("gross_player");

@@ -125,6 +125,7 @@ public class LogicAssembler implements ILogicAssembler
 				"cap_rate",//"盖帽率"
 				"miss_rate",//"失误率"
 				"usage",//"使用率"
+				"player_position",//"球员位置"
 				"team_sector",//"联盟"
 				//"分/板/助"
 				//"两双"
