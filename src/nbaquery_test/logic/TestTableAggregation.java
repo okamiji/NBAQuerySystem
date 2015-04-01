@@ -11,6 +11,7 @@ import nbaquery.data.file.FileTableHost;
 import nbaquery.logic.TeamDeriveQuery;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.average_team.DerivedTeamPerformance;
+import nbaquery.logic.gross_player.GrossPlayerPerformance;
 import nbaquery.logic.gross_team.GrossRivalPerformance;
 import nbaquery.logic.gross_team.GrossTeamNaturalJoin;
 import nbaquery.logic.gross_team.GrossTeamPerformance;
@@ -38,6 +39,7 @@ public class TestTableAggregation
 	static DerivedTeamPerformance derivedPerformance;
 	static AverageTeam averageTeam;
 	static PlayerPerformance playerPerformance;
+	static GrossPlayerPerformance grossPlayerPerformance;
 
 	@BeforeClass
 	public static void setup() throws Exception
@@ -54,6 +56,7 @@ public class TestTableAggregation
 		derivedPerformance = new DerivedTeamPerformance(theHost, rivalTeamNaturalJoin);
 		averageTeam = new AverageTeam(theHost, derivedPerformance);
 		playerPerformance = new PlayerPerformance(theHost, rivalTeamNaturalJoin, joined);
+		grossPlayerPerformance = new GrossPlayerPerformance(theHost, playerPerformance);
 		System.out.println("Initialized!!!");
 	}
 	
@@ -125,6 +128,12 @@ public class TestTableAggregation
 	public void testa() throws Exception
 	{
 		table = playerPerformance.getTable();
+	}
+	
+	@Test
+	public void testb() throws Exception
+	{
+		table = grossPlayerPerformance.getTable();
 	}
 	
 	@After
