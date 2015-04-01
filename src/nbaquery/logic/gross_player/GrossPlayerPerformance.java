@@ -26,7 +26,7 @@ public class GrossPlayerPerformance
 	{
 		if(shouldDoQuery)
 		{
-			GroupQuery groupQuery = new GroupQuery(base.getTable(), new String[]{"match_season", "player_name", "team_name_abbr", "player_position"},
+			GroupQuery groupQuery = new GroupQuery(base.getTable(), new String[]{"match_season", "player_name", "team_name_abbr"},
 					new SumColumnInfo("foul_shoot_count", "foul_shoot_count"),
 					new SumColumnInfo("foul_shoot_sum", "foul_shoot_sum"),
 					new SumColumnInfo("foul_shoot_score", "foul_shoot_score"),

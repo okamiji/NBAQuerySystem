@@ -24,12 +24,18 @@ public class GrossPlayer
 		{
 			PlayerDeriveQuery deriveQuery = new PlayerDeriveQuery(this.gross.getTable());
 			tableHost.performQuery(deriveQuery, "gross_player");
-			Table interMediateTable = tableHost.getTable("gross_player");
+			Table intermediateTable = tableHost.getTable("gross_player");
 			
-			NaturalJoinQuery joinQuery = new NaturalJoinQuery(interMediateTable, tableHost.getTable("team"),
+			NaturalJoinQuery joinQuery = new NaturalJoinQuery(intermediateTable, tableHost.getTable("team"),
 					new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
 			tableHost.performQuery(joinQuery, "gross_player");
+			intermediateTable = tableHost.getTable("gross_player");
+			
+			new NaturalJoinQuery(intermediateTable, tableHost.getTable("player"),
+					new String[]{"player_name"}, new String[]{"player_name"});
+			tableHost.performQuery(joinQuery, "gross_player");
 			table = tableHost.getTable("gross_player");
+			
 			shouldDoQuery = false;
 		}
 		return table;

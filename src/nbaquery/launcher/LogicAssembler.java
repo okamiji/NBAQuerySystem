@@ -1,16 +1,21 @@
-package nbaquery.logic.launcher;
+package nbaquery.launcher;
 
 import nbaquery.data.TableHost;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.average_team.DerivedTeamPerformance;
+import nbaquery.logic.gross_player.GrossPlayer;
+import nbaquery.logic.gross_player.GrossPlayerPerformance;
 import nbaquery.logic.gross_team.GrossRivalPerformance;
 import nbaquery.logic.gross_team.GrossTeam;
 import nbaquery.logic.gross_team.GrossTeamNaturalJoin;
 import nbaquery.logic.gross_team.GrossTeamPerformance;
 import nbaquery.logic.infrustructure.MatchNaturalJoinPerformance;
 import nbaquery.logic.infrustructure.MatchTeamPerformance;
+import nbaquery.logic.infrustructure.PlayerPerformance;
 import nbaquery.logic.infrustructure.RivalTeamNaturalJoin;
 import nbaquery.logic.infrustructure.RivalTeamPerformance;
+import nbaquery.logic.player.PlayerService;
+import nbaquery.logic.player.PlayerServiceAdapter;
 import nbaquery.logic.team.TeamService;
 import nbaquery.logic.team.TeamServiceAdapter;
 
@@ -18,6 +23,7 @@ public class LogicAssembler implements ILogicAssembler
 {
 
 	TeamService team_service;
+	PlayerService player_service;
 	
 	@Override
 	public void assemble(TableHost tableHost)
@@ -28,6 +34,8 @@ public class LogicAssembler implements ILogicAssembler
 		MatchNaturalJoinPerformance match_natural_join_performance = new MatchNaturalJoinPerformance(tableHost);
 		MatchTeamPerformance match_team_performance = new MatchTeamPerformance(tableHost, match_natural_join_performance);
 		RivalTeamPerformance rival_team_performance = new RivalTeamPerformance(tableHost, match_team_performance);
+		RivalTeamNaturalJoin rival_team_natural_join = new RivalTeamNaturalJoin(tableHost, rival_team_performance, match_team_performance);
+		PlayerPerformance player_performance = new PlayerPerformance(tableHost, match_natural_join_performance, match_team_performance, rival_team_performance);
 		
 		/**
 		 * gross_team
@@ -38,10 +46,15 @@ public class LogicAssembler implements ILogicAssembler
 		GrossTeam gross_team = new GrossTeam(tableHost, gross_team_natural_join);
 		
 		/**
-		 * average
+		 * gross_player
+		 */
+		GrossPlayerPerformance gross_player_performance = new GrossPlayerPerformance(tableHost, player_performance);
+		GrossPlayer gross_player = new GrossPlayer(tableHost, gross_player_performance);
+		
+		/**
+		 * average_team
 		 */
 		
-		RivalTeamNaturalJoin rival_team_natural_join = new RivalTeamNaturalJoin(tableHost, rival_team_performance, match_team_performance);
 		DerivedTeamPerformance derived_team_performance = new DerivedTeamPerformance(tableHost, rival_team_natural_join);
 		AverageTeam average_team = new AverageTeam(tableHost, derived_team_performance);
 		
@@ -49,7 +62,7 @@ public class LogicAssembler implements ILogicAssembler
 		 * team
 		 */
 		team_service = new TeamServiceAdapter(tableHost, gross_team, average_team, new String[]
-				{
+		{
 				"match_season", //"赛季"
 				"team_name", //"球队名称"
 				"game",//"比赛场数"
@@ -79,15 +92,56 @@ public class LogicAssembler implements ILogicAssembler
 				"defence_board_efficiency",//"防守篮板效率"
 				"steal_efficiency",//"抢断效率"
 				"assist_efficiency",//"助攻效率"
-				});
+		});
 		
-		
+		player_service = new PlayerServiceAdapter(tableHost, gross_player, new String[]
+		{
+				"player_name",//"姓名"
+				"team_name",//"球队"
+				"game_count",//"参赛场数"
+				"first_count",//"先发场数"
+				"total_board",//"篮板"
+				"assist",//"助攻"
+				"game_time",//"在场时间"
+				"shoot_rate",//"投篮命中率"
+				"three_shoot_rate",//"三分命中率"
+				"foul_shoot_rate",//"罚球命中率"
+				"attack_board",//"进攻"
+				"defence_board",//"防守"
+				"steal",//"抢断"
+				"cap",//"盖帽"
+				"miss",//"失误"
+				"foul",//"犯规"
+				"self_score",//"得分"
+				"efficiency",//"效率"
+				"gmsc_efficiency",//"GmSc"
+				"true_shoot_rate",//"真实命中率"
+				"shoot_efficiency",//"投篮效率"
+				"total_board_efficiency",//"篮板率"
+				"attack_board_efficiency",//"进攻篮板率"
+				"defence_board_efficiency",//"防守篮板率"
+				"assist_rate",//"助攻率"
+				"steal_rate",//"抢断率"
+				"cap_rate",//"盖帽率"
+				"miss_rate",//"失误率"
+				"usage",//"使用率"
+				"team_sector",//"联盟"
+				//"分/板/助"
+				//"两双"
+				//"赛季"
+		});
 	}
 
 	@Override
 	public TeamService getTeamService()
 	{
 		return team_service;
+	}
+
+	@Override
+	public PlayerService getPlayerService()
+	{
+		return player_service;
 	}
 	
 }
