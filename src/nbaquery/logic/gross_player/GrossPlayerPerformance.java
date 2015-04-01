@@ -89,7 +89,8 @@ public class GrossPlayerPerformance
 					new SumColumnInfo("game_time_second", "game_time_second"),
 					new SumColumnInfo("total_game_time", "total_game_time"),
 					new SumColumnInfo("total_board_sum", "total_board_sum"),
-					new SumColumnInfo("rival_total_board_sum", "rival_total_board_sum")
+					new SumColumnInfo("rival_total_board_sum", "rival_total_board_sum"),
+					new SumColumnInfo("rival_attack_board_sum", "rival_attack_board_sum")
 			);
 			tableHost.performQuery(groupQuery, "gross_player_performance");
 			table = tableHost.getTable("gross_player_performance");
