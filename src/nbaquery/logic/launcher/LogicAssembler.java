@@ -1,6 +1,9 @@
 package nbaquery.logic.launcher;
 
 import nbaquery.data.TableHost;
+import nbaquery.logic.average_team.AverageTeam;
+import nbaquery.logic.average_team.DerivedTeamPerformance;
+import nbaquery.logic.average_team.RivalTeamNaturalJoin;
 import nbaquery.logic.gross_team.GrossRivalPerformance;
 import nbaquery.logic.gross_team.GrossTeam;
 import nbaquery.logic.gross_team.GrossTeamNaturalJoin;
@@ -35,9 +38,17 @@ public class LogicAssembler implements ILogicAssembler
 		GrossTeam gross_team = new GrossTeam(tableHost, gross_team_natural_join);
 		
 		/**
+		 * average
+		 */
+		
+		RivalTeamNaturalJoin rival_team_natural_join = new RivalTeamNaturalJoin(tableHost, rival_team_performance, match_team_performance);
+		DerivedTeamPerformance derived_team_performance = new DerivedTeamPerformance(tableHost, rival_team_natural_join);
+		AverageTeam average_team = new AverageTeam(tableHost, derived_team_performance);
+		
+		/**
 		 * team
 		 */
-		team_service = new TeamServiceAdapter(tableHost, gross_team, new String[]
+		team_service = new TeamServiceAdapter(tableHost, gross_team, average_team, new String[]
 				{
 				"match_season", //"Èü¼¾"
 				"team_name", //"Çò¶ÓÃû³Æ"
