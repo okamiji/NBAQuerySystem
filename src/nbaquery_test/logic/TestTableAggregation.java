@@ -56,7 +56,7 @@ public class TestTableAggregation
 		rivalTeamNaturalJoin = new RivalTeamNaturalJoin(theHost, rival, aggregated);
 		derivedPerformance = new DerivedTeamPerformance(theHost, rivalTeamNaturalJoin);
 		averageTeam = new AverageTeam(theHost, derivedPerformance);
-		playerPerformance = new PlayerPerformance(theHost, rivalTeamNaturalJoin, joined);
+		playerPerformance = new PlayerPerformance(theHost, joined, aggregated, rival);
 		grossPlayerPerformance = new GrossPlayerPerformance(theHost, playerPerformance);
 		System.out.println("Initialized!!!");
 	}

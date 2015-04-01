@@ -27,11 +27,11 @@ public class GrossPlayerPerformance
 		if(shouldDoQuery)
 		{
 			GroupQuery groupQuery = new GroupQuery(base.getTable(), new String[]{"match_season", "player_name", "team_name_abbr"},
-					new SumColumnInfo("foul_shoot", "foul_shoot"),
+					new SumColumnInfo("foul_shoot_count", "foul_shoot_count"),
 					new SumColumnInfo("foul_shoot_score", "foul_shoot_score"),
-					new SumColumnInfo("shoot", "shoot"),
+					new SumColumnInfo("shoot_count", "shoot_count"),
 					new SumColumnInfo("shoot_score", "shoot_score"),
-					new SumColumnInfo("three_shoot", "three_shoot"),
+					new SumColumnInfo("three_shoot_count", "three_shoot_count"),
 					new SumColumnInfo("three_shoot_score", "three_shoot_score"),
 					new SumColumnInfo("attack_board", "attack_board"),
 					new SumColumnInfo("defence_board", "defence_board"),
@@ -84,7 +84,9 @@ public class GrossPlayerPerformance
 					},
 					new SumColumnInfo("game_time_minute", "game_time_minute"),
 					new SumColumnInfo("game_time_second", "game_time_second"),
-					new SumColumnInfo("total_game_time", "total_game_time")
+					new SumColumnInfo("total_game_time", "total_game_time"),
+					new SumColumnInfo("total_board_sum", "total_board_sum"),
+					new SumColumnInfo("rival_total_board_sum", "rival_total_board_sum")
 			);
 			tableHost.performQuery(groupQuery, "gross_player_performance");
 			table = tableHost.getTable("gross_player_performance");

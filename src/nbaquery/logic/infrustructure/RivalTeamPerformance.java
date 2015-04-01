@@ -65,9 +65,9 @@ public class RivalTeamPerformance
 				Column[] columns = table.getColumns().toArray(new Column[0]);
 				for(Column column : columns)
 				{
-					if(column.getColumnName().equals("match_id")) continue;
-					if(column.getColumnName().equals("match_season")) continue;
-					if(column.getColumnName().equals("current_name_abbr")) continue;
+					if(column.getColumnName().equalsIgnoreCase("match_id")) continue;
+					if(column.getColumnName().equalsIgnoreCase("match_season")) continue;
+					if(column.getColumnName().equalsIgnoreCase("current_name_abbr")) continue;
 					table.renameColumn(column.getColumnName(), "rival_".concat(column.getColumnName()));
 				}
 			}

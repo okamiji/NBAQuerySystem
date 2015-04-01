@@ -29,6 +29,7 @@ public class KeywordTable implements Table
 		}
 		if(keyword != null)
 		{
+			keyword = keyword.toUpperCase();
 			FileTableColumn keywordColumn = index.get(keyword);
 			if(keywordColumn != null)
 			{

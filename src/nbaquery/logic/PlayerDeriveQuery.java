@@ -36,11 +36,11 @@ public class PlayerDeriveQuery extends DeriveQuery
 					assist = resultTable.getColumn("assist");
 					steal = resultTable.getColumn("steal");
 					cap = resultTable.getColumn("cap");
-					three_shoot = resultTable.getColumn("three_shoot");
+					three_shoot = resultTable.getColumn("three_shoot_count");
 					three_shoot_score = resultTable.getColumn("three_shoot_score");
-					shoot = resultTable.getColumn("shoot");
+					shoot = resultTable.getColumn("shoot_count");
 					shoot_score = resultTable.getColumn("shoot_score");
-					foul_shoot = resultTable.getColumn("foul_shoot");
+					foul_shoot = resultTable.getColumn("foul_shoot_count");
 					foul_shoot_score = resultTable.getColumn("foul_shoot_score");
 					miss = resultTable.getColumn("miss");
 				}
@@ -93,12 +93,12 @@ public class PlayerDeriveQuery extends DeriveQuery
 					assist = resultTable.getColumn("assist");
 					steal = resultTable.getColumn("steal");
 					cap = resultTable.getColumn("cap");
-					three_shoot = resultTable.getColumn("three_shoot");
+					three_shoot = resultTable.getColumn("three_shoot_count");
 					three_shoot_score = resultTable.getColumn("three_shoot_score");
-					shoot = resultTable.getColumn("shoot");
+					shoot = resultTable.getColumn("shoot_count");
 					shoot_score = resultTable.getColumn("shoot_score");
 					foul = resultTable.getColumn("foul");
-					foul_shoot = resultTable.getColumn("foul_shoot");
+					foul_shoot = resultTable.getColumn("foul_shoot_count");
 					foul_shoot_score = resultTable.getColumn("foul_shoot_score");
 					miss = resultTable.getColumn("miss");
 				}
@@ -155,9 +155,9 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, result);
 				}
 			},
-			new RateColumnInfo("three_shoot_rate", "three_shoot_score", "three_shoot"),
-			new RateColumnInfo("shoot_rate", "shoot_score", "shoot"),
-			new RateColumnInfo("foul_shoot_rate", "foul_shoot_score", "foul_shoot"),
+			new RateColumnInfo("three_shoot_rate", "three_shoot_score", "three_shoot_count"),
+			new RateColumnInfo("shoot_rate", "shoot_score", "shoot_count"),
+			new RateColumnInfo("foul_shoot_rate", "foul_shoot_score", "foul_shoot_count"),
 			new DeriveColumnInfo("game_time_ratio", Float.class)
 			{
 				Column game_time;
@@ -177,7 +177,115 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, 0.2f * total_game_time_n / game_time_n);
 				}
 			},
+			new DeriveColumnInfo("true_shoot_rate", Float.class)
+			{
+
+				Column self_score;
+				Column three_shoot;
+				Column shoot;
+				Column foul_shoot;
+				
+				@Override
+				public void retrieve(Table resultTable)
+				{
+					self_score = resultTable.getColumn("self_score");
+					three_shoot = resultTable.getColumn("three_shoot_count");
+					shoot = resultTable.getColumn("shoot_count");
+					foul_shoot = resultTable.getColumn("foul_shoot_count");
+				}
+	
+				@Override
+				public void derive(Row resultRow)
+				{
+					Integer self_score_n = (Integer) self_score.getAttribute(resultRow);
+					Integer three_shoot_n = (Integer) three_shoot.getAttribute(resultRow);
+					Integer shoot_n = (Integer) shoot.getAttribute(resultRow);
+					Integer foul_shoot_n = (Integer) foul_shoot.getAttribute(resultRow);
+					
+					Integer total_shoot_count = shoot_n + three_shoot_n + foul_shoot_n;
+					
+					Float true_shoot_rate = .5f * self_score_n / (total_shoot_count + 0.44f * foul_shoot_n);
+					getDeriveColumn().setAttribute(resultRow, true_shoot_rate);
+				}
+			},
+			new DeriveColumnInfo("shoot_efficiency", Float.class)
+			{
+				Column three_shoot;
+				Column three_shoot_score;
+				Column shoot;
+				Column shoot_score;
+				Column foul_shoot;
+				Column foul_shoot_score;
+				
+				@Override
+				public void retrieve(Table resultTable)
+				{
+					three_shoot = resultTable.getColumn("three_shoot_count");
+					three_shoot_score = resultTable.getColumn("three_shoot_score");
+					shoot = resultTable.getColumn("shoot_count");
+					shoot_score = resultTable.getColumn("shoot_score");
+					foul_shoot = resultTable.getColumn("foul_shoot_count");
+					foul_shoot_score = resultTable.getColumn("foul_shoot_score");
+				}
+	
+				@Override
+				public void derive(Row resultRow)
+				{
+					Integer three_shoot_n = (Integer) three_shoot.getAttribute(resultRow);
+					Integer three_shoot_score_n = (Integer) three_shoot_score.getAttribute(resultRow);
+					Integer shoot_n = (Integer) shoot.getAttribute(resultRow);
+					Integer shoot_score_n = (Integer) shoot_score.getAttribute(resultRow);
+					Integer foul_shoot_n = (Integer) foul_shoot.getAttribute(resultRow);
+					Integer foul_shoot_score_n = (Integer) foul_shoot_score.getAttribute(resultRow);
+					
+					Integer total_shoot_score = shoot_score_n + three_shoot_score_n + foul_shoot_score_n;
+					Integer total_shoot_count = shoot_n + three_shoot_n + foul_shoot_n;
+					
+					Float shoot_efficiency = (.5f * three_shoot_score_n + total_shoot_score)/ total_shoot_count;
+					getDeriveColumn().setAttribute(resultRow, shoot_efficiency);
+				}
+			},
+			new BoardEfficiencyColumnInfo("total_board_efficiency", "total_board"),
+			new BoardEfficiencyColumnInfo("attack_board_efficiency", "attack_board"),
+			new BoardEfficiencyColumnInfo("defence_board_efficiency", "defence_board")
 		});
 	}
 	
+}
+
+class BoardEfficiencyColumnInfo extends DeriveColumnInfo
+{
+
+	public String boardString;
+	public BoardEfficiencyColumnInfo(String deriveColumn, String board)
+	{
+		super(deriveColumn, Float.class);
+		this.boardString = board;
+	}
+
+	Column board;
+	Column total_board_sum;
+	Column rival_total_board;
+	Column game_time_ratio;
+	
+	@Override
+	public void retrieve(Table resultTable)
+	{
+		board = resultTable.getColumn(boardString);
+		total_board_sum = resultTable.getColumn("total_board_sum");
+		rival_total_board = resultTable.getColumn("rival_total_board_sum");
+		game_time_ratio = resultTable.getColumn("game_time_ratio");
+	}
+
+	@Override
+	public void derive(Row resultRow)
+	{
+		Integer board_n = (Integer) board.getAttribute(resultRow);
+		Integer total_board_sum_n = (Integer) total_board_sum.getAttribute(resultRow);
+		Integer rival_total_board_n = (Integer) rival_total_board.getAttribute(resultRow);
+		Float game_time_ratio_n = (Float) game_time_ratio.getAttribute(resultRow);
+		
+		Float result = board_n * game_time_ratio_n / (total_board_sum_n + rival_total_board_n);
+		getDeriveColumn().setAttribute(resultRow, result);
+	}
 }

@@ -9,21 +9,27 @@ public class PlayerPerformance
 	public TableHost tableHost; 
 	protected boolean shouldDoQuery = true;
 	protected Table table;
-	protected RivalTeamNaturalJoin joined;
-	protected MatchNaturalJoinPerformance match;
+	protected MatchTeamPerformance team;
+	protected RivalTeamPerformance rival;
+	protected MatchNaturalJoinPerformance player;
 	
-	public PlayerPerformance(TableHost tableHost, RivalTeamNaturalJoin joined, MatchNaturalJoinPerformance match)
+	public PlayerPerformance(TableHost tableHost, MatchNaturalJoinPerformance player, MatchTeamPerformance team, RivalTeamPerformance rival)
 	{
 		this.tableHost = tableHost;
-		this.joined = joined;
-		this.match = match;
+		this.team = team;
+		this.rival = rival;
+		this.player = player;
 	}
 	
 	public Table getTable()
 	{
 		if(shouldDoQuery)
 		{
-			NaturalJoinQuery joinQuery = new NaturalJoinQuery(match.getTable(), joined.getTable(), new String[]{"match_id", "team_name_abbr"}, new String[]{"match_id", "team_name_abbr"});
+			NaturalJoinQuery joinQuery = new NaturalJoinQuery(team.getTable(), rival.getTable(), new String[]{"match_id", "team_name_abbr"}, new String[]{"match_id", "current_name_abbr"});
+			tableHost.performQuery(joinQuery, "player_performance");
+			table = tableHost.getTable("player_performance");
+			
+			joinQuery = new NaturalJoinQuery(player.getTable(), table, new String[]{"match_id", "team_name_abbr"}, new String[]{"match_id", "team_name_abbr"});
 			tableHost.performQuery(joinQuery, "player_performance");
 			table = tableHost.getTable("player_performance");
 			
@@ -42,6 +48,6 @@ public class PlayerPerformance
 		this.markDirty();
 		this.tableHost.deleteTable("player_performance");
 		
-		this.joined.destroy();
+		this.team.destroy();
 	}
 }
