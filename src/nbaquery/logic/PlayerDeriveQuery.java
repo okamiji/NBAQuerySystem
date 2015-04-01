@@ -247,7 +247,53 @@ public class PlayerDeriveQuery extends DeriveQuery
 			},
 			new BoardEfficiencyColumnInfo("total_board_efficiency", "total_board"),
 			new BoardEfficiencyColumnInfo("attack_board_efficiency", "attack_board"),
-			new BoardEfficiencyColumnInfo("defence_board_efficiency", "defence_board")
+			new BoardEfficiencyColumnInfo("defence_board_efficiency", "defence_board"),
+			new DeriveColumnInfo("assist_rate", Float.class)
+			{
+				Column assist;
+				Column three_shoot_score;
+				Column shoot_score;
+				Column foul_shoot_score;
+				Column three_shoot_score_sum;
+				Column shoot_score_sum;
+				Column foul_shoot_score_sum;
+				Column game_time_ratio;
+				
+				@Override
+				public void retrieve(Table resultTable)
+				{
+					assist = resultTable.getColumn("assist");
+					three_shoot_score = resultTable.getColumn("three_shoot_score");
+					shoot_score = resultTable.getColumn("shoot_score");
+					foul_shoot_score = resultTable.getColumn("foul_shoot_score");
+					
+					three_shoot_score_sum = resultTable.getColumn("three_shoot_score_sum");
+					shoot_score_sum = resultTable.getColumn("shoot_score_sum");
+					foul_shoot_score_sum = resultTable.getColumn("foul_shoot_score_sum");
+					
+					game_time_ratio = resultTable.getColumn("game_time_ratio");
+				}
+	
+				@Override
+				public void derive(Row resultRow)
+				{
+					Integer assist_n = (Integer) assist.getAttribute(resultRow);
+					Integer three_shoot_score_n = (Integer) three_shoot_score.getAttribute(resultRow);
+					Integer shoot_score_n = (Integer) shoot_score.getAttribute(resultRow);
+					Integer foul_shoot_score_n = (Integer) foul_shoot_score.getAttribute(resultRow);
+					
+					Integer three_shoot_score_sum_n = (Integer) three_shoot_score_sum.getAttribute(resultRow);
+					Integer shoot_score_sum_n = (Integer) shoot_score_sum.getAttribute(resultRow);
+					Integer foul_shoot_score_sum_n = (Integer) foul_shoot_score_sum.getAttribute(resultRow);
+					Float game_time_ratio_n = (Float)game_time_ratio.getAttribute(resultRow);
+					
+					Integer total_shoot_score = shoot_score_n + three_shoot_score_n + foul_shoot_score_n;
+					Integer total_shoot_score_sum = shoot_score_sum_n + three_shoot_score_sum_n + foul_shoot_score_sum_n;
+					
+					Float assist_rate = 1.0f * assist_n/(total_shoot_score_sum / game_time_ratio_n - total_shoot_score);
+					getDeriveColumn().setAttribute(resultRow, assist_rate);
+				}
+			},
 		});
 	}
 	
