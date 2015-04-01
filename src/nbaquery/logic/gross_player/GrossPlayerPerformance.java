@@ -82,33 +82,8 @@ public class GrossPlayerPerformance
 							getGroupColumn().setAttribute(resultRow, first_count);
 						}
 					},
-					new GroupColumnInfo("game_time", Integer.class)
-					{
-						Column game_time_minute;
-						Column game_time_second;
-						
-						@Override
-						public void retrieve(Table originalTable, Table resultTable)
-						{
-							game_time_minute = originalTable.getColumn("game_time_minute");
-							game_time_second = originalTable.getColumn("game_time_second");
-						}
-
-						@Override
-						public void collapse(Row[] rows, Row resultRow)
-						{
-							Integer result = 0;
-							for(Row row : rows)
-							{
-								Integer minute = (Integer) game_time_minute.getAttribute(row);
-								if(minute != null) result += minute * 60;
-								
-								Integer second = (Integer) game_time_second.getAttribute(row);
-								if(second != null) result += second; 
-							}
-							getGroupColumn().setAttribute(resultRow, result);
-						}
-					},
+					new SumColumnInfo("game_time_minute", "game_time_minute"),
+					new SumColumnInfo("game_time_second", "game_time_second"),
 					new SumColumnInfo("total_game_time", "total_game_time")
 			);
 			tableHost.performQuery(groupQuery, "gross_player_performance");

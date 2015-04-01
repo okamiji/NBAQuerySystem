@@ -8,6 +8,7 @@ import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.file.FileTableHost;
+import nbaquery.logic.PlayerDeriveQuery;
 import nbaquery.logic.TeamDeriveQuery;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.average_team.DerivedTeamPerformance;
@@ -134,6 +135,14 @@ public class TestTableAggregation
 	public void testb() throws Exception
 	{
 		table = grossPlayerPerformance.getTable();
+	}
+	
+	@Test
+	public void testc() throws Exception
+	{
+		PlayerDeriveQuery query = new PlayerDeriveQuery(grossPlayerPerformance.getTable());
+		theHost.performQuery(query, "testc");
+		table = theHost.getTable("testc");
 	}
 	
 	@After
