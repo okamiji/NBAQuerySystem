@@ -32,7 +32,7 @@ public class Main
 		main.loadLogicLayer();
 		
 		//String[][] string = main.teamService.searchForTeams(false, 4, false);
-		String[][] string = main.playerService.searchForPlayers(true, 1, true, null, null);
+		String[][] string = main.playerService.searchForPlayers(true, 1, true, null, "Southwest");
 		for(int i = 0; i < string.length; i ++)
 		{
 			for(int j = 0; j < string[i].length; j ++)
