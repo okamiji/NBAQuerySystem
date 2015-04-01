@@ -319,6 +319,31 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, steal_rate);
 				}
 			},
+			new DeriveColumnInfo("cap_rate", Float.class)
+			{
+				Column cap;
+				Column game_time_ratio;
+				Column rival_shoot_sum;
+				
+				@Override
+				public void retrieve(Table resultTable)
+				{
+					cap = resultTable.getColumn("cap");
+					game_time_ratio = resultTable.getColumn("game_time_ratio");
+					rival_shoot_sum = resultTable.getColumn("rival_shoot_sum");
+				}
+	
+				@Override
+				public void derive(Row resultRow)
+				{
+					Integer cap_n = (Integer) cap.getAttribute(resultRow);
+					Float game_time_ratio_n = (Float) game_time_ratio.getAttribute(resultRow);
+					Integer rival_shoot_sum_n = (Integer) rival_shoot_sum.getAttribute(resultRow);
+					
+					Float cap_rate = game_time_ratio_n * cap_n / rival_shoot_sum_n;
+					getDeriveColumn().setAttribute(resultRow, cap_rate);
+				}
+			},
 		});
 	}
 	
