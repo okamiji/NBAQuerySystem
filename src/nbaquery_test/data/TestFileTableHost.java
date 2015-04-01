@@ -10,9 +10,9 @@ import nbaquery.data.file.FileTableHost;
 import nbaquery.data.query.DeriveColumnInfo;
 import nbaquery.data.query.DeriveQuery;
 import nbaquery.data.query.ExpressionDeriveColumnInfo;
-import nbaquery.data.query.ExpressionDeriveQuery;
+import nbaquery.data.query.GroupColumnInfo;
 import nbaquery.data.query.GroupQuery;
-import nbaquery.data.query.JoinQuery;
+import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.Query;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
@@ -35,7 +35,7 @@ public class TestFileTableHost
 	@BeforeClass
 	public static void loadingHostFromFileSystem() throws Exception
 	{
-		host = new FileTableHost(new File("E:\\大二课程\\软工三\\tss迭代一要求\\CSEIII data\\迭代一数据"));
+		host = new FileTableHost(new File("D:\\迭代一数据"));
 		
 		match = host.getTable("match");
 		quarter_score = host.getTable("quarter_score");
@@ -85,7 +85,7 @@ public class TestFileTableHost
 	@Test
 	public void derivePerformanceRecord() throws Exception
 	{
-		Query query = new ExpressionDeriveQuery(performance, new DeriveColumnInfo[]{
+		Query query = new DeriveQuery(performance, new DeriveColumnInfo[]{
 				new ExpressionDeriveColumnInfo("three_shoot_accuracy", Float.class,
 						"1.0F * performance.three_shoot_score / performance.three_shoot_count")
 				,
@@ -101,38 +101,49 @@ public class TestFileTableHost
 	public void derivePerformanceRecord2() throws Exception
 	{
 		Query query = new DeriveQuery(performance, new DeriveColumnInfo[]{
-				new DeriveColumnInfo("three_shoot_accuracy", Float.class),
-				new DeriveColumnInfo("shoot_accuracy", Float.class),},
-				"three_shoot_count", "three_shoot_score", "shoot_count", "shoot_score", "player_name")
-		{
+				new DeriveColumnInfo("three_shoot_accuracy", Float.class)
+				{
+					Column three_shoot_accuracy;
+					Column three_shoot_count;
+					Column three_shoot_score;
+					
+					@Override
+					public void retrieve(Table table)
+					{
+						three_shoot_accuracy = table.getColumn("three_shoot_accuracy");
+						three_shoot_count = table.getColumn("three_shoot_count");
+						three_shoot_score = table.getColumn("three_shoot_score");
+					}
 
-			Column three_shoot_accuracy;
-			Column three_shoot_count;
-			Column three_shoot_score;
-			
-			Column shoot_accuracy;
-			Column shoot_count;
-			Column shoot_score;
-			
-			public void retrieve(Table table)
-			{
-				three_shoot_accuracy = table.getColumn("three_shoot_accuracy");
-				three_shoot_count = table.getColumn("three_shoot_count");
-				three_shoot_score = table.getColumn("three_shoot_score");
-				
-				shoot_accuracy = table.getColumn("shoot_accuracy");
-				shoot_count = table.getColumn("shoot_count");
-				shoot_score = table.getColumn("shoot_score");
-			}
-			
-			@Override
-			public void derive(Row row)
-			{
-				three_shoot_accuracy.setAttribute(row, 1.0F * (int)three_shoot_score.getAttribute(row) / (int)three_shoot_count.getAttribute(row));
-				shoot_accuracy.setAttribute(row, 1.0F * (int)shoot_score.getAttribute(row) / (int)shoot_count.getAttribute(row));
-			}
-			
-		};
+					@Override
+					public void derive(Row row)
+					{
+						three_shoot_accuracy.setAttribute(row, 1.0F * (int)three_shoot_score.getAttribute(row) / (int)three_shoot_count.getAttribute(row));
+					}
+					
+				},
+				new DeriveColumnInfo("shoot_accuracy", Float.class)
+				{
+					Column shoot_accuracy;
+					Column shoot_count;
+					Column shoot_score;
+
+					@Override
+					public void retrieve(Table table)
+					{
+						shoot_accuracy = table.getColumn("shoot_accuracy");
+						shoot_count = table.getColumn("shoot_count");
+						shoot_score = table.getColumn("shoot_score");
+					}
+
+					@Override
+					public void derive(Row row)
+					{
+						shoot_accuracy.setAttribute(row, 1.0F * (int)shoot_score.getAttribute(row) / (int)shoot_count.getAttribute(row));
+					}
+					
+				},},
+				"three_shoot_count", "three_shoot_score", "shoot_count", "shoot_score", "player_name");
 		
 		host.performQuery(query, "resultPerformance2");
 		output.add("resultPerformance2");
@@ -141,8 +152,9 @@ public class TestFileTableHost
 	@Test
 	public void aggregateMatchRecord() throws Exception
 	{
-		JoinQuery query = new JoinQuery("match.match_id = quarter_score.match_id", match, quarter_score,
-				"match_host_abbr", "match_guest_abbr", "quarter_number", "quarter_host_score", "quarter_guest_score");
+		//JoinQuery query = new JoinQuery("match.match_id = quarter_score.match_id", match, quarter_score,
+		//		"match_host_abbr", "match_guest_abbr", "quarter_number", "quarter_host_score", "quarter_guest_score");
+		NaturalJoinQuery query = new NaturalJoinQuery(match, quarter_score, new String[]{"match_id"}, new String[]{"match_id"});
 		
 		host.performQuery(query, "resultMatchScore");
 		output.add("resultMatchScore");
@@ -160,61 +172,87 @@ public class TestFileTableHost
 	@Test
 	public void sumupMatchRecord() throws Exception
 	{
-		GroupQuery query = new GroupQuery()
+		GroupQuery query = new GroupQuery(performance, new String[]{"team_name_abbr", "match_id"},
+				new GroupColumnInfo("three_shoot_sum", Integer.class)
 		{
-			Column three_shoot_score;
-			Column three_shoot_count;
-			Column three_shoot_sum;
-			Column three_shoot_score_sum;
 			
-			Column shoot_score;
-			Column shoot_count;
-			Column shoot_sum;
-			Column shoot_score_sum;
+			Column three_shoot_count;
 			
 			@Override
-			public void retrieve(Table resultTable)
+			public void retrieve(Table originalTable, Table resultTable)
 			{
-				three_shoot_score = this.table.getColumn("three_shoot_score");
-				three_shoot_count = this.table.getColumn("three_shoot_count");
-				three_shoot_sum = resultTable.getColumn("three_shoot_sum");
-				three_shoot_score_sum = resultTable.getColumn("three_shoot_score_sum");
-				
-				shoot_score = this.table.getColumn("shoot_score");
-				shoot_count = this.table.getColumn("shoot_count");
-				shoot_sum = resultTable.getColumn("shoot_sum");
-				shoot_score_sum = resultTable.getColumn("shoot_score_sum");
+				three_shoot_count = originalTable.getColumn("three_shoot_count");
 			}
 
 			@Override
 			public void collapse(Row[] rows, Row resultRow)
 			{
-				Integer three_shoot_score_sum = 0;
 				Integer three_shoot_sum = 0;
-				
-				Integer shoot_score_sum = 0;
-				Integer shoot_sum = 0;
-				
 				for(Row row : rows)
-				{
-					three_shoot_score_sum += (Integer) three_shoot_score.getAttribute(row);
-					three_shoot_sum += (Integer) three_shoot_count.getAttribute(row);
-					
-					shoot_score_sum += (Integer) shoot_score.getAttribute(row);
-					shoot_sum += (Integer) shoot_count.getAttribute(row);
-				}
-				this.three_shoot_score_sum.setAttribute(resultRow, three_shoot_score_sum);
-				this.three_shoot_sum.setAttribute(resultRow, three_shoot_sum);
-				
-				this.shoot_score_sum.setAttribute(resultRow, shoot_score_sum);
-				this.shoot_sum.setAttribute(resultRow, shoot_sum);
+					three_shoot_sum = (Integer) three_shoot_count.getAttribute(row);
+				this.getGroupColumn().setAttribute(resultRow, three_shoot_sum);
 			}
-		};
+		},
+			new GroupColumnInfo("three_shoot_score_sum", Integer.class)
+		{
+			
+			Column three_shoot_count;
+			
+			@Override
+			public void retrieve(Table originalTable, Table resultTable)
+			{
+				three_shoot_count = originalTable.getColumn("three_shoot_score");
+			}
 		
-		query.table = performance;
-		query.collapseColumn = new String[]{"team_name_abbr", "match_id"};
-		query.derivedColumn = new String[]{"three_shoot_sum", "three_shoot_score_sum", "shoot_sum", "shoot_score_sum"};
-		query.derivedClass = new Class<?>[]{Integer.class, Integer.class, Integer.class, Integer.class};
+			@Override
+			public void collapse(Row[] rows, Row resultRow)
+			{
+				Integer three_shoot_sum = 0;
+				for(Row row : rows)
+					three_shoot_sum = (Integer) three_shoot_count.getAttribute(row);
+				this.getGroupColumn().setAttribute(resultRow, three_shoot_sum);
+			}
+		},
+			new GroupColumnInfo("shoot_sum", Integer.class)
+		{
+			
+			Column three_shoot_count;
+			
+			@Override
+			public void retrieve(Table originalTable, Table resultTable)
+			{
+				three_shoot_count = originalTable.getColumn("shoot_count");
+			}
+		
+			@Override
+			public void collapse(Row[] rows, Row resultRow)
+			{
+				Integer three_shoot_sum = 0;
+				for(Row row : rows)
+					three_shoot_sum = (Integer) three_shoot_count.getAttribute(row);
+				this.getGroupColumn().setAttribute(resultRow, three_shoot_sum);
+			}
+		},
+			new GroupColumnInfo("shoot_score_sum", Integer.class)
+		{
+			
+			Column three_shoot_count;
+			
+			@Override
+			public void retrieve(Table originalTable, Table resultTable)
+			{
+				three_shoot_count = originalTable.getColumn("shoot_score");
+			}
+		
+			@Override
+			public void collapse(Row[] rows, Row resultRow)
+			{
+				Integer three_shoot_sum = 0;
+				for(Row row : rows)
+					three_shoot_sum = (Integer) three_shoot_count.getAttribute(row);
+				this.getGroupColumn().setAttribute(resultRow, three_shoot_sum);
+			}
+		});
 		
 		host.performQuery(query, "collapseResult");
 		host.performQuery(new SortQuery(host.getTable("collapseResult"), "match_id"), "sortedCollapseResult");

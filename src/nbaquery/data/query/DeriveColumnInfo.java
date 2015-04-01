@@ -1,13 +1,27 @@
 package nbaquery.data.query;
 
-public class DeriveColumnInfo
+import nbaquery.data.Column;
+import nbaquery.data.Row;
+import nbaquery.data.Table;
+
+public abstract class DeriveColumnInfo
 {
-	public String deriveColumns;
-	public Class<?> deriveClasses;
+	public String deriveColumn;
+	public Class<?> deriveClass;
+	public Column resultColumn;
 	
-	public DeriveColumnInfo(String deriveColumns, Class<?> deriveClasses)
+	public DeriveColumnInfo(String deriveColumn, Class<?> deriveClasses)
 	{
-		this.deriveClasses = deriveClasses;
-		this.deriveColumns = deriveColumns;
+		this.deriveClass = deriveClasses;
+		this.deriveColumn = deriveColumn;
+	}
+	
+	public abstract void retrieve(Table resultTable);
+	
+	public abstract void derive(Row resultRow);
+	
+	public Column getDeriveColumn()
+	{
+		return resultColumn;
 	}
 }

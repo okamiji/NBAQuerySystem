@@ -134,6 +134,31 @@ public class SortAlgorithm implements FileTableAlgorithm
 				return Float.floatToRawIntBits((float)mapping);
 			}
 		});
+		
+		keywordMappers.put(String.class, new KeywordMapper()
+		{
+			@Override
+			public Integer getKeyword(Object mapping)
+			{
+				String theString  = (String) mapping;
+				int order = 0; char[] arrayOfString = theString.toCharArray();
+				for(char current : arrayOfString)
+				{
+					if('a'<=current && current<='z')
+					{
+						order = order * 26;
+						order = order + current - 'a';
+					}
+					else if('A'<=current && current<='Z') 
+					{
+						order = order * 26;
+						order = order + current - 'A';
+					}
+				}
+				return order;
+			}
+		});
+		
 	}
 }
 

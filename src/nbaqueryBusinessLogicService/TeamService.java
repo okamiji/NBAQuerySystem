@@ -1,5 +1,4 @@
 package nbaqueryBusinessLogicService;
-import nbaquery.data.Table;
 
 public interface TeamService {
 	
