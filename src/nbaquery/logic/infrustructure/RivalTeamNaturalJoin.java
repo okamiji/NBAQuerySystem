@@ -1,11 +1,9 @@
-package nbaquery.logic.average_team;
+package nbaquery.logic.infrustructure;
 
 import nbaquery.data.Column;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.NaturalJoinQuery;
-import nbaquery.logic.infrustructure.MatchTeamPerformance;
-import nbaquery.logic.infrustructure.RivalTeamPerformance;
 
 public class RivalTeamNaturalJoin
 {

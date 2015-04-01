@@ -11,12 +11,12 @@ import nbaquery.data.file.FileTableHost;
 import nbaquery.logic.TeamDeriveQuery;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.average_team.DerivedTeamPerformance;
-import nbaquery.logic.average_team.RivalTeamNaturalJoin;
 import nbaquery.logic.gross_team.GrossRivalPerformance;
 import nbaquery.logic.gross_team.GrossTeamNaturalJoin;
 import nbaquery.logic.gross_team.GrossTeamPerformance;
 import nbaquery.logic.infrustructure.MatchNaturalJoinPerformance;
 import nbaquery.logic.infrustructure.MatchTeamPerformance;
+import nbaquery.logic.infrustructure.RivalTeamNaturalJoin;
 import nbaquery.logic.infrustructure.RivalTeamPerformance;
 
 import org.junit.After;

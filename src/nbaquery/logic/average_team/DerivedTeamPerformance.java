@@ -3,6 +3,7 @@ package nbaquery.logic.average_team;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.logic.TeamDeriveQuery;
+import nbaquery.logic.infrustructure.RivalTeamNaturalJoin;
 
 public class DerivedTeamPerformance
 {

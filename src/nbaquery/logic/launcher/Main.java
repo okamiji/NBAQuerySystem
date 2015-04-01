@@ -28,7 +28,7 @@ public class Main
 		main.loadDataLayer("D:\\迭代一数据");
 		main.loadLogicLayer();
 		
-		String[][] string = main.teamService.searchForTeams(true, 4, false);
+		String[][] string = main.teamService.searchForTeams(false, 4, false);
 		for(int i = 0; i < string.length; i ++)
 		{
 			for(int j = 0; j < string[i].length; j ++)
