@@ -8,10 +8,13 @@ import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.file.FileTableHost;
-import nbaquery.data.query.SortQuery;
-import nbaquery.logic.MatchNaturalJoinPerformance;
-import nbaquery.logic.MatchTeamPerformance;
-import nbaquery.logic.RivalTeamPerformance;
+import nbaquery.logic.TeamDeriveQuery;
+import nbaquery.logic.gross_team.GrossRivalPerformance;
+import nbaquery.logic.gross_team.GrossTeamNaturalJoin;
+import nbaquery.logic.gross_team.GrossTeamPerformance;
+import nbaquery.logic.infrustructure.MatchNaturalJoinPerformance;
+import nbaquery.logic.infrustructure.MatchTeamPerformance;
+import nbaquery.logic.infrustructure.RivalTeamPerformance;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,6 +28,9 @@ public class TestTableAggregation
 	static MatchNaturalJoinPerformance joined;
 	static MatchTeamPerformance aggregated;
 	static RivalTeamPerformance rival;
+	static GrossTeamPerformance grossPerformance;
+	static GrossRivalPerformance grossRivalPerformance;
+	static GrossTeamNaturalJoin grossNaturalJoin;
 
 	@BeforeClass
 	public static void setup() throws Exception
@@ -34,17 +40,53 @@ public class TestTableAggregation
 		joined = new MatchNaturalJoinPerformance(theHost);
 		aggregated = new MatchTeamPerformance(theHost, joined);
 		rival = new RivalTeamPerformance(theHost, aggregated);
+		grossPerformance = new GrossTeamPerformance(theHost, aggregated);
+		grossRivalPerformance = new GrossRivalPerformance(theHost, rival);
+		grossNaturalJoin = new GrossTeamNaturalJoin(theHost, grossRivalPerformance, grossPerformance);
 	}
 	
 	static Table table;
+	
 	@Test
-	public void test() throws Exception
+	public void test0() throws Exception
+	{
+		table = aggregated.getTable();
+	}
+	
+	@Test
+	public void test1() throws Exception
 	{
 		table = rival.getTable();
 	}
 	
-	@AfterClass
-	public static void after()
+	@Test
+	public void test2() throws Exception
+	{
+		table = grossPerformance.getTable();
+	}
+	
+	@Test
+	public void test3() throws Exception
+	{
+		table = grossRivalPerformance.getTable();
+	}
+	
+	@Test
+	public void test4() throws Exception
+	{
+		table = grossNaturalJoin.getTable();
+	}
+	
+	@Test
+	public void test5() throws Exception
+	{
+		TeamDeriveQuery derive = new TeamDeriveQuery(grossNaturalJoin.getTable());
+		theHost.performQuery(derive, "derived");
+		table = theHost.getTable("derived");
+	}
+	
+	@After
+	public void after()
 	{
 		out(table);
 	}
@@ -57,7 +99,7 @@ public class TestTableAggregation
 		
 		Row[] rows = table.getRows();
 		
-		for(int i = 0; i < rows.length; i ++)
+		for(int i = 0; i < rows.length && i < 50; i ++)
 		{
 			for(Column column : columns)
 				System.out.print(column.getAttribute(rows[i]) + " ");

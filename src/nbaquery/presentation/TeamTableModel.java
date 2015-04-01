@@ -16,7 +16,6 @@ public class TeamTableModel extends AbstractTableModel{
 		columnNames.add("三分命中数");
 		columnNames.add("三分出手数");
 		columnNames.add("罚球命中数");
-		columnNames.add("罚球出手数");
 		columnNames.add("进攻篮板数");
 		columnNames.add("防守篮板数");
 		columnNames.add("篮板数");
@@ -33,11 +32,9 @@ public class TeamTableModel extends AbstractTableModel{
 		columnNames.add("进攻回合");
 		columnNames.add("进攻效率");
 		columnNames.add("防守效率");
-		columnNames.add("进攻篮板效率");
-		columnNames.add("防守篮板效率");
+		columnNames.add("篮板效率");
 		columnNames.add("抢断效率");
 		columnNames.add("助攻效率");
-		columnNames.add("赛季");
 		rows=new Vector();
 	}
 /*

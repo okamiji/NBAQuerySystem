@@ -1,6 +1,5 @@
 package nbaquery.presentation;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -9,8 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,7 +17,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.JComboBox;
@@ -47,12 +43,12 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 
 	String head=null;
 	boolean upDown=true;
-	boolean type=true;
+	boolean type=false;
 	
 	
 	public TeamTablePanel(final TeamService ts){
 		this.ts = ts;
-		setSize(865,570);
+		setSize(900,640);
 		tableModel=new TeamTableModel();
 		table=new JTable(tableModel);
 		table.getModel().addTableModelListener(this);
@@ -63,13 +59,12 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(14, 63, 780, 500);
+		scrollPane.setBounds(14, 53, 600, 390);
 		add(scrollPane);
-		this.table.setRowHeight(30);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		int columncount = this.table.getColumnCount();
         for (int i = 1; i < columncount; i++) {
-            this.table.getColumnModel().getColumn(i).setPreferredWidth(95);
+            this.table.getColumnModel().getColumn(i).setPreferredWidth(80);
         }
         table.getTableHeader().setReorderingAllowed(false); 
         table.setColumnSelectionAllowed (true);  
@@ -94,63 +89,32 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
         table.repaint();
 		
 		JPanel searchPanel = new JPanel();
-		searchPanel.setBounds(14, 13, 786, 40);
-		searchPanel.setOpaque(false);//透明
+		searchPanel.setBounds(14, 13, 593, 40);
 		add(searchPanel);
 		searchPanel.setLayout(null);
 		
-		JLabel positionLabel = new JLabel(" ");
-		positionLabel.setBounds(168, 0, 700, 30);
-		positionLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/搜索2.png"));
-		
-		searchField = new JTextField("输入要查询的信息");
-		searchField.setBounds(2, 2, 160, 30);
-		JLabel searchLabel=new JLabel("");
-		searchLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/searchfield.png"));
-		searchLabel.setBounds(0, 0, 165, 34);
+		searchField = new JTextField();
+		searchField.setText("\u8F93\u5165\u8981\u67E5\u8BE2\u7684\u4FE1\u606F");
+		searchField.setBounds(0, 0, 126, 27);
 		searchPanel.add(searchField);
-		searchPanel.add(searchLabel);
 		searchField.setColumns(10);
 		searchField.addFocusListener(new ClickAdapter());
 		
-		searchButton = new JButton("",new ImageIcon("C:/Users/小南/Desktop/大作业UI/GUI/search.png"));
-		searchButton.setBounds(729, 3, 35, 40);
-		searchButton.setFocusPainted(false);
-		searchButton.setBorderPainted(false);
-		searchButton.setContentAreaFilled(false);
+		searchButton = new JButton("\u68C0\u7D22");
+		searchButton.setBounds(530, 0, 63, 27);
 		searchPanel.add(searchButton);
 		
 		typeBox = new JComboBox<String>();
-		typeBox.setBounds(229, 2, 118, 24);
-		typeBox.setUI(new BasicComboBoxUI() {
-		       public void installUI(JComponent comboBox) {
-		           super.installUI(typeBox);
-		              listBox.setForeground(Color.WHITE);
-		              listBox.setSelectionBackground(new Color(0,0,0,0));
-		              listBox.setSelectionForeground(Color.BLACK);
-		            }
-		          
-		            /**
-		             * 该方法返回右边的按钮
-		             */
-		          protected JButton createArrowButton() {
-		              return null;
-		        	  //return super.createArrowButton();
-		            }
-		        });
+		typeBox.setBounds(201, 1, 105, 24);
 		searchPanel.add(typeBox);
 		boxInitialization();
+		JLabel label_2 = new JLabel("\u6570\u636E\u7C7B\u578B");
+		label_2.setBounds(134, 4, 72, 18);
+		searchPanel.add(label_2);
 		searchButton.addActionListener(new ClickListener());
-		
-		JLabel tableLabel=new JLabel("");
-		tableLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/tableShadow3.png"));
-		tableLabel.setBounds(9, 58, 790, 510);
-		this.add(tableLabel);
 		
 		SearchListener s = new SearchListener();
 		s.actionPerformed((ActionEvent)searchButton.getAction());
-		
-		searchPanel.add(positionLabel);
 	}
 
 	public void tableChanged(TableModelEvent e) {
@@ -210,12 +174,13 @@ class SearchListener implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if(((String)typeBox.getSelectedItem()).equals("全局数据"))
-			type=true;
+			upDown=true;
 		else
-			type=false;
+			upDown=false;
 		strs=ts.searchForTeams(type,head, upDown);
 		updateTable(strs);
 	}
+	
 }
 	
 public void boxInitialization(){

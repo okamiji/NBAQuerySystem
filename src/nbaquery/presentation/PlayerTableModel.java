@@ -40,10 +40,6 @@ public class PlayerTableModel extends AbstractTableModel{
 		columnNames.add("使用率");
 		columnNames.add("球员位置");
 		columnNames.add("联盟");
-		columnNames.add("分/板/助");
-		columnNames.add("上场时间");
-		columnNames.add("两双");
-		columnNames.add("赛季");
 		rows=new Vector();
 	}
 /*

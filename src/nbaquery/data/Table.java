@@ -58,6 +58,13 @@ public interface Table
 	public Column getColumn(String columnName);
 	
 	/**
+	 * Rename specific column from the table.<br>
+	 * @param columnName the original name of the column
+	 * @param newColumnName the new name for the column
+	 */
+	public void renameColumn(String columnName, String newColumnName);
+	
+	/**
 	 * Retrieve get the table host of the table.
 	 * @return the host of the table.
 	 */
