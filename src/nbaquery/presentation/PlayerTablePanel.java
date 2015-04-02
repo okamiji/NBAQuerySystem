@@ -145,7 +145,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		
 		JLabel positionLabel = new JLabel(" ");
 		positionLabel.setBounds(168, 0, 700, 30);
-		positionLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/搜索.png"));
+		positionLabel.setIcon(new ImageIcon("IMGS/搜索.png"));
 		
 		positionBox = new JComboBox<String>();
 		positionBox.setBounds(231, 3, 113, 24);
@@ -206,7 +206,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		        });
 		searchPanel.add(typeBox);
 					
-		searchButton = new JButton("",new ImageIcon("C:/Users/小南/Desktop/大作业UI/search.png"));
+		searchButton = new JButton("",new ImageIcon("IMGS/search.png"));
 		searchButton.setBounds(729, 3, 35, 40);
 		searchButton.setFocusPainted(false);
 		searchButton.setBorderPainted(false);
@@ -216,7 +216,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		searchField = new JTextField("输入要查询的信息");
 		searchField.setBounds(2, 2, 160, 30);
 		JLabel searchLabel=new JLabel("");
-		searchLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/searchfield.png"));
+		searchLabel.setIcon(new ImageIcon("IMGS/searchfield.png"));
 		searchLabel.setBounds(0, 0, 165, 34);
 		searchPanel.add(searchField);
 		searchPanel.add(searchLabel);
@@ -234,7 +234,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		
 		playerLabel = new JLabel("");
 		playerLabel.setBounds(0, 0, 240, 470);
-		playerLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/球员信息.png"));
+		playerLabel.setIcon(new ImageIcon("IMGS/球员信息.png"));
 		playerPanel.add(playerLabel);
 		
 		playerImageLabel = new JLabel("");
@@ -258,7 +258,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		playerPanel.add(lblPosition);
 		
 		JLabel tableLabel=new JLabel("");
-		tableLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/tableShadow.png"));
+		tableLabel.setIcon(new ImageIcon("IMGS/tableShadow.png"));
 		tableLabel.setBounds(9, 58, 610, 510);
 		
 		searchField.addFocusListener(new ClickAdapter());
