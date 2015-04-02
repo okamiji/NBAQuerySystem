@@ -52,7 +52,7 @@ public class PlayerServiceAdapter implements PlayerService
 		if(position != null || league != null) try
 		{
 			String thePosition = tableName + ".player_position='"+ position + "'";
-			String theLeague = tableName + ".team_sector='" + league + "'";
+			String theLeague = tableName + ".team_match_area='" + league + "'";
 			
 			String statement = null;
 			if(position != null && league != null) statement = thePosition + " and " + theLeague;
