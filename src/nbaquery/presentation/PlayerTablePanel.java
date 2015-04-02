@@ -64,14 +64,16 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	String[] headPath=null,actionPath=null;
 	private JTextField searchField;
 	JButton searchButton;
-	int head = -1;
+	int head = -1; int rowCount=0;
 	String position=null,league=null;
 	boolean upDown=true;
 	boolean isGlobal=true;
+	boolean isHead=true;
 	JLabel playerLabel,lblName,lblTeam,lblLeague,lblPosition,playerImageLabel;
 	JScrollPane scrollPane;
 	Color white = new Color(245,245,245);
 	Color background=new Color(33,122,197);
+	
 	
 	public PlayerTablePanel(final PlayerService ps){
 		this.ps = ps;
@@ -114,17 +116,18 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
                     //table.addColumnSelectionInterval(pick, pick);
                 }
             });  
-        
+       
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){	
         	public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
 				int row=table.getSelectedRow();
+				rowCount=row;
 				if(row==-1)
 					return;
 				String path=(String) headPath[row];
 				String name = (String)table.getValueAt(row, 1);
 				String team=(String) table.getValueAt(row, 2);
-				String pos=(String) table.getValueAt(row, 30);
+				String pos=lookups.get((String) table.getValueAt(row, 30));
 				String league=(String) table.getValueAt(row, 31);
 				ImageIcon icon=new ImageIcon(path);
 				
@@ -132,8 +135,8 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 				playerImageLabel.repaint();
 				lblName.setText(name);
 				lblTeam.setText(team);
-				lblPosition.setText(pos);
-				lblLeague.setText(league);
+				lblPosition.setText(league);
+				lblLeague.setText(pos);
 			}
         }
         );
@@ -195,6 +198,25 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		
 		playerImageLabel = new JLabel("");
 		playerImageLabel.setBounds(0,65,230,200);
+		playerImageLabel.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				if(isHead){
+					String path=(String) actionPath[rowCount];
+					ImageIcon icon=new ImageIcon(path);
+					playerImageLabel.setIcon(icon);
+					playerImageLabel.setSize(200, 200);
+					isHead=!isHead;
+				}
+				else
+				{
+					String path=(String) headPath[rowCount];
+					ImageIcon icon=new ImageIcon(path);
+					playerImageLabel.setIcon(icon);
+					playerImageLabel.setSize(200, 200);
+					isHead=!isHead;
+				}
+			}
+		});
 		playerPanel.add(playerImageLabel);
 		
 		lblName = new JLabel("Name");
@@ -345,6 +367,10 @@ public final TreeMap<String, String> lookups = new TreeMap<String, String>();
 	lookups.put("前锋", "F");
 	lookups.put("中锋", "C");
 	lookups.put("后卫", "G");
+	
+	lookups.put("F", "Forward");
+	lookups.put("C", "Center");
+	lookups.put("G", "Guard");
 	
 	lookups.put("东部", "E");
 	lookups.put("西部", "W");
