@@ -120,8 +120,8 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 				int row=table.getSelectedRow();
 				if(row==-1)
 					return;
-				//String name=(String) table.getValueAt(row, 0);
-				String name = "Beno Udrih";
+				String name=(String) table.getValueAt(row, 0);
+				//String name = "Beno Udrih";
 				String team=(String) table.getValueAt(row, 1);
 				String pos=(String) table.getValueAt(row, 29);
 				String league=(String) table.getValueAt(row, 30);
