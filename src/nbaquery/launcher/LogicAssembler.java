@@ -1,6 +1,8 @@
 package nbaquery.launcher;
 
 import nbaquery.data.TableHost;
+import nbaquery.logic.average_player.AveragePlayer;
+import nbaquery.logic.average_player.DerivedPlayerPerformance;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.average_team.DerivedTeamPerformance;
 import nbaquery.logic.gross_player.GrossPlayer;
@@ -59,6 +61,12 @@ public class LogicAssembler implements ILogicAssembler
 		AverageTeam average_team = new AverageTeam(tableHost, derived_team_performance);
 		
 		/**
+		 * average_player
+		 */
+		DerivedPlayerPerformance derive_player_performance = new DerivedPlayerPerformance(tableHost, player_performance);
+		AveragePlayer average_player = new AveragePlayer(tableHost, derive_player_performance);
+		
+		/**
 		 * team
 		 */
 		team_service = new TeamServiceAdapter(tableHost, gross_team, average_team, new String[]
@@ -94,7 +102,7 @@ public class LogicAssembler implements ILogicAssembler
 				"assist_efficiency",//"助攻效率"
 		});
 		
-		player_service = new PlayerServiceAdapter(tableHost, gross_player, new String[]
+		player_service = new PlayerServiceAdapter(tableHost, gross_player, average_player, new String[]
 		{
 				"player_name",//"姓名"
 				"team_name",//"球队"

@@ -6,18 +6,21 @@ import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
+import nbaquery.logic.average_player.AveragePlayer;
 import nbaquery.logic.gross_player.GrossPlayer;
 
 public class PlayerServiceAdapter implements PlayerService
 {
 	protected GrossPlayer gross;
+	protected AveragePlayer average;
 	public TableHost tableHost;
 	public String[] columnNames; 
 	
-	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, String[] columnNames)
+	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average, String[] columnNames)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
+		this.average = average;
 		this.columnNames = columnNames;
 	}
 	
@@ -41,7 +44,7 @@ public class PlayerServiceAdapter implements PlayerService
 		}
 		else
 		{
-			table = null;
+			table = this.average.getTable();
 			tableName = "average_player";
 		}
 		
