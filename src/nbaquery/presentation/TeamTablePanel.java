@@ -101,19 +101,19 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		
 		JLabel positionLabel = new JLabel(" ");
 		positionLabel.setBounds(168, 0, 700, 30);
-		positionLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/搜索2.png"));
+		positionLabel.setIcon(new ImageIcon("IMGS/搜索2.png"));
 		
 		searchField = new JTextField("输入要查询的信息");
 		searchField.setBounds(2, 2, 160, 30);
 		JLabel searchLabel=new JLabel("");
-		searchLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/searchfield.png"));
+		searchLabel.setIcon(new ImageIcon("IMGS/searchfield.png"));
 		searchLabel.setBounds(0, 0, 165, 34);
 		searchPanel.add(searchField);
 		searchPanel.add(searchLabel);
 		searchField.setColumns(10);
 		searchField.addFocusListener(new ClickAdapter());
 		
-		searchButton = new JButton("",new ImageIcon("C:/Users/小南/Desktop/大作业UI/GUI/search.png"));
+		searchButton = new JButton("",new ImageIcon("IMGS/search.png"));
 		searchButton.setBounds(729, 3, 35, 40);
 		searchButton.setFocusPainted(false);
 		searchButton.setBorderPainted(false);
@@ -143,7 +143,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		searchButton.addActionListener(new ClickListener());
 		
 		JLabel tableLabel=new JLabel("");
-		tableLabel.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/tableShadow3.png"));
+		tableLabel.setIcon(new ImageIcon("IMGS/tableShadow3.png"));
 		tableLabel.setBounds(9, 58, 790, 510);
 		this.add(tableLabel);
 		

@@ -109,7 +109,7 @@ public class MainFrame extends JFrame{
         sPanel = new JPanel(){  
             @Override  
             protected void paintComponent(Graphics g) {  
-            	ImageIcon icon = new ImageIcon("C:/Users/小南/Desktop/大作业UI/shadow.png");
+            	ImageIcon icon = new ImageIcon("IMGS/shadow.png");
                 Image img = icon.getImage();  
                 g.drawImage(img, 0, 0, icon.getIconWidth(), icon.getIconHeight(), icon.getImageObserver());  
             }
@@ -122,7 +122,7 @@ public class MainFrame extends JFrame{
         shadowPanel = new JPanel() {  
             @Override  
             protected void paintComponent(Graphics g) {  
-            	ImageIcon icon = new ImageIcon("C:/Users/小南/Desktop/大作业UI/7.png");
+            	ImageIcon icon = new ImageIcon("IMGS/7.png");
                 Image img = icon.getImage();  
                 g.drawImage(img, 0, 0, icon.getIconWidth(), icon.getIconHeight(), icon.getImageObserver());  
             }
@@ -138,7 +138,7 @@ public class MainFrame extends JFrame{
         systemPanel.setLayout(null);
         systemPanel.setBackground(gray);
         
-		teamButton = new JButton("\u7403\u961F\u6570\u636E",new ImageIcon("C:/Users/小南/Desktop/大作业UI/球队未选中.png"));
+		teamButton = new JButton("\u7403\u961F\u6570\u636E",new ImageIcon("IMGS/球队未选中.png"));
 		teamButton.setBounds(0, 130, 202, 150);
 		teamButton.setFocusPainted(false);
 		teamButton.setBorderPainted(false);
@@ -147,7 +147,7 @@ public class MainFrame extends JFrame{
 		teamButton.addActionListener(new TeamListener());
 		mainPanel.add(teamButton);
 		
-		playerButton= new JButton("\u7403\u5458\u6570\u636E",new ImageIcon("C:/Users/小南/Desktop/大作业UI/球员未选中.png"));
+		playerButton= new JButton("\u7403\u5458\u6570\u636E",new ImageIcon("IMGS/球员未选中.png"));
 		playerButton.setBounds(0, 280, 202, 150);
 		playerButton.addActionListener(new PlayerListener());
 		playerButton.setFocusPainted(false);
@@ -156,14 +156,14 @@ public class MainFrame extends JFrame{
 		playerButton.addMouseListener(new PlayerMouseListener());
 		mainPanel.add(playerButton);
 		
-		logoButton= new JButton("",new ImageIcon("C:/Users/小南/Desktop/大作业UI/logo.png"));
+		logoButton= new JButton("",new ImageIcon("IMGS/logo.png"));
 		logoButton.setBounds(20,0,150,120);
 		logoButton.setFocusPainted(false);
 		logoButton.setBorderPainted(false);
 		logoButton.setContentAreaFilled(false);
 		mainPanel.add(logoButton);
 		
-	 	exitButton = new JButton("", new ImageIcon("C:/Users/小南/Desktop/大作业UI/close.png"));
+	 	exitButton = new JButton("", new ImageIcon("IMGS/close.png"));
 		exitButton.setForeground(gray);
 		exitButton.setBackground(gray);
 		exitButton.setSize(30,30);
@@ -175,7 +175,7 @@ public class MainFrame extends JFrame{
 		exitButton.addMouseListener(new exitListener());
 		systemPanel.add(exitButton);
 		
-		vanishButton = new JButton("", new ImageIcon("C:/Users/小南/Desktop/大作业UI/vanish.png"));
+		vanishButton = new JButton("", new ImageIcon("IMGS/vanish.png"));
 		vanishButton.setForeground(gray);
 		vanishButton.setBackground(gray);
 		vanishButton.setSize(30,30);
@@ -187,7 +187,7 @@ public class MainFrame extends JFrame{
 		vanishButton.addMouseListener(new vanishListener());
 		systemPanel.add(vanishButton);	
 		
-		/*JButton button_1 = new JButton("\u5176\u4ED6\u529F\u80FD",new ImageIcon("C:/Users/小南/Desktop/大作业UI/热点普通.png"));
+		/*JButton button_1 = new JButton("\u5176\u4ED6\u529F\u80FD",new ImageIcon("IMGS/热点普通.png"));
 		button_1.setBounds(0, 430, 202, 150);
 		button_1.setFocusPainted(false);
 		button_1.setBorderPainted(false);
@@ -255,7 +255,7 @@ public class MainFrame extends JFrame{
 			shadowPanel.add(d);
 			shadowPanel.repaint();
 			shadowPanel.revalidate();
-			//teamButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/球队选中.png"));
+			//teamButton.setIcon(new ImageIcon("IMGS/球队选中.png"));
 			//teamButton.repaint();
 			isTeam=true;
 		}
@@ -267,13 +267,13 @@ public class MainFrame extends JFrame{
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			teamButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/球队未选中.png"));
+			teamButton.setIcon(new ImageIcon("IMGS/球队未选中.png"));
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			playerButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/球员选中.png"));
+			playerButton.setIcon(new ImageIcon("IMGS/球员选中.png"));
 			playerButton.repaint();
 		}
 
@@ -282,7 +282,7 @@ public class MainFrame extends JFrame{
 			// TODO Auto-generated method stub
 			if(!isTeam)
 				return;
-			playerButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/球员未选中.png"));
+			playerButton.setIcon(new ImageIcon("IMGS/球员未选中.png"));
 			playerButton.repaint();
 		}
 
@@ -319,7 +319,7 @@ public class MainFrame extends JFrame{
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			exitButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/close2.png"));
+			exitButton.setIcon(new ImageIcon("IMGS/close2.png"));
 			exitButton.repaint();
 		}
 
@@ -327,7 +327,7 @@ public class MainFrame extends JFrame{
 		public void mouseExited(MouseEvent arg0) {
 			// TODO Auto-generated method stub
 			
-			exitButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/close.png"));
+			exitButton.setIcon(new ImageIcon("IMGS/close.png"));
 			exitButton.repaint();
 		}
 
@@ -356,14 +356,14 @@ public class MainFrame extends JFrame{
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			vanishButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/vanish2.png"));
+			vanishButton.setIcon(new ImageIcon("IMGS/vanish2.png"));
 			vanishButton.repaint();
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			vanishButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/vanish.png"));
+			vanishButton.setIcon(new ImageIcon("IMGS/vanish.png"));
 			vanishButton.repaint();
 		}
 
@@ -386,13 +386,13 @@ public class MainFrame extends JFrame{
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			playerButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/球员未选中.png"));
+			playerButton.setIcon(new ImageIcon("IMGS/球员未选中.png"));
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			teamButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/球队选中.png"));
+			teamButton.setIcon(new ImageIcon("IMGS/球队选中.png"));
 			teamButton.repaint();
 		}
 
@@ -401,7 +401,7 @@ public class MainFrame extends JFrame{
 			// TODO Auto-generated method stub
 			if(isTeam)
 				return;
-			teamButton.setIcon(new ImageIcon("C:/Users/小南/Desktop/大作业UI/球队未选中.png"));
+			teamButton.setIcon(new ImageIcon("IMGS/球队未选中.png"));
 			teamButton.repaint();
 		}
 
