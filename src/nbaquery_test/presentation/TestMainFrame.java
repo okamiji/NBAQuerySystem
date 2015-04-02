@@ -2,9 +2,6 @@ package nbaquery_test.presentation;
 
 import java.awt.EventQueue;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import nbaquery.presentation.MainFrame;
 
 public class TestMainFrame

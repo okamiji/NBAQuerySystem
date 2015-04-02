@@ -432,6 +432,31 @@ public class PlayerDeriveQuery extends DeriveQuery
 					getDeriveColumn().setAttribute(resultRow, dividend * game_time_ratio_n / divisor);
 				}
 			},
+			
+			new DeriveColumnInfo("score_board_assist", Integer.class)
+			{
+				Column total_board;
+				Column assist;
+				Column self_score;
+				
+				@Override
+				public void retrieve(Table resultTable)
+				{
+					total_board = resultTable.getColumn("total_board");
+					assist = resultTable.getColumn("assist");
+					self_score = resultTable.getColumn("self_score");
+				}
+	
+				@Override
+				public void derive(Row resultRow)
+				{
+					Integer total_board_n = (Integer) total_board.getAttribute(resultRow);
+					Integer assist_n = (Integer) assist.getAttribute(resultRow);
+					Integer self_score_n = (Integer) self_score.getAttribute(resultRow);
+					
+					getDeriveColumn().setAttribute(resultRow, self_score_n + total_board_n + assist_n);
+				}
+			},
 		});
 	}
 	

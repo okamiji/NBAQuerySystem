@@ -135,9 +135,9 @@ public class LogicAssembler implements ILogicAssembler
 				"usage",//"使用率"
 				"player_position",//"球员位置"
 				"team_sector",//"联盟"
-				//"分/板/助"
-				//"两双"
-				//"赛季"
+				"score_board_assist",//"分/板/助"
+				"shoot_score",//"两双"(??)
+				"match_season"//"赛季"
 		});
 	}
 
