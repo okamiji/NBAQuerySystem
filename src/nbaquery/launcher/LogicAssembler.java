@@ -100,6 +100,7 @@ public class LogicAssembler implements ILogicAssembler
 				"defence_board_efficiency",//"防守篮板效率"
 				"steal_efficiency",//"抢断效率"
 				"assist_efficiency",//"助攻效率"
+				"team_logo"	//"队伍标志"
 		});
 		
 		player_service = new PlayerServiceAdapter(tableHost, gross_player, average_player, new String[]
@@ -137,6 +138,8 @@ public class LogicAssembler implements ILogicAssembler
 				"player_position",//"球员位置"
 				"team_sector",//"联盟"
 				"score_board_assist",//"分/板/助"
+				"player_portrait", //头像
+				"player_action"	//全身照
 		});
 	}
 
