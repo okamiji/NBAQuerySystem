@@ -120,11 +120,11 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 				int row=table.getSelectedRow();
 				if(row==-1)
 					return;
-				String name=(String) table.getValueAt(row, 0);
+				String name=(String) table.getValueAt(row, 1);
 				//String name = "Beno Udrih";
-				String team=(String) table.getValueAt(row, 1);
-				String pos=(String) table.getValueAt(row, 29);
-				String league=(String) table.getValueAt(row, 30);
+				String team=(String) table.getValueAt(row, 2);
+				String pos=(String) table.getValueAt(row, 30);
+				String league=(String) table.getValueAt(row, 31);
 				ImageIcon icon=new ImageIcon("D:/迭代一数据/players/portrait/"+name+".png");
 				
 				playerImageLabel.setIcon(icon);
@@ -384,12 +384,11 @@ public final TreeMap<String, String> lookups = new TreeMap<String, String>();
 	lookups.put("中锋", "M");
 	lookups.put("后卫", "G");
 	
-	lookups.put("东部", "Western");
-	lookups.put("西部", "Southern");
+	lookups.put("东部", "E");
+	lookups.put("西部", "W");
 }
 
 public void boxInitialization(){
-	
 	typeBox.addItem("全局数据");
 	typeBox.addItem("场均数据");
 	

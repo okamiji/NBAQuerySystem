@@ -42,7 +42,6 @@ public class PlayerTableModel extends AbstractTableModel{
 		columnNames.add("球员位置");
 		columnNames.add("联盟");
 		columnNames.add("分/板/助");
-		columnNames.add("上场时间");
 		
 		rows=new Vector();
 	}
