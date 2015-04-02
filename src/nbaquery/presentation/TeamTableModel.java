@@ -9,6 +9,7 @@ public class TeamTableModel extends AbstractTableModel{
 	
 	public TeamTableModel(){
 		columnNames=new Vector();
+		columnNames.add("赛季");
 		columnNames.add("球队名称");
 		columnNames.add("比赛场数");
 		columnNames.add("投篮命中数");
@@ -37,7 +38,7 @@ public class TeamTableModel extends AbstractTableModel{
 		columnNames.add("防守篮板效率");
 		columnNames.add("抢断效率");
 		columnNames.add("助攻效率");
-		columnNames.add("赛季");
+		
 		rows=new Vector();
 	}
 /*

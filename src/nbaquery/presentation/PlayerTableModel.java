@@ -9,6 +9,7 @@ public class PlayerTableModel extends AbstractTableModel{
 	
 	public PlayerTableModel(){
 		columnNames=new Vector();
+		columnNames.add("赛季");
 		columnNames.add("姓名");
 		columnNames.add("球队");
 		columnNames.add("参赛场数");
@@ -42,8 +43,7 @@ public class PlayerTableModel extends AbstractTableModel{
 		columnNames.add("联盟");
 		columnNames.add("分/板/助");
 		columnNames.add("上场时间");
-		columnNames.add("两双");
-		columnNames.add("赛季");
+		
 		rows=new Vector();
 	}
 /*
