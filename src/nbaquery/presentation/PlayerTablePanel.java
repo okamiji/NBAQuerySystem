@@ -61,6 +61,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	JComboBox<String> positionBox,leagueBox,typeBox;
 	PlayerService ps;
 	String[][] strs=null;
+	String[] headPath=null,actionPath=null;
 	private JTextField searchField;
 	JButton searchButton;
 	int head = -1;
@@ -120,12 +121,12 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 				int row=table.getSelectedRow();
 				if(row==-1)
 					return;
-				String name=(String) table.getValueAt(row, 1);
-				//String name = "Beno Udrih";
+				String path=(String) headPath[row];
+				String name = (String)table.getValueAt(row, 1);
 				String team=(String) table.getValueAt(row, 2);
 				String pos=(String) table.getValueAt(row, 30);
 				String league=(String) table.getValueAt(row, 31);
-				ImageIcon icon=new ImageIcon("D:/迭代一数据/players/portrait/"+name+".png");
+				ImageIcon icon=new ImageIcon(path);
 				
 				playerImageLabel.setIcon(icon);
 				playerImageLabel.repaint();
@@ -180,8 +181,6 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		searchField.setColumns(10);
 		
 		searchPanel.setOpaque(false);
-		
-		
 		
 		JPanel playerPanel = new JPanel();
 		playerPanel.setBounds(615, 103, 240, 470);
@@ -279,13 +278,19 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		while(tableModel.getRowCount()>0){
 			 tableModel.removeRow(tableModel.getRowCount()-1);
 		}
-		if(strs!=null)
+		if(strs!=null){
+			headPath = new String[strs.length];
+			actionPath = new String[strs.length];
 			for(int i=0;i<strs.length;i++){
 				Vector<String> v=new Vector<String>();
-				for(int j=0;j<strs[i].length;j++){
+				for(int j=0;j<strs[i].length-2;j++){
 					v.add(strs[i][j]);}
+				headPath[i]=strs[i][strs[i].length-2];
+				actionPath[i]=strs[i][strs[i].length-1];
 				tableModel.addRow(v);
 			}
+		
+		}
 		table.revalidate();
 		repaint();
 	}

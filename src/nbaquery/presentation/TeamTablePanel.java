@@ -153,7 +153,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		if(strs!=null)
 			for(int i=0;i<strs.length;i++){
 				Vector<String> v=new Vector<String>();
-				for(int j=0;j<strs[i].length;j++){
+				for(int j=0;j<strs[i].length-1;j++){
 					v.add(strs[i][j]);}
 				tableModel.addRow(v);
 			}

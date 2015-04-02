@@ -80,7 +80,10 @@ public class PlayerServiceAdapter implements PlayerService
 			columns[i] = queryResult.getColumn(columnNames[i]);
 		for(int row = 0; row < rows.length; row ++)
 			for(int column = 0; column < columns.length; column ++)
-				returnValue[row][column] = columns[column].getAttribute(rows[row]).toString();
+			{
+				Object value = columns[column].getAttribute(rows[row]);
+				if(value != null) returnValue[row][column] = value.toString();
+			}
 		tableHost.deleteTable("player_query_result");
 		return returnValue;
 	}
