@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -48,7 +49,7 @@ import nbaquery.data.Column;
 import nbaquery.data.Table;
 import nbaquery.presentation.MainFrame.PlayerListener;
 import nbaquery.presentation.MainFrame.TeamListener;
-import nbaqueryBusinessLogicService.PlayerService;
+import nbaquery.logic.player.PlayerService;
 
 import javax.swing.JTextField;
 
@@ -62,7 +63,8 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	String[][] strs=null;
 	private JTextField searchField;
 	JButton searchButton;
-	String head=null,position=null,league=null;
+	int head = -1;
+	String position=null,league=null;
 	boolean upDown=true;
 	boolean isGlobal=true;
 	JLabel playerLabel,lblName,lblTeam,lblLeague,lblPosition,playerImageLabel;
@@ -102,9 +104,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
                     if (! e.isShiftDown())  
                         table.clearSelection();  
                     //获取点击的列索引  
-                    int pick = header.columnAtPoint(e.getPoint());  
-                    head=table.getColumnName(pick);
-                    System.out.println(pick);
+                    head = header.columnAtPoint(e.getPoint());  
                     SearchListener s = new SearchListener();
             		s.actionPerformed((ActionEvent)searchButton.getAction());
                     upDown=!upDown;
@@ -364,8 +364,8 @@ class ClickListener implements ActionListener{
 class SearchListener implements ActionListener{
 
 	public void actionPerformed(ActionEvent arg0) {
-		position=(String) positionBox.getSelectedItem();
-		league=(String) leagueBox.getSelectedItem();
+		position=lookups.get((String) positionBox.getSelectedItem());
+		league=lookups.get((String) leagueBox.getSelectedItem());
 		
 		if(((String)typeBox.getSelectedItem()).equals("全局数据"))
 			isGlobal=true;
@@ -375,6 +375,17 @@ class SearchListener implements ActionListener{
 		strs=ps.searchForPlayers(isGlobal,head, upDown, position, league);
 		updateTable(strs);
 	}
+}
+
+public final TreeMap<String, String> lookups = new TreeMap<String, String>();
+{
+	lookups.put("全部", null);
+	lookups.put("前锋", "F");
+	lookups.put("中锋", "M");
+	lookups.put("后卫", "G");
+	
+	lookups.put("东部", "Western");
+	lookups.put("西部", "Southern");
 }
 
 public void boxInitialization(){

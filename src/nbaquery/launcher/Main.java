@@ -6,6 +6,7 @@ import nbaquery.data.TableHost;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
+import nbaquery.presentation.MainFrame;
 
 public class Main
 {
@@ -25,19 +26,18 @@ public class Main
 		this.playerService = assembler.getPlayerService();
 	}
 	
+	MainFrame mainFrame;
+	public void loadPresentation()
+	{
+		mainFrame = new MainFrame(this.playerService, this.teamService);
+		mainFrame.setVisible(true);
+	}
+	
 	public static void main(String[] arguments) throws Exception
 	{
 		Main main = new Main();
 		main.loadDataLayer("D:\\迭代一数据");
 		main.loadLogicLayer();
-		
-		//String[][] string = main.teamService.searchForTeams(false, 4, false);
-		String[][] string = main.playerService.searchForPlayers(true, 1, true, "F", "Southwest");
-		for(int i = 0; i < string.length; i ++)
-		{
-			for(int j = 0; j < string[i].length; j ++)
-				System.out.print(string[i][j] + " ");
-			System.out.println();
-		}
+		main.loadPresentation();
 	}
 }

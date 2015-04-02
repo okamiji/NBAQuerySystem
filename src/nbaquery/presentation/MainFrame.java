@@ -24,8 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
-import nbaqueryBusinessLogicService.PlayerService;
-import nbaqueryBusinessLogicService.TeamService;
+import nbaquery.logic.player.PlayerService;
+import nbaquery.logic.team.TeamService;
 
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;

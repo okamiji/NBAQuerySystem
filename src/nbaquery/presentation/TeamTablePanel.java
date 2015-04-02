@@ -31,7 +31,7 @@ import nbaquery.data.Table;
 import nbaquery.presentation.PlayerTablePanel.ClickAdapter;
 import nbaquery.presentation.PlayerTablePanel.ClickListener;
 import nbaquery.presentation.PlayerTablePanel.SearchListener;
-import nbaqueryBusinessLogicService.TeamService;
+import nbaquery.logic.team.TeamService;
 
 @SuppressWarnings("serial")
 public class TeamTablePanel  extends JPanel implements TableModelListener {
@@ -44,7 +44,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 	JButton button,searchButton;
 	JTextField searchField;
 
-	String head=null;
+	int head = -1;
 	boolean upDown=true;
 	boolean type=true;
 	
@@ -80,14 +80,13 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
                     if (! e.isShiftDown())  
                         table.clearSelection();  
                     //获取点击的列索引  
-                    int pick = header.columnAtPoint(e.getPoint());  
-                    head=table.getColumnName(pick);
+                    head= header.columnAtPoint(e.getPoint());  
                     strs=ts.searchForTeams(type,head,upDown);
                     updateTable(strs);
                     upDown=!upDown;
                     //System.out.println(upDown);
                     //设置选择模型  
-                    table.addColumnSelectionInterval (pick, pick);  
+                    table.addColumnSelectionInterval (head, head);  
                 }  
             });  
         table.repaint();
