@@ -104,6 +104,7 @@ public class LogicAssembler implements ILogicAssembler
 		
 		player_service = new PlayerServiceAdapter(tableHost, gross_player, average_player, new String[]
 		{
+				"match_season",//"赛季"
 				"player_name",//"姓名"
 				"team_name",//"球队"
 				"game_count",//"参赛场数"
@@ -136,8 +137,6 @@ public class LogicAssembler implements ILogicAssembler
 				"player_position",//"球员位置"
 				"team_sector",//"联盟"
 				"score_board_assist",//"分/板/助"
-				"shoot_score",//"两双"(??)
-				"match_season"//"赛季"
 		});
 	}
 
