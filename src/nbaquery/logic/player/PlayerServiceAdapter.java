@@ -48,6 +48,7 @@ public class PlayerServiceAdapter implements PlayerService
 			tableName = "average_player";
 		}
 		
+		SortQuery sort = null;
 		if(position != null || league != null) try
 		{
 			String thePosition = tableName + ".player_position='"+ position + "'";
@@ -61,14 +62,14 @@ public class PlayerServiceAdapter implements PlayerService
 			SelectProjectQuery selectPosition = new SelectProjectQuery(statement, table);
 			tableHost.performQuery(selectPosition, "player_query_result");
 			table = tableHost.getTable("player_query_result");
+			
+			sort = new SortQuery(table, columnNames[head], 50, isUp);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
-		SortQuery sort;
-		sort = new SortQuery(table, columnNames[head], 50, isUp);
+		if(sort == null) sort = new SortQuery(table, columnNames[head], isUp);
 		
 		tableHost.performQuery(sort, "player_query_result");
 		Table queryResult = tableHost.getTable("player_query_result");
