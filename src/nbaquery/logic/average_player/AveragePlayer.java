@@ -3,6 +3,7 @@ package nbaquery.logic.average_player;
 import java.util.ArrayList;
 
 import nbaquery.data.Column;
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.GroupColumnInfo;
@@ -37,6 +38,49 @@ public class AveragePlayer
 				if(column.getColumnName().equalsIgnoreCase("match_id")) continue;
 				groupColumns.add(new AverageColumnInfo(column));
 			}
+			groupColumns.add(new GroupColumnInfo("game_count", Integer.class)
+			{
+
+				@Override
+				public void retrieve(Table originalTable, Table resultTable)
+				{
+					
+				}
+
+				@Override
+				public void collapse(Row[] rows, Row resultRow)
+				{
+					getGroupColumn().setAttribute(resultRow, rows.length);
+				}
+				
+			});
+			groupColumns.add(new GroupColumnInfo("first_count", Integer.class)
+			{
+				Column player_position;
+				
+				@Override
+				public void retrieve(Table originalTable,
+						Table resultTable)
+				{
+					player_position = originalTable.getColumn("player_position");
+				}
+
+				@Override
+				public void collapse(Row[] rows, Row resultRow)
+				{
+					Integer first_count = 0;
+					for(Row row : rows)
+					{
+						Character player_position_n = (Character) player_position.getAttribute(row);
+						if(player_position_n == null) continue;
+						if(player_position_n == '\0') continue;
+						first_count ++;
+					}
+					getGroupColumn().setAttribute(resultRow, first_count);
+				}
+			});
+	
+			
 			GroupQuery group = new GroupQuery(table, new String[]{"match_season", "player_name", "team_name_abbr"}, groupColumns.toArray(new GroupColumnInfo[0]));
 			tableHost.performQuery(group, "average_player");
 			table = tableHost.getTable("average_player");
