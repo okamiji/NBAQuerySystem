@@ -38,7 +38,6 @@ public class TeamTableModel extends AbstractTableModel{
 		columnNames.add("防守篮板效率");
 		columnNames.add("抢断效率");
 		columnNames.add("助攻效率");
-		
 		rows=new Vector();
 	}
 /*
