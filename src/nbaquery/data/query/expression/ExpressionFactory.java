@@ -223,7 +223,10 @@ public class ExpressionFactory
 				else if(currentPointer.matches("\'.*\'") || currentPointer.matches("\".*\""))
 				{
 					ConstantOperator constant = new ConstantOperator();
-					constant.constant = currentPointer.substring(1, currentPointer.length() - 1);
+					String theString = currentPointer.substring(1, currentPointer.length() - 1);
+					if(theString.length() > 1) constant.constant = theString;
+					else if(theString.length() == 1) constant.constant = theString.charAt(0);
+					else constant.constant = '\0';
 					reversedPolishForm.add(constant);
 				}
 				else if(currentPointerLowered.equals("true"))

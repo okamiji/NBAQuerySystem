@@ -28,7 +28,6 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 import nbaquery.data.Table;
-import nbaquery.logic.IBusinessLogic;
 import nbaquery.presentation.PlayerTablePanel.ClickAdapter;
 import nbaquery.presentation.PlayerTablePanel.ClickListener;
 import nbaquery.presentation.PlayerTablePanel.SearchListener;

@@ -8,10 +8,10 @@ import nbaquery.data.query.GroupColumnInfo;
 public class AverageColumnInfo extends GroupColumnInfo
 {
 	public String fromName;
-	public AverageColumnInfo(String fromName)
+	public AverageColumnInfo(Column column)
 	{
-		super(fromName.concat("_avg"), Float.class);
-		this.fromName = fromName;
+		super(column.getColumnName(), Float.class);
+		this.fromName = column.getColumnName();
 	}
 
 	Column fromColumn;
@@ -24,11 +24,22 @@ public class AverageColumnInfo extends GroupColumnInfo
 	@Override
 	public void collapse(Row[] rows, Row resultRow)
 	{
-		Integer sum = 0;
-		for(Row row : rows)
+		Float sum = 0.f;
+		if(fromColumn.getDataClass().equals(Integer.class))
 		{
-			Integer value = (Integer) fromColumn.getAttribute(row);
-			if(value != null) sum += value;
+			for(Row row : rows)
+			{
+				Integer value = (Integer) fromColumn.getAttribute(row);
+				if(value != null) sum += value;
+			}
+		}
+		else
+		{
+			for(Row row : rows)
+			{
+				Float value = (Float) fromColumn.getAttribute(row);
+				if(value != null) sum += value;
+			}
 		}
 		getGroupColumn().setAttribute(resultRow, 1.0f * sum / rows.length);
 	}

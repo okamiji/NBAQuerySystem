@@ -1,6 +1,5 @@
 package nbaquery_test.presentation;
 
-import nbaquery.logic.IBusinessLogic;
 import nbaqueryBusinessLogicService.PlayerService;
 import nbaqueryBusinessLogicService.TeamService;
 

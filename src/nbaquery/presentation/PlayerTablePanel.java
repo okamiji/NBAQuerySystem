@@ -46,7 +46,6 @@ import javax.swing.JButton;
 
 import nbaquery.data.Column;
 import nbaquery.data.Table;
-import nbaquery.logic.IBusinessLogic;
 import nbaquery.presentation.MainFrame.PlayerListener;
 import nbaquery.presentation.MainFrame.TeamListener;
 import nbaqueryBusinessLogicService.PlayerService;
