@@ -9,7 +9,7 @@ public enum EnumAttribute
 	TEAM_NAME_ABBR(new EnumTable[]{EnumTable.TEAM, EnumTable.PERFORMANCE}, String.class, new boolean[]{true, false}),
 	TEAM_NAME(EnumTable.TEAM, String.class),
 	TEAM_LOCATION(EnumTable.TEAM, String.class),
-	TEAM_MATCH_AREA(EnumTable.TEAM, String.class),
+	TEAM_MATCH_AREA(EnumTable.TEAM, Character.class),
 	TEAM_SECTOR(EnumTable.TEAM, String.class),
 	TEAM_HOST(EnumTable.TEAM, String.class),
 	TEAM_FOUNDATION(EnumTable.TEAM, Integer.class),

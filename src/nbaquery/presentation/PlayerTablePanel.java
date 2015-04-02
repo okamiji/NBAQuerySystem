@@ -381,7 +381,7 @@ public final TreeMap<String, String> lookups = new TreeMap<String, String>();
 {
 	lookups.put("全部", null);
 	lookups.put("前锋", "F");
-	lookups.put("中锋", "M");
+	lookups.put("中锋", "C");
 	lookups.put("后卫", "G");
 	
 	lookups.put("东部", "E");
