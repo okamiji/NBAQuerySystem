@@ -261,7 +261,7 @@ public class MainFrame extends JFrame{
 		
 	}
 	
-	class PlayerMouseListener implements MouseListener{
+	class PlayerMouseListener extends MouseAdapter{
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
@@ -284,19 +284,6 @@ public class MainFrame extends JFrame{
 			playerButton.setIcon(new ImageIcon("IMGS/球员未选中.png"));
 			playerButton.repaint();
 		}
-
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 	
 	class vanishButtonListener implements ActionListener {
@@ -307,13 +294,7 @@ public class MainFrame extends JFrame{
 		}
 	}
 	
-	class exitListener implements MouseListener {
-
-		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
+	class exitListener extends MouseAdapter {
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
@@ -330,27 +311,11 @@ public class MainFrame extends JFrame{
 			exitButton.repaint();
 		}
 
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
 	}
 	
-	class vanishListener implements MouseListener {
+	class vanishListener extends MouseAdapter {
 
-		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
+	
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
@@ -366,21 +331,11 @@ public class MainFrame extends JFrame{
 			vanishButton.repaint();
 		}
 
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
 
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
 
 	}
 	
-	class TeamMouseListener implements MouseListener {
+	class TeamMouseListener extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
@@ -402,18 +357,6 @@ public class MainFrame extends JFrame{
 				return;
 			teamButton.setIcon(new ImageIcon("IMGS/球队未选中.png"));
 			teamButton.repaint();
-		}
-
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
 
 	}

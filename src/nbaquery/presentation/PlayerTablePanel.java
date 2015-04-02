@@ -150,60 +150,17 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		positionBox = new JComboBox<String>();
 		positionBox.setBounds(231, 3, 113, 24);
 		positionBox.setOpaque(false);
-	    positionBox.setUI(new BasicComboBoxUI() {
-	       public void installUI(JComponent comboBox) {
-	           super.installUI(positionBox);
-	              listBox.setForeground(Color.WHITE);
-	              listBox.setSelectionBackground(new Color(0,0,0,0));
-	              listBox.setSelectionForeground(Color.BLACK);
-	            }
-	          
-	            /**
-	             * 该方法返回右边的按钮
-	             */
-	          protected JButton createArrowButton() {
-	              return null;
-	            }
-	        });
+	    positionBox.setUI(new MyBasicComboBoxUI(positionBox));
 	    searchPanel.add(positionBox);
 	    
 		leagueBox = new JComboBox<String>();
 		leagueBox.setBounds(410, 3, 113, 24);
-		leagueBox.setUI(new BasicComboBoxUI() {
-		       public void installUI(JComponent comboBox) {
-		           super.installUI(leagueBox);
-		              listBox.setForeground(Color.WHITE);
-		              listBox.setSelectionBackground(new Color(0,0,0,0));
-		              listBox.setSelectionForeground(Color.BLACK);
-		            }
-		          
-		            /**
-		             * 该方法返回右边的按钮
-		             */
-		          protected JButton createArrowButton() {
-		              return null;
-		            }
-		        });
+		leagueBox.setUI(new MyBasicComboBoxUI(leagueBox));
 		searchPanel.add(leagueBox);
 					
 		typeBox = new JComboBox<String>();
 		typeBox.setBounds(595, 3, 120, 24);
-		typeBox.setUI(new BasicComboBoxUI() {
-		       public void installUI(JComponent comboBox) {
-		           super.installUI(typeBox);
-		              listBox.setForeground(Color.WHITE);
-		              listBox.setSelectionBackground(new Color(0,0,0,0));
-		              listBox.setSelectionForeground(Color.BLACK);
-		            }
-		          
-		            /**
-		             * 该方法返回右边的按钮
-		             */
-		          protected JButton createArrowButton() {
-		              return null;
-		        	  //return super.createArrowButton();
-		            }
-		        });
+		typeBox.setUI(new MyBasicComboBoxUI(typeBox));
 		searchPanel.add(typeBox);
 					
 		searchButton = new JButton("",new ImageIcon("IMGS/search.png"));

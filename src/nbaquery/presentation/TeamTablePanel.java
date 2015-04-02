@@ -120,22 +120,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		
 		typeBox = new JComboBox<String>();
 		typeBox.setBounds(229, 2, 118, 24);
-		typeBox.setUI(new BasicComboBoxUI() {
-		       public void installUI(JComponent comboBox) {
-		           super.installUI(typeBox);
-		              listBox.setForeground(Color.WHITE);
-		              listBox.setSelectionBackground(new Color(0,0,0,0));
-		              listBox.setSelectionForeground(Color.BLACK);
-		            }
-		          
-		            /**
-		             * 该方法返回右边的按钮
-		             */
-		          protected JButton createArrowButton() {
-		              return null;
-		        	  //return super.createArrowButton();
-		            }
-		        });
+		typeBox.setUI(new MyBasicComboBoxUI(typeBox));
 		searchPanel.add(typeBox);
 		boxInitialization();
 		searchButton.addActionListener(new ClickListener());
