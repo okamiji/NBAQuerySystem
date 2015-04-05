@@ -24,7 +24,7 @@ public class AverageColumnInfo extends GroupColumnInfo
 	@Override
 	public void collapse(Row[] rows, Row resultRow)
 	{
-		Float sum = 0.f;
+		Float sum = 0.f;	int recordLength = 0;
 		if(fromColumn.getDataClass().equals(Integer.class))
 		{
 			for(Row row : rows)
@@ -32,15 +32,20 @@ public class AverageColumnInfo extends GroupColumnInfo
 				Integer value = (Integer) fromColumn.getAttribute(row);
 				if(value != null) sum += value;
 			}
+			recordLength = rows.length;
 		}
 		else
 		{
 			for(Row row : rows)
 			{
 				Float value = (Float) fromColumn.getAttribute(row);
-				if(value != null) sum += value;
+				if(value != null) if(!Float.isNaN(value) && !Float.isInfinite(value))
+				{
+					sum += value;
+					recordLength ++;
+				}
 			}
 		}
-		getGroupColumn().setAttribute(resultRow, 1.0f * sum / rows.length);
+		getGroupColumn().setAttribute(resultRow, 1.0f * sum / recordLength);
 	}
 }
