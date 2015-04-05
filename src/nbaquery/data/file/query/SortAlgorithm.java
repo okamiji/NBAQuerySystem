@@ -175,7 +175,6 @@ public class SortAlgorithm implements FileTableAlgorithm
 						break;
 					}
 				}
-				System.out.println("" + mapping + " : " + order);
 				return order;
 			}
 		});
