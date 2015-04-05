@@ -104,7 +104,7 @@ public class SortAlgorithm implements FileTableAlgorithm
 			@Override
 			public Long getKeyword(Object mapping)
 			{
-				return (long)mapping;
+				return (long)((Integer)mapping);
 			}
 		});
 		
@@ -142,29 +142,40 @@ public class SortAlgorithm implements FileTableAlgorithm
 			public Long getKeyword(Object mapping)
 			{
 				String theString  = (String) mapping;
-				long order = 0; char[] arrayOfString = theString.toCharArray();
+				long order = 0;
+				char[] arrayOfString = theString.toCharArray();
 				for(int i = 0; i < worldLength; i ++)
 				{
 					char current;
 					if(i >= arrayOfString.length) current = '0';
 					else current = arrayOfString[i];
 					
+					long preorder = order;
+					
 					if('a'<=current && current<='z')
 					{
-						order = order * 27;
-						order = order + current - 'a' + 1;
+						order = order * 36;
+						order = order + current - 'a' + 10;
 					}
 					else if('A'<=current && current<='Z') 
 					{
-						order = order * 27;
-						order = order + current - 'A' + 1;
+						order = order * 36;
+						order = order + current - 'A' + 10;
 					}
 					else if('0'<=current && current<='9')
 					{
-						order = order * 27;
+						order = order * 36;
 						order = order + current - '0';
 					}
+					else order = order * 36;
+					
+					if(preorder > 0 && order <= 0)
+					{
+						order = preorder;
+						break;
+					}
 				}
+				System.out.println("" + mapping + " : " + order);
 				return order;
 			}
 		});
