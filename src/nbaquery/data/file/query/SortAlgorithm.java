@@ -93,7 +93,7 @@ public class SortAlgorithm implements FileTableAlgorithm
 	
 	interface KeywordMapper
 	{
-		public Integer getKeyword(Object mapping);
+		public Long getKeyword(Object mapping);
 	}
 	
 	static final Map<Class<?>, KeywordMapper> keywordMappers = new HashMap<Class<?>, KeywordMapper>();
@@ -102,57 +102,77 @@ public class SortAlgorithm implements FileTableAlgorithm
 		keywordMappers.put(Integer.class, new KeywordMapper()
 		{
 			@Override
-			public Integer getKeyword(Object mapping)
+			public Long getKeyword(Object mapping)
 			{
-				return (int)mapping;
+				return (long)((Integer)mapping);
 			}
 		});
 		
 		keywordMappers.put(Long.class, new KeywordMapper()
 		{
 			@Override
-			public Integer getKeyword(Object mapping)
+			public Long getKeyword(Object mapping)
 			{
-				return ((Long)mapping).intValue();
+				return (Long)mapping;
 			}
 		});
 		
 		keywordMappers.put(Date.class, new KeywordMapper()
 		{
 			@Override
-			public Integer getKeyword(Object mapping)
+			public Long getKeyword(Object mapping)
 			{
-				return (int) ((Date)mapping).getTime();
+				return ((Date)mapping).getTime();
 			}
 		});
 		
 		keywordMappers.put(Float.class, new KeywordMapper()
 		{
 			@Override
-			public Integer getKeyword(Object mapping)
+			public Long getKeyword(Object mapping)
 			{
-				return Float.floatToRawIntBits((float)mapping);
+				return (long)(Float.floatToRawIntBits((float)mapping));
 			}
 		});
 		
 		keywordMappers.put(String.class, new KeywordMapper()
 		{
+			static final int worldLength = 8;
 			@Override
-			public Integer getKeyword(Object mapping)
+			public Long getKeyword(Object mapping)
 			{
 				String theString  = (String) mapping;
-				int order = 0; char[] arrayOfString = theString.toCharArray();
-				for(char current : arrayOfString)
+				long order = 0;
+				char[] arrayOfString = theString.toCharArray();
+				for(int i = 0; i < worldLength; i ++)
 				{
+					char current;
+					if(i >= arrayOfString.length) current = '0';
+					else current = arrayOfString[i];
+					
+					long preorder = order;
+					
 					if('a'<=current && current<='z')
 					{
-						order = order * 26;
-						order = order + current - 'a';
+						order = order * 36;
+						order = order + current - 'a' + 10;
 					}
 					else if('A'<=current && current<='Z') 
 					{
-						order = order * 26;
-						order = order + current - 'A';
+						order = order * 36;
+						order = order + current - 'A' + 10;
+					}
+					else if('0'<=current && current<='9')
+					{
+						order = order * 36;
+						order = order + current - '0';
+					}
+					else order = order * 36;
+					
+					if(preorder > 0 && order <= 0)
+					{
+						order = preorder;
+						break;
 					}
 				}
 				return order;

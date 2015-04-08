@@ -7,7 +7,7 @@ public class RadixSort
 		if(dummyHead == null) return;
 		if(dummyHead.next == null) return;
 		
-		final int length = Integer.SIZE / 8;
+		final int length = Long.SIZE / 8;
 		for(int i = 0; i < length; i ++)
 		{
 			LinkedListNode iterator = dummyHead.next;
@@ -18,7 +18,7 @@ public class RadixSort
 			while(iterator != null)
 			{
 				LinkedListNode nextNode = iterator.next;
-				int bucketIndex = 0x00FF & (iterator.keyword >> (i << 3));
+				int bucketIndex = (int)(0x00FF & (iterator.keyword >> (i << 3)));
 				if(i == length - 1) bucketIndex = 0x00FF - bucketIndex;	//Sign bit process.
 				
 				if(bucketHead[bucketIndex] != null)
