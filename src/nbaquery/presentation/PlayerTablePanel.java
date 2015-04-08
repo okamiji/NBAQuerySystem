@@ -202,6 +202,8 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 			public void mouseClicked(MouseEvent e){
 				if(isHead){
 					String path=(String) actionPath[rowCount];
+					if(path==null)
+						return;
 					ImageIcon icon=new ImageIcon(path);
 					playerImageLabel.setIcon(icon);
 					playerImageLabel.setSize(200, 200);
@@ -210,6 +212,8 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 				else
 				{
 					String path=(String) headPath[rowCount];
+					if(path==null)
+						return;
 					ImageIcon icon=new ImageIcon(path);
 					playerImageLabel.setIcon(icon);
 					playerImageLabel.setSize(200, 200);
