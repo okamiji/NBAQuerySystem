@@ -87,8 +87,11 @@ public class FileTableHost implements TableHost
 			if(enumTable.getPrimaryKey() != null) theTable = new KeywordTable(this, enumTable.getTableAttributes(), enumTable.getDataClasses(), enumTable.getPrimaryKey().toString().toUpperCase());
 			else theTable = new MultivaluedTable(this, enumTable.getTableAttributes(), enumTable.getDataClasses());
 			
+			/*
 			protectedTable.add(enumTable.toString().toUpperCase());
 			tables.put(enumTable.toString().toUpperCase(), theTable);
+			*/
+			this.makeProtectedTable(enumTable.toString(), theTable);
 		}
 		for(Class<?> loaderClass : loaderClasses)
 		{
@@ -157,5 +160,11 @@ public class FileTableHost implements TableHost
 		if(protectedTable.contains(tableName.toUpperCase()))
 			throw new IllegalArgumentException("You should never try to delete a protected table in the host!");
 		else this.tables.remove(tableName.toUpperCase());
+	}
+	
+	public void makeProtectedTable(String tableName, Table theTable)
+	{
+		protectedTable.add(tableName.toUpperCase());
+		tables.put(tableName.toUpperCase(), theTable);
 	}
 }
