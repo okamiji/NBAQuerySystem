@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.KeywordTable;
+import nbaquery.data.file.MultivaluedTable;
 import nbaquery.data.file.Tuple;
 
 /**
@@ -58,55 +60,87 @@ public class MatchNaturalJoinPerformanceLoader
 	public MatchNaturalJoinPerformanceLoader(FileTableHost host)
 	{
 		this.host = host;
-		identity = host.getColumn("match.match_id");
-		season = host.getColumn("match.match_season");
-		date = host.getColumn("match.match_date");
-		host_abbr = host.getColumn("match.match_host_abbr");
-		host_score = host.getColumn("match.match_host_score");
-		guest_abbr = host.getColumn("match.match_guest_abbr");
-		guest_score = host.getColumn("match.match_guest_score");
+		
+		this.host.makeProtectedTable(EnumTable.QUARTER_SCORE.toString(), 
+				this.host.getTableFromPreset(EnumTable.QUARTER_SCORE));
+
+		String[] performanceAttributes = EnumTable.PERFORMANCE.getTableAttributes();
+		Class<?>[] performanceClasses = EnumTable.PERFORMANCE.getDataClasses();
+		
+		String[] matchAttributes = EnumTable.MATCH.getTableAttributes();
+		Class<?>[] matchClasses = EnumTable.MATCH.getDataClasses();
+		
+		ArrayList<String> joinedAttributes = new ArrayList<String>();
+		ArrayList<Class<?>> joinedClasses = new ArrayList<Class<?>>();
+		
+		for(int i = 0; i < performanceAttributes.length; i ++)
+		{
+			joinedAttributes.add(performanceAttributes[i]);
+			joinedClasses.add(performanceClasses[i]);
+		}
+		
+		for(int i = 0; i < matchAttributes.length; i ++)
+			if(!matchAttributes[i].equalsIgnoreCase("match_id"))
+		{
+			joinedAttributes.add(matchAttributes[i]);
+			joinedClasses.add(matchClasses[i]);
+		}
+		
+		MultivaluedTable match_natural_join_performance 
+			= new MultivaluedTable(host, joinedAttributes.toArray(new String[0]),
+					joinedClasses.toArray(new Class<?>[0]));
+		
+		this.host.makeProtectedTable("match_natural_join_performance", match_natural_join_performance);
+		
+		identity = match_natural_join_performance.getColumn("match_id");
+		season = match_natural_join_performance.getColumn("match_season");
+		date = match_natural_join_performance.getColumn("match_date");
+		host_abbr = match_natural_join_performance.getColumn("match_host_abbr");
+		host_score = match_natural_join_performance.getColumn("match_host_score");
+		guest_abbr = match_natural_join_performance.getColumn("match_guest_abbr");
+		guest_score = match_natural_join_performance.getColumn("match_guest_score");
 		
 		quarter_id = host.getColumn("quarter_score.match_id");
 		quarter_number = host.getColumn("quarter_score.quarter_number");
 		quarter_host_score = host.getColumn("quarter_score.quarter_host_score");
 		quarter_guest_score = host.getColumn("quarter_score.quarter_guest_score");
 		
-		performance_match_id = host.getColumn("performance.match_id");
-		game_team = host.getColumn("performance.team_name_abbr");
-		player_name = host.getColumn("performance.player_name");
-		position = host.getColumn("performance.player_position");
-		game_minute = host.getColumn("performance.game_time_minute");
-		game_second = host.getColumn("performance.game_time_second");
-		shoot_score = host.getColumn("performance.shoot_score");
-		shoot_count = host.getColumn("performance.shoot_count");
-		three_shoot_score = host.getColumn("performance.three_shoot_score");
-		three_shoot_count = host.getColumn("performance.three_shoot_count");
-		foul_shoot_score = host.getColumn("performance.foul_shoot_score");
-		foul_shoot_count = host.getColumn("performance.foul_shoot_count");
-		attack_board = host.getColumn("performance.attack_board");
-		defence_board = host.getColumn("performance.defence_board");
-		total_board = host.getColumn("performance.total_board");
-		assist = host.getColumn("performance.assist");
-		steal = host.getColumn("performance.steal");
-		cap = host.getColumn("performance.cap");
-		miss = host.getColumn("performance.miss");
-		foul = host.getColumn("performance.foul");
-		self_score = host.getColumn("performance.self_score");
+		performance_match_id = match_natural_join_performance.getColumn("match_id");
+		game_team = match_natural_join_performance.getColumn("team_name_abbr");
+		player_name = match_natural_join_performance.getColumn("player_name");
+		position = match_natural_join_performance.getColumn("player_position");
+		game_minute = match_natural_join_performance.getColumn("game_time_minute");
+		game_second = match_natural_join_performance.getColumn("game_time_second");
+		shoot_score = match_natural_join_performance.getColumn("shoot_score");
+		shoot_count = match_natural_join_performance.getColumn("shoot_count");
+		three_shoot_score = match_natural_join_performance.getColumn("three_shoot_score");
+		three_shoot_count = match_natural_join_performance.getColumn("three_shoot_count");
+		foul_shoot_score = match_natural_join_performance.getColumn("foul_shoot_score");
+		foul_shoot_count = match_natural_join_performance.getColumn("foul_shoot_count");
+		attack_board = match_natural_join_performance.getColumn("attack_board");
+		defence_board = match_natural_join_performance.getColumn("defence_board");
+		total_board = match_natural_join_performance.getColumn("total_board");
+		assist = match_natural_join_performance.getColumn("assist");
+		steal = match_natural_join_performance.getColumn("steal");
+		cap = match_natural_join_performance.getColumn("cap");
+		miss = match_natural_join_performance.getColumn("miss");
+		foul = match_natural_join_performance.getColumn("foul");
+		self_score = match_natural_join_performance.getColumn("self_score");
 	}
+	
+	long matchId = 1;
 	
 	public void load(File root)
 	{
-		KeywordTable matchTable = (KeywordTable) host.getTable("match");
 		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
-		KeywordTable performanceTable = (KeywordTable) host.getTable("performance");
+		
+		MultivaluedTable joinedTable = (MultivaluedTable) host.getTable("match_natural_join_performance");
 		
 		File[] files = new File(root, "matches").listFiles();
 		
-		long matchId = 1;
-		
 		for(File file : files) if(!file.isDirectory()) try
 		{
-			this.record(file, matchId, matchTable, quarterTable, performanceTable);
+			this.record(file, matchId, quarterTable, joinedTable);
 			matchId ++;
 		}
 		catch(Exception e)
@@ -114,23 +148,19 @@ public class MatchNaturalJoinPerformanceLoader
 			e.printStackTrace();
 			break;
 		}
-		System.gc();
 	}
 	
-	public void record(File file, long matchId, KeywordTable matchTable, KeywordTable quarterTable, KeywordTable performanceTable) throws Exception
+	public void record(File file, long matchId, KeywordTable quarterTable, MultivaluedTable matchTable) throws Exception
 	{
 		if(!file.getName().matches("[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}_[A-Z]+-[A-Z]+")) return;
-		Tuple tuple = matchTable.createTuple();
-		
-		//Getting data from the filename.
-		identity.setAttribute(tuple, matchId);
 		
 		String[] splitted = file.getName().split("_", 3);
-		season.setAttribute(tuple, splitted[0]);
-		date.setAttribute(tuple, splitted[1]);
+		
+		String season_str = splitted[0];
+		String date_str = splitted[1];
 		String[] duals = splitted[2].split("-", 2);
-		host_abbr.setAttribute(tuple, duals[0]);
-		guest_abbr.setAttribute(tuple, duals[1]);
+		String host_abbr_str = duals[0];
+		String guest_abbr_str = duals[1];
 		
 		//Getting data from the file.
 		BufferedReader br = new BufferedReader(new FileReader(file));
@@ -144,8 +174,8 @@ public class MatchNaturalJoinPerformanceLoader
 		}
 		String[] scores = tokenize(currentLine).get(2).split("-");
 		
-		host_score.setAttribute(tuple, Integer.parseInt(scores[0]));
-		guest_score.setAttribute(tuple, Integer.parseInt(scores[1]));
+		int host_score_int = Integer.parseInt(scores[0]);
+		int guest_score_int = Integer.parseInt(scores[1]);
 		
 		currentLine = br.readLine();
 		if(currentLine == null)
@@ -172,7 +202,9 @@ public class MatchNaturalJoinPerformanceLoader
 			else
 			{
 				tokens = tokenize(currentLine);
-				Tuple performance = performanceTable.createTuple();
+				Tuple performance = matchTable.createTuple();
+				Tuple tuple = performance;
+				
 				performance_match_id.setAttribute(performance, matchId);
 				game_team.setAttribute(performance, currentTeam);
 				player_name.setAttribute(performance, tokens.get(0));
@@ -206,6 +238,15 @@ public class MatchNaturalJoinPerformanceLoader
 				miss.setAttribute(performance, tokens.get(15));
 				foul.setAttribute(performance, tokens.get(16));
 				self_score.setAttribute(performance, tokens.get(17));
+				
+				season.setAttribute(tuple, season_str);
+				date.setAttribute(tuple, date_str);
+				
+				host_abbr.setAttribute(tuple, host_abbr_str);
+				guest_abbr.setAttribute(tuple, guest_abbr_str);
+				
+				host_score.setAttribute(tuple, host_score_int);
+				guest_score.setAttribute(tuple, guest_score_int);
 			}
 		}
 		br.close();

@@ -120,7 +120,6 @@ public class MatchLoader implements FileLoader
 			e.printStackTrace();
 			break;
 		}
-		System.gc();
 	}
 	
 	public void record(File file, long matchId, KeywordTable matchTable, KeywordTable quarterTable, KeywordTable performanceTable) throws Exception

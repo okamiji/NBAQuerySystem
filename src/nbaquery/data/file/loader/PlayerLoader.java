@@ -81,7 +81,6 @@ public class PlayerLoader implements FileLoader
 			e.printStackTrace();
 			break;
 		}
-		System.gc();
 	}
 	
 	public void record(File file, File actionFolder, File portraitFolder, KeywordTable playerTable) throws Exception
