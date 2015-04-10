@@ -6,20 +6,22 @@ import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.GroupColumnInfo;
 import nbaquery.data.query.GroupQuery;
+import nbaquery.logic.LogicPipeline;
+import nbaquery.logic.LogicWatcher;
 import nbaquery.logic.SumColumnInfo;
 
-public class MatchTeamPerformance
+public class MatchTeamPerformance implements LogicPipeline
 {
 	public TableHost tableHost;
 	protected GroupQuery groupQuery; 
 	protected boolean shouldDoQuery = true;
 	protected Table table;
-	public MatchNaturalJoinPerformance base;
+	protected LogicWatcher base;
 	
 	public MatchTeamPerformance(TableHost tableHost, MatchNaturalJoinPerformance base)
 	{
 		this.tableHost = tableHost;
-		this.base = base;
+		this.base = new LogicWatcher(base);
 		this.groupQuery = new GroupQuery(null, new String[]{"match_id", "match_season", "team_name_abbr", "match_host_abbr", "match_guest_abbr", "match_host_score", "match_guest_score"},
 				new GroupColumnInfo("total_game_time", Integer.class)
 		{
@@ -114,7 +116,7 @@ public class MatchTeamPerformance
 	
 	public Table getTable()
 	{
-		if(shouldDoQuery)
+		if(base.checkDepenency())
 		{
 			groupQuery.table = base.getTable();
 			tableHost.performQuery(groupQuery, "match_team_performance");
@@ -122,17 +124,5 @@ public class MatchTeamPerformance
 			shouldDoQuery = false;
 		}
 		return table;
-	}
-	
-	public void markDirty()
-	{
-		this.shouldDoQuery = true;
-	}
-	
-	public void destroy()
-	{
-		this.markDirty();
-		this.tableHost.deleteTable("match_team_performance");
-		this.base.destroy();
 	}
 }

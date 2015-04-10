@@ -14,7 +14,6 @@ public class DirectMatchNaturalJoinPerformance extends MatchNaturalJoinPerforman
 	public Table getTable()
 	{
 		Table theTable = tableHost.getTable("match_natural_join_performance");
-		if(theTable == null) throw new Error();
 		return theTable;
 	}
 	

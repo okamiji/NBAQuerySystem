@@ -10,23 +10,29 @@ import nbaquery.data.query.GroupColumnInfo;
 import nbaquery.data.query.GroupQuery;
 import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.logic.AverageColumnInfo;
+import nbaquery.logic.LogicWatcher;
+import nbaquery.logic.NativeTablePipeline;
 
 public class AveragePlayer
 {
 	public TableHost tableHost; 
-	protected boolean shouldDoQuery = true;
 	protected Table table;
-	protected DerivedPlayerPerformance player;
+	protected LogicWatcher player, nativePlayer, nativeTeam;
 	
 	public AveragePlayer(TableHost tableHost, DerivedPlayerPerformance player)
 	{
 		this.tableHost = tableHost;
-		this.player = player;
+		this.player = new LogicWatcher(player);
+		this.nativePlayer = new LogicWatcher(new NativeTablePipeline(tableHost, "player"));
+		this.nativeTeam = new LogicWatcher(new NativeTablePipeline(tableHost, "team"));
 	}
 	
 	public Table getTable()
 	{
-		if(shouldDoQuery)
+		boolean playerChanged = this.player.checkDepenency();
+		boolean nativePlayerChanged = this.nativePlayer.checkDepenency();
+		boolean nativeTeamChanged = this.nativeTeam.checkDepenency();
+		if(playerChanged || nativePlayerChanged || nativeTeamChanged)
 		{
 			Table table = this.player.getTable();
 			ArrayList<GroupColumnInfo> groupColumns = new ArrayList<GroupColumnInfo>();
@@ -85,29 +91,14 @@ public class AveragePlayer
 			tableHost.performQuery(group, "average_player");
 			table = tableHost.getTable("average_player");
 			
-			NaturalJoinQuery join = new NaturalJoinQuery(table, tableHost.getTable("team"), new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
+			NaturalJoinQuery join = new NaturalJoinQuery(table, nativeTeam.getTable(), new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
 			tableHost.performQuery(join, "average_player");
 			table = tableHost.getTable("average_player");
 			
-			join = new NaturalJoinQuery(table, tableHost.getTable("player"), new String[]{"player_name"}, new String[]{"player_name"}); 
+			join = new NaturalJoinQuery(table, nativePlayer.getTable(), new String[]{"player_name"}, new String[]{"player_name"}); 
 			tableHost.performQuery(join, "average_player");
 			this.table = tableHost.getTable("average_player");
-			
-			shouldDoQuery = false;
 		}
 		return table;
-	}
-	
-	public void markDirty()
-	{
-		this.shouldDoQuery = true;
-	}
-	
-	public void destroy()
-	{
-		this.markDirty();
-		this.tableHost.deleteTable("average_player");
-		
-		this.player.destroy();
 	}
 }

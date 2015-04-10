@@ -24,11 +24,6 @@ public class TeamServiceAdapter implements TeamService
 		this.columnNames = columnNames;
 	}
 	
-	public void destroy()
-	{
-		this.gross.destroy();
-	}
-	
 	@Override
 	public String[][] searchForTeams(boolean isGross, int head, boolean isUp)
 	{

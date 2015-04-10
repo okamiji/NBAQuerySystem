@@ -3,8 +3,9 @@ package nbaquery.logic.infrustructure;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.NaturalJoinQuery;
+import nbaquery.logic.LogicPipeline;
 
-public class PlayerPerformance
+public class PlayerPerformance implements LogicPipeline
 {
 	public TableHost tableHost; 
 	protected boolean shouldDoQuery = true;
@@ -36,18 +37,5 @@ public class PlayerPerformance
 			shouldDoQuery = false;
 		}
 		return table;
-	}
-	
-	public void markDirty()
-	{
-		this.shouldDoQuery = true;
-	}
-	
-	public void destroy()
-	{
-		this.markDirty();
-		this.tableHost.deleteTable("player_performance");
-		
-		this.team.destroy();
 	}
 }

@@ -70,4 +70,6 @@ public interface Table
 	 */
 	
 	public TableHost getTableHost();
+	
+	public boolean hasTableChanged();
 }

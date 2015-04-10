@@ -43,6 +43,7 @@ public class KeywordTable implements Table
 	
 	public Tuple createTuple()
 	{
+		hasTableChanged = true;
 		Tuple tuple = new Tuple();
 		tuple.attributes = new Object[headerLength];
 		tuple.table = this;
@@ -106,6 +107,18 @@ public class KeywordTable implements Table
 	public TableHost getTableHost()
 	{
 		return this.host;
+	}
+	
+	protected boolean hasTableChanged = true;
+	
+	public boolean hasTableChanged()
+	{
+		if(hasTableChanged)
+		{
+			hasTableChanged = false;
+			return true;
+		}
+		return false;
 	}
 
 	@Override

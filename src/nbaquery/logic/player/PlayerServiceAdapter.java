@@ -23,11 +23,6 @@ public class PlayerServiceAdapter implements PlayerService
 		this.average = average;
 		this.columnNames = columnNames;
 	}
-	
-	public void destroy()
-	{
-		this.gross.destroy();
-	}
 
 	@Override
 	public String[][] searchForPlayers(boolean isGross, int head, boolean isUp, String position, String league)

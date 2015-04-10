@@ -6,25 +6,26 @@ import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.GroupColumnInfo;
 import nbaquery.data.query.GroupQuery;
+import nbaquery.logic.LogicPipeline;
+import nbaquery.logic.LogicWatcher;
 import nbaquery.logic.SumColumnInfo;
 import nbaquery.logic.infrustructure.PlayerPerformance;
 
-public class GrossPlayerPerformance
+public class GrossPlayerPerformance implements LogicPipeline
 {
 	public TableHost tableHost;
-	protected PlayerPerformance base;
-	protected boolean shouldDoQuery = true;
+	protected LogicWatcher base;
 	protected Table table;
 	
 	public GrossPlayerPerformance(TableHost tableHost, PlayerPerformance base)
 	{
 		this.tableHost = tableHost;
-		this.base = base;
+		this.base = new LogicWatcher(base);
 	}
 	
 	public Table getTable()
 	{
-		if(shouldDoQuery)
+		if(base.checkDepenency())
 		{
 			GroupQuery groupQuery = new GroupQuery(base.getTable(), new String[]{"match_season", "player_name", "team_name_abbr"},
 					new SumColumnInfo("foul_shoot_count", "foul_shoot_count"),
@@ -99,20 +100,7 @@ public class GrossPlayerPerformance
 			);
 			tableHost.performQuery(groupQuery, "gross_player_performance");
 			table = tableHost.getTable("gross_player_performance");
-			shouldDoQuery = false;
 		}
 		return table;
-	}
-	
-	public void markDirty()
-	{
-		this.shouldDoQuery = true;
-	}
-	
-	public void destroy()
-	{
-		this.markDirty();
-		this.tableHost.deleteTable("gross_player_performance");
-		this.base.destroy();
 	}
 }

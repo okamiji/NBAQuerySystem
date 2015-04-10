@@ -9,23 +9,28 @@ import nbaquery.data.query.GroupColumnInfo;
 import nbaquery.data.query.GroupQuery;
 import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.logic.AverageColumnInfo;
+import nbaquery.logic.LogicWatcher;
+import nbaquery.logic.NativeTablePipeline;
 
 public class AverageTeam
 {
 	public TableHost tableHost;
-	protected DerivedTeamPerformance joined;
-	protected boolean shouldDoQuery = true;
+	protected LogicWatcher joined, nativeTeam;
 	protected Table table;
 	
 	public AverageTeam(TableHost tableHost, DerivedTeamPerformance joined)
 	{
 		this.tableHost = tableHost;
-		this.joined = joined;
+		this.joined = new LogicWatcher(joined);
+		
+		this.nativeTeam = new LogicWatcher(new NativeTablePipeline(tableHost, "team"));
 	}
 	
 	public Table getTable()
 	{
-		if(shouldDoQuery)
+		boolean joinedChanged = joined.checkDepenency();
+		boolean teamChanged = nativeTeam.checkDepenency();
+		if(joinedChanged || teamChanged)
 		{
 			Table theTable = joined.getTable();
 			Column[] columns = theTable.getColumns().toArray(new Column[0]);
@@ -41,24 +46,11 @@ public class AverageTeam
 			GroupQuery group = new GroupQuery(joined.getTable(), new String[]{"team_name_abbr", "match_season"}, groupInfos.toArray(new GroupColumnInfo[0]));
 			tableHost.performQuery(group, "average_team");
 			Table interMediateTable = tableHost.getTable("average_team");
-			NaturalJoinQuery joinQuery = new NaturalJoinQuery(interMediateTable, tableHost.getTable("team"),
+			NaturalJoinQuery joinQuery = new NaturalJoinQuery(interMediateTable, nativeTeam.getTable(),
 					new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
 			tableHost.performQuery(joinQuery, "average_team");
 			table = tableHost.getTable("average_team");
-			shouldDoQuery = false;
 		}
 		return table;
-	}
-	
-	public void markDirty()
-	{
-		this.shouldDoQuery = true;
-	}
-	
-	public void destroy()
-	{
-		this.markDirty();
-		this.tableHost.deleteTable("gross_team");
-		this.joined.destroy();
 	}
 }

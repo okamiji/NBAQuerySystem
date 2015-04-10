@@ -11,6 +11,7 @@ public class MultivaluedTable extends KeywordTable
 	
 	public Tuple createTuple()
 	{
+		hasTableChanged = true;
 		Tuple tuple = new Tuple();
 		tuple.attributes = new Object[super.headerLength + 1];
 		tuple.attributes[super.headerLength] = rowId;
