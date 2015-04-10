@@ -10,7 +10,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 public class MyBasicComboBoxUI extends BasicComboBoxUI
 {
 	JComboBox<?> box;
-	MyBasicComboBoxUI(JComboBox<?> box)
+	public MyBasicComboBoxUI(JComboBox<?> box)
 	{
 		this.box = box;
 	}
