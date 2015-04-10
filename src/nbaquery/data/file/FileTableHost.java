@@ -97,7 +97,7 @@ public class FileTableHost implements TableHost
 					
 					public void run()
 					{
-						loader.load(root);
+						loader.setRoot(root);
 					}
 				};
 				runningThread.start();

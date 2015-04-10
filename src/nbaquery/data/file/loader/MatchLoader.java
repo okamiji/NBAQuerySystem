@@ -100,28 +100,6 @@ public class MatchLoader implements FileLoader
 		self_score = host.getColumn("performance.self_score");
 	}
 	
-	public void load(File root)
-	{
-		KeywordTable matchTable = (KeywordTable) host.getTable("match");
-		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
-		KeywordTable performanceTable = (KeywordTable) host.getTable("performance");
-		
-		File[] files = new File(root, "matches").listFiles();
-		
-		long matchId = 1;
-		
-		for(File file : files) if(!file.isDirectory()) try
-		{
-			this.record(file, matchId, matchTable, quarterTable, performanceTable);
-			matchId ++;
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			break;
-		}
-	}
-	
 	public void record(File file, long matchId, KeywordTable matchTable, KeywordTable quarterTable, KeywordTable performanceTable) throws Exception
 	{
 		if(!file.getName().matches("[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}_[A-Z]+-[A-Z]+")) return;
@@ -229,5 +207,24 @@ public class MatchLoader implements FileLoader
 				builder = new StringBuilder();
 			}
 		return splitted;
+	}
+	
+	long matchId = 1;
+	
+	public void setRoot(File root)
+	{
+		FileMonitor fileMonitor = new FileMonitor(new File(root, "matches"), this);
+		fileMonitor.start();
+	}
+
+	@Override
+	public void load(File aFile) throws Exception
+	{
+		KeywordTable matchTable = (KeywordTable) host.getTable("match");
+		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
+		KeywordTable performanceTable = (KeywordTable) host.getTable("performance");
+		
+		this.record(aFile, matchId, matchTable, quarterTable, performanceTable);
+		matchId ++;
 	}
 }

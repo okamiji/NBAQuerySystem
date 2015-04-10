@@ -130,26 +130,6 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 	
 	long matchId = 1;
 	
-	public void load(File root)
-	{
-		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
-		
-		MultivaluedTable joinedTable = (MultivaluedTable) host.getTable("match_natural_join_performance");
-		
-		File[] files = new File(root, "matches").listFiles();
-		
-		for(File file : files) if(!file.isDirectory()) try
-		{
-			this.record(file, matchId, quarterTable, joinedTable);
-			matchId ++;
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			break;
-		}
-	}
-	
 	public void record(File file, long matchId, KeywordTable quarterTable, MultivaluedTable matchTable) throws Exception
 	{
 		if(!file.getName().matches("[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}_[A-Z]+-[A-Z]+")) return;
@@ -265,5 +245,21 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 				builder = new StringBuilder();
 			}
 		return splitted;
+	}
+
+	public void setRoot(File root)
+	{
+		FileMonitor fileMonitor = new FileMonitor(new File(root, "matches"), this);
+		fileMonitor.start();
+	}
+	
+	@Override
+	public void load(File aFile) throws Exception
+	{
+		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
+		MultivaluedTable joinedTable = (MultivaluedTable) host.getTable("match_natural_join_performance");
+		
+		this.record(aFile, matchId, quarterTable, joinedTable);
+		matchId ++;
 	}
 }

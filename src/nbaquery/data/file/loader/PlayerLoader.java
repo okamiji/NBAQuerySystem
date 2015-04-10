@@ -63,26 +63,6 @@ public class PlayerLoader implements FileLoader
 		keyToColumnMap.put("school", player_school);
 	}
 	
-	public void load(File root)
-	{
-		KeywordTable playerTable = (KeywordTable) host.getTable("player");
-		
-		File fileFolder = new File(root, "players");
-		File[] files = new File(fileFolder, "info").listFiles();
-		File actionFolder = new File(fileFolder, "action");
-		File portraitFolder = new File(fileFolder, "portrait");
-		
-		for(File file : files) if(!file.isDirectory()) try
-		{
-			this.record(file, actionFolder, portraitFolder, playerTable);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			break;
-		}
-	}
-	
 	public void record(File file, File actionFolder, File portraitFolder, KeywordTable playerTable) throws Exception
 	{
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
@@ -108,5 +88,25 @@ public class PlayerLoader implements FileLoader
 		
 		File actionFile = new File(actionFolder, file.getName() + ".png");
 		if(actionFile.exists() && actionFile.isFile()) action.setAttribute(player, new Image(actionFile));
+	}
+
+	File fileFolder;
+	File actionFolder;
+	File portraitFolder;
+	
+	public void setRoot(File root)
+	{
+		fileFolder = new File(root, "players");
+		actionFolder = new File(fileFolder, "action");
+		portraitFolder = new File(fileFolder, "portrait");
+		FileMonitor fileMonitor = new FileMonitor(new File(fileFolder, "info"), this);
+		fileMonitor.start();
+	}
+	
+	@Override
+	public void load(File aFile) throws Exception
+	{
+		KeywordTable playerTable = (KeywordTable) host.getTable("player");
+		this.record(aFile, actionFolder, portraitFolder, playerTable);
 	}
 }

@@ -135,6 +135,15 @@ public class SortAlgorithm implements FileTableAlgorithm
 			}
 		});
 		
+		keywordMappers.put(Character.class, new KeywordMapper()
+		{
+			@Override
+			public Long getKeyword(Object mapping)
+			{
+				return (long)((Character)mapping);
+			}
+		});
+		
 		keywordMappers.put(String.class, new KeywordMapper()
 		{
 			static final int worldLength = 8;
