@@ -182,6 +182,8 @@ public class ConcisePanel {
 		valueBox.addItem("盖帽率");
 		valueBox.addItem("失误率");
 		valueBox.addItem("使用率");
+		valueBox.addItem("球员位置");
+		valueBox.addItem("联盟");
 		valueBox.addItem("分/板/助");
 		
 		descendButton = new JButton();
@@ -199,14 +201,14 @@ public class ConcisePanel {
 			public void mouseClicked(MouseEvent e) {
 				ascendButton.setVisible(true);
 				descendButton.setVisible(false);
-				isUp = true;
+				isUp = false;
 			}
 		});
 		ascendButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				ascendButton.setVisible(false);
 				descendButton.setVisible(true);
-				isUp = false;
+				isUp = true;
 				
 				//TODO upppppp?
 			}
@@ -218,21 +220,30 @@ public class ConcisePanel {
 		
 		searchButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				CardProperties.set_item_name((String)(valueBox.getSelectedItem()));
+				
+				int index = valueBox.getSelectedIndex();
+				if(index > 0){
+					CardProperties.set_player_index(index + 2);
+				}
+				else{
+					CardProperties.set_player_index(index);
+				}
 				
 				boolean isGross = false;
 				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
 					isGross=true;
 				}
+				
 				String position = lookups.get((String) positionBox.getSelectedItem());
 				String league = lookups.get((String) leagueBox.getSelectedItem());		
-				int index = valueBox.getSelectedIndex();
 				
 				CardProperties.set_player_isUp(isUp);
-				CardProperties.set_player_index(index);
 				CardProperties.set_player_isGross(isGross);
 				CardProperties.set_player_position(position);
 				CardProperties.set_player_league(league);
+
+				//Fetch item name from certain combo box, which is given to Card and added when setting information of each card.
+				CardProperties.set_item_name((String)(valueBox.getSelectedItem()));
 				
 				PanelSet.get_concise().set_combobox();
 				PanelSet.set_concise_invisible();
@@ -302,28 +313,6 @@ public class ConcisePanel {
 
 	
 	public void set_combobox(){
-		/*
-		int[] get_index = CardProperties.get_player_combobox_index();
-		int i1 = 0;
-		int i2 = 0;
-		int i3 = 0;
-		int i4 = 0;
-		if(get_index[0] == 0){
-			i1 = typeBox.getSelectedIndex();
-		}
-		if(get_index[1] == 0){
-			i2 = valueBox.getSelectedIndex();
-		}
-		if(get_index[2] == 0){
-			i3 = positionBox.getSelectedIndex();
-		}
-		if(get_index[3] == 0){
-			i4 = leagueBox.getSelectedIndex();
-		}
-		CardProperties.set_player_combobox_index(i1, i2, i3, i4);
-		for(int i=0; i<get_index.length; i++){
-			System.out.println(get_index[i]);
-		}*/
 		int i1 = typeBox.getSelectedIndex();
 		int i2 = valueBox.getSelectedIndex();
 		int i3 = positionBox.getSelectedIndex();
@@ -339,8 +328,8 @@ public class ConcisePanel {
 		leagueBox.setSelectedIndex(set_combobox[3]);
 		
 		isUp = CardProperties.get_player_isUp();
-		ascendButton.setVisible(isUp);
-		descendButton.setVisible(!isUp);
+		ascendButton.setVisible(!isUp);
+		descendButton.setVisible(isUp);
 	}
 	
 }
