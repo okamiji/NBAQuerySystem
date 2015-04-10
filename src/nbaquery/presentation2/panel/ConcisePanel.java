@@ -40,7 +40,6 @@ public class ConcisePanel {
 	JButton ascendButton, descendButton, searchButton;
 	
 	boolean isUp = true;
-	String item_name;
 	
 	public ConcisePanel(int get_player, int get_view_limit){
 		frame = PanelSet.get_frame();
@@ -183,8 +182,6 @@ public class ConcisePanel {
 		valueBox.addItem("盖帽率");
 		valueBox.addItem("失误率");
 		valueBox.addItem("使用率");
-		valueBox.addItem("球员位置");
-		valueBox.addItem("联盟");
 		valueBox.addItem("分/板/助");
 		
 		descendButton = new JButton();
@@ -221,7 +218,7 @@ public class ConcisePanel {
 		
 		searchButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				item_name = (String)(valueBox.getSelectedItem());
+				CardProperties.set_item_name((String)(valueBox.getSelectedItem()));
 				
 				boolean isGross = false;
 				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
@@ -246,9 +243,6 @@ public class ConcisePanel {
 			}
 		});
 		
-	}
-	public String get_item_name(){
-		return item_name;
 	}
 	
 	private void init_team_panel(){	
@@ -308,6 +302,7 @@ public class ConcisePanel {
 
 	
 	public void set_combobox(){
+		/*
 		int[] get_index = CardProperties.get_player_combobox_index();
 		int i1 = 0;
 		int i2 = 0;
@@ -328,7 +323,12 @@ public class ConcisePanel {
 		CardProperties.set_player_combobox_index(i1, i2, i3, i4);
 		for(int i=0; i<get_index.length; i++){
 			System.out.println(get_index[i]);
-		}
+		}*/
+		int i1 = typeBox.getSelectedIndex();
+		int i2 = valueBox.getSelectedIndex();
+		int i3 = positionBox.getSelectedIndex();
+		int i4 = leagueBox.getSelectedIndex();
+		CardProperties.set_player_combobox_index(i1, i2, i3, i4);
 	}
 	
 	public void get_combobox(){

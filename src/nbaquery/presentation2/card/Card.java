@@ -302,8 +302,7 @@ public class Card extends JPanel {
 		}
 		if(player_index[1] != 0){
 			int index = player_index[1] + 2;
-			System.out.println(" A" + PanelSet.get_concise().get_item_name());
-			player_text += PanelSet.get_concise().get_item_name() + player_info[index];
+			player_text += CardProperties.get_item_name() + "£º" + player_info[index];
 			player_text += "<br/>";
 		}
 		player_text += "</html>";

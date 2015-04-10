@@ -11,6 +11,7 @@ public class CardProperties {
 	private static int player_index_index = 0;
 	private static int player_position_index = 0;
 	private static int player_league_index = 0;	
+	private static String player_item_name = "°´Ãû³ÆÅÅÐò";
 	
 	private static boolean team_isGross = true;
 	private static int team_index = 1;
@@ -49,6 +50,14 @@ public class CardProperties {
 		int[] return_int = {player_isGross_index, player_index_index, player_position_index, player_league_index};
 		return return_int;
 	}
+	
+	public static void set_item_name(String set_name){
+		player_item_name = set_name;
+	}
+	public static String get_item_name(){
+		return player_item_name;
+	}
+	
 
 	public static void set_team_isGross(boolean set_team_isGross){
 		team_isGross = set_team_isGross;
