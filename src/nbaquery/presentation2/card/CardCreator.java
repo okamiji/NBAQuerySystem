@@ -14,9 +14,10 @@ public class CardCreator {
 		ArrayList<Player> player_list = filter.filter_players();
 		ArrayList<Card> card_list = new ArrayList<Card>();
 		
-		for(Player player : player_list){
+		for(int i=0; i<player_list.size(); i++){
+			Player player = player_list.get(i);
 			Card card = new Card();
-			card.set_player_info(player);
+			card.set_player_info(player, i+1);
 			card_list.add(card);
 		}
 		if(!CardProperties.get_view_more_forbid()){
@@ -34,9 +35,10 @@ public class CardCreator {
 		ArrayList<Team> team_list = filter.filter_teams();
 		ArrayList<Card> card_list = new ArrayList<Card>();
 
-		for(Team team : team_list){
+		for(int i=0; i<team_list.size(); i++){
+			Team team = team_list.get(i);
 			Card card = new Card();
-			card.set_team_info(team);
+			card.set_team_info(team, i+1);
 			card_list.add(card);
 		}
 		if(!CardProperties.get_view_more_forbid()){

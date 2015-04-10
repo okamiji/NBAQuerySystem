@@ -45,7 +45,7 @@ public class Card extends JPanel {
 		
 	}
 	
-	public void set_player_info(final Player player){
+	public void set_player_info(final Player player, final int index_){
 		
 		if(per_row == 2){
 			this.setBackground(new Color(0,0,0,0.0f));
@@ -54,7 +54,7 @@ public class Card extends JPanel {
 			shadow_label.setBounds(0, 0, 260, 100);
 			
 			label_name = new JLabel();
-			label_name.setText(" " + player.get_name());
+			label_name.setText(" " + index_ + ". " + player.get_name());
 			label_name.setBackground(new Color(90, 225, 149));
 			label_name.setOpaque(true);
 			label_name.setForeground(Color.white);
@@ -94,7 +94,7 @@ public class Card extends JPanel {
 			shadow_label.setBounds(0, 0, 530, 40);
 			
 			label_name = new JLabel();
-			label_name.setText(" " + player.get_name());
+			label_name.setText(" " + index_ + ". " + player.get_name());
 			label_name.setBackground(new Color(90, 225, 149));
 			label_name.setOpaque(true);
 			label_name.setForeground(Color.WHITE);
@@ -116,8 +116,8 @@ public class Card extends JPanel {
 			set_player_text(player);
 			label_info.setText(player_text);
 			label_info.setFont(new Font("微软雅黑",Font.PLAIN, 12));	
+			label_info.setBounds(180, -10, 340, 60);
 			shadow_label.add(label_info);
-			label_info.setBounds(155, 0, 140, 60);
 			
 			this.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e) {
@@ -131,7 +131,7 @@ public class Card extends JPanel {
 		
 	}
 	@SuppressWarnings("deprecation")
-	public void set_team_info(final Team team){
+	public void set_team_info(final Team team, final int index_){
 		
 		if(per_row == 2){
 			this.setBackground(new Color(0,0,0,0.0f));
@@ -140,7 +140,7 @@ public class Card extends JPanel {
 			shadow_label.setBounds(0, 0, 260, 100);
 			
 			label_name = new JLabel();
-			label_name.setText(" " + team.get_name());
+			label_name.setText(" " + index_ + ". " + team.get_name());
 			label_name.setBackground(new Color(90, 225, 149));
 			label_name.setOpaque(true);
 			label_name.setForeground(Color.white);
@@ -182,7 +182,7 @@ public class Card extends JPanel {
 			shadow_label.setBounds(0, 0, 530, 40);
 			
 			label_name = new JLabel();
-			label_name.setText("  " + team.get_name());
+			label_name.setText(" " + index_ + ". " + team.get_name());
 			label_name.setBackground(new Color(90, 225, 149));
 			label_name.setOpaque(true);
 			label_name.setForeground(Color.WHITE);
@@ -207,7 +207,7 @@ public class Card extends JPanel {
 			label_info.setText(player_text);
 			label_info.setFont(new Font("微软雅黑",Font.PLAIN, 12));	
 			shadow_label.add(label_info);
-			label_info.setBounds(155, 0, 140, 70);
+			label_info.setBounds(190, 0, 340, 70);
 			
 			this.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e) {
@@ -291,24 +291,37 @@ public class Card extends JPanel {
 		int[] player_index = CardProperties.get_player_combobox_index();
 		player_text = "<html>";
 		player_text += "球队：" + player.get_team();
-		player_text += "<br/>";
+		player_text_gap();
 		if(player_index[2] != 0){
 			player_text += "位置：" + player_info[30];
-			player_text += "<br/>";
+			player_text_gap();
 		}
 		if(player_index[3] != 0){
-			player_text += "联盟：" + player_info[31];
-			player_text += "<br/>";
+			player_text += "联盟：" + player_info[31];	
+			player_text_gap();
 		}
 		if(player_index[1] != 0){
 			int index = player_index[1] + 2;
 			player_text += CardProperties.get_item_name() + "：" + player_info[index];
-			player_text += "<br/>";
+			player_text_gap();
 		}
 		player_text += "</html>";
-	//	player_text = "<html>信息： " + player_info[2] + "<br/><br/>信息： " + player_info[3] + "</html>";
-		
 	}
+	private void player_text_gap(){
+		if(per_row == 2){
+			player_enter();
+		}
+		else if(per_row == 1){
+			player_space();
+		}
+	}
+	private void player_enter(){
+		player_text += "<br/>";
+	}
+	private void player_space(){
+		player_text += "   ";
+	}
+	
 	private void set_team_text(Team team){
 		
 	}
