@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.TreeMap;
 
 import nbaquery.data.Image;
+import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.KeywordTable;
@@ -34,6 +35,10 @@ public class PlayerLoader implements FileLoader
 	public PlayerLoader(FileTableHost host)
 	{
 		this.host = host;
+		
+		this.host.makeProtectedTable(EnumTable.PLAYER.toString(), 
+				this.host.getTableFromPreset(EnumTable.PLAYER));
+		
 		player_name = host.getColumn("player.player_name");
 		player_number = host.getColumn("player.player_number");
 		player_position = host.getColumn("player.player_position");

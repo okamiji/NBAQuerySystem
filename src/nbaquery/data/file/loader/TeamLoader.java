@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 import nbaquery.data.Image;
+import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.KeywordTable;
@@ -29,6 +30,10 @@ public class TeamLoader implements FileLoader
 	public TeamLoader(FileTableHost host)
 	{
 		this.host = host;
+		
+		this.host.makeProtectedTable(EnumTable.TEAM.toString(), 
+				this.host.getTableFromPreset(EnumTable.TEAM));
+		
 		team_name = host.getColumn("team.team_name");
 		team_name_abbr = host.getColumn("team.team_name_abbr");
 		team_location = host.getColumn("team.team_location");

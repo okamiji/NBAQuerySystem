@@ -81,18 +81,6 @@ public class FileTableHost implements TableHost
 	
 	public FileTableHost(final File root, Class<?>[] loaderClasses, Class<?>[] queryAlgorithmClasses)
 	{
-		for(EnumTable enumTable : EnumTable.values())
-		{
-			Table theTable = null;
-			if(enumTable.getPrimaryKey() != null) theTable = new KeywordTable(this, enumTable.getTableAttributes(), enumTable.getDataClasses(), enumTable.getPrimaryKey().toString().toUpperCase());
-			else theTable = new MultivaluedTable(this, enumTable.getTableAttributes(), enumTable.getDataClasses());
-			
-			/*
-			protectedTable.add(enumTable.toString().toUpperCase());
-			tables.put(enumTable.toString().toUpperCase(), theTable);
-			*/
-			this.makeProtectedTable(enumTable.toString(), theTable);
-		}
 		for(Class<?> loaderClass : loaderClasses)
 		{
 			if(!FileLoader.class.isAssignableFrom(loaderClass)) continue;
@@ -166,5 +154,14 @@ public class FileTableHost implements TableHost
 	{
 		protectedTable.add(tableName.toUpperCase());
 		tables.put(tableName.toUpperCase(), theTable);
+	}
+	
+	public Table getTableFromPreset(EnumTable enumTable)
+	{
+		Table theTable = null;
+		if(enumTable.getPrimaryKey() != null) theTable = new KeywordTable(this, enumTable.getTableAttributes(), enumTable.getDataClasses(), enumTable.getPrimaryKey().toString().toUpperCase());
+		else theTable = new MultivaluedTable(this, enumTable.getTableAttributes(), enumTable.getDataClasses());
+		
+		return theTable;
 	}
 }

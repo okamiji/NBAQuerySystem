@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.KeywordTable;
@@ -53,6 +54,16 @@ public class MatchLoader implements FileLoader
 	public MatchLoader(FileTableHost host)
 	{
 		this.host = host;
+		
+		this.host.makeProtectedTable(EnumTable.PERFORMANCE.toString(),
+				this.host.getTableFromPreset(EnumTable.PERFORMANCE));
+		
+		this.host.makeProtectedTable(EnumTable.MATCH.toString(),
+				this.host.getTableFromPreset(EnumTable.MATCH));
+		
+		this.host.makeProtectedTable(EnumTable.QUARTER_SCORE.toString(),
+				this.host.getTableFromPreset(EnumTable.QUARTER_SCORE));
+		
 		identity = host.getColumn("match.match_id");
 		season = host.getColumn("match.match_season");
 		date = host.getColumn("match.match_date");
