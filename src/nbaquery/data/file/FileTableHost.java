@@ -75,8 +75,12 @@ public class FileTableHost implements TableHost
 	
 	public FileTableHost(File root)
 	{
-		this(root, new Class<?>[]{MatchLoader.class, PlayerLoader.class, TeamLoader.class},
-				new Class<?>[]{SetOperationAlgorithm.class, SelectProjectAlgorithm.class, DeriveAlgorithm.class, JoinAlgorithm.class, SortAlgorithm.class, GroupAlgorithm.class, NaturalJoinAlgorithm.class});
+		this(root, new Class<?>[]{MatchLoader.class, PlayerLoader.class, TeamLoader.class});
+	}
+	
+	public FileTableHost(File root, Class<?>[] loaders)
+	{
+		this(root, loaders, new Class<?>[]{SetOperationAlgorithm.class, SelectProjectAlgorithm.class, DeriveAlgorithm.class, JoinAlgorithm.class, SortAlgorithm.class, GroupAlgorithm.class, NaturalJoinAlgorithm.class});
 	}
 	
 	public FileTableHost(final File root, Class<?>[] loaderClasses, Class<?>[] queryAlgorithmClasses)

@@ -17,7 +17,7 @@ import nbaquery.data.file.Tuple;
  * @author luohaoran
  */
 
-public class MatchNaturalJoinPerformanceLoader
+public class MatchNaturalJoinPerformanceLoader implements FileLoader
 {
 
 	final FileTableHost host;

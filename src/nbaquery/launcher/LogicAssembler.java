@@ -11,6 +11,7 @@ import nbaquery.logic.gross_team.GrossRivalPerformance;
 import nbaquery.logic.gross_team.GrossTeam;
 import nbaquery.logic.gross_team.GrossTeamNaturalJoin;
 import nbaquery.logic.gross_team.GrossTeamPerformance;
+import nbaquery.logic.infrustructure.DirectMatchNaturalJoinPerformance;
 import nbaquery.logic.infrustructure.MatchNaturalJoinPerformance;
 import nbaquery.logic.infrustructure.MatchTeamPerformance;
 import nbaquery.logic.infrustructure.PlayerPerformance;
@@ -33,7 +34,9 @@ public class LogicAssembler implements ILogicAssembler
 		/**
 		 * infrustructures
 		 */
-		MatchNaturalJoinPerformance match_natural_join_performance = new MatchNaturalJoinPerformance(tableHost);
+		MatchNaturalJoinPerformance match_natural_join_performance = new DirectMatchNaturalJoinPerformance(tableHost);
+		//MatchNaturalJoinPerformance match_natural_join_performance = new MatchNaturalJoinPerformance(tableHost);
+		
 		MatchTeamPerformance match_team_performance = new MatchTeamPerformance(tableHost, match_natural_join_performance);
 		RivalTeamPerformance rival_team_performance = new RivalTeamPerformance(tableHost, match_team_performance);
 		RivalTeamNaturalJoin rival_team_natural_join = new RivalTeamNaturalJoin(tableHost, rival_team_performance, match_team_performance);

@@ -4,6 +4,9 @@ import java.io.File;
 
 import nbaquery.data.TableHost;
 import nbaquery.data.file.FileTableHost;
+import nbaquery.data.file.loader.MatchNaturalJoinPerformanceLoader;
+import nbaquery.data.file.loader.PlayerLoader;
+import nbaquery.data.file.loader.TeamLoader;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation.MainFrame;
@@ -13,7 +16,9 @@ public class Main
 	TableHost host;
 	public void loadDataLayer(String root) throws Exception
 	{
-		host = new FileTableHost(new File(root));
+		//host = new FileTableHost(new File(root));
+		host = new FileTableHost(new File(root), new Class<?>[]{TeamLoader.class, 
+			PlayerLoader.class, MatchNaturalJoinPerformanceLoader.class});
 	}
 	
 	TeamService teamService;
