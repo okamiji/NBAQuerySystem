@@ -1,0 +1,248 @@
+package nbaquery.presentation2.main;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.util.Enumeration;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
+
+import nbaquery.logic.player.PlayerService;
+import nbaquery.logic.team.TeamService;
+import nbaquery.presentation2.card.CardLocation;
+import nbaquery.presentation2.card.CardProperties;
+import nbaquery.presentation2.main.Button;
+import nbaquery.presentation2.panel.ConcisePanel;
+import nbaquery.presentation2.panel.PanelSet;
+
+public class MainFrame {
+	
+	static JFrame frame;
+	static JPanel button_left_panel, button_right_panel;
+	ImageIcon background_img;
+	JLabel background_label;
+	
+	static CardLocation location = null;
+	
+	static Button button1, button2, button3, button4;
+	static Button exit, mini, refresh, show;
+
+
+	static MouseListener listener1 = null;
+	static MouseListener listener2 = null;
+	static MouseListener listener3 = null;
+	static MouseListener listener4 = null;
+	
+	int xOld,yOld;
+	
+	public MainFrame(final PlayerService playerService, final TeamService teamService){
+		PanelSet.set_player_service(playerService);
+		PanelSet.set_team_service(teamService);
+	}
+	
+	public void run(){
+		initialize();
+		
+	}
+	
+	public void initialize(){
+
+		background_img = new ImageIcon("Img2/main_frame_green.png");
+		int background_width = background_img.getIconWidth();
+		int background_height = background_img.getIconHeight();
+
+		Color bac = new Color(0,0,0,0.0f); 
+		
+		frame = new JFrame();
+		frame.setUndecorated(true);
+		frame.setBackground(bac);
+		frame.setBounds(270, 80, background_width, background_height);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("NBAQuerySyetem");
+		frame.setVisible(true);		
+		frame.setLayout(null);
+		frame.setResizable(false);
+		frame.setOpacity(0.95f);
+		
+		((JPanel)frame.getContentPane()).setOpaque(false);
+		background_label=new JLabel(background_img);
+		frame.getLayeredPane().add(background_label, new Integer(Integer.MIN_VALUE));
+		background_label.setBounds(0, 0, background_width, background_height); 
+		
+		button_left_panel = new JPanel();
+		button_left_panel.setBounds(0, 0, 104, background_height);
+		button_left_panel.setLayout(null);
+		button_left_panel.setVisible(true);
+		button_left_panel.setOpaque(false);
+		frame.add(button_left_panel);
+
+		button_right_panel = new JPanel();
+		button_right_panel.setBounds(714, 0, 25, background_height);
+		button_right_panel.setLayout(null);
+		button_right_panel.setVisible(true);
+		button_right_panel.setOpaque(false);
+		frame.add(button_right_panel);
+		
+		initialize_buttons();
+		
+
+		//-------------ø…Õœ∂Ø-------------
+		frame.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+			xOld = e.getX();
+			yOld = e.getY();
+			}
+		});
+		frame.addMouseMotionListener(new MouseMotionAdapter(){
+			public void mouseDragged(MouseEvent e) {
+			int xOnScreen = e.getXOnScreen();
+			int yOnScreen = e.getYOnScreen();
+			int xx = xOnScreen - xOld;
+			int yy = yOnScreen - yOld;
+			frame.setLocation(xx, yy);
+		}
+		});
+		
+		Font font=new Font("Œ¢»Ì—≈∫⁄", Font.BOLD, 12);
+		set_font(font);
+		
+		PanelSet.get_instance(frame);
+		
+	}
+	
+	private static void initialize_buttons(){
+		button1 = new Button("", "", button_left_panel);
+		button2 = new Button("", "", button_left_panel);
+		button3 = new Button("", "", button_left_panel);
+		button4 = new Button("", "", button_left_panel);
+		button1.setBounds(10, 148, 94, 87);
+		button2.setBounds(10, 235, 94, 87);
+		button3.setBounds(10, 322, 94, 87);
+		button4.setBounds(10, 409, 94, 87);
+		
+		exit = new Button("", "", button_right_panel);
+		mini = new Button("", "", button_right_panel);
+		refresh = new Button("", "", button_right_panel);
+		show = new Button("", "", button_right_panel);
+		exit.setBounds(1, 36, 24, 25);
+		mini.setBounds(1, 61, 24, 25);
+		refresh.setBounds(1, 86, 24, 25);
+		show.setBounds(1, 111, 24, 25);
+		
+		button1.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				init_button();
+				
+				listener1 = button1.getMouseListeners()[1];
+				button1.removeMouseListener(button1.getMouseListeners()[1]);
+			}
+		});
+		
+		button2.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				init_button();
+
+				CardProperties.set_if_view_all(false);
+				@SuppressWarnings("unused")
+				ConcisePanel cp = new ConcisePanel(2, PanelSet.get_view_limit());
+				PanelSet.get_concise().run();
+				PanelSet.set_all_detailed_panel_invisible();
+				
+				listener2 = button2.getMouseListeners()[1];
+				button2.removeMouseListener(button2.getMouseListeners()[1]);
+			}
+		});
+		
+		button3.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {	
+				init_button();
+
+				CardProperties.set_if_view_all(false);
+				@SuppressWarnings("unused")
+				ConcisePanel cp = new ConcisePanel(1, PanelSet.get_view_limit());
+				PanelSet.get_concise().run();
+				PanelSet.set_all_detailed_panel_invisible();
+				
+				listener3 = button3.getMouseListeners()[1];
+				button3.removeMouseListener(button3.getMouseListeners()[1]);
+			}
+		});
+		
+		button4.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				init_button();
+				
+				listener4 = button4.getMouseListeners()[1];
+				button4.removeMouseListener(button4.getMouseListeners()[1]);
+			}
+		});
+		
+		exit.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		mini.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				frame.setExtendedState(JFrame.ICONIFIED);
+			}
+		});
+		refresh.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		show.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				if(CardProperties.get_cards_per_row() == 1){
+					CardProperties.set_cards_per_row(2);
+				}
+				else if(CardProperties.get_cards_per_row() == 2){
+					CardProperties.set_cards_per_row(1);
+				}
+			}
+		});
+		
+	}
+	
+	public static void set_font(Font fnt){
+		FontUIResource fontRes = new FontUIResource(fnt);
+		Enumeration<Object> keys;
+		for(keys = UIManager.getDefaults().keys(); keys.hasMoreElements();){
+			Object key = keys.nextElement();
+			Object value = UIManager.get(key);
+			if(value instanceof FontUIResource){
+				UIManager.put(key, fontRes);
+			}
+		}
+	}	
+	
+	private static void add_listeners(){
+		if(listener1 != null && (button1.getMouseListeners().length <= 1)){
+			button1.addMouseListener(listener1);
+		}
+		if(listener2 != null && (button2.getMouseListeners().length <= 1)){
+			button2.addMouseListener(listener2);
+		}
+		if(listener3 != null && (button3.getMouseListeners().length <= 1)){
+			button3.addMouseListener(listener3);
+		}
+		if(listener4 != null && (button4.getMouseListeners().length <= 1)){
+			button4.addMouseListener(listener4);
+		}
+	}
+	
+	private static void init_button(){
+		add_listeners();
+		PanelSet.set_concise_invisible();
+	}
+	
+}

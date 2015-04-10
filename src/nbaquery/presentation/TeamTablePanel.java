@@ -120,7 +120,7 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		
 		typeBox = new JComboBox<String>();
 		typeBox.setBounds(229, 2, 118, 24);
-		typeBox.setUI(new MyBasicComboBoxUI(typeBox));
+		//typeBox.setUI(new MyBasicComboBoxUI(typeBox));
 		searchPanel.add(typeBox);
 		boxInitialization();
 		searchButton.addActionListener(new ClickListener());
