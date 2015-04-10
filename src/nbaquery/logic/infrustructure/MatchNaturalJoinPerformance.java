@@ -25,8 +25,8 @@ public class MatchNaturalJoinPerformance implements LogicPipeline
 	
 	public Table getTable()
 	{
-		boolean matchChanged = match.hasTableChanged();
-		boolean performanceChanged = performance.hasTableChanged();
+		boolean matchChanged = match.hasTableChanged(this);
+		boolean performanceChanged = performance.hasTableChanged(this);
 		if(matchChanged || performanceChanged)
 		{
 			tableHost.performQuery(joinQuery, "match_natural_join_performance");

@@ -19,10 +19,10 @@ public class LogicWatcher
 		if(table != watchingTable)
 		{
 			watchingTable = table;
-			table.hasTableChanged();
+			table.hasTableChanged(this);
 			return true;
 		}
-		else return table.hasTableChanged();
+		else return table.hasTableChanged(this);
 	}
 	
 	public Table getTable()

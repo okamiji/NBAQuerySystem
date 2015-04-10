@@ -24,7 +24,7 @@ public class FileMonitor extends Thread
 		while(isSystemRunning) try
 		{
 			File[] files = root.listFiles();
-			for(File file : files)
+			if(files != null) for(File file : files)
 			{
 				String fileName = file.getName();
 				if(!loadedFile.contains(fileName))

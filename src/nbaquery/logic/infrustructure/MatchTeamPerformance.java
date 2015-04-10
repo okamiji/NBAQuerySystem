@@ -14,7 +14,6 @@ public class MatchTeamPerformance implements LogicPipeline
 {
 	public TableHost tableHost;
 	protected GroupQuery groupQuery; 
-	protected boolean shouldDoQuery = true;
 	protected Table table;
 	protected LogicWatcher base;
 	
@@ -121,7 +120,6 @@ public class MatchTeamPerformance implements LogicPipeline
 			groupQuery.table = base.getTable();
 			tableHost.performQuery(groupQuery, "match_team_performance");
 			table = tableHost.getTable("match_team_performance");
-			shouldDoQuery = false;
 		}
 		return table;
 	}

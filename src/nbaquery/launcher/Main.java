@@ -44,6 +44,7 @@ public class Main
 	{
 		Main main = new Main();
 		main.loadDataLayer("D:\\迭代一数据");
+		//main.loadDataLayer("D:\\dynamics");
 		main.loadLogicLayer();
 		main.loadPresentation();
 	}

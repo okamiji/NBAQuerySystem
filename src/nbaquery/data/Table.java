@@ -71,5 +71,5 @@ public interface Table
 	
 	public TableHost getTableHost();
 	
-	public boolean hasTableChanged();
+	public boolean hasTableChanged(Object accessor);
 }
