@@ -17,6 +17,8 @@ import org.apache.batik.swing.svg.JSVGComponent;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
 import nbaquery.presentation2.panel.ConcisePanel;
+import nbaquery.presentation2.panel.ConcisePlayerPanel;
+import nbaquery.presentation2.panel.ConciseTeamPanel;
 import nbaquery.presentation2.panel.PanelSet;
 
 @SuppressWarnings("serial")
@@ -243,14 +245,14 @@ public class Card extends JPanel {
 					
 					if(player_or_team == 1){
 						CardProperties.set_if_view_all(true);
-						@SuppressWarnings("unused")
-						ConcisePanel cp = new ConcisePanel(1, PanelSet.get_view_limit());
+						ConcisePlayerPanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
+						cp.init_player_panel();
 						PanelSet.get_concise().run();
 					}
 					else if(player_or_team == 2){
 						CardProperties.set_if_view_all(true);
-						@SuppressWarnings("unused")
-						ConcisePanel cp = new ConcisePanel(2, PanelSet.get_view_limit());
+						ConciseTeamPanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
+						cp.init_team_panel();
 						PanelSet.get_concise().run();
 					}
 				}

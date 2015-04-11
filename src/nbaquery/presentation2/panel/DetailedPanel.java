@@ -66,8 +66,8 @@ public class DetailedPanel extends JPanel{
 			//	PanelSet.delete_detailed_panel();
 				PanelSet.remove_detailed();
 				CardProperties.set_if_view_all(false);
-				@SuppressWarnings("unused")
-				ConcisePanel cp = new ConcisePanel(1, PanelSet.get_view_limit());
+				ConcisePlayerPanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
+				cp.init_player_panel();
 				PanelSet.get_concise().run();
 			}
 		});
