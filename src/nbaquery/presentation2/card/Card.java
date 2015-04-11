@@ -304,7 +304,7 @@ public class Card extends JPanel {
 		}
 		if(player_index[1] != 0){
 			int index = player_index[1] + 2;
-			player_text += CardProperties.get_player_item_name() + "£º" + player_info[index + 2];
+			player_text += CardProperties.get_player_item_name() + "£º" + player_info[index];
 			player_text_gap();
 		}
 		player_text += "</html>";
@@ -326,10 +326,10 @@ public class Card extends JPanel {
 	
 	private void set_team_text(Team team){
 		String[] team_info = team.get_team_info();
-		int item_index = CardProperties.get_team_index();
+		int item_index = CardProperties.get_team_index_index();
 		String item_name = CardProperties.get_team_item_name();
 		team_text = "<html>";
-		team_text += item_name + "£º" + team_info[item_index];
+		team_text += item_name + "£º" + team_info[item_index + 2];
 		team_text += "</html>";
 	}
 }

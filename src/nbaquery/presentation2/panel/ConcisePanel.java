@@ -228,7 +228,7 @@ public class ConcisePanel {
 					CardProperties.set_player_index(index + 2);
 				}
 				else{
-					CardProperties.set_player_index(index);
+					CardProperties.set_player_index(index + 1);
 				}
 				
 				boolean isGross = false;
@@ -274,13 +274,11 @@ public class ConcisePanel {
 		typeBox.addItem("场均数据");
 
 		valueBox = new JComboBox<String>();
-		valueBox.setBounds(115, 15, 100, 24);
+		valueBox.setBounds(115, 15, 110, 24);
 		valueBox.setUI(new MyBasicComboBoxUI(valueBox));
 		search_panel.add(valueBox);
 		
-		valueBox.addItem("按赛季排序");
-		valueBox.addItem("球队名称");
-		valueBox.addItem("比赛场数");
+		valueBox.addItem("按比赛场数排序");
 		valueBox.addItem("投篮命中数");
 		valueBox.addItem("投篮出手次数");
 		valueBox.addItem("三分命中数");
@@ -326,7 +324,6 @@ public class ConcisePanel {
 				ascendButton.setVisible(true);
 				descendButton.setVisible(false);
 				isUp = false;
-				CardProperties.set_team_isUp(isUp);
 			}
 		});
 		ascendButton.addMouseListener(new MouseAdapter(){
@@ -334,7 +331,6 @@ public class ConcisePanel {
 				ascendButton.setVisible(false);
 				descendButton.setVisible(true);
 				isUp = true;
-				CardProperties.set_team_isUp(isUp);
 			}
 		});
 		
@@ -352,9 +348,11 @@ public class ConcisePanel {
 				}
 				
 				int value_index = valueBox.getSelectedIndex();
-				CardProperties.set_team_index(value_index);
+				CardProperties.set_team_index(value_index + 2);
 				CardProperties.set_team_isGross(isGross);
+				CardProperties.set_team_isUp(isUp);
 				
+				CardProperties.set_team_index_index(value_index);
 				//Fetch item name from certain combo box, which is given to Card and added when setting information of each card.
 				CardProperties.set_team_item_name((String)(valueBox.getSelectedItem()));
 				//Certain number of cards are released each time.
@@ -365,7 +363,7 @@ public class ConcisePanel {
 				ConcisePanel cp = new ConcisePanel(2, PanelSet.get_view_limit());
 				PanelSet.get_concise().run();
 				
-				PanelSet.get_concise().valueBox.setSelectedIndex(CardProperties.get_team_index());				
+				PanelSet.get_concise().valueBox.setSelectedIndex(CardProperties.get_team_index_index());				
 				isUp = CardProperties.get_team_isUp();
 				PanelSet.get_concise().ascendButton.setVisible(!isUp);
 				PanelSet.get_concise().descendButton.setVisible(isUp);
