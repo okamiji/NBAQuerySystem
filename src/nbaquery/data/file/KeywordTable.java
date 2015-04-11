@@ -1,6 +1,7 @@
 package nbaquery.data.file;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.TreeMap;
 
 import nbaquery.data.Column;
@@ -43,6 +44,7 @@ public class KeywordTable implements Table
 	
 	public Tuple createTuple()
 	{
+		notify.clear();
 		Tuple tuple = new Tuple();
 		tuple.attributes = new Object[headerLength];
 		tuple.table = this;
@@ -106,6 +108,14 @@ public class KeywordTable implements Table
 	public TableHost getTableHost()
 	{
 		return this.host;
+	}
+	
+	protected HashSet<Object> notify = new HashSet<Object>();
+	
+	public boolean hasTableChanged(Object accessor)
+	{
+		if(notify.contains(accessor)) return false;
+		notify.add(accessor); return true;
 	}
 
 	@Override

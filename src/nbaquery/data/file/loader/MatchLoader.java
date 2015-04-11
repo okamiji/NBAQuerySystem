@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.KeywordTable;
+import nbaquery.data.file.StringPool;
 import nbaquery.data.file.Tuple;
 
 public class MatchLoader implements FileLoader
@@ -53,6 +55,16 @@ public class MatchLoader implements FileLoader
 	public MatchLoader(FileTableHost host)
 	{
 		this.host = host;
+		
+		this.host.makeProtectedTable(EnumTable.PERFORMANCE.toString(),
+				this.host.getTableFromPreset(EnumTable.PERFORMANCE));
+		
+		this.host.makeProtectedTable(EnumTable.MATCH.toString(),
+				this.host.getTableFromPreset(EnumTable.MATCH));
+		
+		this.host.makeProtectedTable(EnumTable.QUARTER_SCORE.toString(),
+				this.host.getTableFromPreset(EnumTable.QUARTER_SCORE));
+		
 		identity = host.getColumn("match.match_id");
 		season = host.getColumn("match.match_season");
 		date = host.getColumn("match.match_date");
@@ -89,29 +101,6 @@ public class MatchLoader implements FileLoader
 		self_score = host.getColumn("performance.self_score");
 	}
 	
-	public void load(File root)
-	{
-		KeywordTable matchTable = (KeywordTable) host.getTable("match");
-		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
-		KeywordTable performanceTable = (KeywordTable) host.getTable("performance");
-		
-		File[] files = new File(root, "matches").listFiles();
-		
-		long matchId = 1;
-		
-		for(File file : files) if(!file.isDirectory()) try
-		{
-			this.record(file, matchId, matchTable, quarterTable, performanceTable);
-			matchId ++;
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			break;
-		}
-		System.gc();
-	}
-	
 	public void record(File file, long matchId, KeywordTable matchTable, KeywordTable quarterTable, KeywordTable performanceTable) throws Exception
 	{
 		if(!file.getName().matches("[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}_[A-Z]+-[A-Z]+")) return;
@@ -121,11 +110,15 @@ public class MatchLoader implements FileLoader
 		identity.setAttribute(tuple, matchId);
 		
 		String[] splitted = file.getName().split("_", 3);
-		season.setAttribute(tuple, splitted[0]);
-		date.setAttribute(tuple, splitted[1]);
+		//season.setAttribute(tuple, splitted[0]);
+		season.setAttribute(tuple, StringPool.createSeasonFromPool(splitted[0]));
+		//date.setAttribute(tuple, splitted[1]);
+		date.setAttribute(tuple, StringPool.createSeasonFromPool(splitted[1]));
 		String[] duals = splitted[2].split("-", 2);
-		host_abbr.setAttribute(tuple, duals[0]);
-		guest_abbr.setAttribute(tuple, duals[1]);
+		//host_abbr.setAttribute(tuple, duals[0]);
+		//guest_abbr.setAttribute(tuple, duals[1]);
+		host_abbr.setAttribute(tuple, StringPool.createSeasonFromPool(duals[0]));
+		guest_abbr.setAttribute(tuple, StringPool.createSeasonFromPool(duals[1]));
 		
 		//Getting data from the file.
 		BufferedReader br = new BufferedReader(new FileReader(file));
@@ -219,5 +212,24 @@ public class MatchLoader implements FileLoader
 				builder = new StringBuilder();
 			}
 		return splitted;
+	}
+	
+	long matchId = 1;
+	
+	public void setRoot(File root)
+	{
+		FileMonitor fileMonitor = new FileMonitor(new File(root, "matches"), this);
+		fileMonitor.start();
+	}
+
+	@Override
+	public void load(File aFile) throws Exception
+	{
+		KeywordTable matchTable = (KeywordTable) host.getTable("match");
+		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
+		KeywordTable performanceTable = (KeywordTable) host.getTable("performance");
+		
+		this.record(aFile, matchId, matchTable, quarterTable, performanceTable);
+		matchId ++;
 	}
 }

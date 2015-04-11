@@ -4,25 +4,28 @@ import nbaquery.data.Column;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.NaturalJoinQuery;
+import nbaquery.logic.LogicPipeline;
+import nbaquery.logic.LogicWatcher;
 
-public class GrossTeamNaturalJoin
+public class GrossTeamNaturalJoin implements LogicPipeline
 {
 	public TableHost tableHost;
-	protected GrossRivalPerformance rival;
-	protected GrossTeamPerformance team;
-	protected boolean shouldDoQuery = true;
+	protected LogicWatcher rival;
+	protected LogicWatcher team;
 	protected Table table;
 	
 	public GrossTeamNaturalJoin(TableHost tableHost, GrossRivalPerformance rival, GrossTeamPerformance team)
 	{
 		this.tableHost = tableHost;
-		this.rival = rival;
-		this.team = team;
+		this.rival = new LogicWatcher(rival);
+		this.team = new LogicWatcher(team);
 	}
 	
 	public Table getTable()
 	{
-		if(shouldDoQuery)
+		boolean rivalChanged = this.rival.checkDepenency();
+		boolean teamChanged = this.team.checkDepenency();
+		if(rivalChanged || teamChanged)
 		{
 			NaturalJoinQuery joinQuery = new NaturalJoinQuery(team.getTable(), rival.getTable(), new String[]{"team_name_abbr"}, new String[]{"current_name_abbr"});
 			tableHost.performQuery(joinQuery, "gross_team_natural_join");
@@ -34,22 +37,7 @@ public class GrossTeamNaturalJoin
 					table.renameColumn(column.getColumnName(),
 							column.getColumnName().substring(0, column.getColumnName().length() - "_sum".length()));
 			}
-			
-			shouldDoQuery = false;
 		}
 		return table;
-	}
-	
-	public void markDirty()
-	{
-		this.shouldDoQuery = true;
-	}
-	
-	public void destroy()
-	{
-		this.markDirty();
-		this.tableHost.deleteTable("gross_team_natural_join");
-		this.team.destroy();
-		this.rival.destroy();
 	}
 }

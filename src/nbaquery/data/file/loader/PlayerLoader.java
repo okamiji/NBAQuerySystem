@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.TreeMap;
 
 import nbaquery.data.Image;
+import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.KeywordTable;
@@ -34,6 +35,10 @@ public class PlayerLoader implements FileLoader
 	public PlayerLoader(FileTableHost host)
 	{
 		this.host = host;
+		
+		this.host.makeProtectedTable(EnumTable.PLAYER.toString(), 
+				this.host.getTableFromPreset(EnumTable.PLAYER));
+		
 		player_name = host.getColumn("player.player_name");
 		player_number = host.getColumn("player.player_number");
 		player_position = host.getColumn("player.player_position");
@@ -56,27 +61,6 @@ public class PlayerLoader implements FileLoader
 		keyToColumnMap.put("age", player_age);
 		keyToColumnMap.put("exp", player_exp);
 		keyToColumnMap.put("school", player_school);
-	}
-	
-	public void load(File root)
-	{
-		KeywordTable playerTable = (KeywordTable) host.getTable("player");
-		
-		File fileFolder = new File(root, "players");
-		File[] files = new File(fileFolder, "info").listFiles();
-		File actionFolder = new File(fileFolder, "action");
-		File portraitFolder = new File(fileFolder, "portrait");
-		
-		for(File file : files) if(!file.isDirectory()) try
-		{
-			this.record(file, actionFolder, portraitFolder, playerTable);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			break;
-		}
-		System.gc();
 	}
 	
 	public void record(File file, File actionFolder, File portraitFolder, KeywordTable playerTable) throws Exception
@@ -104,5 +88,25 @@ public class PlayerLoader implements FileLoader
 		
 		File actionFile = new File(actionFolder, file.getName() + ".png");
 		if(actionFile.exists() && actionFile.isFile()) action.setAttribute(player, new Image(actionFile));
+	}
+
+	File fileFolder;
+	File actionFolder;
+	File portraitFolder;
+	
+	public void setRoot(File root)
+	{
+		fileFolder = new File(root, "players");
+		actionFolder = new File(fileFolder, "action");
+		portraitFolder = new File(fileFolder, "portrait");
+		FileMonitor fileMonitor = new FileMonitor(new File(fileFolder, "info"), this);
+		fileMonitor.start();
+	}
+	
+	@Override
+	public void load(File aFile) throws Exception
+	{
+		KeywordTable playerTable = (KeywordTable) host.getTable("player");
+		this.record(aFile, actionFolder, portraitFolder, playerTable);
 	}
 }

@@ -4,5 +4,7 @@ import java.io.File;
 
 public interface FileLoader
 {
-	public void load(File root);
+	public void setRoot(File root);
+	
+	public void load(File aFile) throws Exception;
 }

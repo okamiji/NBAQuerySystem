@@ -2,44 +2,32 @@ package nbaquery.logic.average_team;
 
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.logic.LogicPipeline;
+import nbaquery.logic.LogicWatcher;
 import nbaquery.logic.TeamDeriveQuery;
 import nbaquery.logic.infrustructure.RivalTeamNaturalJoin;
 
-public class DerivedTeamPerformance
+public class DerivedTeamPerformance implements LogicPipeline
 {
 	public TableHost tableHost; 
 	protected boolean shouldDoQuery = true;
 	protected Table table;
-	protected RivalTeamNaturalJoin joined;
+	protected LogicWatcher joined;
 	
 	public DerivedTeamPerformance(TableHost tableHost, RivalTeamNaturalJoin joined)
 	{
 		this.tableHost = tableHost;
-		this.joined = joined;
+		this.joined = new LogicWatcher(joined);
 	}
 	
 	public Table getTable()
 	{
-		if(shouldDoQuery)
+		if(joined.checkDepenency())
 		{
 			TeamDeriveQuery query = new TeamDeriveQuery(joined.getTable()); 
 			tableHost.performQuery(query, "derived_team_performance");
 			table = tableHost.getTable("derived_team_performance");
-			shouldDoQuery = false;
 		}
 		return table;
-	}
-	
-	public void markDirty()
-	{
-		this.shouldDoQuery = true;
-	}
-	
-	public void destroy()
-	{
-		this.markDirty();
-		this.tableHost.deleteTable("derived_team_performance");
-		
-		this.joined.destroy();
 	}
 }

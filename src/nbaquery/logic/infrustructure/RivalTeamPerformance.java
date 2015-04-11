@@ -6,6 +6,8 @@ import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.DeriveColumnInfo;
 import nbaquery.data.query.DeriveQuery;
+import nbaquery.logic.LogicPipeline;
+import nbaquery.logic.LogicWatcher;
 
 /**
  * team_name_abbr = rival_team_name
@@ -14,22 +16,22 @@ import nbaquery.data.query.DeriveQuery;
  *
  */
 
-public class RivalTeamPerformance
+public class RivalTeamPerformance implements LogicPipeline
 {
 	public TableHost tableHost;
 	protected boolean shouldDoQuery = true;
 	protected Table table;
-	public MatchTeamPerformance base;
+	public LogicWatcher base;
 	
 	public RivalTeamPerformance(TableHost tableHost, MatchTeamPerformance base)
 	{
 		this.tableHost = tableHost;
-		this.base = base;
+		this.base = new LogicWatcher(base);
 	}
 	
 	public Table getTable()
 	{
-		if(shouldDoQuery)
+		if(base.checkDepenency())
 		{
 			DeriveQuery groupQuery= new DeriveQuery(base.getTable(), new DeriveColumnInfo[]
 			{
@@ -74,17 +76,5 @@ public class RivalTeamPerformance
 			shouldDoQuery = false;
 		}
 		return table;
-	}
-	
-	public void markDirty()
-	{
-		this.shouldDoQuery = true;
-	}
-	
-	public void destroy()
-	{
-		this.markDirty();
-		this.tableHost.deleteTable("rival_team_performance");
-		this.base.destroy();
 	}
 }

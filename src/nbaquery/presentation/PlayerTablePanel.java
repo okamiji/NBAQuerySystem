@@ -154,17 +154,17 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		positionBox = new JComboBox<String>();
 		positionBox.setBounds(231, 3, 113, 24);
 		positionBox.setOpaque(false);
-	    positionBox.setUI(new MyBasicComboBoxUI(positionBox));
+	    //positionBox.setUI(new MyBasicComboBoxUI(positionBox));
 	    searchPanel.add(positionBox);
 	    
 		leagueBox = new JComboBox<String>();
 		leagueBox.setBounds(410, 3, 113, 24);
-		leagueBox.setUI(new MyBasicComboBoxUI(leagueBox));
+		//leagueBox.setUI(new MyBasicComboBoxUI(leagueBox));
 		searchPanel.add(leagueBox);
 					
 		typeBox = new JComboBox<String>();
 		typeBox.setBounds(595, 3, 120, 24);
-		typeBox.setUI(new MyBasicComboBoxUI(typeBox));
+		//typeBox.setUI(new MyBasicComboBoxUI(typeBox));
 		searchPanel.add(typeBox);
 					
 		searchButton = new JButton("",new ImageIcon("IMGS/search.png"));

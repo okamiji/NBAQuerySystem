@@ -4,16 +4,22 @@ import java.io.File;
 
 import nbaquery.data.TableHost;
 import nbaquery.data.file.FileTableHost;
+import nbaquery.data.file.loader.MatchNaturalJoinPerformanceLoader;
+import nbaquery.data.file.loader.PlayerLoader;
+import nbaquery.data.file.loader.TeamLoader;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
-import nbaquery.presentation.MainFrame;
+import nbaquery.presentation2.main.MainFrame;
+//import nbaquery.presentation.MainFrame;
 
 public class Main
 {
 	TableHost host;
 	public void loadDataLayer(String root) throws Exception
 	{
-		host = new FileTableHost(new File(root));
+		//host = new FileTableHost(new File(root));
+		host = new FileTableHost(new File(root), new Class<?>[]{TeamLoader.class, 
+			PlayerLoader.class, MatchNaturalJoinPerformanceLoader.class});
 	}
 	
 	TeamService teamService;
@@ -30,13 +36,15 @@ public class Main
 	public void loadPresentation()
 	{
 		mainFrame = new MainFrame(this.playerService, this.teamService);
-		mainFrame.setVisible(true);
+		mainFrame.run();
+//		mainFrame.setVisible(true);
 	}
 	
 	public static void main(String[] arguments) throws Exception
 	{
 		Main main = new Main();
 		main.loadDataLayer("D:\\迭代一数据");
+		//main.loadDataLayer("D:\\dynamics");
 		main.loadLogicLayer();
 		main.loadPresentation();
 	}

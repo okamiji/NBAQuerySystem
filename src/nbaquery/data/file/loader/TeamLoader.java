@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 import nbaquery.data.Image;
+import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.KeywordTable;
@@ -29,6 +30,10 @@ public class TeamLoader implements FileLoader
 	public TeamLoader(FileTableHost host)
 	{
 		this.host = host;
+		
+		this.host.makeProtectedTable(EnumTable.TEAM.toString(), 
+				this.host.getTableFromPreset(EnumTable.TEAM));
+		
 		team_name = host.getColumn("team.team_name");
 		team_name_abbr = host.getColumn("team.team_name_abbr");
 		team_location = host.getColumn("team.team_location");
@@ -39,22 +44,6 @@ public class TeamLoader implements FileLoader
 		team_logo = host.getColumn("team.team_logo");
 		
 		columnCorrespondance = new FileTableColumn[]{team_name, team_name_abbr, team_location, team_match_area, team_sector, team_host, team_foundation};
-	}
-	
-	public void load(File root)
-	{
-		KeywordTable teamTable = (KeywordTable) host.getTable("team");
-		
-		File fileFolder = new File(root, "teams");
-		File file = new File(fileFolder, "teams");
-		if(!file.isDirectory()) try
-		{
-			this.record(file, fileFolder, teamTable);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
 	}
 	
 	public void record(File file, File fileFolder, KeywordTable teamTable) throws Exception
@@ -80,5 +69,23 @@ public class TeamLoader implements FileLoader
 			}
 		}
 		reader.close();
+	}
+	
+	File fileFolder;
+	
+	public void setRoot(File root)
+	{
+		FileMonitor fileMonitor = new FileMonitor(new File(root, "teams"), this);
+		fileMonitor.start();
+	}
+
+	@Override
+	public void load(File aFile) throws Exception
+	{
+		if(aFile.getName().equals("teams"))
+		{
+			KeywordTable teamTable = (KeywordTable) host.getTable("team");
+			this.record(aFile, fileFolder, teamTable);
+		}
 	}
 }
