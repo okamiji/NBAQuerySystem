@@ -165,7 +165,7 @@ public class Card extends JPanel {
 			label_info.setText(team_text);
 			label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
 			shadow_label.add(label_info);
-			label_info.setBounds(120, 30, 140, 70);
+			label_info.setBounds(120, 30, 130, 60);
 			
 			this.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e) {
@@ -207,7 +207,7 @@ public class Card extends JPanel {
 			label_info.setText(player_text);
 			label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
 			shadow_label.add(label_info);
-			label_info.setBounds(190, 0, 340, 70);
+			label_info.setBounds(180, -10, 340, 60);
 			
 			this.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e) {
@@ -282,8 +282,6 @@ public class Card extends JPanel {
 			});
 		}
 		
-		//TODO
-		set_view_more_text();
 	}
 
 	private void set_player_text(Player player){
@@ -302,7 +300,7 @@ public class Card extends JPanel {
 		}
 		if(player_index[1] != 0){
 			int index = player_index[1] + 2;
-			player_text += CardProperties.get_item_name() + "£º" + player_info[index];
+			player_text += CardProperties.get_player_item_name() + "£º" + player_info[index + 2];
 			player_text_gap();
 		}
 		player_text += "</html>";
@@ -322,12 +320,16 @@ public class Card extends JPanel {
 		player_text += "   ";
 	}
 	
-	private void set_team_text(Team team){
-		
+	private void set_team_text(Team team){/*
+		for(int i=0; i<team.get_team_info().length; i++){
+			System.out.println("  " + team.get_team_info()[i]);
+		}
+		System.out.println(" ");*/
+		String[] team_info = team.get_team_info();
+		int item_index = CardProperties.get_team_index();
+		String item_name = CardProperties.get_team_item_name();
+		team_text = "<html>";
+		team_text += item_name + "£º" + team_info[item_index];
+		team_text += "</html>";
 	}
-	private void set_view_more_text(){
-		
-	}
-
-	
 }

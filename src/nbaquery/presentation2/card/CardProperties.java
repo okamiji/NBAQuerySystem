@@ -13,8 +13,10 @@ public class CardProperties {
 	private static int player_league_index = 0;	
 	private static String player_item_name = "按名称排序";
 	
+	private static String team_item_name = "按赛季排序";
+	
 	private static boolean team_isGross = true;
-	private static int team_index = 1;
+	private static int team_index = 0;
 	private static boolean team_isUp = true;
 	
 	private static int cards_per_row = 2;
@@ -51,11 +53,18 @@ public class CardProperties {
 		return return_int;
 	}
 	
-	public static void set_item_name(String set_name){
+	public static void set_player_item_name(String set_name){
 		player_item_name = set_name;
 	}
-	public static String get_item_name(){
+	public static String get_player_item_name(){
 		return player_item_name;
+	}
+	
+	public static void set_team_item_name(String set_name){
+		team_item_name = set_name;
+	}
+	public static String get_team_item_name(){
+		return team_item_name;
 	}
 	
 

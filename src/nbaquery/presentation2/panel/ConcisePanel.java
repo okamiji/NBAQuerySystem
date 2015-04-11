@@ -187,12 +187,14 @@ public class ConcisePanel {
 		valueBox.addItem("分/板/助");
 		
 		descendButton = new JButton();
-		descendButton.setBackground(Color.BLACK);
+		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
+		descendButton.setContentAreaFilled(false);
 		descendButton.setBounds(420, 15, 24, 24);
 		search_panel.add(descendButton);
 		
 		ascendButton = new JButton();
-		ascendButton.setBackground(Color.WHITE);
+		ascendButton.setIcon(new ImageIcon("Img2/ascend.png"));
+		ascendButton.setContentAreaFilled(false);
 		ascendButton.setBounds(420, 15, 24, 24);
 		search_panel.add(ascendButton);
 		ascendButton.setVisible(false);
@@ -209,12 +211,12 @@ public class ConcisePanel {
 				ascendButton.setVisible(false);
 				descendButton.setVisible(true);
 				isUp = true;
-				
-				//TODO upppppp?
 			}
 		});
 		
-		searchButton = new JButton("NBAQuery");
+		searchButton = new JButton();
+		searchButton.setIcon(new ImageIcon("Img2/search_button.png"));
+		searchButton.setContentAreaFilled(false);
 		searchButton.setBounds(460, 15, 72, 24);
 		search_panel.add(searchButton);		
 		
@@ -243,7 +245,9 @@ public class ConcisePanel {
 				CardProperties.set_player_league(league);
 
 				//Fetch item name from certain combo box, which is given to Card and added when setting information of each card.
-				CardProperties.set_item_name((String)(valueBox.getSelectedItem()));
+				CardProperties.set_player_item_name((String)(valueBox.getSelectedItem()));
+				//Certain number of cards are released each time.
+				CardProperties.set_if_view_all(false);
 				
 				PanelSet.get_concise().set_combobox();
 				PanelSet.set_concise_invisible();
@@ -262,32 +266,109 @@ public class ConcisePanel {
 		search_panel.setBounds(130, 20, 570, 60);
 
 		typeBox = new JComboBox<String>();
-		typeBox.setBounds(20, 10, 80, 24);
+		typeBox.setBounds(20, 15, 80, 24);
 		typeBox.setUI(new MyBasicComboBoxUI(typeBox));
 		search_panel.add(typeBox);
 
 		typeBox.addItem("全局数据");
 		typeBox.addItem("场均数据");
+
+		valueBox = new JComboBox<String>();
+		valueBox.setBounds(115, 15, 100, 24);
+		valueBox.setUI(new MyBasicComboBoxUI(valueBox));
+		search_panel.add(valueBox);
 		
-		searchButton = new JButton("",new ImageIcon("IMGS/search.png"));
-		searchButton.setBounds(500, 10, 35, 40);
-		searchButton.setFocusPainted(false);
-		searchButton.setBorderPainted(false);
+		valueBox.addItem("按赛季排序");
+		valueBox.addItem("球队名称");
+		valueBox.addItem("比赛场数");
+		valueBox.addItem("投篮命中数");
+		valueBox.addItem("投篮出手次数");
+		valueBox.addItem("三分命中数");
+		valueBox.addItem("三分出手数");
+		valueBox.addItem("罚球命中数");
+		valueBox.addItem("罚球出手数");
+		valueBox.addItem("进攻篮板数");
+		valueBox.addItem("防守篮板数");
+		valueBox.addItem("篮板数");
+		valueBox.addItem("助攻数");
+		valueBox.addItem("抢断数");
+		valueBox.addItem("盖帽数");
+		valueBox.addItem("失误数");
+		valueBox.addItem("犯规数");
+		valueBox.addItem("比赛得分");
+		valueBox.addItem("投篮命中率");
+		valueBox.addItem("三分命中率");
+		valueBox.addItem("罚球命中率");
+		valueBox.addItem("胜率");
+		valueBox.addItem("进攻回合");
+		valueBox.addItem("进攻效率");
+		valueBox.addItem("防守效率");
+		valueBox.addItem("进攻篮板效率");
+		valueBox.addItem("防守篮板效率");
+		valueBox.addItem("抢断效率");
+		valueBox.addItem("助攻效率");
+
+		descendButton = new JButton();
+		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
+		descendButton.setContentAreaFilled(false);
+		descendButton.setBounds(420, 15, 24, 24);
+		search_panel.add(descendButton);
+		
+		ascendButton = new JButton();
+		ascendButton.setIcon(new ImageIcon("Img2/ascend.png"));
+		ascendButton.setContentAreaFilled(false);
+		ascendButton.setBounds(420, 15, 24, 24);
+		search_panel.add(ascendButton);
+		ascendButton.setVisible(false);
+		
+		descendButton.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				ascendButton.setVisible(true);
+				descendButton.setVisible(false);
+				isUp = false;
+				CardProperties.set_team_isUp(isUp);
+			}
+		});
+		ascendButton.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				ascendButton.setVisible(false);
+				descendButton.setVisible(true);
+				isUp = true;
+				CardProperties.set_team_isUp(isUp);
+			}
+		});
+		
+		searchButton = new JButton();
+		searchButton.setIcon(new ImageIcon("Img2/search_button.png"));
 		searchButton.setContentAreaFilled(false);
+		searchButton.setBounds(460, 15, 72, 24);
 		search_panel.add(searchButton);
 		
 		searchButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-			/*	position=lookups.get((String) positionBox.getSelectedItem());
-				league=lookups.get((String) leagueBox.getSelectedItem());
+				boolean isGross = false;
+				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
+					isGross = true;
+				}
 				
-				if(((String)typeBox.getSelectedItem()).equals("全局数据"))
-					isGlobal=true;
-				else
-					isGlobal=false;	*/
-				/*
-				strs=ps.searchForPlayers(isGlobal,head, upDown, position, league);
-				updateTable(strs);*/
+				int value_index = valueBox.getSelectedIndex();
+				CardProperties.set_team_index(value_index);
+				CardProperties.set_team_isGross(isGross);
+				
+				//Fetch item name from certain combo box, which is given to Card and added when setting information of each card.
+				CardProperties.set_team_item_name((String)(valueBox.getSelectedItem()));
+				//Certain number of cards are released each time.
+				CardProperties.set_if_view_all(false);
+				
+				PanelSet.set_concise_invisible();
+				@SuppressWarnings("unused")
+				ConcisePanel cp = new ConcisePanel(2, PanelSet.get_view_limit());
+				PanelSet.get_concise().run();
+				
+				PanelSet.get_concise().valueBox.setSelectedIndex(CardProperties.get_team_index());				
+				isUp = CardProperties.get_team_isUp();
+				PanelSet.get_concise().ascendButton.setVisible(!isUp);
+				PanelSet.get_concise().descendButton.setVisible(isUp);
 			}
 		});
 	}
