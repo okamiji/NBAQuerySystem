@@ -15,7 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import nbaquery.presentation.MyBasicComboBoxUI;
+import nbaquery.presentation.combobox.ComboBoxFactory;
+import nbaquery.presentation.combobox.MyBasicComboBoxUI;
 import nbaquery.presentation2.card.Card;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.card.CardProperties;
@@ -120,7 +121,7 @@ public class ConcisePanel {
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 20, 570, 60);
-		
+		/*
 		positionBox = new JComboBox<String>();
 		positionBox.setBounds(20, 15, 80, 24);
 	    positionBox.setUI(new MyBasicComboBoxUI(positionBox));
@@ -185,6 +186,56 @@ public class ConcisePanel {
 		valueBox.addItem("球员位置");
 		valueBox.addItem("联盟");
 		valueBox.addItem("分/板/助");
+		*/
+		//XXX------------------------------------------------------------
+		positionBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 80, 24, 
+				new String[]{"全部位置", "前锋", "中锋", "后卫"});
+	    search_panel.add(positionBox);
+	    
+		leagueBox = ComboBoxFactory.getInstance().createComboBox(115, 15, 80, 24, 
+				new String[]{"全部联盟", "东部", "西部"});
+		search_panel.add(leagueBox);
+					
+		typeBox = ComboBoxFactory.getInstance().createComboBox(210, 15, 80, 24, 
+				new String[]{"全局数据", "场均数据"});
+		search_panel.add(typeBox);
+		
+		valueBox = ComboBoxFactory.getInstance().createComboBox(305, 15, 100, 24, 
+				new String[]{"按名称排序",
+				"参赛场数",
+				"先发场数",
+				"篮板",
+				"助攻",
+				"在场时间",
+				"投篮命中率",
+				"三分命中率",
+				"罚球命中率",
+				"进攻",
+				"防守",
+				"抢断",
+				"盖帽",
+				"失误",
+				"犯规",
+				"得分",
+				"效率",
+				"GmSc",
+				"真实命中率",
+				"投篮效率",
+				"篮板率",
+				"进攻篮板率",
+				"防守篮板率",
+				"助攻率",
+				"抢断率",
+				"盖帽率",
+				"失误率",
+				"使用率",
+				"球员位置",
+				"联盟",
+				"分/板/助",
+				});
+		search_panel.add(valueBox);
+		
+		//XXX------------------------------------------------------------
 		
 		descendButton = new JButton();
 		descendButton.setIcon(new ImageIcon("Img2/descend.png"));

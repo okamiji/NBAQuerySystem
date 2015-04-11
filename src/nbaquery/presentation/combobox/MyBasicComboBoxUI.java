@@ -1,4 +1,4 @@
-package nbaquery.presentation;
+package nbaquery.presentation.combobox;
 
 import java.awt.Color;
 
