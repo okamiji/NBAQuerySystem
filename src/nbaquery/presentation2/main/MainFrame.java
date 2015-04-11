@@ -33,7 +33,7 @@ public class MainFrame {
 	static CardLocation location = null;
 	
 	static Button button1, button2, button3, button4;
-	static Button exit, mini, refresh, show;
+	static Button exit, mini, show;
 
 
 	static MouseListener listener1 = null;
@@ -130,12 +130,10 @@ public class MainFrame {
 		
 		exit = new Button("", "", button_right_panel);
 		mini = new Button("", "", button_right_panel);
-		refresh = new Button("", "", button_right_panel);
 		show = new Button("", "", button_right_panel);
 		exit.setBounds(1, 36, 24, 25);
 		mini.setBounds(1, 61, 24, 25);
-		refresh.setBounds(1, 86, 24, 25);
-		show.setBounds(1, 111, 24, 25);
+		show.setBounds(1, 86, 24, 25);
 		
 		button1.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -194,10 +192,6 @@ public class MainFrame {
 		mini.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				frame.setExtendedState(JFrame.ICONIFIED);
-			}
-		});
-		refresh.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
 			}
 		});
 		show.addMouseListener(new MouseAdapter(){

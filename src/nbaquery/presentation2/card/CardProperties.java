@@ -2,7 +2,7 @@ package nbaquery.presentation2.card;
 
 public class CardProperties {
 	private static boolean player_isGross = true;
-	private static int player_index = -1;
+	private static int player_index = -1;//for logic service
 	private static boolean player_isUp = true;
 	private static String player_position = null;
 	private static String player_league = null;
@@ -14,8 +14,11 @@ public class CardProperties {
 	private static String player_item_name = "按名称排序";
 	
 	private static boolean team_isGross = true;
-	private static int team_index = 1;
+	private static int team_index = 0;
 	private static boolean team_isUp = true;
+
+	private static int team_index_index = 0;
+	private static String team_item_name = "按比赛场数排序";
 	
 	private static int cards_per_row = 2;
 	
@@ -51,11 +54,18 @@ public class CardProperties {
 		return return_int;
 	}
 	
-	public static void set_item_name(String set_name){
+	public static void set_player_item_name(String set_name){
 		player_item_name = set_name;
 	}
-	public static String get_item_name(){
+	public static String get_player_item_name(){
 		return player_item_name;
+	}
+	
+	public static void set_team_item_name(String set_name){
+		team_item_name = set_name;
+	}
+	public static String get_team_item_name(){
+		return team_item_name;
 	}
 	
 
@@ -69,6 +79,12 @@ public class CardProperties {
 		team_isUp = set_team_isUp;
 	}
 	
+	public static void set_team_index_index(int set_team_index_index){
+		team_index_index = set_team_index_index;
+	}
+	public static int get_team_index_index(){
+		return team_index_index;
+	}
 	
 	public static boolean get_player_isGross(){
 		return player_isGross;
