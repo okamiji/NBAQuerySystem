@@ -315,7 +315,7 @@ public class ConcisePanel {
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 20, 570, 60);
-
+		/*
 		typeBox = new JComboBox<String>();
 		typeBox.setBounds(20, 15, 80, 24);
 		typeBox.setUI(new MyBasicComboBoxUI(typeBox));
@@ -356,7 +356,48 @@ public class ConcisePanel {
 		valueBox.addItem("防守篮板效率");
 		valueBox.addItem("抢断效率");
 		valueBox.addItem("助攻效率");
+		*/
+		
+		//XXX------------------------------------------------------------------------
+		
+		typeBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 80, 24, 
+				new String[]{"全局数据", "场均数据"});
+		search_panel.add(typeBox);
 
+		valueBox = ComboBoxFactory.getInstance().createComboBox(115, 15, 110, 24, 
+				new String[]{
+				"按比赛场数排序",
+				"投篮命中数",
+				"投篮出手次数",
+				"三分命中数",
+				"三分出手数",
+				"罚球命中数",
+				"罚球出手数",
+				"进攻篮板数",
+				"防守篮板数",
+				"篮板数",
+				"助攻数",
+				"抢断数",
+				"盖帽数",
+				"失误数",
+				"犯规数",
+				"比赛得分",
+				"投篮命中率",
+				"三分命中率",
+				"罚球命中率",
+				"胜率",
+				"进攻回合",
+				"进攻效率",
+				"防守效率",
+				"进攻篮板效率",
+				"防守篮板效率",
+				"抢断效率",
+				"助攻效率"});
+		
+		search_panel.add(valueBox);
+		
+		//XXX------------------------------------------------------------------------
+		
 		descendButton = new JButton();
 		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
 		descendButton.setContentAreaFilled(false);
