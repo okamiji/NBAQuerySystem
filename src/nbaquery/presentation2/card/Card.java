@@ -150,15 +150,17 @@ public class Card extends JPanel {
 
 			JSVGComponent svgComponent = new JSVGComponent(null, false, false);
 			String path = team.get_portrait_path();
-			File f = new File(path);
-			try {
-	            svgComponent.loadSVGDocument(f.toURL().toString());
-	        } catch (IOException ex) {
-	            ex.printStackTrace();
-	        }
-			svgComponent.setBounds(10, 8, 100, 85);
-			shadow_label.add(svgComponent);
-			shadow_label.repaint();
+			if(path != null){
+				File f = new File(path);
+				try {
+		            svgComponent.loadSVGDocument(f.toURL().toString());
+		        } catch (IOException ex) {
+		            ex.printStackTrace();
+		        }
+				svgComponent.setBounds(10, 8, 100, 85);
+				shadow_label.add(svgComponent);
+				shadow_label.repaint();
+			}
 			
 			label_info = new JLabel();
 			set_team_text(team);
@@ -192,19 +194,21 @@ public class Card extends JPanel {
 			
 			JSVGComponent svgComponent = new JSVGComponent(null, false, false);
 			String path = team.get_portrait_path();
-			File f = new File(path);
-			try {
-	            svgComponent.loadSVGDocument(f.toURL().toString());
-	        } catch (IOException ex) {
-	            ex.printStackTrace();
-	        }
-			svgComponent.setBounds(8, 2, 35, 35);
-			shadow_label.add(svgComponent);
-			shadow_label.repaint();
+			if(path != null){
+				File f = new File(path);
+				try {
+		            svgComponent.loadSVGDocument(f.toURL().toString());
+		        } catch (IOException ex) {
+		            ex.printStackTrace();
+		        }
+				svgComponent.setBounds(8, 2, 35, 35);
+				shadow_label.add(svgComponent);
+				shadow_label.repaint();
+			}
 			
 			label_info = new JLabel();
 			set_team_text(team);
-			label_info.setText(player_text);
+			label_info.setText(team_text);
 			label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
 			shadow_label.add(label_info);
 			label_info.setBounds(180, -10, 340, 60);
@@ -320,11 +324,7 @@ public class Card extends JPanel {
 		player_text += "   ";
 	}
 	
-	private void set_team_text(Team team){/*
-		for(int i=0; i<team.get_team_info().length; i++){
-			System.out.println("  " + team.get_team_info()[i]);
-		}
-		System.out.println(" ");*/
+	private void set_team_text(Team team){
 		String[] team_info = team.get_team_info();
 		int item_index = CardProperties.get_team_index();
 		String item_name = CardProperties.get_team_item_name();

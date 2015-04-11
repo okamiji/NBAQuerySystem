@@ -5,6 +5,9 @@ public class Team {
 	
 	public Team(String[] string_info){
 		team_info = string_info;
+	/*	for(int i=0; i<team_info.length; i++){
+			System.out.println(i + " " + team_info[i]);
+		}*/
 	}
 	public String get_name(){
 		return team_info[1];
