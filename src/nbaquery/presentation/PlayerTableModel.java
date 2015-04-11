@@ -82,7 +82,8 @@ public class PlayerTableModel extends AbstractTableModel{
 	}
 
 	public Class getColumnClass(int c) {  
-		return getValueAt(0, c).getClass();  
+		//return getValueAt(0, c).getClass();  
+		return String.class;
 	}
 
 	public Object getValueAt(int row, int column) {

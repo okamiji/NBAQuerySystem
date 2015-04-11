@@ -9,6 +9,7 @@ import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.KeywordTable;
+import nbaquery.data.file.StringPool;
 import nbaquery.data.file.Tuple;
 
 public class MatchLoader implements FileLoader
@@ -109,11 +110,15 @@ public class MatchLoader implements FileLoader
 		identity.setAttribute(tuple, matchId);
 		
 		String[] splitted = file.getName().split("_", 3);
-		season.setAttribute(tuple, splitted[0]);
-		date.setAttribute(tuple, splitted[1]);
+		//season.setAttribute(tuple, splitted[0]);
+		season.setAttribute(tuple, StringPool.createSeasonFromPool(splitted[0]));
+		//date.setAttribute(tuple, splitted[1]);
+		date.setAttribute(tuple, StringPool.createSeasonFromPool(splitted[1]));
 		String[] duals = splitted[2].split("-", 2);
-		host_abbr.setAttribute(tuple, duals[0]);
-		guest_abbr.setAttribute(tuple, duals[1]);
+		//host_abbr.setAttribute(tuple, duals[0]);
+		//guest_abbr.setAttribute(tuple, duals[1]);
+		host_abbr.setAttribute(tuple, StringPool.createSeasonFromPool(duals[0]));
+		guest_abbr.setAttribute(tuple, StringPool.createSeasonFromPool(duals[1]));
 		
 		//Getting data from the file.
 		BufferedReader br = new BufferedReader(new FileReader(file));

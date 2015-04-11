@@ -16,7 +16,8 @@ public interface Converter<T>
 				@Override
 				public String convert(String input)
 				{
-					return input;
+					return StringPool.createSeasonFromPool(input);
+					//return input;
 				}
 			});
 			
