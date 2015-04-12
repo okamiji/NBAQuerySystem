@@ -27,7 +27,7 @@ public class TestPlayerLogic
 		String[][] result = logic.searchForPlayers(true, "three_shoot_count", true, null, null);
 		out(result);
 	}
-	
+		
 	public void out(String[][] result)
 	{
 		for(int i = 0; i < result.length; i ++)

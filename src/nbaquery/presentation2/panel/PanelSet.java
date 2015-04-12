@@ -20,7 +20,7 @@ public class PanelSet {
 	
 	private static PanelSet instance = null;
 
-	private static PlayerService ps;
+	public static PlayerService ps;
 	private static TeamService ts;
 	
 	private static JFrame frame;

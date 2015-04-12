@@ -19,7 +19,6 @@ public class PlayerServiceAdapter implements PlayerService
 	protected GrossPlayer gross;
 	protected AveragePlayer average;
 	protected HotPlayerToday hot;
-	protected LogicWatcher nativePlayer;
 	public TableHost tableHost;
 	public String[] columnNames; 
 	
@@ -30,8 +29,6 @@ public class PlayerServiceAdapter implements PlayerService
 		this.average = average;
 		this.hot=hot;
 		this.columnNames = columnNames;
-		
-		nativePlayer=new LogicWatcher(new NativeTablePipeline(tableHost, "player"));
 	}
 
 	@Override
@@ -135,18 +132,27 @@ public class PlayerServiceAdapter implements PlayerService
 	}
 
 	@Override
-	public String[] searchForOnePlayer(String playerName) {
-		SortQuery sort=new SortQuery(nativePlayer.getTable(),playerName);
-		tableHost.performQuery(sort, "player_query_result");
+	public String[] searchForOnePlayer(String playerName) {		
+		SelectProjectQuery query = null;
+		Table player=tableHost.getTable("player");
+		try {
+			query = new SelectProjectQuery("player.PLAYER_NAME=="+"'"+playerName+"'",player);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "player_query_result");
 		Table queryResult = tableHost.getTable("player_query_result");
 		Row[] rows = queryResult.getRows();
 		Object[] values=rows[0].getAttributes();
 		String[] returnValue=new String[values.length];
 		for(int i = 0; i < values.length; i ++){
 			Object value=values[i];
-			if(value != null)
+			if(value != null){
 				returnValue[i]=value.toString();
-		}
+				System.out.println(returnValue[i]);
+			}
+			}
 		return returnValue;
 	}
 	

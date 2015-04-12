@@ -4,6 +4,7 @@ import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.LogicWatcher;
 import nbaquery.logic.NativeTablePipeline;
@@ -67,6 +68,14 @@ public class TeamServiceAdapter implements TeamService
 
 	@Override
 	public String[] searchForOneTeam(String teamName) {
+		Table team=tableHost.getTable("team");
+		SelectProjectQuery query = null;
+		try {
+			query = new SelectProjectQuery("player.TEAM_NAME=="+"'"+teamName+"'",team);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		SortQuery sort=new SortQuery(nativeTeam.getTable(),teamName);
 		tableHost.performQuery(sort, "team_query_result");
 		Table queryResult = tableHost.getTable("team_query_result");

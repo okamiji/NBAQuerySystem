@@ -56,7 +56,7 @@ public class MainFrame {
 	}
 	
 	public void initialize(){
-
+		
 		background_img = new ImageIcon("Img2/main_frame_green.png");
 		int background_width = background_img.getIconWidth();
 		int background_height = background_img.getIconHeight();
@@ -170,6 +170,7 @@ public class MainFrame {
 				cp.init();
 				PanelSet.get_concise().run();
 				PanelSet.set_all_detailed_panel_invisible();
+				
 				
 				listener3 = button3.getMouseListeners()[1];
 				button3.removeMouseListener(button3.getMouseListeners()[1]);
