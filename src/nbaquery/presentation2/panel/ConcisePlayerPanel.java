@@ -6,9 +6,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-
-import nbaquery.presentation.MyBasicComboBoxUI;
+import nbaquery.presentation.combobox.ComboBoxFactory;
 import nbaquery.presentation2.card.CardProperties;
 
 public class ConcisePlayerPanel extends ConcisePanel {
@@ -22,71 +20,53 @@ public class ConcisePlayerPanel extends ConcisePanel {
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 20, 570, 60);
 		
-		positionBox = new JComboBox<String>();
-		positionBox.setBounds(20, 15, 80, 24);
-	    positionBox.setUI(new MyBasicComboBoxUI(positionBox));
+		positionBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 80, 24, 
+				new String[]{"全部位置", "前锋", "中锋", "后卫"});
 	    search_panel.add(positionBox);
 	    
-		leagueBox = new JComboBox<String>();
-		leagueBox.setBounds(115, 15, 80, 24);
-		leagueBox.setUI(new MyBasicComboBoxUI(leagueBox));
+		leagueBox = ComboBoxFactory.getInstance().createComboBox(115, 15, 80, 24, 
+				new String[]{"全部联盟", "东部", "西部"});
 		search_panel.add(leagueBox);
 					
-		typeBox = new JComboBox<String>();
-		typeBox.setBounds(210, 15, 80, 24);
-		typeBox.setUI(new MyBasicComboBoxUI(typeBox));
+		typeBox = ComboBoxFactory.getInstance().createComboBox(210, 15, 80, 24, 
+				new String[]{"全局数据", "场均数据"});
 		search_panel.add(typeBox);
 		
-		valueBox = new JComboBox<String>();
-		valueBox.setBounds(305, 15, 100, 24);
-		valueBox.setUI(new MyBasicComboBoxUI(valueBox));
+		valueBox = ComboBoxFactory.getInstance().createComboBox(305, 15, 100, 24, 
+				new String[]{"按名称排序",
+				"参赛场数",
+				"先发场数",
+				"篮板",
+				"助攻",
+				"在场时间",
+				"投篮命中率",
+				"三分命中率",
+				"罚球命中率",
+				"进攻",
+				"防守",
+				"抢断",
+				"盖帽",
+				"失误",
+				"犯规",
+				"得分",
+				"效率",
+				"GmSc",
+				"真实命中率",
+				"投篮效率",
+				"篮板率",
+				"进攻篮板率",
+				"防守篮板率",
+				"助攻率",
+				"抢断率",
+				"盖帽率",
+				"失误率",
+				"使用率",
+				"球员位置",
+				"联盟",
+				"分/板/助",
+				});
 		search_panel.add(valueBox);
 		
-		
-		typeBox.addItem("全局数据");
-		typeBox.addItem("场均数据");
-		
-		positionBox.addItem("全部位置");
-		positionBox.addItem("前锋");
-		positionBox.addItem("中锋");
-		positionBox.addItem("后卫");
-		
-		leagueBox.addItem("全部联盟");
-		leagueBox.addItem("东部");
-		leagueBox.addItem("西部");
-		
-		valueBox.addItem("按名称排序");
-		valueBox.addItem("参赛场数");
-		valueBox.addItem("先发场数");
-		valueBox.addItem("篮板");
-		valueBox.addItem("助攻");
-		valueBox.addItem("在场时间");
-		valueBox.addItem("投篮命中率");
-		valueBox.addItem("三分命中率");
-		valueBox.addItem("罚球命中率");
-		valueBox.addItem("进攻");
-		valueBox.addItem("防守");
-		valueBox.addItem("抢断");
-		valueBox.addItem("盖帽");
-		valueBox.addItem("失误");
-		valueBox.addItem("犯规");
-		valueBox.addItem("得分");
-		valueBox.addItem("效率");
-		valueBox.addItem("GmSc");
-		valueBox.addItem("真实命中率");
-		valueBox.addItem("投篮效率");
-		valueBox.addItem("篮板率");
-		valueBox.addItem("进攻篮板率");
-		valueBox.addItem("防守篮板率");
-		valueBox.addItem("助攻率");
-		valueBox.addItem("抢断率");
-		valueBox.addItem("盖帽率");
-		valueBox.addItem("失误率");
-		valueBox.addItem("使用率");
-		valueBox.addItem("球员位置");
-		valueBox.addItem("联盟");
-		valueBox.addItem("分/板/助");
-
 		int[] set_combobox = CardProperties.get_player_combobox_index();
 		typeBox.setSelectedIndex(set_combobox[0]);
 		valueBox.setSelectedIndex(set_combobox[1]);
