@@ -24,6 +24,9 @@ public class Player {
 		//TODO to be changed
 		return player_info[33];
 	}
+	public String get_action_path(){
+		return player_info[34];
+	}	
 	public String[] get_player_info(){
 		return player_info;
 	}

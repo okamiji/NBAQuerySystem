@@ -56,22 +56,11 @@ public class ConcisePanel {
 		concise_panel.setBackground(new Color(245, 245, 245));
 		concise_panel.setBounds(0, 60, 600, 481);
 	}
+	public void init(){
+		
+	}
 	
 	public void run(){
-		
-		/*
-		switch(player_or_team_or_match){
-		case 1:
-			init_player_panel();
-			break;
-		case 2:
-			init_team_panel();
-			break;
-		case 3:
-			//TODO
-			break;
-		}
-		*/
 	    scr = new JScrollPane(concise_panel, 
 	    		ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, 
 	    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -113,156 +102,6 @@ public class ConcisePanel {
 		
 		scr_height = location.get_total_height();
 	}
-	/*
-	
-	private void init_player_panel(){
-		search_panel.setLayout(null);
-		search_panel.setBackground(new Color(245, 245, 245));
-		search_panel.setBounds(130, 20, 570, 60);
-		
-		descendButton = new JButton();
-		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
-		descendButton.setContentAreaFilled(false);
-		descendButton.setBounds(420, 15, 24, 24);
-		search_panel.add(descendButton);
-		
-		ascendButton = new JButton();
-		ascendButton.setIcon(new ImageIcon("Img2/ascend.png"));
-		ascendButton.setContentAreaFilled(false);
-		ascendButton.setBounds(420, 15, 24, 24);
-		search_panel.add(ascendButton);
-		ascendButton.setVisible(false);
-		
-		descendButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				ascendButton.setVisible(true);
-				descendButton.setVisible(false);
-				isUp = false;
-			}
-		});
-		ascendButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				ascendButton.setVisible(false);
-				descendButton.setVisible(true);
-				isUp = true;
-			}
-		});
-		
-		searchButton = new JButton();
-		searchButton.setIcon(new ImageIcon("Img2/search_button.png"));
-		searchButton.setContentAreaFilled(false);
-		searchButton.setBounds(460, 15, 72, 24);
-		search_panel.add(searchButton);		
-		
-		searchButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				
-				int index = valueBox.getSelectedIndex();
-				if(index > 0){
-					CardProperties.set_player_index(index + 2);
-				}
-				else{
-					CardProperties.set_player_index(index + 1);
-				}
-				
-				boolean isGross = false;
-				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
-					isGross=true;
-				}
-				
-				String position = lookups.get((String) positionBox.getSelectedItem());
-				String league = lookups.get((String) leagueBox.getSelectedItem());		
-				
-				CardProperties.set_player_isUp(isUp);
-				CardProperties.set_player_isGross(isGross);
-				CardProperties.set_player_position(position);
-				CardProperties.set_player_league(league);
-
-				//Fetch item name from certain combo box, which is given to Card and added when setting information of each card.
-				CardProperties.set_player_item_name((String)(valueBox.getSelectedItem()));
-				//Certain number of cards are released each time.
-				CardProperties.set_if_view_all(false);
-				
-				PanelSet.get_concise().set_combobox();
-				PanelSet.set_concise_invisible();
-				@SuppressWarnings("unused")
-				ConcisePanel cp = new ConcisePanel(1, PanelSet.get_view_limit());
-				PanelSet.get_concise().run();
-				PanelSet.get_concise().get_combobox();
-			}
-		});
-		
-	}
-	
-	private void init_team_panel(){	
-		search_panel.setLayout(null);
-		search_panel.setBackground(new Color(245, 245, 245));
-		search_panel.setBounds(130, 20, 570, 60);
-		
-		descendButton = new JButton();
-		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
-		descendButton.setContentAreaFilled(false);
-		descendButton.setBounds(420, 15, 24, 24);
-		search_panel.add(descendButton);
-		
-		ascendButton = new JButton();
-		ascendButton.setIcon(new ImageIcon("Img2/ascend.png"));
-		ascendButton.setContentAreaFilled(false);
-		ascendButton.setBounds(420, 15, 24, 24);
-		search_panel.add(ascendButton);
-		ascendButton.setVisible(false);
-		
-		descendButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				ascendButton.setVisible(true);
-				descendButton.setVisible(false);
-				isUp = false;
-			}
-		});
-		ascendButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				ascendButton.setVisible(false);
-				descendButton.setVisible(true);
-				isUp = true;
-			}
-		});
-		
-		searchButton = new JButton();
-		searchButton.setIcon(new ImageIcon("Img2/search_button.png"));
-		searchButton.setContentAreaFilled(false);
-		searchButton.setBounds(460, 15, 72, 24);
-		search_panel.add(searchButton);
-		
-		searchButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				boolean isGross = false;
-				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
-					isGross = true;
-				}
-				
-				int value_index = valueBox.getSelectedIndex();
-				CardProperties.set_team_index(value_index + 2);
-				CardProperties.set_team_isGross(isGross);
-				CardProperties.set_team_isUp(isUp);
-				
-				CardProperties.set_team_index_index(value_index);
-				//Fetch item name from certain combo box, which is given to Card and added when setting information of each card.
-				CardProperties.set_team_item_name((String)(valueBox.getSelectedItem()));
-				//Certain number of cards are released each time.
-				CardProperties.set_if_view_all(false);
-				
-				PanelSet.set_concise_invisible();
-				@SuppressWarnings("unused")
-				ConcisePanel cp = new ConcisePanel(2, PanelSet.get_view_limit());
-				PanelSet.get_concise().run();
-				
-				PanelSet.get_concise().valueBox.setSelectedIndex(CardProperties.get_team_index_index());				
-				isUp = CardProperties.get_team_isUp();
-				PanelSet.get_concise().ascendButton.setVisible(!isUp);
-				PanelSet.get_concise().descendButton.setVisible(isUp);
-			}
-		});
-	}*/
 	
 	public void set_search_invisible(){
 		search_panel.setVisible(false);
