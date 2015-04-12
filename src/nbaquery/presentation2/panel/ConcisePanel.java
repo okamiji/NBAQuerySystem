@@ -51,14 +51,15 @@ public class ConcisePanel {
 		view_limit = get_view_limit;
 		
 		PanelSet.set_concise(this);
+
+		concise_panel.setLayout(null);
+		concise_panel.setBackground(new Color(245, 245, 245));
+		concise_panel.setBounds(0, 60, 600, 481);
 	}
 	
 	public void run(){
 		
-		concise_panel.setLayout(null);
-		concise_panel.setBackground(new Color(245, 245, 245));
-		concise_panel.setBounds(0, 60, 600, 481);
-		
+		/*
 		switch(player_or_team_or_match){
 		case 1:
 			init_player_panel();
@@ -70,7 +71,7 @@ public class ConcisePanel {
 			//TODO
 			break;
 		}
-		
+		*/
 	    scr = new JScrollPane(concise_panel, 
 	    		ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, 
 	    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -112,7 +113,7 @@ public class ConcisePanel {
 		
 		scr_height = location.get_total_height();
 	}
-	
+	/*
 	
 	private void init_player_panel(){
 		search_panel.setLayout(null);
@@ -261,7 +262,7 @@ public class ConcisePanel {
 				PanelSet.get_concise().descendButton.setVisible(isUp);
 			}
 		});
-	}
+	}*/
 	
 	public void set_search_invisible(){
 		search_panel.setVisible(false);

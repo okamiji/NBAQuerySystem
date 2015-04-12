@@ -94,8 +94,8 @@ public class ConcisePlayerPanel extends ConcisePanel {
 		
 		descendButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ascendButton.setVisible(true);
 				descendButton.setVisible(false);
+				ascendButton.setVisible(true);
 				isUp = false;
 			}
 		});
