@@ -20,7 +20,8 @@ import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.card.CardProperties;
 import nbaquery.presentation2.main.Button;
-import nbaquery.presentation2.panel.ConcisePanel;
+import nbaquery.presentation2.panel.ConcisePlayerPanel;
+import nbaquery.presentation2.panel.ConciseTeamPanel;
 import nbaquery.presentation2.panel.PanelSet;
 
 public class MainFrame {
@@ -149,8 +150,8 @@ public class MainFrame {
 				init_button();
 
 				CardProperties.set_if_view_all(false);
-				@SuppressWarnings("unused")
-				ConcisePanel cp = new ConcisePanel(2, PanelSet.get_view_limit());
+				ConciseTeamPanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
+				cp.init_team_panel();
 				PanelSet.get_concise().run();
 				PanelSet.set_all_detailed_panel_invisible();
 				
@@ -164,8 +165,8 @@ public class MainFrame {
 				init_button();
 
 				CardProperties.set_if_view_all(false);
-				@SuppressWarnings("unused")
-				ConcisePanel cp = new ConcisePanel(1, PanelSet.get_view_limit());
+				ConcisePlayerPanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
+				cp.init_player_panel();
 				PanelSet.get_concise().run();
 				PanelSet.set_all_detailed_panel_invisible();
 				
@@ -201,6 +202,16 @@ public class MainFrame {
 				}
 				else if(CardProperties.get_cards_per_row() == 2){
 					CardProperties.set_cards_per_row(1);
+				}
+				if(PanelSet.get_concise() instanceof ConcisePlayerPanel){
+					ConcisePlayerPanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
+					cp.init_player_panel();
+					PanelSet.get_concise().run();
+				}
+				else if(PanelSet.get_concise() instanceof ConciseTeamPanel){
+					ConciseTeamPanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
+					cp.init_team_panel();
+					PanelSet.get_concise().run();
 				}
 			}
 		});

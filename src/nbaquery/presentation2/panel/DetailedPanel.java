@@ -15,7 +15,6 @@ import nbaquery.presentation2.card.CardProperties;
 import nbaquery.presentation2.card.InfoRetriever;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
-import nbaquery.presentation2.panel.ConcisePanel;
 import nbaquery.presentation2.panel.PanelSet;
 
 @SuppressWarnings("serial")
@@ -66,8 +65,8 @@ public class DetailedPanel extends JPanel{
 			//	PanelSet.delete_detailed_panel();
 				PanelSet.remove_detailed();
 				CardProperties.set_if_view_all(false);
-				@SuppressWarnings("unused")
-				ConcisePanel cp = new ConcisePanel(1, PanelSet.get_view_limit());
+				ConcisePlayerPanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
+				cp.init_player_panel();
 				PanelSet.get_concise().run();
 			}
 		});
