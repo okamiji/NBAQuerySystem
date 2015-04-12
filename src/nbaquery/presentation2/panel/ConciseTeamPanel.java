@@ -16,7 +16,7 @@ public class ConciseTeamPanel extends ConcisePanel {
 		super(get_player, get_view_limit);
 	}
 	
-	public void init_team_panel(){	
+	public void init(){	
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 20, 570, 60);
@@ -126,8 +126,8 @@ public class ConciseTeamPanel extends ConcisePanel {
 				CardProperties.set_if_view_all(false);
 				
 				PanelSet.set_concise_invisible();
-				ConciseTeamPanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
-				cp.init_team_panel();
+				ConcisePanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
+				cp.init();
 				PanelSet.get_concise().run();
 				
 			}

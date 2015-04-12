@@ -173,7 +173,6 @@ public class Card extends JPanel {
 			
 			this.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e) {
-					System.out.println("A new detailed card has been created.");
 					PanelSet.set_concise_invisible();
 					PanelSet.create_detailed_panel(team);
 				}
@@ -245,14 +244,14 @@ public class Card extends JPanel {
 					
 					if(player_or_team == 1){
 						CardProperties.set_if_view_all(true);
-						ConcisePlayerPanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
-						cp.init_player_panel();
+						ConcisePanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
+						cp.init();
 						PanelSet.get_concise().run();
 					}
 					else if(player_or_team == 2){
 						CardProperties.set_if_view_all(true);
-						ConciseTeamPanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
-						cp.init_team_panel();
+						ConcisePanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
+						cp.init();
 						PanelSet.get_concise().run();
 					}
 				}

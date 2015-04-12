@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,14 +22,20 @@ import nbaquery.presentation2.panel.PanelSet;
 public class DetailedPanel extends JPanel{
 	JPanel info_panel, data_panel;
 	
-	JButton exit_button, info_button, data_button;	
-	
-	JLabel direction_label, direction_label_copy, team_label, info_label;
+	JButton exit_button, info_button, data_button;
 	
 	Player player = null;
 	Team team = null;
 	
 	int scr_height;
+	
+	JLabel direction_label;
+	
+	boolean is_portrait;
+	JButton view_action_pic;
+	JLabel info_label, team_label;
+	JLabel portrait_label, action_label;
+	ImageIcon portrait, action;
 	
 	public DetailedPanel(Player get_player){		
 		player = get_player;
@@ -61,12 +68,10 @@ public class DetailedPanel extends JPanel{
 		
 		exit_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-			//	PanelSet.set_detailed_panel_visible(false, PanelSet.get_detailed_panel_size() - 1);
-			//	PanelSet.delete_detailed_panel();
 				PanelSet.remove_detailed();
 				CardProperties.set_if_view_all(false);
-				ConcisePlayerPanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
-				cp.init_player_panel();
+				ConcisePanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
+				cp.init();
 				PanelSet.get_concise().run();
 			}
 		});
@@ -82,9 +87,8 @@ public class DetailedPanel extends JPanel{
 		this.add(data_button);
 		
 		direction_label = new JLabel();
-		direction_label.setText("NBA«Ú‘± < " + player.get_name());
-		direction_label.setFont(new Font("Œ¢»Ì—≈∫⁄",Font.BOLD, 13));
-		direction_label.setForeground(new Color(30, 164, 88));
+		direction_label.setText("«Ú‘± < " + player.get_name());
+		direction_label.setFont(new Font("Œ¢»Ì—≈∫⁄",Font.PLAIN, 13));
 		direction_label.setBounds(10, 0, 160, 30);
 		this.add(direction_label);
 		
@@ -104,7 +108,7 @@ public class DetailedPanel extends JPanel{
 		this.add(data_panel);
 		data_panel.setVisible(false);
 
-		//info 		
+		//info panel
 		
 		
 		team_label = new JLabel();
@@ -119,23 +123,39 @@ public class DetailedPanel extends JPanel{
 		info_label.setBounds(450, 100, 100, 100);
 		info_panel.add(info_label);
 		
-		try{
-			ImageIcon action = new ImageIcon(player.get_portrait_path());
-			action.setImage(action.getImage().getScaledInstance(350, 550, Image.SCALE_DEFAULT));
-			JLabel action_label = new JLabel(action);
-			action_label.setSize(350, 550);
-			action_label.setLocation(0, 0);
-			info_panel.add(action_label);
-			
-			ImageIcon portrait = new ImageIcon(player.get_portrait_path());//TODO
-			portrait.setImage(portrait.getImage().getScaledInstance(130, 100, Image.SCALE_DEFAULT));
-			JLabel portrait_label = new JLabel(portrait);
-			portrait_label.setSize(130, 100);
-			portrait_label.setLocation(300, 50);
-			info_panel.add(portrait_label);
-		} catch (Exception e) {
-			System.out.println("Image of " + player.get_name() + " can not be loaded.");
-		}
+		view_action_pic = new JButton("≤Èø¥∂Ø◊˜");
+		view_action_pic.setBounds(450, 130, 60, 30);
+
+		is_portrait = true;
+		portrait = new ImageIcon(player.get_portrait_path());
+		action = new ImageIcon(player.get_action_path());
+		portrait.setImage(portrait.getImage().getScaledInstance(130, 200, Image.SCALE_DEFAULT));
+		action.setImage(action.getImage().getScaledInstance(130, 200, Image.SCALE_DEFAULT));
+		
+		portrait_label = new JLabel(portrait);
+		portrait_label.setSize(130, 200);
+		portrait_label.setLocation(0, 50);
+		info_panel.add(portrait_label);
+		action_label = new JLabel(action);
+		action_label.setSize(130, 200);
+		action_label.setLocation(0, 50);
+		info_panel.add(action_label);
+		action_label.setVisible(false);
+		
+		portrait_label.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				if(is_portrait){
+					action_label.setVisible(true);
+					portrait_label.setVisible(false);
+					is_portrait = false;
+				}
+				else{
+					action_label.setVisible(false);
+					portrait_label.setVisible(true);
+					is_portrait = true;
+				}
+			}
+		});
 		
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -146,7 +166,7 @@ public class DetailedPanel extends JPanel{
 			}
 		});
 		
-		//data
+		//data panel
 		
 		//button
 		info_button.addMouseListener(new MouseAdapter(){

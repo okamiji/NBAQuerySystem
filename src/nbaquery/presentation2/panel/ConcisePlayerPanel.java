@@ -15,7 +15,7 @@ public class ConcisePlayerPanel extends ConcisePanel {
 		super(get_player, get_view_limit);
 	}
 
-	public void init_player_panel(){
+	public void init(){
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 20, 570, 60);
@@ -153,8 +153,8 @@ public class ConcisePlayerPanel extends ConcisePanel {
 			//	System.out.println("set  " + i1 + " " + i2 + " " + i3 + " " + i4);
 				
 				PanelSet.set_concise_invisible();
-				ConcisePlayerPanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
-				cp.init_player_panel();
+				ConcisePanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
+				cp.init();
 				PanelSet.get_concise().run();
 				
 			}
