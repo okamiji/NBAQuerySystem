@@ -49,4 +49,14 @@ public class TeamServiceAdapter implements TeamService
 		tableHost.deleteTable("team_query_result");
 		return returnValue;
 	}
+
+	@Override
+	public String[][] searchForSeasonHotTeams(int head) {
+		String[][] strs=this.searchForTeams(true, head, false);
+		String[][] result=new String[5][];
+		for(int i=0;i<5;i++)
+			for(int j=0;j<strs[i].length;j++)
+				result[i][j]=strs[i][j];
+		return result;
+	}
 }

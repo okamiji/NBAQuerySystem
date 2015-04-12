@@ -87,22 +87,33 @@ public class PlayerServiceAdapter implements PlayerService
 		tableHost.deleteTable("player_query_result");
 		return returnValue;
 	}
-
-	
+	//待讨论：用Int head还是String head 因为columnNames的问题
 	@Override
 	public String[][] searchForTodayHotPlayers(int head) {
 		if(head < 0) head = 1;
 		if(head > columnNames.length) return null;
 		Table table;
-		String tableName;
 		SortQuery sort = null;
 		table=this.hot.getTable();
-		tableName="hot_player_today";
 		sort = new SortQuery(table, columnNames[head],5,false);
 		tableHost.performQuery(sort, "player_query_result");
-		return null;
+		Table queryResult = tableHost.getTable("player_query_result");
+		Row[] rows = queryResult.getRows();
+		int columnNumber=6;//6=姓名+参数*5
+		String[][] returnValue = new String[rows.length][columnNumber];
+		Column[] columns = new Column[columnNumber];
+		for(int i = 0; i < columnNumber; i ++)
+			columns[i] = queryResult.getColumn(columnNames[i]);
+		for(int row = 0; row < rows.length; row ++)
+			for(int column = 0; column < columns.length; column ++)
+			{
+				Object value = columns[column].getAttribute(rows[row]);
+				if(value != null) returnValue[row][column] = value.toString();
+			}
+		tableHost.deleteTable("player_query_result");
+		return returnValue;
 	}
-
+	
 	@Override
 	public String[][] searchForProgressPlayers(int head) {
 		// TODO Auto-generated method stub
@@ -111,10 +122,11 @@ public class PlayerServiceAdapter implements PlayerService
 	
 	public String[][] searchForSeasonHotPlayers(int head){
 		String[][] strs=this.searchForPlayers(true, head, false, null, null);
-		String[][] result=new String[4][];
-		for(int i=0;i<4;i++)
+		String[][] result=new String[5][];
+		for(int i=0;i<5;i++)
 			for(int j=0;j<strs[i].length;j++)
 				result[i][j]=strs[i][j];
 		return result;
 	}
+	
 }
