@@ -5,6 +5,8 @@ import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.SortQuery;
+import nbaquery.logic.LogicWatcher;
+import nbaquery.logic.NativeTablePipeline;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.gross_team.GrossTeam;
 
@@ -12,6 +14,7 @@ public class TeamServiceAdapter implements TeamService
 {
 	protected GrossTeam gross;
 	protected AverageTeam average;
+	protected LogicWatcher nativeTeam;
 	public TableHost tableHost;
 	public String[] columnNames; 
 	
@@ -22,6 +25,8 @@ public class TeamServiceAdapter implements TeamService
 		this.gross = gross;
 		this.average = average;
 		this.columnNames = columnNames;
+		
+		nativeTeam=new LogicWatcher(new NativeTablePipeline(tableHost, "team"));
 	}
 	
 	@Override
@@ -58,5 +63,21 @@ public class TeamServiceAdapter implements TeamService
 			for(int j=0;j<strs[i].length;j++)
 				result[i][j]=strs[i][j];
 		return result;
+	}
+
+	@Override
+	public String[] searchForOneTeam(String teamName) {
+		SortQuery sort=new SortQuery(nativeTeam.getTable(),teamName);
+		tableHost.performQuery(sort, "team_query_result");
+		Table queryResult = tableHost.getTable("team_query_result");
+		Row[] rows = queryResult.getRows();
+		Object[] values=rows[0].getAttributes();
+		String[] returnValue=new String[values.length];
+		for(int i = 0; i < values.length; i ++){
+			Object value=values[i];
+			if(value != null)
+				returnValue[i]=value.toString();
+		}
+		return returnValue;
 	}
 }

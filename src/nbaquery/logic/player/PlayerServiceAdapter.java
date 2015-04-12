@@ -8,6 +8,8 @@ import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
+import nbaquery.logic.LogicWatcher;
+import nbaquery.logic.NativeTablePipeline;
 import nbaquery.logic.average_player.AveragePlayer;
 import nbaquery.logic.gross_player.GrossPlayer;
 import nbaquery.logic.hot_player_today.HotPlayerToday;
@@ -17,6 +19,7 @@ public class PlayerServiceAdapter implements PlayerService
 	protected GrossPlayer gross;
 	protected AveragePlayer average;
 	protected HotPlayerToday hot;
+	protected LogicWatcher nativePlayer;
 	public TableHost tableHost;
 	public String[] columnNames; 
 	
@@ -27,6 +30,8 @@ public class PlayerServiceAdapter implements PlayerService
 		this.average = average;
 		this.hot=hot;
 		this.columnNames = columnNames;
+		
+		nativePlayer=new LogicWatcher(new NativeTablePipeline(tableHost, "player"));
 	}
 
 	@Override
@@ -128,5 +133,23 @@ public class PlayerServiceAdapter implements PlayerService
 				result[i][j]=strs[i][j];
 		return result;
 	}
+
+	@Override
+	public String[] searchForOnePlayer(String playerName) {
+		SortQuery sort=new SortQuery(nativePlayer.getTable(),playerName);
+		tableHost.performQuery(sort, "player_query_result");
+		Table queryResult = tableHost.getTable("player_query_result");
+		Row[] rows = queryResult.getRows();
+		Object[] values=rows[0].getAttributes();
+		String[] returnValue=new String[values.length];
+		for(int i = 0; i < values.length; i ++){
+			Object value=values[i];
+			if(value != null)
+				returnValue[i]=value.toString();
+		}
+		return returnValue;
+	}
+	
+	
 	
 }

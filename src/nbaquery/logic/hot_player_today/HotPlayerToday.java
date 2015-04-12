@@ -7,7 +7,7 @@ import nbaquery.logic.LogicPipeline;
 import nbaquery.logic.LogicWatcher;
 import nbaquery.logic.SumColumnInfo;
 
-public class HotPlayerToday implements LogicPipeline{
+public class HotPlayerToday {
 
 
 	public TableHost tableHost;
@@ -19,7 +19,6 @@ public class HotPlayerToday implements LogicPipeline{
 		this.base = new LogicWatcher(base);
 	}
 	
-	@Override
 	public Table getTable() {
 		if(base.checkDepenency())
 		{

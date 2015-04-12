@@ -6,4 +6,5 @@ public interface PlayerService
 	public String[][] searchForTodayHotPlayers(int head);
 	public String[][] searchForProgressPlayers(int head);
 	public String[][] searchForSeasonHotPlayers(int head);
+	public String[] searchForOnePlayer(String playerName);
 }
