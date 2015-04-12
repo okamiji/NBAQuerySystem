@@ -1,5 +1,7 @@
 package nbaquery.logic.player;
 
+import java.lang.reflect.Array;
+
 import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
@@ -8,19 +10,22 @@ import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.average_player.AveragePlayer;
 import nbaquery.logic.gross_player.GrossPlayer;
+import nbaquery.logic.hot_player_today.HotPlayerToday;
 
 public class PlayerServiceAdapter implements PlayerService
 {
 	protected GrossPlayer gross;
 	protected AveragePlayer average;
+	protected HotPlayerToday hot;
 	public TableHost tableHost;
 	public String[] columnNames; 
 	
-	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average, String[] columnNames)
+	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,String[] columnNames)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
 		this.average = average;
+		this.hot=hot;
 		this.columnNames = columnNames;
 	}
 
@@ -81,5 +86,35 @@ public class PlayerServiceAdapter implements PlayerService
 			}
 		tableHost.deleteTable("player_query_result");
 		return returnValue;
+	}
+
+	
+	@Override
+	public String[][] searchForTodayHotPlayers(int head) {
+		if(head < 0) head = 1;
+		if(head > columnNames.length) return null;
+		Table table;
+		String tableName;
+		SortQuery sort = null;
+		table=this.hot.getTable();
+		tableName="hot_player_today";
+		sort = new SortQuery(table, columnNames[head],5,false);
+		tableHost.performQuery(sort, "player_query_result");
+		return null;
+	}
+
+	@Override
+	public String[][] searchForProgressPlayers(int head) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public String[][] searchForSeasonHotPlayers(int head){
+		String[][] strs=this.searchForPlayers(true, head, false, null, null);
+		String[][] result=new String[4][];
+		for(int i=0;i<4;i++)
+			for(int j=0;j<strs[i].length;j++)
+				result[i][j]=strs[i][j];
+		return result;
 	}
 }

@@ -37,7 +37,7 @@ public class Main
 	{
 		mainFrame = new MainFrame(this.playerService, this.teamService);
 		mainFrame.run();
-//		mainFrame.setVisible(true);
+		//mainFrame.setVisible(true);
 	}
 	
 	public static void main(String[] arguments) throws Exception
