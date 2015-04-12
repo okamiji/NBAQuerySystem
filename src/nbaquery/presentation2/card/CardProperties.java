@@ -27,6 +27,8 @@ public class CardProperties {
 	private static boolean if_view_more_card_needed = false;
 	private static boolean view_more_forbid = false;
 	
+	private static int set_scr_start = 0;
+	
 	public static void set_player_isGross(boolean set_player_isGross){
 		player_isGross = set_player_isGross;
 	}

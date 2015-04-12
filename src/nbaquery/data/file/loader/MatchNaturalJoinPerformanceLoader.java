@@ -10,6 +10,7 @@ import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.KeywordTable;
 import nbaquery.data.file.MultivaluedTable;
+import nbaquery.data.file.StringPool;
 import nbaquery.data.file.Tuple;
 
 /**
@@ -136,11 +137,17 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 		
 		String[] splitted = file.getName().split("_", 3);
 		
-		String season_str = splitted[0];
-		String date_str = splitted[1];
+		//String season_str = splitted[0];
+		String season_str = StringPool.createSeasonFromPool(splitted[0]);
+		//String date_str = splitted[1];
+		String date_str = StringPool.createSeasonFromPool(splitted[1]);
+		
 		String[] duals = splitted[2].split("-", 2);
-		String host_abbr_str = duals[0];
-		String guest_abbr_str = duals[1];
+		//String host_abbr_str = duals[0];
+		//String guest_abbr_str = duals[1];
+		String host_abbr_str = StringPool.createSeasonFromPool(duals[0]);
+		String guest_abbr_str = StringPool.createSeasonFromPool(duals[1]);
+		
 		
 		//Getting data from the file.
 		BufferedReader br = new BufferedReader(new FileReader(file));
@@ -220,6 +227,7 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 				self_score.setAttribute(performance, tokens.get(17));
 				
 				season.setAttribute(tuple, season_str);
+				//season.setAttribute(tuple, season_ins);
 				date.setAttribute(tuple, date_str);
 				
 				host_abbr.setAttribute(tuple, host_abbr_str);

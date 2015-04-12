@@ -143,7 +143,7 @@ public class SortAlgorithm implements FileTableAlgorithm
 				return (long)((Character)mapping);
 			}
 		});
-		
+
 		keywordMappers.put(String.class, new KeywordMapper()
 		{
 			static final int worldLength = 8;

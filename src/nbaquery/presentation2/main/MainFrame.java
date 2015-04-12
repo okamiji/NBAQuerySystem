@@ -20,7 +20,6 @@ import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.card.CardProperties;
 import nbaquery.presentation2.main.Button;
-import nbaquery.presentation2.panel.ConcisePanel;
 import nbaquery.presentation2.panel.ConcisePlayerPanel;
 import nbaquery.presentation2.panel.ConciseTeamPanel;
 import nbaquery.presentation2.panel.PanelSet;

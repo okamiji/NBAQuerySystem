@@ -15,7 +15,6 @@ import nbaquery.presentation2.card.CardProperties;
 import nbaquery.presentation2.card.InfoRetriever;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
-import nbaquery.presentation2.panel.ConcisePanel;
 import nbaquery.presentation2.panel.PanelSet;
 
 @SuppressWarnings("serial")
