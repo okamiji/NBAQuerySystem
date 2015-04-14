@@ -12,8 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import nbaquery.presentation2.card.CardProperties;
-import nbaquery.presentation2.card.InfoRetriever;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
 import nbaquery.presentation2.panel.PanelSet;
@@ -66,7 +64,7 @@ public class DetailedPanel extends JPanel{
 		exit_button.setBounds(567, 3, 20, 20);
 		this.add(exit_button);
 		
-		exit_button.addMouseListener(new MouseAdapter(){
+	/*	exit_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				PanelSet.remove_detailed();
 				CardProperties.set_if_view_all(false);
@@ -74,7 +72,7 @@ public class DetailedPanel extends JPanel{
 				cp.init();
 				PanelSet.get_concise().run();
 			}
-		});
+		});*/
 	}
 	
 	private void set_player_info(){
@@ -160,9 +158,9 @@ public class DetailedPanel extends JPanel{
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				PanelSet.set_detailed_visible(false);
-				InfoRetriever retriever = new InfoRetriever();
-				Team set_team = retriever.get_team_by_name(team_label.getText());
-				PanelSet.create_detailed_panel(set_team);
+			//	InfoRetriever retriever = new InfoRetriever();
+			//	Team set_team = retriever.get_team_by_name(team_label.getText());
+			//	PanelSet.create_detailed_panel(set_team);
 			}
 		});
 		

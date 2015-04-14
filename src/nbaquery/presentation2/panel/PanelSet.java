@@ -28,8 +28,6 @@ public class PanelSet {
 	
 	private static ArrayList<JPanel> detailed_list;
 
-	static int view_limit;
-	
 	private PanelSet(){
 	}
 	
@@ -40,8 +38,6 @@ public class PanelSet {
 			frame = set_frame;
 			
 			detailed_list = new ArrayList<JPanel>();
-			
-			view_limit = 7;
         }
         return instance;
 	}
@@ -98,10 +94,6 @@ public class PanelSet {
 		frame.remove(detailed_list.get(detailed_list.size() - 1));
 	}
 
-	public static int get_view_limit(){
-		return view_limit;
-	}
-	
 	public static void set_player_service(PlayerService get_ps){
 		ps = get_ps;
 	}

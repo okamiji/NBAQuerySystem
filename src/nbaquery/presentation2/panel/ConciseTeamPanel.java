@@ -8,15 +8,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import nbaquery.presentation.combobox.ComboBoxFactory;
-import nbaquery.presentation2.card.CardProperties;
+import nbaquery.presentation2.addedcard.CardType;
 
 public class ConciseTeamPanel extends ConcisePanel {
 
-	public ConciseTeamPanel(int get_player, int get_view_limit) {
-		super(get_player, get_view_limit);
+	CardType type;
+	boolean view_all;
+	
+	public ConciseTeamPanel(CardType type_, boolean view_all_) {
+		super(type_, view_all_);
+		
+		type = type_;
+		view_all = view_all_;
 	}
 	
-	public void init(){	
+	public void run(){
+		super.run();
+		
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 20, 570, 60);
@@ -71,7 +79,7 @@ public class ConciseTeamPanel extends ConcisePanel {
 		ascendButton.setBounds(420, 15, 24, 24);
 		search_panel.add(ascendButton);
 		ascendButton.setVisible(false);
-
+/*
 		boolean isGross = CardProperties.get_team_isGross();
 		if(isGross){
 			typeBox.setSelectedIndex(0);
@@ -84,7 +92,7 @@ public class ConciseTeamPanel extends ConcisePanel {
 		isUp = CardProperties.get_team_isUp();
 		PanelSet.get_concise().ascendButton.setVisible(!isUp);
 		PanelSet.get_concise().descendButton.setVisible(isUp);
-		
+		*/
 		descendButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				ascendButton.setVisible(true);
@@ -109,7 +117,7 @@ public class ConciseTeamPanel extends ConcisePanel {
 		
 		searchButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				boolean isGross = false;
+			/*	boolean isGross = false;
 				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
 					isGross = true;
 				}
@@ -124,10 +132,9 @@ public class ConciseTeamPanel extends ConcisePanel {
 				CardProperties.set_team_item_name((String)(valueBox.getSelectedItem()));
 				//Certain number of cards are released each time.
 				CardProperties.set_if_view_all(false);
-				
+				*/
 				PanelSet.set_concise_invisible();
-				ConcisePanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
-				cp.init();
+				ConcisePanelFactory.create_panel(type, view_all);
 				PanelSet.get_concise().run();
 				
 			}

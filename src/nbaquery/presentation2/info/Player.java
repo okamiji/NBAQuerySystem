@@ -2,6 +2,7 @@ package nbaquery.presentation2.info;
 
 public class Player {
 	private String[] player_info;
+	private int index;
 	
 	public Player(String[] string_info){
 		/*
@@ -29,5 +30,12 @@ public class Player {
 	}	
 	public String[] get_player_info(){
 		return player_info;
+	}
+	
+	public void set_index(int i){
+		index = i;
+	}
+	public int get_index(){
+		return index;
 	}
 }

@@ -6,16 +6,25 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
 import nbaquery.presentation.combobox.ComboBoxFactory;
-import nbaquery.presentation2.card.CardProperties;
+import nbaquery.presentation2.addedcard.CardType;
 
 public class ConcisePlayerPanel extends ConcisePanel {
 
-	public ConcisePlayerPanel(int get_player, int get_view_limit) {
-		super(get_player, get_view_limit);
+	CardType type;
+	boolean view_all;
+	
+	public ConcisePlayerPanel(CardType type_, boolean view_all_) {
+		super(type_, view_all_);
+		
+		type = type_;
+		view_all = view_all_;
 	}
 
-	public void init(){
+	public void run(){
+		super.run();
+		
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 20, 570, 60);
@@ -67,11 +76,11 @@ public class ConcisePlayerPanel extends ConcisePanel {
 				});
 		search_panel.add(valueBox);
 		
-		int[] set_combobox = CardProperties.get_player_combobox_index();
-		typeBox.setSelectedIndex(set_combobox[0]);
-		valueBox.setSelectedIndex(set_combobox[1]);
-		positionBox.setSelectedIndex(set_combobox[2]);
-		leagueBox.setSelectedIndex(set_combobox[3]);
+		
+		typeBox.setSelectedIndex(ConcisePara.player_isGross_index);
+		valueBox.setSelectedIndex(ConcisePara.player_index_index);
+		positionBox.setSelectedIndex(ConcisePara.player_position_index);
+		leagueBox.setSelectedIndex(ConcisePara.player_league_index);
 		
 		descendButton = new JButton();
 		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
@@ -88,22 +97,21 @@ public class ConcisePlayerPanel extends ConcisePanel {
 		search_panel.add(ascendButton);
 		ascendButton.setVisible(false);
 		
-		isUp = CardProperties.get_player_isUp();
-		ascendButton.setVisible(!isUp);
-		descendButton.setVisible(isUp);
+		ascendButton.setVisible(!ConcisePara.player_isUp);
+		descendButton.setVisible(ConcisePara.player_isUp);
 		
 		descendButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				descendButton.setVisible(false);
 				ascendButton.setVisible(true);
-				isUp = false;
+				ConcisePara.player_isUp = false;
 			}
 		});
 		ascendButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				ascendButton.setVisible(false);
 				descendButton.setVisible(true);
-				isUp = true;
+				ConcisePara.player_isUp = true;
 			}
 		});
 		
@@ -119,43 +127,37 @@ public class ConcisePlayerPanel extends ConcisePanel {
 				
 				int index = valueBox.getSelectedIndex();
 				if(index > 0){
-					CardProperties.set_player_index(index + 2);
+					ConcisePara.player_index = index + 2;
 				}
 				else{
-					CardProperties.set_player_index(index + 1);
+					ConcisePara.player_index = index + 1;
 				}
 				
-				boolean isGross = false;
 				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
-					isGross=true;
+					ConcisePara.player_isGross = true;
+				}
+				else{
+					ConcisePara.player_isGross = false;
 				}
 				
-				String position = lookups.get((String) positionBox.getSelectedItem());
-				String league = lookups.get((String) leagueBox.getSelectedItem());		
+				ConcisePara.player_position = lookups.get((String) positionBox.getSelectedItem());
+				ConcisePara.player_league = lookups.get((String) leagueBox.getSelectedItem());		
 				
-				CardProperties.set_player_isUp(isUp);
-				CardProperties.set_player_isGross(isGross);
-				CardProperties.set_player_position(position);
-				CardProperties.set_player_league(league);
-
-				//Fetch item name from certain combo box, which is given to Card and added when setting information of each card.
-				CardProperties.set_player_item_name((String)(valueBox.getSelectedItem()));
-				//Certain number of cards are released each time.
-				CardProperties.set_if_view_all(false);
+				ConcisePara.player_item_name = (String)(valueBox.getSelectedItem());
+				ConcisePara.view_all = false;
 				
-
-
-				int i1 = typeBox.getSelectedIndex();
-				int i2 = valueBox.getSelectedIndex();
-				int i3 = positionBox.getSelectedIndex();
-				int i4 = leagueBox.getSelectedIndex();
-				CardProperties.set_player_combobox_index(i1, i2, i3, i4);
-			//	System.out.println("set  " + i1 + " " + i2 + " " + i3 + " " + i4);
+				ConcisePara.player_isGross_index = typeBox.getSelectedIndex();
+				ConcisePara.player_index_index = valueBox.getSelectedIndex();
+				ConcisePara.player_position_index = positionBox.getSelectedIndex();
+				ConcisePara.player_league_index = leagueBox.getSelectedIndex();
+				
+				typeBox.setSelectedIndex(ConcisePara.player_isGross_index);
+				valueBox.setSelectedIndex(ConcisePara.player_index_index);
+				positionBox.setSelectedIndex(ConcisePara.player_position_index);
+				leagueBox.setSelectedIndex(ConcisePara.player_league_index);
 				
 				PanelSet.set_concise_invisible();
-				ConcisePanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
-				cp.init();
-				PanelSet.get_concise().run();
+				ConcisePanelFactory.create_panel(type, view_all);
 				
 			}
 		});
