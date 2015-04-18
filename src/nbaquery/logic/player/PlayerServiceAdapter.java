@@ -89,7 +89,6 @@ public class PlayerServiceAdapter implements PlayerService
 		return returnValue;
 	}
 	
-	//待讨论：用Int head还是String head 因为columnNames的问题
 	@Override
 	public String[][] searchForTodayHotPlayers(int head) {
 		if(head < 0) head = 1;
