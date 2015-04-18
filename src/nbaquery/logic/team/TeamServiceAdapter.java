@@ -59,7 +59,7 @@ public class TeamServiceAdapter implements TeamService
 	@Override
 	public String[][] searchForSeasonHotTeams(int head) {
 		String[][] strs=this.searchForTeams(true, head, false);
-		String[][] result=new String[5][];
+		String[][] result=new String[5][strs[0].length];
 		for(int i=0;i<5;i++)
 			for(int j=0;j<strs[i].length;j++)
 				result[i][j]=strs[i][j];

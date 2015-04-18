@@ -19,4 +19,40 @@ public class Presentation_Stub implements PlayerService , TeamService{
 					strs[i][j]=Integer.toString(i);
 		return strs;
 	}
+
+	@Override
+	public String[][] searchForSeasonHotTeams(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] searchForOneTeam(String teamName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[][] searchForTodayHotPlayers(int head) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[][] searchForProgressPlayers(int head) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[][] searchForSeasonHotPlayers(int head) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] searchForOnePlayer(String playerName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

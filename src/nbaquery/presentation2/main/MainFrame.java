@@ -17,12 +17,11 @@ import javax.swing.plaf.FontUIResource;
 
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
+import nbaquery.presentation2.addedcard.CardType;
 import nbaquery.presentation2.card.CardLocation;
-import nbaquery.presentation2.card.CardProperties;
 import nbaquery.presentation2.main.Button;
-import nbaquery.presentation2.panel.ConcisePanel;
-import nbaquery.presentation2.panel.ConcisePlayerPanel;
-import nbaquery.presentation2.panel.ConciseTeamPanel;
+import nbaquery.presentation2.panel.ConcisePanelFactory;
+import nbaquery.presentation2.panel.ConcisePara;
 import nbaquery.presentation2.panel.PanelSet;
 
 public class MainFrame {
@@ -149,12 +148,16 @@ public class MainFrame {
 		button2.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				init_button();
-
-				CardProperties.set_if_view_all(false);
-				ConcisePanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
-				cp.init();
-				PanelSet.get_concise().run();
+				
+				if(ConcisePara.type.equals(CardType.PLAYER_FLAT)){
+					ConcisePara.type = CardType.TEAM_FLAT;
+				}
+				else if(ConcisePara.type.equals(CardType.PLAYER_RECT)){
+					ConcisePara.type = CardType.TEAM_RECT;
+				}
+				ConcisePanelFactory.create_panel(ConcisePara.type, false);
 				PanelSet.set_all_detailed_panel_invisible();
+				ConcisePara.view_all = false;
 				
 				listener2 = button2.getMouseListeners()[1];
 				button2.removeMouseListener(button2.getMouseListeners()[1]);
@@ -164,12 +167,16 @@ public class MainFrame {
 		button3.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {	
 				init_button();
-
-				CardProperties.set_if_view_all(false);
-				ConcisePanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
-				cp.init();
-				PanelSet.get_concise().run();
+				
+				if(ConcisePara.type.equals(CardType.TEAM_FLAT)){
+					ConcisePara.type = CardType.PLAYER_FLAT;
+				}
+				else if(ConcisePara.type.equals(CardType.TEAM_RECT)){
+					ConcisePara.type = CardType.PLAYER_RECT;
+				}
+				ConcisePanelFactory.create_panel(ConcisePara.type, false);
 				PanelSet.set_all_detailed_panel_invisible();
+				ConcisePara.view_all = false;
 				
 				
 				listener3 = button3.getMouseListeners()[1];
@@ -180,6 +187,10 @@ public class MainFrame {
 		button4.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				init_button();
+				
+				ConcisePanelFactory.create_panel(ConcisePara.type, false);
+				PanelSet.set_all_detailed_panel_invisible();
+				ConcisePara.view_all = true;
 				
 				listener4 = button4.getMouseListeners()[1];
 				button4.removeMouseListener(button4.getMouseListeners()[1]);
@@ -199,22 +210,7 @@ public class MainFrame {
 		});
 		show.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				if(CardProperties.get_cards_per_row() == 1){
-					CardProperties.set_cards_per_row(2);
-				}
-				else if(CardProperties.get_cards_per_row() == 2){
-					CardProperties.set_cards_per_row(1);
-				}
-				if(PanelSet.get_concise() instanceof ConcisePlayerPanel){
-					ConcisePanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
-					cp.init();
-					PanelSet.get_concise().run();
-				}
-				else if(PanelSet.get_concise() instanceof ConciseTeamPanel){
-					ConcisePanel cp = new ConciseTeamPanel(2, PanelSet.get_view_limit());
-					cp.init();
-					PanelSet.get_concise().run();
-				}
+				ConcisePara.switch_type();
 			}
 		});
 		

@@ -1,19 +1,16 @@
 package nbaquery.logic.player;
 
-import java.lang.reflect.Array;
-
 import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
-import nbaquery.logic.LogicWatcher;
-import nbaquery.logic.NativeTablePipeline;
 import nbaquery.logic.average_player.AveragePlayer;
 import nbaquery.logic.gross_player.GrossPlayer;
 import nbaquery.logic.hot_player_today.HotPlayerToday;
 
+//XXX 最基本的要求：比较运算符前后必须留1空格，逗号之后必须留一空格，没事不要初始化为null。
 public class PlayerServiceAdapter implements PlayerService
 {
 	protected GrossPlayer gross;
@@ -91,6 +88,7 @@ public class PlayerServiceAdapter implements PlayerService
 		tableHost.deleteTable("player_query_result");
 		return returnValue;
 	}
+	
 	//待讨论：用Int head还是String head 因为columnNames的问题
 	@Override
 	public String[][] searchForTodayHotPlayers(int head) {
@@ -136,26 +134,31 @@ public class PlayerServiceAdapter implements PlayerService
 	@Override
 	public String[] searchForOnePlayer(String playerName) {		
 		SelectProjectQuery query = null;
-		Table player=tableHost.getTable("player");
+		Table player = tableHost.getTable("player");
 		try {
-			query = new SelectProjectQuery("player.PLAYER_NAME=="+"'"+playerName+"'",player);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			query = new SelectProjectQuery("player.PLAYER_NAME=='" + playerName + "'", player);
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		tableHost.performQuery(query, "player_query_result");
 		Table queryResult = tableHost.getTable("player_query_result");
 		Row[] rows = queryResult.getRows();
-		Object[] values=rows[0].getAttributes();
-		String[] returnValue=new String[values.length];
-		for(int i = 0; i < values.length; i ++){
-			Object value=values[i];
-			if(value != null){
-				returnValue[i]=value.toString();
-				System.out.println(returnValue[i]);
+		
+		//XXX 这只是空值检查的一个实例，注意要检查rows的长度，当没有对应的球员时，记录长度为0
+		if(rows.length == 1)
+		{
+			Object[] values = rows[0].getAttributes();
+			String[] returnValue = new String[values.length];
+			for(int i = 0; i < values.length; i ++)
+			{
+				Object value = values[i];
+				if(value != null) returnValue[i] = value.toString();
 			}
-			}
-		return returnValue;
+			return returnValue;
+		}
+		else return null;
 	}
 
 }
