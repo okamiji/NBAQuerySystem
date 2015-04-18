@@ -17,17 +17,20 @@ public class PlayerServiceAdapter implements PlayerService
 	protected AveragePlayer average;
 	protected HotPlayerToday hot;
 	public TableHost tableHost;
-	public String[] columnNames,hotColumnNames, progressColumnNames;
+	public String[] columnNames,hotColumnNames, progressColumnNames,playerInfoColumnNames;
 	
-	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,String[] columnNames,String[] hotColumnNames,String[] progressColumnNames)
+	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,String[] columnNames,
+			String[] hotColumnNames,String[] progressColumnNames,String[] playerInfoColumnNames)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
 		this.average = average;
 		this.hotColumnNames=hotColumnNames;
 		this.progressColumnNames=progressColumnNames;
-		this.hot = hot;
 		this.columnNames = columnNames;
+		this.playerInfoColumnNames=playerInfoColumnNames;
+		
+
 	}
 
 	@Override
@@ -88,7 +91,7 @@ public class PlayerServiceAdapter implements PlayerService
 		tableHost.deleteTable("player_query_result");
 		return returnValue;
 	}
-	
+		
 	@Override
 	public String[][] searchForTodayHotPlayers(int head) {
 		if(head < 0) head = 1;
@@ -144,17 +147,20 @@ public class PlayerServiceAdapter implements PlayerService
 		tableHost.performQuery(query, "player_query_result");
 		Table queryResult = tableHost.getTable("player_query_result");
 		Row[] rows = queryResult.getRows();
-		
+		int columnNumber=playerInfoColumnNames.length;
+		Column[] columns = new Column[columnNumber];
+		for(int i = 0; i < columnNumber; i ++)
+			columns[i] = queryResult.getColumn(hotColumnNames[i]);
 		//XXX 这只是空值检查的一个实例，注意要检查rows的长度，当没有对应的球员时，记录长度为0
 		if(rows.length == 1)
 		{
-			Object[] values = rows[0].getAttributes();
-			String[] returnValue = new String[values.length];
-			for(int i = 0; i < values.length; i ++)
+			String[] returnValue = new String[columnNumber];
+			for(int column = 0; column < columns.length; column ++)
 			{
-				Object value = values[i];
-				if(value != null) returnValue[i] = value.toString();
+				Object value = columns[column].getAttribute(rows[0]);
+				if(value != null) returnValue[column] = value.toString();
 			}
+			
 			return returnValue;
 		}
 		else return null;

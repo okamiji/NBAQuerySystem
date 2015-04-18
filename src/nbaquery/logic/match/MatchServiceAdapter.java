@@ -49,7 +49,7 @@ public class MatchServiceAdapter implements MatchService{
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try {
-			query = new SelectProjectQuery("match_natural_join_performance.MATCH_ID=='" + matchID + "'", table);
+			query = new SelectProjectQuery("table.MATCH_ID=='" + matchID + "'", table);
 		}
 		catch (Exception e)
 		{
