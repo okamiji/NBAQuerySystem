@@ -15,12 +15,12 @@ import nbaquery.presentation2.addedcard.CardType;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
 
-public class ConcisePlayerPanel extends ConcisePanel {
+public class PlayerPanel extends ConcisePanel {
 
 	CardType type;
 	boolean view_all;
 	
-	public ConcisePlayerPanel(CardType type_, boolean view_all_) {
+	public PlayerPanel(CardType type_, boolean view_all_) {
 		super(type_, view_all_);
 		
 		type = type_;

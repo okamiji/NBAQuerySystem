@@ -188,6 +188,10 @@ public class MainFrame {
 			public void mouseClicked(MouseEvent e) {
 				init_button();
 				
+				ConcisePanelFactory.create_panel(ConcisePara.type, false);
+				PanelSet.set_all_detailed_panel_invisible();
+				ConcisePara.view_all = true;
+				
 				listener4 = button4.getMouseListeners()[1];
 				button4.removeMouseListener(button4.getMouseListeners()[1]);
 			}

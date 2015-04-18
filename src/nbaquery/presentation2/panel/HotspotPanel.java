@@ -12,14 +12,14 @@ import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.addedcard.Card;
 
 
-public class ConciseHotspotPanel extends ConcisePanel {
+public class HotspotPanel extends ConcisePanel {
 
 	CardType type;
 	boolean view_all;
 	
 	JButton daily_player, season_player, daily_team, season_team;
 	
-	public ConciseHotspotPanel(CardType type, boolean view_all_cards) {
+	public HotspotPanel(CardType type, boolean view_all_cards) {
 		super(type, view_all_cards);
 		add_cards();
 		super.set_scr();

@@ -7,13 +7,13 @@ public class ConcisePanelFactory {
 		ConcisePanel panel = null;
 		switch(type){
 		case PLAYER_FLAT:
-			panel = new ConcisePlayerPanel(type, view_all);break;
+			panel = new PlayerPanel(type, view_all);break;
 		case PLAYER_RECT:
-			panel = new ConcisePlayerPanel(type, view_all);break;
+			panel = new PlayerPanel(type, view_all);break;
 		case TEAM_FLAT:
-			panel = new ConciseTeamPanel(type, view_all);break;
+			panel = new TeamPanel(type, view_all);break;
 		case TEAM_RECT:
-			panel = new ConciseTeamPanel(type, view_all);break;
+			panel = new TeamPanel(type, view_all);break;
 			//TODO match
 		default:
 			break;

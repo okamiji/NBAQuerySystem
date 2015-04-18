@@ -4,11 +4,11 @@ import java.awt.Color;
 
 import nbaquery.presentation2.addedcard.CardType;
 
-public class ConciseMatchPanel extends ConcisePanel {
+public class MatchPanel extends ConcisePanel {
 	CardType type;
 	boolean view_all;
 	
-	public ConciseMatchPanel(CardType type, boolean view_more) {		
+	public MatchPanel(CardType type, boolean view_more) {		
 		super(type, view_more);
 		add_cards();
 		super.set_scr();
