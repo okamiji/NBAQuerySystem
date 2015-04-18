@@ -15,7 +15,10 @@ public class ConcisePanelFactory {
 				panel = new TeamPanel(type, view_all);break;
 			case TEAM_RECT:
 				panel = new TeamPanel(type, view_all);break;
-				//TODO match
+			case MATCH_FLAT:
+				panel = new MatchPanel(type, view_all);break;
+			case MATCH_RECT:
+				panel = new MatchPanel(type, view_all);break;
 			default:
 				break;
 			}

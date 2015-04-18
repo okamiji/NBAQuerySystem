@@ -1,4 +1,4 @@
-package nbaquery.presentation2.panel;
+package nbaquery.presentation2.util;
 
 public enum HotspotType {
 	DAILY_PLAYER,

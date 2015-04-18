@@ -1,6 +1,7 @@
 package nbaquery.presentation2.panel;
 
 import nbaquery.presentation2.util.CardType;
+import nbaquery.presentation2.util.HotspotType;
 
 public class ConcisePara {
 	public static CardType type = CardType.PLAYER_RECT;

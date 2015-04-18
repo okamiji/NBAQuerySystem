@@ -15,6 +15,7 @@ import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.util.CardType;
+import nbaquery.presentation2.util.HotspotType;
 
 public class HotspotPanel extends ConcisePanel{
 
