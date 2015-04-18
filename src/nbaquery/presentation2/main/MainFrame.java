@@ -17,9 +17,9 @@ import javax.swing.plaf.FontUIResource;
 
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
-import nbaquery.presentation2.addedcard.CardType;
+import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.card.CardLocation;
-import nbaquery.presentation2.main.Button;
+import nbaquery.presentation2.util.Button;
 import nbaquery.presentation2.panel.ConcisePanelFactory;
 import nbaquery.presentation2.panel.ConcisePara;
 import nbaquery.presentation2.panel.PanelSet;
@@ -155,7 +155,7 @@ public class MainFrame {
 				else if(ConcisePara.type.equals(CardType.PLAYER_RECT)){
 					ConcisePara.type = CardType.TEAM_RECT;
 				}
-				ConcisePanelFactory.create_panel(ConcisePara.type, false);
+				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
 				PanelSet.set_all_detailed_panel_invisible();
 				ConcisePara.view_all = false;
 				
@@ -174,7 +174,7 @@ public class MainFrame {
 				else if(ConcisePara.type.equals(CardType.TEAM_RECT)){
 					ConcisePara.type = CardType.PLAYER_RECT;
 				}
-				ConcisePanelFactory.create_panel(ConcisePara.type, false);
+				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
 				PanelSet.set_all_detailed_panel_invisible();
 				ConcisePara.view_all = false;
 				
@@ -188,7 +188,7 @@ public class MainFrame {
 			public void mouseClicked(MouseEvent e) {
 				init_button();
 				
-				ConcisePanelFactory.create_panel(ConcisePara.type, false);
+				ConcisePanelFactory.create_panel(CardType.TEAM_RECT, true, true);
 				PanelSet.set_all_detailed_panel_invisible();
 				ConcisePara.view_all = true;
 				

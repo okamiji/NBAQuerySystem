@@ -1,5 +1,7 @@
 package nbaquery.presentation2.addedcard;
 
+import nbaquery.presentation2.util.CardType;
+
 public class CardFactory {
 	public static Card create(CardType type, Object obj, boolean view_more){
 		Card card = null;

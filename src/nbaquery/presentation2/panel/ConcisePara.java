@@ -1,6 +1,6 @@
 package nbaquery.presentation2.panel;
 
-import nbaquery.presentation2.addedcard.CardType;
+import nbaquery.presentation2.util.CardType;
 
 public class ConcisePara {
 	public static CardType type = CardType.PLAYER_RECT;
@@ -28,7 +28,9 @@ public class ConcisePara {
 	public static String team_item_name = "°´Èü¼¾ÅÅÐò";
 	
 	
-	public static int team_hot_index = 0;
+	public static HotspotType hotspot_type = HotspotType.SEASON_TEAM;
+	
+	public static int hot_index = 0;
 	
 	public static void switch_type(){
 		if(type.equals(CardType.PLAYER_FLAT)){

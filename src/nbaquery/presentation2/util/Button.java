@@ -1,4 +1,4 @@
-package nbaquery.presentation2.main;
+package nbaquery.presentation2.util;
 
 import java.awt.Color;
 
@@ -15,3 +15,4 @@ public class Button extends JButton{
 		this.setBorderPainted(false);
 	}
 }
+

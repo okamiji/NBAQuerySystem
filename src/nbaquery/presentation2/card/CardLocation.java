@@ -1,6 +1,6 @@
 package nbaquery.presentation2.card;
 
-import nbaquery.presentation2.addedcard.CardType;
+import nbaquery.presentation2.util.CardType;
 
 public class CardLocation {	
 	int start_width;

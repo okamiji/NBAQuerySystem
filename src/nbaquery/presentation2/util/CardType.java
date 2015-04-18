@@ -1,4 +1,4 @@
-package nbaquery.presentation2.addedcard;
+package nbaquery.presentation2.util;
 
 public enum CardType {
 	PLAYER_RECT,

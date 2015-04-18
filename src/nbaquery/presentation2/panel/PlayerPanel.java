@@ -11,13 +11,12 @@ import javax.swing.JButton;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.presentation.combobox.ComboBoxFactory;
 import nbaquery.presentation2.addedcard.Card;
-import nbaquery.presentation2.addedcard.CardType;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
+import nbaquery.presentation2.util.CardType;
 
 public class PlayerPanel extends ConcisePanel {
 
-	CardType type;
 	boolean view_all;
 	
 	public PlayerPanel(CardType type_, boolean view_all_) {
@@ -29,9 +28,7 @@ public class PlayerPanel extends ConcisePanel {
 
 	public void run(){
 		super.run();
-
 	    add_cards();
-	    
 	    super.set_scr();
 	    
 		search_panel.setLayout(null);
@@ -165,7 +162,7 @@ public class PlayerPanel extends ConcisePanel {
 				leagueBox.setSelectedIndex(ConcisePara.player_league_index);
 				
 				PanelSet.set_concise_invisible();
-				ConcisePanelFactory.create_panel(type, view_all);
+				ConcisePanelFactory.create_panel(type, view_all,false);
 				
 			}
 		});

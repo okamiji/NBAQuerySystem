@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.addedcard.CardFactory;
-import nbaquery.presentation2.addedcard.CardType;
+import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
 

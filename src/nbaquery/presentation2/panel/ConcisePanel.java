@@ -11,13 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import nbaquery.presentation2.addedcard.CardType;
+import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.panel.PanelSet;
 
 public class ConcisePanel {
 	JFrame frame;
+
+	CardType type;
 	
-	JPanel concise_panel, search_panel;
+	JPanel concise_panel, search_panel, button_panel;
 	JScrollPane scr;
 	
 	boolean if_view_all;
@@ -36,6 +38,7 @@ public class ConcisePanel {
 		frame = PanelSet.get_frame();
 		concise_panel = new JPanel();
 		search_panel = new JPanel();
+		button_panel = new JPanel();
 		
 		scr_height = 550;
 		PanelSet.set_concise(this);
@@ -55,9 +58,13 @@ public class ConcisePanel {
 	    frame.add(scr);
 	    
 	    frame.add(search_panel);
+	    frame.add(button_panel);
 	    frame.revalidate();
 	    frame.repaint();
 	    
+	}
+	void set_button_panel(){
+		
 	}
 	void set_scr(){
 	    concise_panel.setPreferredSize(new Dimension(scr.getWidth() - 50, scr_height));

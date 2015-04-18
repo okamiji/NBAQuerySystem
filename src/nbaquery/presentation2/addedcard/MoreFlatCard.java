@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import nbaquery.presentation2.panel.ConcisePanelFactory;
 import nbaquery.presentation2.panel.ConcisePara;
 import nbaquery.presentation2.panel.PanelSet;
+import nbaquery.presentation2.util.CardType;
 
 @SuppressWarnings("serial")
 class MoreFlatCard extends FlatCard {
@@ -31,7 +32,7 @@ class MoreFlatCard extends FlatCard {
 				
 				CardType type = ConcisePara.type;
 				ConcisePara.view_all = true;
-				ConcisePanelFactory.create_panel(type, ConcisePara.view_all);
+				ConcisePanelFactory.create_panel(type, ConcisePara.view_all, false);
 			}
 		});
 	}

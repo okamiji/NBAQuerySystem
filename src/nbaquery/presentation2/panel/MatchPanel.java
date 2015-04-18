@@ -2,7 +2,7 @@ package nbaquery.presentation2.panel;
 
 import java.awt.Color;
 
-import nbaquery.presentation2.addedcard.CardType;
+import nbaquery.presentation2.util.CardType;
 
 public class MatchPanel extends ConcisePanel {
 	CardType type;
