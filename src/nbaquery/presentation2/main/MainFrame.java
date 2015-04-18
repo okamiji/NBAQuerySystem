@@ -188,7 +188,8 @@ public class MainFrame {
 			public void mouseClicked(MouseEvent e) {
 				init_button();
 				
-				ConcisePanelFactory.create_panel(CardType.TEAM_RECT, true, true);
+				ConcisePara.type = CardType.TEAM_RECT;
+				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
 				PanelSet.set_all_detailed_panel_invisible();
 				ConcisePara.view_all = true;
 				
