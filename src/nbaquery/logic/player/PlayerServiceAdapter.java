@@ -29,8 +29,6 @@ public class PlayerServiceAdapter implements PlayerService
 		this.progressColumnNames=progressColumnNames;
 		this.columnNames = columnNames;
 		this.playerInfoColumnNames=playerInfoColumnNames;
-		
-
 	}
 
 	@Override
@@ -151,7 +149,6 @@ public class PlayerServiceAdapter implements PlayerService
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++)
 			columns[i] = queryResult.getColumn(hotColumnNames[i]);
-		//XXX 这只是空值检查的一个实例，注意要检查rows的长度，当没有对应的球员时，记录长度为0
 		if(rows.length == 1)
 		{
 			String[] returnValue = new String[columnNumber];
