@@ -33,7 +33,7 @@ class PlayerRectCard extends RectCard {
 		label_name.setOpaque(true);
 		label_name.setForeground(Color.white);
 		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
-		label_name.setBounds(117, 3, 140, 30);
+		label_name.setBounds(112, 3, 145, 30);
 		shadow_label.add(label_name);
 		
 		try{
@@ -51,7 +51,7 @@ class PlayerRectCard extends RectCard {
 		label_info.setText(player_text);
 		label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
 		shadow_label.add(label_info);
-		label_info.setBounds(115, 32, 150, 60);
+		label_info.setBounds(112, 32, 145, 60);
 		
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -67,13 +67,9 @@ class PlayerRectCard extends RectCard {
 		player_text = "<html>";
 		player_text += "Çò¶Ó£º" + player.get_team();
 		player_text += "<br/>";
-		if(ConcisePara.player_position_index != 0){
-			player_text += "Î»ÖÃ£º" + player_info[30] + "  ";
-		}
-		if(ConcisePara.player_league_index != 0){
-			player_text += "ÁªÃË£º" + player_info[31];	
-			player_text += "<br/>";
-		}
+		player_text += "Î»ÖÃ£º" + player_info[30] + "  ";
+		player_text += "ÁªÃË£º" + player_info[31];	
+		player_text += "<br/>";
 		if(ConcisePara.player_index_index != 0){
 			if(player_text.substring(player_text.length() - 2, player_text.length()).equals("  ")){
 				player_text += "<br/>";

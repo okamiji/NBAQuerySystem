@@ -36,7 +36,6 @@ public class CardCreator {
 		else{
 			card_list = create_cards(type, list);
 		}
-		System.out.println(list.size());
 		CardLocation location = new CardLocation(type);
 		for(int i=0; i<card_list.size(); i++){
 			card_list.get(i).width = location.get_location(i)[0];

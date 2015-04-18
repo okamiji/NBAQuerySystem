@@ -21,7 +21,7 @@ public class PanelSet {
 	private static PanelSet instance = null;
 
 	public static PlayerService ps;
-	private static TeamService ts;
+	public static TeamService ts;
 	
 	private static JFrame frame;
 	private static ConcisePanel concise;

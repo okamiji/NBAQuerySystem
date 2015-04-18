@@ -14,8 +14,11 @@ public class Team {
 		return team_info[1];
 	}
 	public String get_portrait_path(){
-		//TODO to be changed
-		return team_info[29];
+	//	return team_info[33];
+		return null;
+	}
+	public String get_action_path(){
+		return team_info[34];
 	}
 	public String[] get_team_info(){
 		return team_info;

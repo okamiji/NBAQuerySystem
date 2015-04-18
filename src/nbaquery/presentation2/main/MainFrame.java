@@ -149,7 +149,13 @@ public class MainFrame {
 			public void mouseClicked(MouseEvent e) {
 				init_button();
 				
-				ConcisePanelFactory.create_panel(CardType.TEAM_RECT, true);
+				if(ConcisePara.type.equals(CardType.PLAYER_FLAT)){
+					ConcisePara.type = CardType.TEAM_FLAT;
+				}
+				else if(ConcisePara.type.equals(CardType.PLAYER_RECT)){
+					ConcisePara.type = CardType.TEAM_RECT;
+				}
+				ConcisePanelFactory.create_panel(ConcisePara.type, false);
 				PanelSet.set_all_detailed_panel_invisible();
 				ConcisePara.view_all = false;
 				
@@ -161,8 +167,14 @@ public class MainFrame {
 		button3.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {	
 				init_button();
-
-				ConcisePanelFactory.create_panel(CardType.PLAYER_RECT, false);
+				
+				if(ConcisePara.type.equals(CardType.TEAM_FLAT)){
+					ConcisePara.type = CardType.PLAYER_FLAT;
+				}
+				else if(ConcisePara.type.equals(CardType.TEAM_RECT)){
+					ConcisePara.type = CardType.PLAYER_RECT;
+				}
+				ConcisePanelFactory.create_panel(ConcisePara.type, false);
 				PanelSet.set_all_detailed_panel_invisible();
 				ConcisePara.view_all = false;
 				

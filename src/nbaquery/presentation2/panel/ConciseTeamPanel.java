@@ -3,12 +3,17 @@ package nbaquery.presentation2.panel;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import nbaquery.logic.team.TeamService;
 import nbaquery.presentation.combobox.ComboBoxFactory;
+import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.addedcard.CardType;
+import nbaquery.presentation2.card.CardCreator;
+import nbaquery.presentation2.card.CardLocation;
 
 public class ConciseTeamPanel extends ConcisePanel {
 
@@ -24,7 +29,11 @@ public class ConciseTeamPanel extends ConcisePanel {
 	
 	public void run(){
 		super.run();
-		
+
+	    add_cards();
+	    
+	    super.set_scr();
+	    
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 20, 570, 60);
@@ -35,7 +44,9 @@ public class ConciseTeamPanel extends ConcisePanel {
 
 		valueBox = ComboBoxFactory.getInstance().createComboBox(115, 15, 110, 24, 
 				new String[]{
-				"按比赛场数排序",
+				"按赛季排序",
+				"球队名称",
+				"比赛场数",
 				"投篮命中数",
 				"投篮出手次数",
 				"三分命中数",
@@ -65,6 +76,9 @@ public class ConciseTeamPanel extends ConcisePanel {
 		
 		search_panel.add(valueBox);
 
+		typeBox.setSelectedIndex(ConcisePara.team_isGross_index);
+		valueBox.setSelectedIndex(ConcisePara.team_index);
+		
 		descendButton = new JButton();
 		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
 		descendButton.setContentAreaFilled(false);
@@ -78,33 +92,24 @@ public class ConciseTeamPanel extends ConcisePanel {
 		ascendButton.setBorder(null);
 		ascendButton.setBounds(420, 15, 24, 24);
 		search_panel.add(ascendButton);
-		ascendButton.setVisible(false);
-/*
-		boolean isGross = CardProperties.get_team_isGross();
-		if(isGross){
-			typeBox.setSelectedIndex(0);
-		}
-		else{
-			typeBox.setSelectedIndex(1);
-		}
+		ascendButton.setVisible(false);	
 		
-		PanelSet.get_concise().valueBox.setSelectedIndex(CardProperties.get_team_index_index());				
-		isUp = CardProperties.get_team_isUp();
-		PanelSet.get_concise().ascendButton.setVisible(!isUp);
-		PanelSet.get_concise().descendButton.setVisible(isUp);
-		*/
+		ascendButton.setVisible(!ConcisePara.team_isUp);
+		descendButton.setVisible(ConcisePara.team_isUp);
+		
+		
 		descendButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				ascendButton.setVisible(true);
 				descendButton.setVisible(false);
-				isUp = false;
+				ConcisePara.team_isUp = false;
 			}
 		});
 		ascendButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				ascendButton.setVisible(false);
 				descendButton.setVisible(true);
-				isUp = true;
+				ConcisePara.team_isUp = true;
 			}
 		});
 		
@@ -117,27 +122,37 @@ public class ConciseTeamPanel extends ConcisePanel {
 		
 		searchButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-			/*	boolean isGross = false;
+
+				ConcisePara.team_index = valueBox.getSelectedIndex();
+				
+				ConcisePara.team_item_name = (String)(valueBox.getSelectedItem());
+				
 				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
-					isGross = true;
+					ConcisePara.team_isGross = true;
+				}
+				else{
+					ConcisePara.team_isGross = false;
 				}
 				
-				int value_index = valueBox.getSelectedIndex();
-				CardProperties.set_team_index(value_index + 2);
-				CardProperties.set_team_isGross(isGross);
-				CardProperties.set_team_isUp(isUp);
-				
-				CardProperties.set_team_index_index(value_index);
-				//Fetch item name from certain combo box, which is given to Card and added when setting information of each card.
-				CardProperties.set_team_item_name((String)(valueBox.getSelectedItem()));
-				//Certain number of cards are released each time.
-				CardProperties.set_if_view_all(false);
-				*/
 				PanelSet.set_concise_invisible();
-				ConcisePanelFactory.create_panel(type, view_all);
-				PanelSet.get_concise().run();
+				ConcisePanelFactory.create_panel(type, ConcisePara.view_all);
 				
 			}
 		});
+	}
+	
+	private void add_cards(){
+		TeamService ts = PanelSet.ts;
+		String[][] str = ts.searchForTeams(ConcisePara.team_isGross, ConcisePara.team_index, ConcisePara.team_isUp);
+		CardCreator creator = new CardCreator();
+		ArrayList<Card> card_list = creator.create_needed_cards(ConcisePara.type, str, ConcisePara.view_all);
+		CardLocation location = new CardLocation(ConcisePara.type);
+		scr_height = location.get_total_height(card_list.size());
+		for(int i=0; i<card_list.size(); i++){
+			Card card = card_list.get(i);
+			concise_panel.add(card);
+			card.setLocation(card.width, card.height);
+		}
+		concise_panel.repaint();
 	}
 }

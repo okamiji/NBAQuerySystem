@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import org.apache.batik.swing.svg.JSVGComponent;
 
 import nbaquery.presentation2.info.Team;
+import nbaquery.presentation2.panel.ConcisePara;
 import nbaquery.presentation2.panel.PanelSet;
 
 @SuppressWarnings("serial")
@@ -67,11 +68,11 @@ class TeamRectCard extends RectCard {
 	}
 	
 	private void set_team_text(Team team){
-	/*	String[] team_info = team.get_team_info();
-		int item_index = CardProperties.get_team_index_index();
-		String item_name = CardProperties.get_team_item_name();
+		String[] team_info = team.get_team_info();
+		int item_index = ConcisePara.team_index;
+		String item_name = ConcisePara.team_item_name;
 		team_text = "<html>";
-		team_text += item_name + "£º" + team_info[item_index + 2];
-		team_text += "</html>";*/
+		team_text += item_name + "£º" + team_info[item_index];
+		team_text += "</html>";
 	}
 }

@@ -3,12 +3,17 @@ package nbaquery.presentation2.panel;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import nbaquery.logic.player.PlayerService;
 import nbaquery.presentation.combobox.ComboBoxFactory;
+import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.addedcard.CardType;
+import nbaquery.presentation2.card.CardCreator;
+import nbaquery.presentation2.card.CardLocation;
 
 public class ConcisePlayerPanel extends ConcisePanel {
 
@@ -24,7 +29,11 @@ public class ConcisePlayerPanel extends ConcisePanel {
 
 	public void run(){
 		super.run();
-		
+
+	    add_cards();
+	    
+	    super.set_scr();
+	    
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 20, 570, 60);
@@ -75,7 +84,6 @@ public class ConcisePlayerPanel extends ConcisePanel {
 				"·Ö/°å/Öú",
 				});
 		search_panel.add(valueBox);
-		
 		
 		typeBox.setSelectedIndex(ConcisePara.player_isGross_index);
 		valueBox.setSelectedIndex(ConcisePara.player_index_index);
@@ -164,4 +172,18 @@ public class ConcisePlayerPanel extends ConcisePanel {
 		
 	}
 	
+	private void add_cards(){
+		PlayerService ps = PanelSet.ps;
+		String[][] str = ps.searchForPlayers(ConcisePara.player_isGross, ConcisePara.player_index, ConcisePara.player_isUp, ConcisePara.player_position, ConcisePara.player_league);
+		CardCreator creator = new CardCreator();
+		ArrayList<Card> card_list = creator.create_needed_cards(ConcisePara.type, str, ConcisePara.view_all);
+		CardLocation location = new CardLocation(ConcisePara.type);
+		scr_height = location.get_total_height(card_list.size());
+		for(int i=0; i<card_list.size(); i++){
+			Card card = card_list.get(i);
+			concise_panel.add(card);
+			card.setLocation(card.width, card.height);
+		}
+		concise_panel.repaint();
+	}
 }

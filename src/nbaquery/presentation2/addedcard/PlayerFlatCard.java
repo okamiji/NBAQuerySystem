@@ -67,13 +67,8 @@ class PlayerFlatCard extends FlatCard {
 		String[] player_info = player.get_player_info();
 		player_text = "<html>";
 		player_text += "球队：" + player.get_team();
+		player_text += "位置：" + player_info[30] + "  " + "联盟：" + player_info[31] + "   ";
 		player_text += "   ";
-		if(ConcisePara.player_position_index != 0){
-			player_text += "位置：" + player_info[30] + "  ";
-		}
-		if(ConcisePara.player_league_index != 0){
-			player_text += "联盟：" + player_info[31] + "   ";
-		}
 		if(ConcisePara.player_index_index != 0){
 			player_text += ConcisePara.player_item_name + "：" + player_info[ConcisePara.player_index];
 		}
