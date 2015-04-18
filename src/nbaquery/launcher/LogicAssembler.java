@@ -156,7 +156,9 @@ public class LogicAssembler implements ILogicAssembler
 				"cap",//"¸ÇÃ±"
 				"steal",//"ÇÀ¶Ï"
 		},new String[]{
-				
+				"self_score",//³¡¾ùµÃ·Ö
+				"total_board",//"Àº°å"
+				"assist"//"Öú¹¥"
 		},new String[]{
 				"player_name"	, //ÇòÔ±Ãû³Æ
 				"player_number",  //ÇòÒÂ±àºÅ
