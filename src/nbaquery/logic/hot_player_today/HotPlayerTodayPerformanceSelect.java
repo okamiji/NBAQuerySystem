@@ -9,6 +9,7 @@ import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.logic.LogicPipeline;
 import nbaquery.logic.LogicWatcher;
 import nbaquery.logic.infrustructure.DirectMatchNaturalJoinPerformance;
+import nbaquery.logic.infrustructure.MatchNaturalJoinPerformance;
 
 
 public class HotPlayerTodayPerformanceSelect implements LogicPipeline {
@@ -18,7 +19,7 @@ public class HotPlayerTodayPerformanceSelect implements LogicPipeline {
 	protected Table table;
 	protected String date;
 	
-	public HotPlayerTodayPerformanceSelect(TableHost tableHost, DirectMatchNaturalJoinPerformance base){
+	public HotPlayerTodayPerformanceSelect(TableHost tableHost,MatchNaturalJoinPerformance base){
 		this.tableHost = tableHost;
 		this.base = new LogicWatcher(base);
 	}

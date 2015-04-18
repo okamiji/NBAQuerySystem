@@ -19,12 +19,13 @@ public class PlayerServiceAdapter implements PlayerService
 	public TableHost tableHost;
 	public String[] columnNames,hotColumnNames, progressColumnNames,playerInfoColumnNames;
 	
-	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,String[] columnNames,
+	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,HotPlayerToday hot,String[] columnNames,
 			String[] hotColumnNames,String[] progressColumnNames,String[] playerInfoColumnNames)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
 		this.average = average;
+		this.hot=hot;
 		this.hotColumnNames=hotColumnNames;
 		this.progressColumnNames=progressColumnNames;
 		this.columnNames = columnNames;

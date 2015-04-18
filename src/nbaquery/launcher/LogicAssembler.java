@@ -11,6 +11,8 @@ import nbaquery.logic.gross_team.GrossRivalPerformance;
 import nbaquery.logic.gross_team.GrossTeam;
 import nbaquery.logic.gross_team.GrossTeamNaturalJoin;
 import nbaquery.logic.gross_team.GrossTeamPerformance;
+import nbaquery.logic.hot_player_today.HotPlayerToday;
+import nbaquery.logic.hot_player_today.HotPlayerTodayPerformanceSelect;
 import nbaquery.logic.infrustructure.DirectMatchNaturalJoinPerformance;
 import nbaquery.logic.infrustructure.MatchNaturalJoinPerformance;
 import nbaquery.logic.infrustructure.MatchTeamPerformance;
@@ -69,6 +71,9 @@ public class LogicAssembler implements ILogicAssembler
 		DerivedPlayerPerformance derive_player_performance = new DerivedPlayerPerformance(tableHost, player_performance);
 		AveragePlayer average_player = new AveragePlayer(tableHost, derive_player_performance);
 		
+		HotPlayerTodayPerformanceSelect hot_player_today_p_s = new HotPlayerTodayPerformanceSelect(tableHost,match_natural_join_performance);
+		HotPlayerToday hot_player_today=new HotPlayerToday(tableHost,hot_player_today_p_s);
+		
 		/**
 		 * team
 		 */
@@ -106,7 +111,7 @@ public class LogicAssembler implements ILogicAssembler
 				"team_logo"	//"队伍标志"
 		});
 		
-		player_service = new PlayerServiceAdapter(tableHost, gross_player, average_player, new String[]
+		player_service = new PlayerServiceAdapter(tableHost, gross_player, average_player,hot_player_today, new String[]
 		{
 				"match_season",//"赛季"
 				"player_name",//"姓名"
