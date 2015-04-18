@@ -72,7 +72,7 @@ public class TeamServiceAdapter implements TeamService
 		SelectProjectQuery query = null;
 		try {
 			query = new SelectProjectQuery("player.TEAM_NAME=="+"'"+teamName+"'",team);
-		} catch (Exception e) {
+		} catch (Exception e) {	
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

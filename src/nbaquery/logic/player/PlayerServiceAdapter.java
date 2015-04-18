@@ -20,14 +20,16 @@ public class PlayerServiceAdapter implements PlayerService
 	protected AveragePlayer average;
 	protected HotPlayerToday hot;
 	public TableHost tableHost;
-	public String[] columnNames; 
+	public String[] columnNames,hotColumnNames, progressColumnNames;
 	
-	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,String[] columnNames)
+	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,String[] columnNames,String[] hotColumnNames,String[] progressColumnNames)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
 		this.average = average;
-		this.hot=hot;
+		this.hotColumnNames=hotColumnNames;
+		this.progressColumnNames=progressColumnNames;
+		this.hot = hot;
 		this.columnNames = columnNames;
 	}
 
@@ -93,19 +95,19 @@ public class PlayerServiceAdapter implements PlayerService
 	@Override
 	public String[][] searchForTodayHotPlayers(int head) {
 		if(head < 0) head = 1;
-		if(head > columnNames.length) return null;
+		if(head > hotColumnNames.length) return null;
 		Table table;
 		SortQuery sort = null;
 		table=this.hot.getTable();
-		sort = new SortQuery(table, columnNames[head],5,false);
+		sort = new SortQuery(table, hotColumnNames[head],5,false);
 		tableHost.performQuery(sort, "player_query_result");
 		Table queryResult = tableHost.getTable("player_query_result");
 		Row[] rows = queryResult.getRows();
-		int columnNumber=6;//6=ÐÕÃû+²ÎÊý*5
+		int columnNumber=hotColumnNames.length;
 		String[][] returnValue = new String[rows.length][columnNumber];
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++)
-			columns[i] = queryResult.getColumn(columnNames[i]);
+			columns[i] = queryResult.getColumn(hotColumnNames[i]);
 		for(int row = 0; row < rows.length; row ++)
 			for(int column = 0; column < columns.length; column ++)
 			{
@@ -155,7 +157,5 @@ public class PlayerServiceAdapter implements PlayerService
 			}
 		return returnValue;
 	}
-	
-	
-	
+
 }

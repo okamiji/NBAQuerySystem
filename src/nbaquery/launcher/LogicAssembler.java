@@ -143,7 +143,11 @@ public class LogicAssembler implements ILogicAssembler
 				"score_board_assist",//"分/板/助"
 				"player_portrait", //头像
 				"player_action"	//全身照
-		});
+		},
+		new String[]{
+				
+		}
+		);
 	}
 
 	@Override
