@@ -10,6 +10,7 @@ import nbaquery.data.query.SortQuery;
 import nbaquery.logic.average_player.AveragePlayer;
 import nbaquery.logic.gross_player.GrossPlayer;
 import nbaquery.logic.hot_player_today.HotPlayerToday;
+import nbaquery.logic.progress_player.ProgressPlayer;
 
 //XXX 最基本的要求：比较运算符前后必须留1空格，逗号之后必须留一空格，没事不要初始化为null。
 public class PlayerServiceAdapter implements PlayerService
@@ -17,16 +18,18 @@ public class PlayerServiceAdapter implements PlayerService
 	protected GrossPlayer gross;
 	protected AveragePlayer average;
 	protected HotPlayerToday hot;
+	protected ProgressPlayer progress;
 	public TableHost tableHost;
 	public String[] columnNames,hotColumnNames, progressColumnNames,playerInfoColumnNames;
 	
-	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,HotPlayerToday hot,String[] columnNames,
+	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,HotPlayerToday hot,ProgressPlayer progress,String[] columnNames,
 			String[] hotColumnNames,String[] progressColumnNames,String[] playerInfoColumnNames)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
 		this.average = average;
 		this.hot=hot;
+		this.progress = progress;
 		this.hotColumnNames=hotColumnNames;
 		this.progressColumnNames=progressColumnNames;
 		this.columnNames = columnNames;
@@ -107,11 +110,11 @@ public class PlayerServiceAdapter implements PlayerService
 		
 		Row[] rows = queryResult.getRows();
 		
-		int columnNumber=playerInfoColumnNames.length;
+		int columnNumber=hotColumnNames.length;
 		String[][] returnValue = new String[rows.length][columnNumber];
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++){
-			columns[i] = queryResult.getColumn(playerInfoColumnNames[i]);
+			columns[i] = queryResult.getColumn(hotColumnNames[i]);
 			if(columns[i]!=null)
 				System.out.println(i+" "+columns[i].getColumnName());
 		}
@@ -130,7 +133,13 @@ public class PlayerServiceAdapter implements PlayerService
 	
 	@Override
 	public String[][] searchForProgressPlayers(int head) {
-		// TODO Auto-generated method stub
+		if(head < 0) head = 1;
+		if(head > progressColumnNames.length)
+			return null;
+		Table table;
+		SortQuery sort = null;
+		table=this.hot.getTable();
+		
 		return null;
 	}
 	
@@ -142,7 +151,7 @@ public class PlayerServiceAdapter implements PlayerService
 				result[i][j]=strs[i][j];
 		return result;
 	}
-
+	
 	@Override
 	public String[] searchForOnePlayer(String playerName) {		
 		SelectProjectQuery query = null;

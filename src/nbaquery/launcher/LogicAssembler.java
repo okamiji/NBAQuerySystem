@@ -152,15 +152,38 @@ public class LogicAssembler implements ILogicAssembler
 				"player_action"	//全身照
 		},
 		new String[]{
+				"player_name"	, //球员名称
+				"player_number",  //球衣编号
+				"player_position",//球员位置
+				"player_height"	, //球员身高
+				"player_weight"	, //球员体重
+				"player_birth"	, //出生日期
+				"player_age"	, //年龄
+				"player_exp"	, //球龄
+				"player_school"	, //毕业学校
+				"player_portrait",//半身照
+				"player_action"	, //全身照
 				"self_score",//"得分"
 				"total_board",//"篮板"
 				"assist",//"助攻"
 				"cap",//"盖帽"
 				"steal",//"抢断"
+				
 		},new String[]{
-				"self_score",//场均得分
-				"total_board",//"篮板"
-				"assist"//"助攻"
+				"player_name"	, //球员名称
+				"player_number",  //球衣编号
+				"player_position",//球员位置
+				"player_height"	, //球员身高
+				"player_weight"	, //球员体重
+				"player_birth"	, //出生日期
+				"player_age"	, //年龄
+				"player_exp"	, //球龄
+				"player_school"	, //毕业学校
+				"player_portrait",//半身照
+				"player_action"	, //全身照
+				"self_score",//近五场场均得分
+				"total_board",//"近五场篮板"
+				"assist"//"近五场助攻"
 		},new String[]{
 				"player_name"	, //球员名称
 				"player_number",  //球衣编号
