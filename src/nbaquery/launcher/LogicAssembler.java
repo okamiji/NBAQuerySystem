@@ -70,7 +70,9 @@ public class LogicAssembler implements ILogicAssembler
 		 */
 		DerivedPlayerPerformance derive_player_performance = new DerivedPlayerPerformance(tableHost, player_performance);
 		AveragePlayer average_player = new AveragePlayer(tableHost, derive_player_performance);
-		
+		/**
+		 * hot_player
+		 */
 		HotPlayerTodayPerformanceSelect hot_player_today_p_s = new HotPlayerTodayPerformanceSelect(tableHost,match_natural_join_performance);
 		HotPlayerToday hot_player_today=new HotPlayerToday(tableHost,hot_player_today_p_s);
 		

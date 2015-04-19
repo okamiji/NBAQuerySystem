@@ -3,6 +3,7 @@ package nbaquery.logic.hot_player_today;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.SelectProjectQuery;
@@ -26,7 +27,7 @@ public class HotPlayerTodayPerformanceSelect implements LogicPipeline {
 	
 	public String getDate(){
 		Date uDate=new Date();
-		SimpleDateFormat df=new SimpleDateFormat("<MM>-<dd>");
+		SimpleDateFormat df=new SimpleDateFormat("MM-dd");
 		String result=df.format(uDate);
 		return result;
 	}
@@ -34,15 +35,17 @@ public class HotPlayerTodayPerformanceSelect implements LogicPipeline {
 	@Override
 	public Table getTable() {
 		this.date=getDate();
+		this.date="02-03";
 		if(base.checkDepenency())
 		{
 			try {
-				SelectProjectQuery query = new SelectProjectQuery("base.match_date=date",base.getTable());
+				SelectProjectQuery query = new SelectProjectQuery("match_natural_join_performance.match_date='"+date+"'",base.getTable());
 				tableHost.performQuery(query, "todayPerformance");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
+			table=tableHost.getTable("todayPerformance");
 		}
 		return table;
 	}

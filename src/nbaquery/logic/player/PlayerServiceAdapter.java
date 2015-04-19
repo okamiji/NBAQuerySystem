@@ -4,6 +4,7 @@ import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.average_player.AveragePlayer;
@@ -94,25 +95,35 @@ public class PlayerServiceAdapter implements PlayerService
 	@Override
 	public String[][] searchForTodayHotPlayers(int head) {
 		if(head < 0) head = 1;
-		if(head > hotColumnNames.length) return null;
+		if(head > hotColumnNames.length)
+			return null;
 		Table table;
 		SortQuery sort = null;
 		table=this.hot.getTable();
-		sort = new SortQuery(table, hotColumnNames[head],5,false);
+		
+		sort = new SortQuery(table, hotColumnNames[head],5,true);
 		tableHost.performQuery(sort, "player_query_result");
 		Table queryResult = tableHost.getTable("player_query_result");
+		
 		Row[] rows = queryResult.getRows();
-		int columnNumber=hotColumnNames.length;
+		
+		int columnNumber=playerInfoColumnNames.length;
 		String[][] returnValue = new String[rows.length][columnNumber];
 		Column[] columns = new Column[columnNumber];
-		for(int i = 0; i < columnNumber; i ++)
-			columns[i] = queryResult.getColumn(hotColumnNames[i]);
+		for(int i = 0; i < columnNumber; i ++){
+			columns[i] = queryResult.getColumn(playerInfoColumnNames[i]);
+			if(columns[i]!=null)
+				System.out.println(i+" "+columns[i].getColumnName());
+		}
 		for(int row = 0; row < rows.length; row ++)
 			for(int column = 0; column < columns.length; column ++)
 			{
+				if(columns[column]!=null){
 				Object value = columns[column].getAttribute(rows[row]);
 				if(value != null) returnValue[row][column] = value.toString();
+				}
 			}
+		
 		tableHost.deleteTable("player_query_result");
 		return returnValue;
 	}
@@ -125,7 +136,7 @@ public class PlayerServiceAdapter implements PlayerService
 	
 	public String[][] searchForSeasonHotPlayers(int head){
 		String[][] strs=this.searchForPlayers(true, head, false, null, null);
-		String[][] result=new String[5][];
+		String[][] result=new String[5][columnNames.length];
 		for(int i=0;i<5;i++)
 			for(int j=0;j<strs[i].length;j++)
 				result[i][j]=strs[i][j];
@@ -149,7 +160,7 @@ public class PlayerServiceAdapter implements PlayerService
 		int columnNumber=playerInfoColumnNames.length;
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++)
-			columns[i] = queryResult.getColumn(hotColumnNames[i]);
+			columns[i] = queryResult.getColumn(playerInfoColumnNames[i]);
 		if(rows.length == 1)
 		{
 			String[] returnValue = new String[columnNumber];
