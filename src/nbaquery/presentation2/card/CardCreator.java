@@ -56,6 +56,9 @@ public class CardCreator {
 	
 	private ArrayList<Object> turn_team_list(String[][] str){
 		ArrayList<Object> list = new ArrayList<Object>();
+		if(str == null){
+			System.out.println("is null");
+		}
 		for(int i=0; i<str.length; i++){
 			Team team = new Team(str[i]);
 			team.set_index(i);

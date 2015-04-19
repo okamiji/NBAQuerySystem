@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import nbaquery.presentation2.info.Match;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
 import nbaquery.presentation2.panel.PanelSet;
@@ -24,6 +25,7 @@ public class DetailedPanel extends JPanel{
 	
 	Player player = null;
 	Team team = null;
+	Match match = null;
 	
 	int scr_height;
 	
@@ -45,6 +47,11 @@ public class DetailedPanel extends JPanel{
 		
 		initialize_team();
 	}
+	public DetailedPanel(Match get_match){
+		match = get_match;
+		
+		initialize_match();
+	}
 	
 	private void initialize_player(){
 		initialize();
@@ -54,6 +61,10 @@ public class DetailedPanel extends JPanel{
 		initialize();
 		set_team_info();
 	}	
+	private void initialize_match(){
+		initialize();
+		set_match_info();
+	}
 	private void initialize(){
 		this.setBackground(new Color(0,0,0,0.0f));
 		this.setLayout(null);
@@ -183,6 +194,8 @@ public class DetailedPanel extends JPanel{
 	private void set_team_info(){
 		//TODO
 	}
-	
+	private void set_match_info(){
+		
+	}
 }
 
