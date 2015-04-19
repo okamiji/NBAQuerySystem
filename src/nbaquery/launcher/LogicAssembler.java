@@ -82,7 +82,7 @@ public class LogicAssembler implements ILogicAssembler
 		 * progress_player
 		 */
 		
-		ProgressPlayerGroup progress_player_group = new ProgressPlayerGroup(tableHost,player_performance);
+		ProgressPlayerGroup progress_player_group = new ProgressPlayerGroup(tableHost,match_natural_join_performance);
 		ProgressPlayer progress_player=new ProgressPlayer(tableHost,progress_player_group);
 		
 		/**
@@ -190,9 +190,15 @@ public class LogicAssembler implements ILogicAssembler
 				"player_school"	, //毕业学校
 				"player_portrait",//半身照
 				"player_action"	, //全身照
-				"self_score",//近五场场均得分
-				"total_board",//"近五场篮板"
-				"assist"//"近五场助攻"
+				"self_score_now",//近五场场均得分
+				"total_board_now",//"近五场篮板"
+				"assist_now",//"近五场助攻"
+				"self_score_before",//场均得分
+				"total_board_before",//"篮板"
+				"assist_before",//"助攻"
+				"self_score_rate",//场均得分进步率
+				"total_board_rate",//"篮板进步率"
+				"assist_rate",//"助攻进步率"
 		},new String[]{
 				"player_name"	, //球员名称
 				"player_number",  //球衣编号

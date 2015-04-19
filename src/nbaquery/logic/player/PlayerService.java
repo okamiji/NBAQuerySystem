@@ -23,7 +23,7 @@ public interface PlayerService
 	 * @param head 所需要排序的项目在progressPlayerColumnNames数组中的index
 	 * @return 前五名进步最快球员的信息
 	 */
-	public String[][] searchForProgressPlayers(int head);
+	public String[][] searchForProgressPlayers(int head)throws Exception;
 	/**
 	 * 查询赛季热门球员信息
 	 * @param head 所需要排序的项目在hotPlayerColumnNames数组中的index

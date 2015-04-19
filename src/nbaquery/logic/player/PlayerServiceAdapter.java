@@ -91,6 +91,7 @@ public class PlayerServiceAdapter implements PlayerService
 				Object value = columns[column].getAttribute(rows[row]);
 				if(value != null) returnValue[row][column] = value.toString();
 			}
+		
 		tableHost.deleteTable("player_query_result");
 		return returnValue;
 	}
@@ -105,11 +106,10 @@ public class PlayerServiceAdapter implements PlayerService
 		table=this.hot.getTable();
 		
 		sort = new SortQuery(table, hotColumnNames[head],5,true);
-		tableHost.performQuery(sort, "player_query_result");
-		Table queryResult = tableHost.getTable("player_query_result");
+		tableHost.performQuery(sort, "hot_player_query_result");
+		Table queryResult = tableHost.getTable("hot_player_query_result");
 		
 		Row[] rows = queryResult.getRows();
-		
 		int columnNumber=hotColumnNames.length;
 		String[][] returnValue = new String[rows.length][columnNumber];
 		Column[] columns = new Column[columnNumber];
@@ -127,20 +127,43 @@ public class PlayerServiceAdapter implements PlayerService
 				}
 			}
 		
-		tableHost.deleteTable("player_query_result");
+		tableHost.deleteTable("hot_player_query_result");
 		return returnValue;
 	}
 	
 	@Override
-	public String[][] searchForProgressPlayers(int head) {
+	public String[][] searchForProgressPlayers(int head) throws Exception {
 		if(head < 0) head = 1;
 		if(head > progressColumnNames.length)
 			return null;
 		Table table;
 		SortQuery sort = null;
-		table=this.hot.getTable();
+		table=this.progress.getTable();
 		
-		return null;
+		sort = new SortQuery(table, progressColumnNames[head],5,true);
+		tableHost.performQuery(sort, "progress_player_query_result");
+		Table queryResult = tableHost.getTable("progress_player_query_result");
+		
+		Row[] rows = queryResult.getRows();
+		int columnNumber=progressColumnNames.length;
+		String[][] returnValue = new String[rows.length][columnNumber];
+		Column[] columns = new Column[columnNumber];
+		for(int i = 0; i < columnNumber; i ++){
+			columns[i] = queryResult.getColumn(progressColumnNames[i]);
+			if(columns[i]!=null)
+				System.out.println(i+" "+columns[i].getColumnName());
+		}
+		for(int row = 0; row < rows.length; row ++)
+			for(int column = 0; column < columns.length; column ++)
+			{
+				if(columns[column]!=null){
+				Object value = columns[column].getAttribute(rows[row]);
+				if(value != null) returnValue[row][column] = value.toString();
+				}
+			}
+		
+		tableHost.deleteTable("progress_player_query_result");
+		return returnValue;
 	}
 	
 	public String[][] searchForSeasonHotPlayers(int head){
@@ -163,8 +186,8 @@ public class PlayerServiceAdapter implements PlayerService
 		{
 			e.printStackTrace();
 		}
-		tableHost.performQuery(query, "player_query_result");
-		Table queryResult = tableHost.getTable("player_query_result");
+		tableHost.performQuery(query, "one_player_query_result");
+		Table queryResult = tableHost.getTable("one_player_query_result");
 		Row[] rows = queryResult.getRows();
 		int columnNumber=playerInfoColumnNames.length;
 		Column[] columns = new Column[columnNumber];

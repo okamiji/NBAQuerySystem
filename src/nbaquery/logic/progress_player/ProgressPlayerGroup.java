@@ -21,27 +21,22 @@ import nbaquery.logic.infrustructure.PlayerPerformance;
 public class ProgressPlayerGroup implements LogicPipeline{
 	
 	public TableHost tableHost;
-	protected LogicWatcher base, nativePlayer, nativeTeam;
+	protected LogicWatcher base;
 	protected Table table;
 	
-	public ProgressPlayerGroup(TableHost tableHost,PlayerPerformance base){
+	public ProgressPlayerGroup(TableHost tableHost,MatchNaturalJoinPerformance base){
 		this.tableHost = tableHost;
 		this.base = new LogicWatcher(base);
 	
-		this.nativePlayer = new LogicWatcher(new NativeTablePipeline(tableHost, "player"));
-		this.nativeTeam = new LogicWatcher(new NativeTablePipeline(tableHost, "team"));
 	}
 	
 	public Table getTable(){
-		boolean matchChanged = this.base.checkDepenency();
-		boolean nativePlayerChanged = this.nativePlayer.checkDepenency();
-		boolean nativeTeamChanged = this.nativeTeam.checkDepenency();
-		if(matchChanged || nativePlayerChanged || nativeTeamChanged)
+		if(base.checkDepenency())
 		{
 			SortQuery sort=new SortQuery(base.getTable(), "match_id", true);
-			tableHost.performQuery(sort, "progress_player");
-			Table intermediateTable = tableHost.getTable("progress_player");
-			
+			tableHost.performQuery(sort, "progress_player_group");
+			Table intermediateTable = tableHost.getTable("progress_player_group");
+		
 			GroupQuery groupQuery = new GroupQuery(intermediateTable, new String[]{"match_id", "player_name"},
 					new GroupColumnInfo("game_count", Integer.class)
 					{

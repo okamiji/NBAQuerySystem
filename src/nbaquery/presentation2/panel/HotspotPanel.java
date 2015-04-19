@@ -33,7 +33,12 @@ public class HotspotPanel extends ConcisePanel{
 	
 	public void run(){
 		super.run();
-		add_cards();
+		try {
+			add_cards();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	    scr.setBounds(110, 100, 600, 422);
 		super.set_scr();
 		button_panel.setLayout(null);
@@ -107,7 +112,7 @@ public class HotspotPanel extends ConcisePanel{
 		});
 	}
 		
-	private void add_cards(){
+	private void add_cards() throws Exception{
 		PlayerService ps = PanelSet.ps;
 		TeamService ts = PanelSet.ts;
 		switch(ConcisePara.hotspot_type){
