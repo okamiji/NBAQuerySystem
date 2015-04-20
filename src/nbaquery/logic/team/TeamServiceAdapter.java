@@ -55,16 +55,6 @@ public class TeamServiceAdapter implements TeamService
 			}
 		tableHost.deleteTable("team_query_result");
 		
-		//XXX----------------
-		
-		for(int i = 0; i < returnValue.length; i ++)
-		{
-			for(int j = 0; j < returnValue[i].length; j ++) System.out.print(returnValue[i][j] + " ");
-			System.out.println();
-		}
-		
-		//XXX----------------
-		
 		return returnValue;
 	}
 

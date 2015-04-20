@@ -5,16 +5,6 @@ public class Player {
 	private int index;
 	
 	public Player(String[] string_info){
-		/*if(string_info[1].equals("Al Horford")){
-			for(int i=0; i<string_info.length; i++){
-				System.out.println(i + " " + string_info[i]);
-			}
-		}*/
-		/*
-		for(int i=0; i<string_info.length; i++){
-			System.out.print(string_info[i] + "  ");
-		}
-		System.out.println(" ");*/
 		player_info = string_info;
 	}
 	public void set_name(String set_name){
@@ -27,7 +17,6 @@ public class Player {
 		return player_info[2];
 	}
 	public String get_portrait_path(){
-		//TODO to be changed
 		return player_info[33];
 	}
 	public String get_action_path(){

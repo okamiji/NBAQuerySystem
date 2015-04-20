@@ -71,7 +71,7 @@ public class MainFrame {
 		frame.setVisible(true);		
 		frame.setLayout(null);
 		frame.setResizable(false);
-		frame.setOpacity(0.95f);
+//		frame.setOpacity(0.95f);
 		
 		((JPanel)frame.getContentPane()).setOpaque(false);
 		background_label=new JLabel(background_img);
