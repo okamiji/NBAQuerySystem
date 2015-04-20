@@ -12,13 +12,12 @@ import nbaquery.logic.LogicWatcher;
 public class ProgressPlayer {
 	
 	LogicWatcher base;
-	Table table,progressPlayerGroup,player;
+	Table table,player;
 	TableHost tableHost;
 	
 	public ProgressPlayer(TableHost tableHost,ProgressPlayerGroup base){
 		this.tableHost = tableHost;
 		this.base = new LogicWatcher(base);
-		this.progressPlayerGroup=base.getTable();
 		this.player=tableHost.getTable("player");
 	}
 	
