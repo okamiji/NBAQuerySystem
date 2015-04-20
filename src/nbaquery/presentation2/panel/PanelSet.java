@@ -59,6 +59,9 @@ public class PanelSet {
 	public static void set_concise_invisible(){
 		if(concise != null){
 			concise.get_scr().setVisible(false);
+			if(concise.get_button_panel() != null){
+				concise.get_button_panel().setVisible(false);
+			}
 			concise.set_search_invisible();
 			frame.remove(concise.get_scr());
 			frame.remove(concise.get_search_panel());
