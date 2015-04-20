@@ -3,9 +3,9 @@ package nbaquery.presentation2.addedcard;
 import nbaquery.presentation2.util.CardType;
 
 public class CardFactory {
-	public static Card create(CardType type, Object obj, boolean view_more){
+	public static Card create(CardType type, Object obj, boolean view_all){
 		Card card = null;
-		if(!view_more){
+		if(!view_all){
 			switch(type){
 			case PLAYER_RECT:
 				card = new PlayerRectCard();break;

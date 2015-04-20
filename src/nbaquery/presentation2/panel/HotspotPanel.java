@@ -49,7 +49,6 @@ public class HotspotPanel extends ConcisePanel{
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(245, 245, 245));
 		search_panel.setBounds(130, 60, 570, 60);
-		set_combobox();
 		
 		daily_player = new JButton("daily_player");
 		season_player = new JButton("season_player");
@@ -65,11 +64,16 @@ public class HotspotPanel extends ConcisePanel{
 		button_panel.add(season_player);
 		button_panel.add(season_team);
 		button_panel.add(progress_player);
-		
+
+		set_progress_player_combobox();
 		daily_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 ///				ConcisePara.is_hot = true;
 				//TODO
+
+				set_daily_player_combobox();
+				valueBox.setSelectedIndex(ConcisePara.hot_season_player_index);
+				
 				ConcisePara.hot_daily_player_index = 0;
 				ConcisePara.player_index_index = 0;
 				ConcisePara.player_item_name = "参赛场数";
@@ -89,9 +93,13 @@ public class HotspotPanel extends ConcisePanel{
 			public void mouseClicked(MouseEvent e) {
 //				ConcisePara.is_hot = true;
 				//TODO
+
+				set_season_player_combobox();
+				valueBox.setSelectedIndex(ConcisePara.hot_daily_player_index);
+				
 				ConcisePara.hot_season_player_index = 0;
 				ConcisePara.player_index_index = 0;
-				ConcisePara.player_item_name = "参赛场数";
+				ConcisePara.player_item_name = "按参赛场数排序";
 				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
 					ConcisePara.type = CardType.PLAYER_FLAT;
 				}
@@ -108,6 +116,10 @@ public class HotspotPanel extends ConcisePanel{
 			public void mouseClicked(MouseEvent e) {
 //				ConcisePara.is_hot = true;
 				//TODO
+
+				set_season_team_combobox();
+				valueBox.setSelectedIndex(ConcisePara.hot_season_team_index);
+				
 				ConcisePara.hot_season_team_index = 0;
 				ConcisePara.team_index = 0;
 				ConcisePara.team_item_name = "按赛季排序";
@@ -127,9 +139,13 @@ public class HotspotPanel extends ConcisePanel{
 			public void mouseClicked(MouseEvent e) {
 //				ConcisePara.is_hot = true;
 				//TODO
+
+				set_progress_player_combobox();
+				valueBox.setSelectedIndex(ConcisePara.hot_progress_player_index);
+				
 				ConcisePara.hot_progress_player_index = 0;
 				ConcisePara.player_index_index = 0;
-				ConcisePara.player_item_name = "参赛场数";
+				ConcisePara.player_item_name = "按参赛场数排序";
 				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
 					ConcisePara.type = CardType.PLAYER_FLAT;
 				}
@@ -180,7 +196,19 @@ public class HotspotPanel extends ConcisePanel{
 		case DAILY_PLAYER:
 			str = ps.searchForTodayHotPlayers(ConcisePara.hot_daily_player_index);break;
 		case SEASON_PLAYER:
-			str = ps.searchForSeasonHotPlayers(ConcisePara.hot_season_player_index);break;
+			str = ps.searchForSeasonHotPlayers(ConcisePara.hot_season_player_index);
+			//TODO
+			if(str == null){
+				System.out.println("is null");
+			}
+			for(int i=0; i<str.length; i++){
+				for(int j=0; j<str[0].length; j++){
+					System.out.println( i + "  " + j + " "+ str[i][j]);
+				}
+			}
+			//TODO
+			break;
+			
 		case PROGRESS_PLAYER:
 			str = ps.searchForProgressPlayers(ConcisePara.hot_progress_player_index);
 		//TODO
@@ -213,33 +241,9 @@ public class HotspotPanel extends ConcisePanel{
 		concise_panel.repaint();
 		ConcisePara.is_hot = false;
 	}
-	
-	private void set_combobox(){
-		switch(ConcisePara.hotspot_type){
-		case DAILY_PLAYER:
-			set_season_player_combobox();
-			valueBox.setSelectedIndex(ConcisePara.hot_daily_player_index);
-			break;
-		case SEASON_PLAYER:
-			set_daily_player_combobox();
-			valueBox.setSelectedIndex(ConcisePara.hot_season_player_index);
-			break;
-		case PROGRESS_PLAYER:
-			set_progress_player_combobox();
-			valueBox.setSelectedIndex(ConcisePara.hot_progress_player_index);
-			break;
-		case SEASON_TEAM:
-			set_season_team_combobox();
-			valueBox.setSelectedIndex(ConcisePara.hot_season_team_index);
-			break;
-		default:
-			break;
-		}
-	}
 	private void set_season_player_combobox(){
 		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{
-				"按名称排序",
 				"参赛场数",
 				"先发场数",
 				"篮板",

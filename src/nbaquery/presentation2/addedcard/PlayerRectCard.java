@@ -74,7 +74,24 @@ class PlayerRectCard extends RectCard {
 			if(player_text.substring(player_text.length() - 2, player_text.length()).equals("  ")){
 				player_text += "<br/>";
 			}
-			player_text += ConcisePara.player_item_name + "£º" + player_info[ConcisePara.player_index];
+			if(!ConcisePara.is_hot){
+				player_text += ConcisePara.player_item_name + "£º" + player_info[ConcisePara.player_index];
+			}
+			else{
+				switch(ConcisePara.hotspot_type){
+				case SEASON_PLAYER:
+					player_text += ConcisePara.hot_item_name + "£º " + player_info[ConcisePara.hot_season_player_index + 3];
+					break;
+				case DAILY_PLAYER:
+					player_text += ConcisePara.hot_item_name + "£º " + player_info[ConcisePara.hot_daily_player_index + 11];
+					break;
+				case PROGRESS_PLAYER:
+					player_text += ConcisePara.hot_item_name + "£º " + player_info[ConcisePara.hot_progress_player_index + 11];
+					break;
+				default:
+					break;
+				}
+			}
 		}
 		player_text += "</html>";
 	}

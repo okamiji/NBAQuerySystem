@@ -11,10 +11,8 @@ public class Player {
 	
 	public Player(String[] string_info){
 		is_hot = ConcisePara.is_hot;
-		if(!is_hot){
-			player_info = string_info;
-		}
-		else{
+		player_info = string_info;
+		if(is_hot){
 			type = ConcisePara.hotspot_type;
 		}
 	}
@@ -37,13 +35,60 @@ public class Player {
 		return return_str;
 	}
 	public String get_team(){
-		return player_info[2];
+		String return_str = player_info[2];
+		if(is_hot){
+			switch(type){
+			case SEASON_PLAYER:
+				break;
+			case DAILY_PLAYER:
+				//TODO
+				return_str = "TODO";
+				break;
+			case PROGRESS_PLAYER:
+				//TODO
+				return_str = "TODO";
+				break;
+			default:
+				break;
+			}
+		}
+		return return_str;
 	}
 	public String get_portrait_path(){
-		return player_info[33];
+		String return_str = player_info[33];
+		if(is_hot){
+			switch(type){
+			case SEASON_PLAYER:
+				break;
+			case DAILY_PLAYER:
+				return_str = player_info[9];
+				break;
+			case PROGRESS_PLAYER:
+				return_str = player_info[9];
+				break;
+			default:
+				break;
+			}
+		}
+		return return_str;
 	}
 	public String get_action_path(){
-		return player_info[34];
+		String return_str = player_info[34];
+		if(is_hot){
+			switch(type){
+			case SEASON_PLAYER:
+				break;
+			case DAILY_PLAYER:
+				return_str = player_info[10];
+				break;
+			case PROGRESS_PLAYER:
+				return_str = player_info[10];
+				break;
+			default:
+				break;
+			}
+		}
+		return return_str;
 	}	
 	public String[] get_player_info(){
 		return player_info;
