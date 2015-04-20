@@ -158,7 +158,6 @@ public class MainFrame {
 					ConcisePara.type = CardType.TEAM_RECT;
 				}
 				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
-				PanelSet.set_all_detailed_panel_invisible();
 				ConcisePara.view_all = false;
 				
 				listener2 = button2.getMouseListeners()[1];
@@ -178,7 +177,6 @@ public class MainFrame {
 					ConcisePara.type = CardType.PLAYER_RECT;
 				}
 				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
-				PanelSet.set_all_detailed_panel_invisible();
 				ConcisePara.view_all = false;
 				
 				
@@ -194,7 +192,6 @@ public class MainFrame {
 				
 				ConcisePara.type = CardType.TEAM_RECT;
 				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
-				PanelSet.set_all_detailed_panel_invisible();
 				ConcisePara.view_all = true;
 				
 				listener4 = button4.getMouseListeners()[1];

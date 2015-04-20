@@ -119,7 +119,6 @@ public class PanelSet {
 		}
 	}
 	public static void remove_detailed(){
-		detailed_list.get(detailed_list.size() - 1).setVisible(false);
 		frame.remove(detailed_list.get(detailed_list.size() - 1));
 	}
 

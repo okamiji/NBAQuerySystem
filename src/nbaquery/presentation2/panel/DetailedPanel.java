@@ -44,17 +44,14 @@ public class DetailedPanel extends JPanel{
 
 	public DetailedPanel(Player get_player){		
 		player = get_player;
-		
 		initialize_player();
 	}
 	public DetailedPanel(Team get_team){	
 		team = get_team;
-		
 		initialize_team();
 	}
 	public DetailedPanel(Match get_match){
 		match = get_match;
-		
 		initialize_match();
 	}
 	
@@ -83,7 +80,6 @@ public class DetailedPanel extends JPanel{
 			public void mouseClicked(MouseEvent e) {
 				PanelSet.remove_detailed();
 				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
-				PanelSet.get_concise().run();
 			}
 		});
 	}
@@ -123,7 +119,7 @@ public class DetailedPanel extends JPanel{
 		String player_team_name = "À˘ Ù«Ú∂”£∫ " + player.get_team();
 		team_label.setText(player_team_name);
 		
-		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background.png"));
+		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background1.png"));
 		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
 		background_label.setBounds(0, 0, 587, 545); 
 		

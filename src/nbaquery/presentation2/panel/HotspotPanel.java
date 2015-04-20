@@ -29,6 +29,8 @@ public class HotspotPanel extends ConcisePanel{
 		super(type_, view_all_);
 		type = type_;
 		view_all = view_all_;
+		//TODO
+//		ConcisePara.is_hot = false;
 	}
 	
 	public void run(){
@@ -66,6 +68,8 @@ public class HotspotPanel extends ConcisePanel{
 		
 		daily_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+///				ConcisePara.is_hot = true;
+				//TODO
 				ConcisePara.hot_daily_player_index = 0;
 				ConcisePara.player_index_index = 0;
 				ConcisePara.player_item_name = "参赛场数";
@@ -83,6 +87,8 @@ public class HotspotPanel extends ConcisePanel{
 		
 		season_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+//				ConcisePara.is_hot = true;
+				//TODO
 				ConcisePara.hot_season_player_index = 0;
 				ConcisePara.player_index_index = 0;
 				ConcisePara.player_item_name = "参赛场数";
@@ -100,6 +106,8 @@ public class HotspotPanel extends ConcisePanel{
 		
 		season_team.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+//				ConcisePara.is_hot = true;
+				//TODO
 				ConcisePara.hot_season_team_index = 0;
 				ConcisePara.team_index = 0;
 				ConcisePara.team_item_name = "按赛季排序";
@@ -117,6 +125,8 @@ public class HotspotPanel extends ConcisePanel{
 
 		progress_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+//				ConcisePara.is_hot = true;
+				//TODO
 				ConcisePara.hot_progress_player_index = 0;
 				ConcisePara.player_index_index = 0;
 				ConcisePara.player_item_name = "参赛场数";
@@ -173,6 +183,7 @@ public class HotspotPanel extends ConcisePanel{
 			str = ps.searchForSeasonHotPlayers(ConcisePara.hot_season_player_index);break;
 		case PROGRESS_PLAYER:
 			str = ps.searchForProgressPlayers(ConcisePara.hot_progress_player_index);
+		//TODO
 			if(str == null){
 				System.out.println("is null");
 			}
@@ -181,6 +192,7 @@ public class HotspotPanel extends ConcisePanel{
 					System.out.println(str[i][j]);
 				}
 			}
+			//TODO
 			break;
 		case SEASON_TEAM:
 			str = ts.searchForSeasonHotTeams(ConcisePara.hot_season_team_index);break;
@@ -189,6 +201,7 @@ public class HotspotPanel extends ConcisePanel{
 		}
 		
 		CardCreator creator = new CardCreator();
+		ConcisePara.is_hot = true;
 		ArrayList<Card> card_list = creator.create_needed_cards(type, str, view_all);
 		CardLocation location = new CardLocation(type);
 		scr_height = location.get_total_height(card_list.size());
@@ -198,6 +211,7 @@ public class HotspotPanel extends ConcisePanel{
 			card.setLocation(card.width, card.height);
 		}
 		concise_panel.repaint();
+		ConcisePara.is_hot = false;
 	}
 	
 	private void set_combobox(){

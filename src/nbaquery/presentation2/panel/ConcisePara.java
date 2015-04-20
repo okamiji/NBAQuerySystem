@@ -30,11 +30,12 @@ public class ConcisePara {
 	
 	
 	public static HotspotType hotspot_type = HotspotType.SEASON_TEAM;
-	
+	public static boolean is_hot = false;
 	public static int hot_season_player_index = 0;
 	public static int hot_daily_player_index = 0;
 	public static int hot_season_team_index = 0;
 	public static int hot_progress_player_index = 0;
+	public static String hot_item_name = "";
 	
 	public static void switch_type(){
 		if(type.equals(CardType.PLAYER_FLAT)){
