@@ -73,6 +73,9 @@ public class ConcisePanel {
 	public JPanel get_search_panel(){
 		return search_panel;
 	}
+	public JPanel get_button_panel(){
+		return button_panel;
+	}
 	public JScrollPane get_scr(){
 		return scr;
 	}

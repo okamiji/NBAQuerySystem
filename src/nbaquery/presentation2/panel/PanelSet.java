@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
+import nbaquery.presentation2.info.Match;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
 import nbaquery.presentation2.panel.ConcisePanel;
@@ -58,6 +59,9 @@ public class PanelSet {
 	public static void set_concise_invisible(){
 		if(concise != null){
 			concise.get_scr().setVisible(false);
+			if(concise.get_button_panel() != null){
+				concise.get_button_panel().setVisible(false);
+			}
 			concise.set_search_invisible();
 			frame.remove(concise.get_scr());
 			frame.remove(concise.get_search_panel());
@@ -80,6 +84,31 @@ public class PanelSet {
 		frame.add(detailed_list.get(detailed_list.size() - 1));
 	}
 	public static void create_detailed_panel(Team team){
+		JPanel detailed_added_panel = new JPanel();
+		detailed_added_panel.setBackground(new Color(0,0,0,0.0f));
+		detailed_added_panel.setLayout(null);
+		detailed_added_panel.setSize(714, 545);
+		detailed_added_panel.setLocation(0, 0);
+
+		DetailedPanel detailed_panel = new DetailedPanel(team);
+		detailed_added_panel.add(detailed_panel);
+		detailed_list.add(detailed_added_panel);
+		
+		frame.add(detailed_list.get(detailed_list.size() - 1));
+	}
+	public static void create_detailed_panel(Match match){
+		JPanel detailed_added_panel = new JPanel();
+		detailed_added_panel.setBackground(new Color(0,0,0,0.0f));
+		detailed_added_panel.setLayout(null);
+		detailed_added_panel.setSize(714, 545);
+		detailed_added_panel.setLocation(0, 0);
+
+		DetailedPanel detailed_panel = new DetailedPanel(match);
+		detailed_added_panel.add(detailed_panel);
+		detailed_list.add(detailed_added_panel);
+		
+		frame.add(detailed_list.get(detailed_list.size() - 1));
+		
 	}
 	public static void set_detailed_visible(boolean is_visible){
 		detailed_list.get(detailed_list.size() - 1).setVisible(is_visible);

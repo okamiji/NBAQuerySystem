@@ -57,8 +57,8 @@ public class HotspotPanel extends ConcisePanel{
 
 		daily_player.setBounds(10, 0, 140, 30);
 		season_player.setBounds(150, 0, 140, 30);
-		progress_player.setBounds(290, 0, 140, 30);
-		season_team.setBounds(430, 0, 140, 30);
+		season_team.setBounds(290, 0, 140, 30);
+		progress_player.setBounds(430, 0, 140, 30);
 		
 		button_panel.add(daily_player);
 		button_panel.add(season_player);
@@ -67,32 +67,68 @@ public class HotspotPanel extends ConcisePanel{
 		
 		daily_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ConcisePara.type = CardType.PLAYER_RECT;
+				ConcisePara.hot_index = 0;
+				ConcisePara.player_index_index = 0;
+				ConcisePara.player_item_name = "参赛场数";
+				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
+					ConcisePara.type = CardType.PLAYER_FLAT;
+				}
+				else if(ConcisePara.type.equals(CardType.TEAM_RECT) || (ConcisePara.type.equals(CardType.PLAYER_RECT))){
+					ConcisePara.type = CardType.PLAYER_RECT;
+				}
 				ConcisePara.hotspot_type = HotspotType.DAILY_PLAYER;
+				PanelSet.set_concise_invisible();
 				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
 			}
 		});
 		
 		season_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ConcisePara.type = CardType.PLAYER_RECT;
+				ConcisePara.hot_index = 0;
+				ConcisePara.player_index_index = 0;
+				ConcisePara.player_item_name = "参赛场数";
+				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
+					ConcisePara.type = CardType.PLAYER_FLAT;
+				}
+				else if(ConcisePara.type.equals(CardType.TEAM_RECT) || (ConcisePara.type.equals(CardType.PLAYER_RECT))){
+					ConcisePara.type = CardType.PLAYER_RECT;
+				}
 				ConcisePara.hotspot_type = HotspotType.SEASON_PLAYER;
+				PanelSet.set_concise_invisible();
 				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
 			}
 		});
 		
 		season_team.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ConcisePara.type = CardType.TEAM_RECT;
+				ConcisePara.hot_index = 0;
+				ConcisePara.team_index = 0;
+				ConcisePara.team_item_name = "按赛季排序";
+				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
+					ConcisePara.type = CardType.TEAM_FLAT;
+				}
+				else if(ConcisePara.type.equals(CardType.TEAM_RECT) || (ConcisePara.type.equals(CardType.PLAYER_RECT))){
+					ConcisePara.type = CardType.TEAM_RECT;
+				}
 				ConcisePara.hotspot_type = HotspotType.SEASON_TEAM;
+				PanelSet.set_concise_invisible();
 				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
 			}
 		});
 
 		progress_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ConcisePara.type = CardType.TEAM_RECT;
+				ConcisePara.hot_index = 0;
+				ConcisePara.player_index_index = 0;
+				ConcisePara.player_item_name = "参赛场数";
+				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
+					ConcisePara.type = CardType.PLAYER_FLAT;
+				}
+				else if(ConcisePara.type.equals(CardType.TEAM_RECT) || (ConcisePara.type.equals(CardType.PLAYER_RECT))){
+					ConcisePara.type = CardType.PLAYER_RECT;
+				}
 				ConcisePara.hotspot_type = HotspotType.PROGRESS_PLAYER;
+				PanelSet.set_concise_invisible();
 				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
 			}
 		});
@@ -107,6 +143,16 @@ public class HotspotPanel extends ConcisePanel{
 		searchButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				ConcisePara.hot_index = valueBox.getSelectedIndex();
+				if(ConcisePara.hotspot_type.equals(HotspotType.PROGRESS_PLAYER) || (ConcisePara.hotspot_type.equals(HotspotType.DAILY_PLAYER)) 
+						|| (ConcisePara.hotspot_type.equals(HotspotType.SEASON_PLAYER))){
+					ConcisePara.player_index_index = valueBox.getSelectedIndex();
+					ConcisePara.player_item_name = (String)(valueBox.getSelectedItem());
+				}
+				else if(ConcisePara.hotspot_type.equals(HotspotType.SEASON_TEAM)){
+					ConcisePara.team_index = valueBox.getSelectedIndex();
+					ConcisePara.team_item_name = (String)(valueBox.getSelectedItem());
+				}
+				PanelSet.set_concise_invisible();
 				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
 			}
 		});
@@ -121,12 +167,22 @@ public class HotspotPanel extends ConcisePanel{
 		case SEASON_PLAYER:
 			str = ps.searchForSeasonHotPlayers(ConcisePara.hot_index);break;
 		case PROGRESS_PLAYER:
-			str = ps.searchForProgressPlayers(ConcisePara.hot_index);break;
+			str = ps.searchForProgressPlayers(ConcisePara.hot_index);
+			if(str == null){
+				System.out.println("is null");
+			}
+			for(int i=0; i<str.length; i++){
+				for(int j=0; j<str[0].length; j++){
+					System.out.println(str[i][j]);
+				}
+			}
+			break;
 		case SEASON_TEAM:
 			str = ts.searchForSeasonHotTeams(ConcisePara.hot_index);break;
 		default:
 			break;
 		}
+		
 		CardCreator creator = new CardCreator();
 		ArrayList<Card> card_list = creator.create_needed_cards(type, str, view_all);
 		CardLocation location = new CardLocation(type);
@@ -155,7 +211,7 @@ public class HotspotPanel extends ConcisePanel{
 		valueBox.setSelectedIndex(ConcisePara.hot_index);
 	}
 	private void set_player_combobox(){
-		valueBox = ComboBoxFactory.getInstance().createComboBox(305, 15, 100, 24, 
+		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{"按名称排序",
 				"参赛场数",
 				"先发场数",
