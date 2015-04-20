@@ -48,7 +48,7 @@ public class MatchServiceAdapter implements MatchService{
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try {
-			query = new SelectProjectQuery("table.MATCH_ID=='" + matchID + "'", table);
+			query = new SelectProjectQuery("table.MATCH_ID='" + matchID + "'", table);
 		}
 		catch (Exception e)
 		{
@@ -64,7 +64,7 @@ public class MatchServiceAdapter implements MatchService{
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try {
-			query = new SelectProjectQuery("table.PLAYER_NAME=='" + player_name + "'", table);
+			query = new SelectProjectQuery("table.PLAYER_NAME='" + player_name + "'", table);
 		}
 		catch (Exception e)
 		{
@@ -93,6 +93,22 @@ public class MatchServiceAdapter implements MatchService{
 			return returnValue;
 		}
 		else return null;
+	}
+
+	@Override
+	public String[] searchForOneMatchByDate(String date) {
+		SelectProjectQuery query = null;
+		Table table = tableHost.getTable("match_natural_join_performance");
+		try {
+			query = new SelectProjectQuery("table.MATCH_DATE='" + date + "'", table);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "match_query_result_player");
+		Table queryResult = tableHost.getTable("match_query_result_player");
+		return  convertTableToStrings(queryResult);
 	}
 
 }
