@@ -75,7 +75,8 @@ public class TeamLoader implements FileLoader
 	
 	public void setRoot(File root)
 	{
-		FileMonitor fileMonitor = new FileMonitor(new File(root, "teams"), this);
+		this.fileFolder = new File(root, "teams");
+		FileMonitor fileMonitor = new FileMonitor(this.fileFolder, this);
 		fileMonitor.start();
 	}
 

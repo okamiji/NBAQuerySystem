@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,6 +26,9 @@ public class DetailedPanel extends JPanel{
 	Team team = null;
 	Match match = null;
 	
+	String[] player_detailed_info = null;
+	String[] team_detailed_info = null;
+	
 	int scr_height;
 	
 	JLabel direction_label;
@@ -36,6 +38,8 @@ public class DetailedPanel extends JPanel{
 	JLabel info_label, team_label;
 	JLabel portrait_label, action_label;
 	ImageIcon portrait, action;
+	
+	String team_string, match_string;
 	
 	public DetailedPanel(Player get_player){		
 		player = get_player;
@@ -118,18 +122,18 @@ public class DetailedPanel extends JPanel{
 		data_panel.setVisible(false);
 
 		//info panel
-		
-		
+		player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_name());
 		team_label = new JLabel();
-		//TODO
-		team_label.setText("马神战队");
-		team_label.setBounds(450, 50, 100, 100);
+		String player_team_name = "所属球队： " + player.get_team();
+		team_label.setText(player_team_name);
+		
+		team_label.setBounds(240, 180, 100, 100);
 		info_panel.add(team_label);
 		
 		info_label = new JLabel();
-		//TODO
-		info_label.setText("info");
-		info_label.setBounds(450, 100, 100, 100);
+
+		info_label.setText(get_player_text());
+		info_label.setBounds(240, -20, 500, 300);
 		info_panel.add(info_label);
 		
 		view_action_pic = new JButton("查看动作");
@@ -138,12 +142,12 @@ public class DetailedPanel extends JPanel{
 		is_portrait = true;
 		portrait = new ImageIcon(player.get_portrait_path());
 		action = new ImageIcon(player.get_action_path());
-		portrait.setImage(portrait.getImage().getScaledInstance(130, 200, Image.SCALE_DEFAULT));
-		action.setImage(action.getImage().getScaledInstance(130, 200, Image.SCALE_DEFAULT));
+		portrait.setImage(portrait.getImage().getScaledInstance(175, 150, Image.SCALE_DEFAULT));
+		action.setImage(action.getImage().getScaledInstance(175, 150, Image.SCALE_DEFAULT));
 		
 		portrait_label = new JLabel(portrait);
-		portrait_label.setSize(130, 200);
-		portrait_label.setLocation(0, 50);
+		portrait_label.setSize(175, 150);
+		portrait_label.setLocation(0, 70);
 		info_panel.add(portrait_label);
 		action_label = new JLabel(action);
 		action_label.setSize(130, 200);
@@ -196,6 +200,29 @@ public class DetailedPanel extends JPanel{
 	}
 	private void set_match_info(){
 		
+	}
+	
+	private String get_player_text(){
+		String player_string = "<html>";
+		player_string += "球员姓名： " + player_detailed_info[0];
+		player_string += "<br/>";
+		player_string += "球衣编号： " + player_detailed_info[1];
+		player_string += "<br/>";
+		player_string += "球员位置： " + player_detailed_info[2];
+		player_string += "<br/>";
+		player_string += "球员身高： " + player_detailed_info[3];
+		player_string += "<br/>";
+		player_string += "球员体重： " + player_detailed_info[4];
+		player_string += "<br/>";
+		player_string += "出生日期： " + player_detailed_info[5];
+		player_string += "<br/>";
+		player_string += "年龄： " + player_detailed_info[6];
+		player_string += "<br/>";
+		player_string += "球龄： " + player_detailed_info[7];
+		player_string += "<br/>";
+		player_string += "毕业学校： " + player_detailed_info[8];
+		player_string += "</html>";
+		return player_string;
 	}
 }
 

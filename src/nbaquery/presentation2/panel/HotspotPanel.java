@@ -36,7 +36,6 @@ public class HotspotPanel extends ConcisePanel{
 		try {
 			add_cards();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	    scr.setBounds(110, 100, 600, 422);
@@ -67,7 +66,7 @@ public class HotspotPanel extends ConcisePanel{
 		
 		daily_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ConcisePara.hot_index = 0;
+				ConcisePara.hot_daily_player_index = 0;
 				ConcisePara.player_index_index = 0;
 				ConcisePara.player_item_name = "参赛场数";
 				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
@@ -84,7 +83,7 @@ public class HotspotPanel extends ConcisePanel{
 		
 		season_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ConcisePara.hot_index = 0;
+				ConcisePara.hot_season_player_index = 0;
 				ConcisePara.player_index_index = 0;
 				ConcisePara.player_item_name = "参赛场数";
 				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
@@ -101,7 +100,7 @@ public class HotspotPanel extends ConcisePanel{
 		
 		season_team.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ConcisePara.hot_index = 0;
+				ConcisePara.hot_season_team_index = 0;
 				ConcisePara.team_index = 0;
 				ConcisePara.team_item_name = "按赛季排序";
 				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
@@ -118,7 +117,7 @@ public class HotspotPanel extends ConcisePanel{
 
 		progress_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ConcisePara.hot_index = 0;
+				ConcisePara.hot_progress_player_index = 0;
 				ConcisePara.player_index_index = 0;
 				ConcisePara.player_item_name = "参赛场数";
 				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.PLAYER_FLAT))){
@@ -142,7 +141,13 @@ public class HotspotPanel extends ConcisePanel{
 		
 		searchButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				ConcisePara.hot_index = valueBox.getSelectedIndex();
+				switch(ConcisePara.hotspot_type){
+				case DAILY_PLAYER: ConcisePara.hot_daily_player_index = valueBox.getSelectedIndex(); break;
+				case SEASON_PLAYER: ConcisePara.hot_season_player_index = valueBox.getSelectedIndex(); break;
+				case SEASON_TEAM: ConcisePara.hot_season_team_index = valueBox.getSelectedIndex(); break;
+				case PROGRESS_PLAYER: ConcisePara.hot_progress_player_index = valueBox.getSelectedIndex(); break;
+				default:break;
+				}
 				if(ConcisePara.hotspot_type.equals(HotspotType.PROGRESS_PLAYER) || (ConcisePara.hotspot_type.equals(HotspotType.DAILY_PLAYER)) 
 						|| (ConcisePara.hotspot_type.equals(HotspotType.SEASON_PLAYER))){
 					ConcisePara.player_index_index = valueBox.getSelectedIndex();
@@ -163,11 +168,11 @@ public class HotspotPanel extends ConcisePanel{
 		TeamService ts = PanelSet.ts;
 		switch(ConcisePara.hotspot_type){
 		case DAILY_PLAYER:
-			str = ps.searchForTodayHotPlayers(ConcisePara.hot_index);break;
+			str = ps.searchForTodayHotPlayers(ConcisePara.hot_daily_player_index);break;
 		case SEASON_PLAYER:
-			str = ps.searchForSeasonHotPlayers(ConcisePara.hot_index);break;
+			str = ps.searchForSeasonHotPlayers(ConcisePara.hot_season_player_index);break;
 		case PROGRESS_PLAYER:
-			str = ps.searchForProgressPlayers(ConcisePara.hot_index);
+			str = ps.searchForProgressPlayers(ConcisePara.hot_progress_player_index);
 			if(str == null){
 				System.out.println("is null");
 			}
@@ -178,7 +183,7 @@ public class HotspotPanel extends ConcisePanel{
 			}
 			break;
 		case SEASON_TEAM:
-			str = ts.searchForSeasonHotTeams(ConcisePara.hot_index);break;
+			str = ts.searchForSeasonHotTeams(ConcisePara.hot_season_team_index);break;
 		default:
 			break;
 		}
@@ -198,21 +203,29 @@ public class HotspotPanel extends ConcisePanel{
 	private void set_combobox(){
 		switch(ConcisePara.hotspot_type){
 		case DAILY_PLAYER:
-			set_player_combobox();break;
+			set_season_player_combobox();
+			valueBox.setSelectedIndex(ConcisePara.hot_daily_player_index);
+			break;
 		case SEASON_PLAYER:
-			set_player_combobox();break;
+			set_daily_player_combobox();
+			valueBox.setSelectedIndex(ConcisePara.hot_season_player_index);
+			break;
 		case PROGRESS_PLAYER:
-			set_player_combobox();break;
+			set_progress_player_combobox();
+			valueBox.setSelectedIndex(ConcisePara.hot_progress_player_index);
+			break;
 		case SEASON_TEAM:
-			set_team_combobox();break;
+			set_season_team_combobox();
+			valueBox.setSelectedIndex(ConcisePara.hot_season_team_index);
+			break;
 		default:
 			break;
 		}
-		valueBox.setSelectedIndex(ConcisePara.hot_index);
 	}
-	private void set_player_combobox(){
+	private void set_season_player_combobox(){
 		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
-				new String[]{"按名称排序",
+				new String[]{
+				"按名称排序",
 				"参赛场数",
 				"先发场数",
 				"篮板",
@@ -246,7 +259,33 @@ public class HotspotPanel extends ConcisePanel{
 				});
 		search_panel.add(valueBox);
 	}
-	private void set_team_combobox(){
+	private void set_daily_player_combobox(){
+		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
+				new String[]{
+				"按得分排序",
+				"篮板",
+				"助攻",
+				"盖帽",
+				"抢断",
+				});
+		search_panel.add(valueBox);
+	}
+	private void set_progress_player_combobox(){
+		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
+				new String[]{
+				"按近五场场均得分排序",
+				"近五场篮板",
+				"近五场助攻",
+				"场均得分",
+				"篮板",
+				"助攻",
+				"场均得分进步率",
+				"篮板进步率",
+				"助攻进步率",
+				});
+		search_panel.add(valueBox);
+	}
+	private void set_season_team_combobox(){
 		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{
 				"按赛季排序",

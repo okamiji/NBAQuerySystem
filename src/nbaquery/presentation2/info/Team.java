@@ -6,19 +6,15 @@ public class Team {
 	
 	public Team(String[] string_info){
 		team_info = string_info;
-	/*	for(int i=0; i<team_info.length; i++){
+		for(int i=0; i<team_info.length; i++){
 			System.out.println(i + " " + team_info[i]);
-		}*/
+		}
 	}
 	public String get_name(){
 		return team_info[1];
 	}
 	public String get_portrait_path(){
-	//	return team_info[33];
-		return null;
-	}
-	public String get_action_path(){
-		return team_info[34];
+		return team_info[29];
 	}
 	public String[] get_team_info(){
 		return team_info;

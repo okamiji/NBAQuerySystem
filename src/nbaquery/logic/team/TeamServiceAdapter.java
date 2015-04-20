@@ -46,6 +46,7 @@ public class TeamServiceAdapter implements TeamService
 		Column[] columns = new Column[columnNames.length];
 		for(int i = 0; i < columnNames.length; i ++)
 			columns[i] = queryResult.getColumn(columnNames[i]);
+		
 		for(int row = 0; row < rows.length; row ++)
 			for(int column = 0; column < columns.length; column ++)
 			{
@@ -53,6 +54,17 @@ public class TeamServiceAdapter implements TeamService
 				if(value != null) returnValue[row][column] = value.toString();
 			}
 		tableHost.deleteTable("team_query_result");
+		
+		//XXX----------------
+		
+		for(int i = 0; i < returnValue.length; i ++)
+		{
+			for(int j = 0; j < returnValue[i].length; j ++) System.out.print(returnValue[i][j] + " ");
+			System.out.println();
+		}
+		
+		//XXX----------------
+		
 		return returnValue;
 	}
 
