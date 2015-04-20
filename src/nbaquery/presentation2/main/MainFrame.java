@@ -120,21 +120,21 @@ public class MainFrame {
 	}
 	
 	private static void initialize_buttons(){
-		button1 = new Button("", "", button_left_panel);
-		button2 = new Button("", "", button_left_panel);
-		button3 = new Button("", "", button_left_panel);
-		button4 = new Button("", "", button_left_panel);
-		button1.setBounds(10, 148, 94, 87);
-		button2.setBounds(10, 235, 94, 87);
-		button3.setBounds(10, 322, 94, 87);
-		button4.setBounds(10, 409, 94, 87);
+		button1 = new Button("Img2/blank_big.png", "Img2/button1_.png", button_left_panel);
+		button2 = new Button("Img2/blank_big.png", "Img2/button2_.png", button_left_panel);
+		button3 = new Button("Img2/blank_big.png", "Img2/button3_.png", button_left_panel);
+		button4 = new Button("Img2/blank_big.png", "Img2/button4_.png", button_left_panel);
+		button1.setBounds(10, 152, 94, 87);
+		button2.setBounds(10, 239, 94, 87);
+		button3.setBounds(10, 326, 94, 87);
+		button4.setBounds(10, 413, 94, 87);
 		
-		exit = new Button("", "", button_right_panel);
-		mini = new Button("", "", button_right_panel);
-		show = new Button("", "", button_right_panel);
-		exit.setBounds(1, 36, 24, 25);
-		mini.setBounds(1, 61, 24, 25);
-		show.setBounds(1, 86, 24, 25);
+		exit = new Button("Img2/blank_small.png", "Img2/exit_.png", button_right_panel);
+		mini = new Button("Img2/blank_small.png", "Img2/mini_.png", button_right_panel);
+		show = new Button("Img2/blank_small.png", "Img2/show_.png", button_right_panel);
+		exit.setBounds(1, 35, 24, 25);
+		mini.setBounds(1, 60, 24, 25);
+		show.setBounds(1, 85, 24, 25);
 		
 		button1.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {

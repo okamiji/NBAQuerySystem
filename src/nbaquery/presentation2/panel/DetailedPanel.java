@@ -15,12 +15,14 @@ import nbaquery.presentation2.info.Match;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
 import nbaquery.presentation2.panel.PanelSet;
+import nbaquery.presentation2.util.Button;
 
 @SuppressWarnings("serial")
 public class DetailedPanel extends JPanel{
 	JPanel info_panel, data_panel;
 	
-	JButton exit_button, info_button, data_button;
+	JButton exit_button;
+	Button info_button, data_button;
 	
 	Player player = null;
 	Team team = null;
@@ -34,13 +36,12 @@ public class DetailedPanel extends JPanel{
 	JLabel direction_label;
 	
 	boolean is_portrait;
-	JButton view_action_pic;
 	JLabel info_label, team_label;
 	JLabel portrait_label, action_label;
 	ImageIcon portrait, action;
 	
 	String team_string, match_string;
-	
+
 	public DetailedPanel(Player get_player){		
 		player = get_player;
 		
@@ -75,34 +76,29 @@ public class DetailedPanel extends JPanel{
 		this.setSize(587, 545);
 		this.setLocation(127, 3);
 		
-		exit_button = new JButton("关闭");
-		exit_button.setBounds(567, 3, 20, 20);
-		this.add(exit_button);
+		exit_button = new Button("Img2/detail_exit.png", "Img2/detail_exit_c.png", this);
+		exit_button.setBounds(567, 3, 20, 30);
 		
-	/*	exit_button.addMouseListener(new MouseAdapter(){
+		exit_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				PanelSet.remove_detailed();
-				CardProperties.set_if_view_all(false);
-				ConcisePanel cp = new ConcisePlayerPanel(1, PanelSet.get_view_limit());
-				cp.init();
+				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
 				PanelSet.get_concise().run();
 			}
-		});*/
+		});
 	}
 	
 	private void set_player_info(){
-		info_button = new JButton("基本信息");
-		info_button.setBounds(175, 3, 195, 30);
-		this.add(info_button);
+		info_button = new Button("Img2/detail_button1_n.png", "Img2/detail_button1_c.png", this);
+		info_button.setBounds(174, 3, 195, 30);
 		
-		data_button = new JButton("比赛数据");
+		data_button = new Button("Img2/detail_button2_n.png", "Img2/detail_button2_c.png", this);
 		data_button.setBounds(370, 3, 195, 30);
-		this.add(data_button);
 		
 		direction_label = new JLabel();
 		direction_label.setText("球员 < " + player.get_name());
-		direction_label.setFont(new Font("微软雅黑",Font.PLAIN, 13));
-		direction_label.setBounds(10, 0, 160, 30);
+		direction_label.setFont(new Font("微软雅黑",Font.PLAIN, 12));
+		direction_label.setBounds(10, 5, 160, 30);
 		this.add(direction_label);
 		
 		info_panel = new JPanel();
@@ -127,27 +123,31 @@ public class DetailedPanel extends JPanel{
 		String player_team_name = "所属球队： " + player.get_team();
 		team_label.setText(player_team_name);
 		
-		team_label.setBounds(240, 180, 100, 100);
+		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background.png"));
+		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
+		background_label.setBounds(0, 0, 587, 545); 
+		
+		team_label.setSize(130, 100);
+		team_label.setLocation(230, 180);
 		info_panel.add(team_label);
 		
 		info_label = new JLabel();
 
 		info_label.setText(get_player_text());
-		info_label.setBounds(240, -20, 500, 300);
+		info_label.setBackground(new Color(225, 225, 225));
+		info_label.setFont(info_label.getFont().deriveFont(Font.PLAIN));
+		info_label.setBounds(230, 0, 490, 290);
 		info_panel.add(info_label);
 		
-		view_action_pic = new JButton("查看动作");
-		view_action_pic.setBounds(450, 130, 60, 30);
-
 		is_portrait = true;
 		portrait = new ImageIcon(player.get_portrait_path());
 		action = new ImageIcon(player.get_action_path());
-		portrait.setImage(portrait.getImage().getScaledInstance(175, 150, Image.SCALE_DEFAULT));
-		action.setImage(action.getImage().getScaledInstance(175, 150, Image.SCALE_DEFAULT));
+		portrait.setImage(portrait.getImage().getScaledInstance(154, 132, Image.SCALE_DEFAULT));
+		action.setImage(action.getImage().getScaledInstance(154, 132, Image.SCALE_DEFAULT));
 		
 		portrait_label = new JLabel(portrait);
-		portrait_label.setSize(175, 150);
-		portrait_label.setLocation(0, 70);
+		portrait_label.setSize(154, 132);
+		portrait_label.setLocation(15, 90);
 		info_panel.add(portrait_label);
 		action_label = new JLabel(action);
 		action_label.setSize(130, 200);
@@ -184,6 +184,7 @@ public class DetailedPanel extends JPanel{
 		//button
 		info_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+				info_button.setRolloverSelectedIcon(new ImageIcon("Img2/detail_button1_c.png"));
 				info_panel.setVisible(true);
 				data_panel.setVisible(false);
 			}
@@ -204,23 +205,23 @@ public class DetailedPanel extends JPanel{
 	
 	private String get_player_text(){
 		String player_string = "<html>";
-		player_string += "球员姓名： " + player_detailed_info[0];
+		player_string += "<b>球员姓名：</b> " + player_detailed_info[0];
 		player_string += "<br/>";
-		player_string += "球衣编号： " + player_detailed_info[1];
+		player_string += "<b>球衣编号： </b>" + player_detailed_info[1];
 		player_string += "<br/>";
-		player_string += "球员位置： " + player_detailed_info[2];
+		player_string += "<b>球员位置：</b> " + player_detailed_info[2];
 		player_string += "<br/>";
-		player_string += "球员身高： " + player_detailed_info[3];
+		player_string += "<b>球员身高： </b>" + player_detailed_info[3];
 		player_string += "<br/>";
-		player_string += "球员体重： " + player_detailed_info[4];
+		player_string += "<b>球员体重： </b>" + player_detailed_info[4];
 		player_string += "<br/>";
-		player_string += "出生日期： " + player_detailed_info[5];
+		player_string += "<b>出生日期： </b>" + player_detailed_info[5];
 		player_string += "<br/>";
-		player_string += "年龄： " + player_detailed_info[6];
+		player_string += "<b>年龄： </b>" + player_detailed_info[6];
 		player_string += "<br/>";
-		player_string += "球龄： " + player_detailed_info[7];
+		player_string += "<b>球龄：</b> " + player_detailed_info[7];
 		player_string += "<br/>";
-		player_string += "毕业学校： " + player_detailed_info[8];
+		player_string += "<b>毕业学校： </b>" + player_detailed_info[8];
 		player_string += "</html>";
 		return player_string;
 	}

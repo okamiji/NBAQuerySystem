@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation.combobox.ComboBoxFactory;
 import nbaquery.presentation2.addedcard.Card;
+import nbaquery.presentation2.util.Button;
 import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
@@ -111,12 +112,8 @@ public class TeamPanel extends ConcisePanel {
 			}
 		});
 		
-		searchButton = new JButton();
-		searchButton.setIcon(new ImageIcon("Img2/search_button.png"));
-		searchButton.setContentAreaFilled(false);
-		searchButton.setBorder(null);
-		searchButton.setBounds(460, 15, 72, 24);
-		search_panel.add(searchButton);
+		searchButton = new Button("Img2/search_button.png", "Img2/search_button_c.png", search_panel);
+		searchButton.setBounds(460, 15, 72, 24);		
 		
 		searchButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {

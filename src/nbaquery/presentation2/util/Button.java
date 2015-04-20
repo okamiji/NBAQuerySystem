@@ -1,7 +1,7 @@
 package nbaquery.presentation2.util;
 
-import java.awt.Color;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -9,10 +9,20 @@ import javax.swing.JPanel;
 public class Button extends JButton{
 	public Button(String path1, String path2, JPanel added_panel){
 		added_panel.add(this);
-		this.setBackground(Color.BLACK);
+		
+		if(!"".equals(path1)){
+			this.setIcon(new ImageIcon(path1));
+		}
+		if(!"".equals(path2)){
+			this.setRolloverIcon(new ImageIcon(path2));
+		}
+	//	this.setBackground(Color.BLACK);
 		this.setOpaque(false);
-//		this.setContentAreaFilled(false);
+		this.setContentAreaFilled(false);
 		this.setBorderPainted(false);
+		
+		added_panel.validate();
+		added_panel.repaint();
 	}
 }
 
