@@ -115,8 +115,6 @@ public class PlayerServiceAdapter implements PlayerService
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++){
 			columns[i] = queryResult.getColumn(hotColumnNames[i]);
-			if(columns[i]!=null)
-				System.out.println(i+" "+columns[i].getColumnName());
 		}
 		for(int row = 0; row < rows.length; row ++)
 			for(int column = 0; column < columns.length; column ++)

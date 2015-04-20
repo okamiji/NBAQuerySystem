@@ -41,7 +41,6 @@ public class MatchServiceAdapter implements MatchService{
 			}
 		tableHost.deleteTable("match_query_result");
 		return returnValue;
-		
 	}
 
 	@Override
@@ -57,8 +56,27 @@ public class MatchServiceAdapter implements MatchService{
 		}
 		tableHost.performQuery(query, "match_query_result");
 		Table queryResult = tableHost.getTable("match_query_result");
+		return convertTableToStrings(queryResult);
+	}
+
+	@Override
+	public String[] searchForOneMatchByPlayer(String player_name) {
+		SelectProjectQuery query = null;
+		Table table = tableHost.getTable("match_natural_join_performance");
+		try {
+			query = new SelectProjectQuery("table.PLAYER_NAME=='" + player_name + "'", table);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "match_query_result_player");
+		Table queryResult = tableHost.getTable("match_query_result_player");
+		return convertTableToStrings(queryResult);
+	}
+	
+	public String[] convertTableToStrings(Table queryResult){
 		Row[] rows = queryResult.getRows();
-		
 		Column[] columns = new Column[columnNames.length];
 		if(rows.length == 1)
 		{
