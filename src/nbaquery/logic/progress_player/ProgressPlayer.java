@@ -36,20 +36,13 @@ public class ProgressPlayer {
 							"1.0F * progress_player_group.assist_now / " +
 							"( progress_player_group.assist_now - progress_player_group.assist_before ) ")
 					}, "self_score_now", "self_score_before", "total_board_now", "total_board_before", 
-					"assist_now","assist_before" ,"player_name");
+					"assist_now","assist_before" ,"player_name","team_name_abbr");
 			
 			tableHost.performQuery(query, "progress_player");
 			Table intermediateTable = tableHost.getTable("progress_player");
 			
 			NaturalJoinQuery joinQuery = new NaturalJoinQuery(intermediateTable, player, new String[]{"player_name"}, new String[]{"player_name"});
 			tableHost.performQuery(joinQuery, "progress_player");
-			
-			
-			
-			
-			
-			
-			
 			
 			table = tableHost.getTable("progress_player");
 		}

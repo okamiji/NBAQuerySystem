@@ -234,6 +234,29 @@ public class ProgressPlayerGroup implements LogicPipeline{
 			
 			tableHost.performQuery(groupQuery, "progress_player_group");
 			table = tableHost.getTable("progress_player_group");
+
+			/*Row[] rows = table.getRows();
+			int columnNumber=19;
+			String[][] returnValue = new String[rows.length][columnNumber];
+			
+			Column[] columns = table.getColumns().toArray(new Column[0]);
+			for(Column c:columns)
+				System.out.print(" "+c.getColumnName());
+			System.out.println();
+			for(int row = 0; row < rows.length; row ++){
+				for(int column = 0; column < columns.length; column ++)
+				{
+					if(columns[column]!=null){
+					Object value = columns[column].getAttribute(rows[row]);
+					if(value != null) {
+						returnValue[row][column] = value.toString();
+						System.out.print(" "+returnValue[row][column]);
+					}
+					}
+					
+				}System.out.println();
+			}*/
+				
 		}
 		return table;
 	}

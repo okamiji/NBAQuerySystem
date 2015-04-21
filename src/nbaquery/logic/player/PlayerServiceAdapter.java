@@ -149,17 +149,18 @@ public class PlayerServiceAdapter implements PlayerService
 		for(int i = 0; i < columnNumber; i ++){
 			columns[i] = queryResult.getColumn(progressColumnNames[i]);
 		}
-		for(int row = 0; row < rows.length; row ++)
+		for(int row = 0; row < rows.length; row ++){
 			for(int column = 0; column < columns.length; column ++)
 			{
 				if(columns[column]!=null){
 				Object value = columns[column].getAttribute(rows[row]);
-				if(value != null) 
+				if(value != null) {
 					returnValue[row][column] = value.toString();
-				
 				}
+				}
+				
 			}
-		
+		}
 		tableHost.deleteTable("progress_player_query_result");
 		return returnValue;
 	}
