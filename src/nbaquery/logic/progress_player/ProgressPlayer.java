@@ -44,6 +44,13 @@ public class ProgressPlayer {
 			NaturalJoinQuery joinQuery = new NaturalJoinQuery(intermediateTable, player, new String[]{"player_name"}, new String[]{"player_name"});
 			tableHost.performQuery(joinQuery, "progress_player");
 			
+			
+			
+			
+			
+			
+			
+			
 			table = tableHost.getTable("progress_player");
 		}
 		return table;

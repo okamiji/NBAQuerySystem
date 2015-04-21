@@ -19,6 +19,8 @@ import nbaquery.logic.infrustructure.MatchTeamPerformance;
 import nbaquery.logic.infrustructure.PlayerPerformance;
 import nbaquery.logic.infrustructure.RivalTeamNaturalJoin;
 import nbaquery.logic.infrustructure.RivalTeamPerformance;
+import nbaquery.logic.match.MatchService;
+import nbaquery.logic.match.MatchServiceAdapter;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.player.PlayerServiceAdapter;
 import nbaquery.logic.progress_player.ProgressPlayer;
@@ -31,6 +33,7 @@ public class LogicAssembler implements ILogicAssembler
 
 	TeamService team_service;
 	PlayerService player_service;
+	MatchService match_service;
 	
 	@Override
 	public void assemble(TableHost tableHost)
@@ -199,6 +202,7 @@ public class LogicAssembler implements ILogicAssembler
 				"self_score_rate",//场均得分进步率
 				"total_board_rate",//"篮板进步率"
 				"assist_rate",//"助攻进步率"
+				"team_name_abbr"//所属球队
 		},new String[]{
 				"player_name"	, //球员名称
 				"player_number",  //球衣编号
@@ -213,6 +217,36 @@ public class LogicAssembler implements ILogicAssembler
 				"player_action"	, //全身照
 		}
 		);
+		
+		match_service = new MatchServiceAdapter(tableHost,new String[]{
+				"match_id",//比赛编号
+				"match_season",//赛季
+				"match_date",//比赛日期
+				"match_host_abbr",//主场队伍缩写
+				"match_guest_abbr",//客场队伍缩写
+				"match_host_score",//主场队伍得分
+				"match_guest_score",//客场队伍得分
+				"team_name_abbr",//球队缩写
+				"player_name",//球员名称
+				"player_position",//球员位置
+				"game_time_minute",//上场时间（分钟部分）
+				"game_time_second",//上场时间（秒钟部分）
+				"shoot_score",//二分进球数
+				"shoot_count",//二分出手数
+				"three_shoot_score",//三分进球数
+				"three_shoot_count",//三分出手数
+				"foul_shoot_score",//罚球进球数
+				"foul_shoot_count",//罚球出手数
+				"attack_board",//进攻篮板
+				"defence_board",//防守篮板
+				"total_board",//总篮板
+				"assist",//助攻
+				"steal",//抢断
+				"cap",//盖帽
+				"miss",//失误
+				"foul",//犯规
+				"self_score"//个人得分
+		});
 	}
 
 	@Override
@@ -225,6 +259,12 @@ public class LogicAssembler implements ILogicAssembler
 	public PlayerService getPlayerService()
 	{
 		return player_service;
+	}
+
+	@Override
+	public MatchService getMatchService() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

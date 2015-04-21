@@ -87,6 +87,7 @@ public class GrossPlayerPerformance implements LogicPipeline
 								if(player_position_n == '\0') continue;
 								first_count ++;
 							}
+							
 							getGroupColumn().setAttribute(resultRow, first_count);
 						}
 					},

@@ -44,63 +44,39 @@ public class MatchServiceAdapter implements MatchService{
 	}
 
 	@Override
-	public String[] searchForOneMatch(int matchID) {
-		SelectProjectQuery query = null;
-		Table table = tableHost.getTable("match_natural_join_performance");
-		try {
-			query = new SelectProjectQuery("table.MATCH_ID='" + matchID + "'", table);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		tableHost.performQuery(query, "match_query_result");
-		Table queryResult = tableHost.getTable("match_query_result");
-		return convertTableToStrings(queryResult);
-	}
-
-	@Override
-	public String[] searchForOneMatchByPlayer(String player_name) {
-		SelectProjectQuery query = null;
-		Table table = tableHost.getTable("match_natural_join_performance");
-		try {
-			query = new SelectProjectQuery("table.PLAYER_NAME='" + player_name + "'", table);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		tableHost.performQuery(query, "match_query_result_player");
-		Table queryResult = tableHost.getTable("match_query_result_player");
+	public String[][] searchForOneMatchById(int matchID) {
+		Table queryResult = searchByID(matchID);
+		tableHost.deleteTable("match_query_result_id");
 		return convertTableToStrings(queryResult);
 	}
 	
-	public String[] convertTableToStrings(Table queryResult){
-		Row[] rows = queryResult.getRows();
-		Column[] columns = new Column[columnNames.length];
-		if(rows.length == 1)
-		{
-			for(int i = 0; i < columnNames.length; i ++)
-				columns[i] = queryResult.getColumn(columnNames[i]);
-			Object[] values = rows[0].getAttributes();
-			String[] returnValue = new String[values.length];
-			for(int row = 0; row < rows.length; row ++)
-				for(int column = 0; column < columns.length; column ++)
-				{
-					Object value = columns[column].getAttribute(rows[row]);
-					if(value != null) returnValue[column] = value.toString();
-				}
-			return returnValue;
-		}
-		else return null;
-	}
-
-	@Override
-	public String[] searchForOneMatchByDate(String date) {
+	public Table searchByID(int matchID){
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try {
-			query = new SelectProjectQuery("table.MATCH_DATE='" + date + "'", table);
+			query = new SelectProjectQuery("match_natural_join_performance.MATCH_ID='" + matchID + "'", table);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "match_query_result_id");
+		Table queryResult = tableHost.getTable("match_query_result_id");
+		return queryResult;
+	}
+	
+	@Override
+	public String[][] searchForMatchsByPlayer(String player_name) {
+		Table queryResult = searchByPlayer(player_name);
+		tableHost.deleteTable("match_query_result_player");
+		return convertTableToStrings(queryResult);
+	}
+	
+	public Table searchByPlayer(String player_name){
+		SelectProjectQuery query = null;
+		Table table = tableHost.getTable("match_natural_join_performance");
+		try {
+			query = new SelectProjectQuery("match_natural_join_performance.PLAYER_NAME='" + player_name + "'", table);
 		}
 		catch (Exception e)
 		{
@@ -108,7 +84,99 @@ public class MatchServiceAdapter implements MatchService{
 		}
 		tableHost.performQuery(query, "match_query_result_player");
 		Table queryResult = tableHost.getTable("match_query_result_player");
+		return queryResult;
+	}
+	
+	
+	@Override
+	public String[][] searchForMatchsByDate(String date) {
+		Table queryResult = searchByDate(date);
+		tableHost.deleteTable("match_query_result_date");
 		return  convertTableToStrings(queryResult);
 	}
+	
+	public Table searchByDate(String date){
+		SelectProjectQuery query = null;
+		Table table = tableHost.getTable("match_natural_join_performance");
+		try {
+			query = new SelectProjectQuery("match_natural_join_performance.MATCH_DATE='" + date + "'", table);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "match_query_result_date");
+		Table queryResult = tableHost.getTable("match_query_result_date");
+		return queryResult;
+	}
+	
+	public String[][] searchOneMatchByPlayerAndID(String player_name,int matchID){
+		SelectProjectQuery query = null;
+		Table table = searchByID(matchID);
+		try {
+			query = new SelectProjectQuery("match_query_result_id.PLAYER_NAME='" + player_name + "'", table);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "match_query_result_player_and_id");
+		Table queryResult = tableHost.getTable("match_query_result_player_and_id");
+		tableHost.deleteTable("match_query_result_player_and_id");
+		return convertTableToStrings(queryResult);
+	}
+	
+	public String[][] searchOneMatchByTeamAndID(String team_name_abbr,int matchID){
+		SelectProjectQuery query = null;
+		Table table = searchByID(matchID);
+		try {
+			query = new SelectProjectQuery("match_query_result_id.TEAM_NAME_ABBR='" + team_name_abbr + "'", table);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "match_query_result_team_and_id");
+		Table queryResult = tableHost.getTable("match_query_result_team_and_id");
+		tableHost.deleteTable("match_query_result_team_and_id");
+		return convertTableToStrings(queryResult);
+	}
+	
+	public Table searchByTeam(String team_name_abbr){
+		SelectProjectQuery query = null;
+		Table table = tableHost.getTable("match_natural_join_performance");
+		try {
+			query = new SelectProjectQuery("match_natural_join_performance.team_name_abbr='" + team_name_abbr + "'", table);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "match_query_result_team");
+		Table queryResult = tableHost.getTable("match_query_result_team");
+		return queryResult;
+	}
+	
+	public String[][] convertTableToStrings(Table queryResult){
+		Row[] rows = queryResult.getRows();
+		int columnNumber=columnNames.length;
+		String[][] returnValue = new String[rows.length][columnNumber];
+		Column[] columns = new Column[columnNumber];
+		for(int i = 0; i < columnNumber; i ++){
+			columns[i] = queryResult.getColumn(columnNames[i]);
+		}
+		for(int row = 0; row < rows.length; row ++)
+			for(int column = 0; column < columns.length; column ++)
+			{
+				if(columns[column]!=null){
+				Object value = columns[column].getAttribute(rows[row]);
+				if(value != null) 
+					returnValue[row][column] = value.toString();
+				
+				}
+			}
+		return returnValue;
+	}
+
 
 }

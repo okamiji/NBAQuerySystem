@@ -148,15 +148,15 @@ public class PlayerServiceAdapter implements PlayerService
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++){
 			columns[i] = queryResult.getColumn(progressColumnNames[i]);
-			if(columns[i]!=null)
-				System.out.println(i+" "+columns[i].getColumnName());
 		}
 		for(int row = 0; row < rows.length; row ++)
 			for(int column = 0; column < columns.length; column ++)
 			{
 				if(columns[column]!=null){
 				Object value = columns[column].getAttribute(rows[row]);
-				if(value != null) returnValue[row][column] = value.toString();
+				if(value != null) 
+					returnValue[row][column] = value.toString();
+				
 				}
 			}
 		

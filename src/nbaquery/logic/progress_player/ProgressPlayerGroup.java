@@ -37,22 +37,7 @@ public class ProgressPlayerGroup implements LogicPipeline{
 			tableHost.performQuery(sort, "progress_player_group");
 			Table intermediateTable = tableHost.getTable("progress_player_group");
 		
-			GroupQuery groupQuery = new GroupQuery(intermediateTable, new String[]{"match_id", "player_name"},
-					new GroupColumnInfo("game_count", Integer.class)
-					{
-
-						@Override
-						public void retrieve(Table originalTable,
-								Table resultTable)
-						{
-						}
-
-						@Override
-						public void collapse(Row[] rows, Row resultRow)
-						{
-							getGroupColumn().setAttribute(resultRow, rows.length);
-						}
-					},
+			GroupQuery groupQuery = new GroupQuery(intermediateTable, new String[]{"player_name","team_name_abbr"},
 					new GroupColumnInfo("self_score_before", Integer.class)
 					{
 						Column self_score;
@@ -62,11 +47,13 @@ public class ProgressPlayerGroup implements LogicPipeline{
 								Table resultTable)
 						{
 							self_score = originalTable.getColumn("self_score");
+							
 						}
 
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
+							
 							Integer sum = 0;
 							Row[] beforeRows=new Row[rows.length-5];
 							if(rows.length>5){
@@ -75,6 +62,7 @@ public class ProgressPlayerGroup implements LogicPipeline{
 								for(Row row : beforeRows)
 								{
 									Integer value = (Integer) self_score.getAttribute(row);
+									
 									if(value != null) sum += value;
 								}
 								sum=sum/beforeRows.length;
