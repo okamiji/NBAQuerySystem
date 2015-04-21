@@ -4,19 +4,12 @@ import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
-import nbaquery.data.query.DeriveColumnInfo;
-import nbaquery.data.query.DeriveQuery;
-import nbaquery.data.query.ExpressionDeriveColumnInfo;
 import nbaquery.data.query.GroupColumnInfo;
 import nbaquery.data.query.GroupQuery;
-import nbaquery.data.query.Query;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.LogicPipeline;
 import nbaquery.logic.LogicWatcher;
-import nbaquery.logic.NativeTablePipeline;
-import nbaquery.logic.RateColumnInfo;
 import nbaquery.logic.infrustructure.MatchNaturalJoinPerformance;
-import nbaquery.logic.infrustructure.PlayerPerformance;
 
 public class ProgressPlayerGroup implements LogicPipeline{
 	
@@ -38,7 +31,8 @@ public class ProgressPlayerGroup implements LogicPipeline{
 			Table intermediateTable = tableHost.getTable("progress_player_group");
 		
 			GroupQuery groupQuery = new GroupQuery(intermediateTable, new String[]{"player_name","team_name_abbr"},
-					new GroupColumnInfo("self_score_before", Integer.class)
+				
+					new GroupColumnInfo("self_score_before", Float.class)
 					{
 						Column self_score;
 
@@ -47,33 +41,31 @@ public class ProgressPlayerGroup implements LogicPipeline{
 								Table resultTable)
 						{
 							self_score = originalTable.getColumn("self_score");
-							
 						}
 
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
-							
-							Integer sum = 0;
-							Row[] beforeRows=new Row[rows.length-5];
+							Float sum = 0.f;
+							Integer items = 0;
 							if(rows.length>5){
 								for(int i=0;i<rows.length-5;i++)
-									beforeRows[i]=rows[i];
-								for(Row row : beforeRows)
 								{
-									Integer value = (Integer) self_score.getAttribute(row);
-									
-									if(value != null) sum += value;
+									Integer value = (Integer) self_score.getAttribute(rows[i]);
+									if(value != null)
+									{
+										sum += value;
+										items += 1;
+									}
 								}
-								sum=sum/beforeRows.length;
+								if(items > 0) sum = sum / items;
+								
 							}
-							else
-								sum=1;
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}
 						
 					},
-					new GroupColumnInfo("self_score_now", Integer.class)
+					new GroupColumnInfo("self_score_now", Float.class)
 					{
 						Column self_score;
 						@Override
@@ -86,24 +78,24 @@ public class ProgressPlayerGroup implements LogicPipeline{
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
-							Integer sum = 0;
-							Row[] afterRows=new Row[5];
+							Float sum = 0.f;
+							Integer items = 0;
 							if(rows.length>5){
-								for(int i=0;i<5;i++)
-									afterRows[i]=rows[i];
-								for(Row row : afterRows)
+								for(int i=rows.length-5;i<rows.length;i++)
 								{
-									Integer value = (Integer) self_score.getAttribute(row);
-									if(value != null) sum += value;
+									Integer value = (Integer) self_score.getAttribute(rows[i]);
+									if(value != null)
+									{
+										sum += value;
+										items += 1;
+									}
 								}
-								sum=sum/afterRows.length;
+								if(items > 0) sum = sum / items;
 							}
-							else
-								sum=1;
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}
 					},
-					new GroupColumnInfo("total_board_before", Integer.class)
+					new GroupColumnInfo("total_board_before", Float.class)
 					{
 						Column total_board;
 
@@ -117,25 +109,25 @@ public class ProgressPlayerGroup implements LogicPipeline{
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
-							Integer sum = 0;
-							Row[] beforeRows=new Row[rows.length-5];
+							Float sum = 0.f;
+							Integer items = 0;
 							if(rows.length>5){
 								for(int i=0;i<rows.length-5;i++)
-									beforeRows[i]=rows[i];
-								for(Row row : beforeRows)
 								{
-									Integer value = (Integer) total_board.getAttribute(row);
-									if(value != null) sum += value;
+									Integer value = (Integer) total_board.getAttribute(rows[i]);
+									if(value != null)
+									{
+										sum += value;
+										items += 1;
+									}
 								}
-								sum=sum/beforeRows.length;
+								if(items > 0) sum = sum / items;
 							}
-							else
-								sum=1;
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}
 						
 					},
-					new GroupColumnInfo("total_board_now", Integer.class)
+					new GroupColumnInfo("total_board_now", Float.class)
 					{
 
 						Column total_board;
@@ -149,25 +141,25 @@ public class ProgressPlayerGroup implements LogicPipeline{
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
-							Integer sum = 0;
-							Row[] afterRows=new Row[5];
+							Float sum = 0.f;
+							Integer items = 0;
 							if(rows.length>5){
-								for(int i=0;i<5;i++)
-									afterRows[i]=rows[i];
-								for(Row row : afterRows)
+								for(int i=rows.length-5;i<rows.length;i++)
 								{
-									Integer value = (Integer) total_board.getAttribute(row);
-									if(value != null) sum += value;
+									Integer value = (Integer) total_board.getAttribute(rows[i]);
+									if(value != null)
+									{
+										sum += value;
+										items += 1;
+									}
 								}
-								sum=sum/afterRows.length;
+								if(items > 0) sum = sum / items;
 							}
-							else
-								sum=1;
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}
 					},
 					
-					new GroupColumnInfo("assist_before", Integer.class)
+					new GroupColumnInfo("assist_before", Float.class)
 					{
 
 						Column assist;
@@ -182,24 +174,24 @@ public class ProgressPlayerGroup implements LogicPipeline{
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
-							Integer sum = 0;
-							Row[] beforeRows=new Row[rows.length-5];
+							Float sum = 0.f;
+							Integer items = 0;
 							if(rows.length>5){
 								for(int i=0;i<rows.length-5;i++)
-									beforeRows[i]=rows[i];
-								for(Row row : beforeRows)
 								{
-									Integer value = (Integer) assist.getAttribute(row);
-									if(value != null) sum += value;
+									Integer value = (Integer) assist.getAttribute(rows[i]);
+									if(value != null)
+									{
+										sum += value;
+										items += 1;
+									}
 								}
-								sum=sum/beforeRows.length;
+								if(items > 0) sum = sum / items;
 							}
-							else
-								sum=1;
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}
 					},
-					new GroupColumnInfo("assist_now", Integer.class)
+					new GroupColumnInfo("assist_now", Float.class)
 					{
 
 						Column assist;
@@ -213,20 +205,20 @@ public class ProgressPlayerGroup implements LogicPipeline{
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
-							Integer sum = 0;
-							Row[] afterRows=new Row[5];
+							Float sum = 0.f;
+							Integer items = 0;
 							if(rows.length>5){
-								for(int i=0;i<5;i++)
-									afterRows[i]=rows[i];
-								for(Row row : afterRows)
+								for(int i=rows.length-5;i<rows.length;i++)
 								{
-									Integer value = (Integer) assist.getAttribute(row);
-									if(value != null) sum += value;
+									Integer value = (Integer) assist.getAttribute(rows[i]);
+									if(value != null)
+									{
+										sum += value;
+										items += 1;
+									}
 								}
-								sum=sum/afterRows.length;
+								if(items > 0) sum = sum / items;
 							}
-							else
-								sum=1;
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}
 					}
@@ -234,29 +226,6 @@ public class ProgressPlayerGroup implements LogicPipeline{
 			
 			tableHost.performQuery(groupQuery, "progress_player_group");
 			table = tableHost.getTable("progress_player_group");
-
-			/*Row[] rows = table.getRows();
-			int columnNumber=19;
-			String[][] returnValue = new String[rows.length][columnNumber];
-			
-			Column[] columns = table.getColumns().toArray(new Column[0]);
-			for(Column c:columns)
-				System.out.print(" "+c.getColumnName());
-			System.out.println();
-			for(int row = 0; row < rows.length; row ++){
-				for(int column = 0; column < columns.length; column ++)
-				{
-					if(columns[column]!=null){
-					Object value = columns[column].getAttribute(rows[row]);
-					if(value != null) {
-						returnValue[row][column] = value.toString();
-						System.out.print(" "+returnValue[row][column]);
-					}
-					}
-					
-				}System.out.println();
-			}*/
-				
 		}
 		return table;
 	}
