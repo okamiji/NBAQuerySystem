@@ -7,6 +7,7 @@ import nbaquery.presentation2.addedcard.CardFactory;
 import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
+import nbaquery.presentation2.info.Match;
 
 public class CardCreator {
 	
@@ -19,6 +20,9 @@ public class CardCreator {
 		}
 		else if(type.equals(CardType.TEAM_FLAT) || (type.equals(CardType.TEAM_RECT))){
 			list = turn_team_list(str);
+		}
+		else if(type.equals(CardType.MATCH_FLAT) || (type.equals(CardType.MATCH_RECT))){
+			list = turn_match_list(str);
 		}
 		ArrayList<Card> card_list = null;
 		if(!view_all){
@@ -65,6 +69,19 @@ public class CardCreator {
 			list.add(team);
 		}
 		return list;
+	}
+	private ArrayList<Object> turn_match_list(String[][] str){
+		ArrayList<Object> list = new ArrayList<Object>();
+		if(str == null){
+			System.out.println("is null");
+		}
+		for(int i=0; i<str.length; i++){
+			Match match = new Match(str[i]);
+			match.set_index(i);
+			list.add(match);
+		}
+		return list;
+		
 	}
 	
 	private ArrayList<Card> create_cards(CardType type, ArrayList<Object> list){

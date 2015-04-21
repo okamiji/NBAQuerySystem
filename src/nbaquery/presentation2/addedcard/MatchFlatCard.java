@@ -36,7 +36,7 @@ class MatchFlatCard extends FlatCard {
 		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
 		label_name.setBounds(50, 1, 120, 30);
 		shadow_label.add(label_name);
-		
+		/*
 		JSVGComponent svgComponent1 = new JSVGComponent(null, false, false);
 		String path1 = match.get_portrait_path();
 		if(path1 != null){
@@ -50,8 +50,8 @@ class MatchFlatCard extends FlatCard {
 			svgComponent1.setBounds(8, 2, 35, 35);
 			shadow_label.add(svgComponent1);
 			shadow_label.repaint();
-		}
-		
+		}*/
+		/*
 		JSVGComponent svgComponent2 = new JSVGComponent(null, false, false);
 		String path2 = match.get_portrait_path();
 		if(path2 != null){
@@ -66,7 +66,7 @@ class MatchFlatCard extends FlatCard {
 			shadow_label.add(svgComponent2);
 			shadow_label.repaint();
 		}
-		
+		*/
 		label_info = new JLabel();
 		set_match_text(match);
 		label_info.setText(match_text);
