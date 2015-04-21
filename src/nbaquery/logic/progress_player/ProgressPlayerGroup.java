@@ -30,7 +30,7 @@ public class ProgressPlayerGroup implements LogicPipeline{
 			tableHost.performQuery(sort, "progress_player_group");
 			Table intermediateTable = tableHost.getTable("progress_player_group");
 		
-			GroupQuery groupQuery = new GroupQuery(intermediateTable, new String[]{"player_name","team_name_abbr"},
+			GroupQuery groupQuery = new GroupQuery(intermediateTable,  new String[]{"player_name","team_name_abbr"},
 				
 					new GroupColumnInfo("self_score_before", Float.class)
 					{

@@ -4,6 +4,7 @@ import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.query.GroupQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.infrustructure.DirectMatchNaturalJoinPerformance;
@@ -25,9 +26,20 @@ public class MatchServiceAdapter implements MatchService{
 		SortQuery sort = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		sort= new SortQuery(table, columnNames[head], isUp);
-		
 		tableHost.performQuery(sort, "match_query_result");
 		Table queryResult = tableHost.getTable("match_query_result");
+		
+		GroupQuery group = new GroupQuery(queryResult,new String[]{"match_id",//比赛编号
+				"match_season",//赛季
+				"match_date",//比赛日期
+				"match_host_abbr",//主场队伍缩写
+				"match_guest_abbr",//客场队伍缩写
+				"match_host_score",//主场队伍得分
+				"match_guest_score",//客场队伍得分})
+		});
+		tableHost.performQuery(group, "match_query_result");
+		queryResult = tableHost.getTable("match_query_result");
+		
 		Row[] rows = queryResult.getRows();
 		String[][] returnValue = new String[rows.length][columnNames.length];
 		Column[] columns = new Column[columnNames.length];

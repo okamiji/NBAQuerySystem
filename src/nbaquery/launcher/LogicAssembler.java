@@ -226,26 +226,6 @@ public class LogicAssembler implements ILogicAssembler
 				"match_guest_abbr",//客场队伍缩写
 				"match_host_score",//主场队伍得分
 				"match_guest_score",//客场队伍得分
-				"team_name_abbr",//球队缩写
-				"player_name",//球员名称
-				"player_position",//球员位置
-				"game_time_minute",//上场时间（分钟部分）
-				"game_time_second",//上场时间（秒钟部分）
-				"shoot_score",//二分进球数
-				"shoot_count",//二分出手数
-				"three_shoot_score",//三分进球数
-				"three_shoot_count",//三分出手数
-				"foul_shoot_score",//罚球进球数
-				"foul_shoot_count",//罚球出手数
-				"attack_board",//进攻篮板
-				"defence_board",//防守篮板
-				"total_board",//总篮板
-				"assist",//助攻
-				"steal",//抢断
-				"cap",//盖帽
-				"miss",//失误
-				"foul",//犯规
-				"self_score"//个人得分
 		});
 	}
 
