@@ -47,6 +47,7 @@ public class MatchServiceAdapter implements MatchService{
 			columns[i] = queryResult.getColumn(columnNames[i]);
 		for(int row = 0; row < rows.length; row ++)
 			for(int column = 0; column < columns.length; column ++)
+				if(columns[column]!=null)
 			{
 				Object value = columns[column].getAttribute(rows[row]);
 				if(value != null) returnValue[row][column] = value.toString();
