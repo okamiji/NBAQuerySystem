@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
+
+import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.util.CardType;
@@ -44,9 +46,10 @@ public class MainFrame {
 	
 	int xOld,yOld;
 	
-	public MainFrame(final PlayerService playerService, final TeamService teamService){
+	public MainFrame(final PlayerService playerService, final TeamService teamService, final MatchService matchService){
 		PanelSet.set_player_service(playerService);
 		PanelSet.set_team_service(teamService);
+		PanelSet.set_match_service(matchService);
 	}
 	
 	public void run(){
