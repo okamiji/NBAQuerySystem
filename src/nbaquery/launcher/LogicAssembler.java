@@ -264,7 +264,7 @@ public class LogicAssembler implements ILogicAssembler
 	@Override
 	public MatchService getMatchService() {
 		// TODO Auto-generated method stub
-		return null;
+		return match_service;
 	}
 	
 }
