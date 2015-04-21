@@ -7,6 +7,7 @@ import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.loader.MatchNaturalJoinPerformanceLoader;
 import nbaquery.data.file.loader.PlayerLoader;
 import nbaquery.data.file.loader.TeamLoader;
+import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.main.MainFrame;
@@ -24,18 +25,20 @@ public class Main
 	
 	TeamService teamService;
 	PlayerService playerService;
+	MatchService matchService;
 	public void loadLogicLayer()
 	{
 		ILogicAssembler assembler = new LogicAssembler();
 		assembler.assemble(host);
 		this.teamService = assembler.getTeamService();
 		this.playerService = assembler.getPlayerService();
+		this.matchService = assembler.getMatchService();
 	}
 	
 	MainFrame mainFrame;
 	public void loadPresentation()
 	{
-		mainFrame = new MainFrame(this.playerService, this.teamService);
+		mainFrame = new MainFrame(this.playerService, this.teamService, this.matchService);
 		mainFrame.run();
 		//mainFrame.setVisible(true);
 	}

@@ -20,6 +20,7 @@ public class ConcisePara {
 	
 	public static String player_item_name = "按名称排序";
 	
+	
 	public static boolean team_isGross = true;
 	public static int team_index = 0;
 	public static boolean team_isUp = true;
@@ -27,6 +28,11 @@ public class ConcisePara {
 	public static int team_isGross_index = 0;
 	
 	public static String team_item_name = "按赛季排序";
+	
+	public static boolean match_isUp = true;
+	public static int match_index = 0;
+	
+	public static String match_item_name = "0.0";
 	
 	
 	public static HotspotType hotspot_type = HotspotType.SEASON_TEAM;
@@ -36,6 +42,7 @@ public class ConcisePara {
 	public static int hot_season_team_index = 0;
 	public static int hot_progress_player_index = 0;
 	public static String hot_item_name = "";
+	
 	
 	public static void switch_type(){
 		if(type.equals(CardType.PLAYER_FLAT)){

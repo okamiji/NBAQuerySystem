@@ -159,7 +159,7 @@ public class PlayerPanel extends ConcisePanel {
 				leagueBox.setSelectedIndex(ConcisePara.player_league_index);
 				
 				PanelSet.set_concise_invisible();
-				ConcisePanelFactory.create_panel(type, view_all,false);
+				ConcisePanelFactory.create_panel(type, view_all, false);
 				
 			}
 		});
