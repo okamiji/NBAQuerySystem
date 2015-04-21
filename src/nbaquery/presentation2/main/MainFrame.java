@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
+
+import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.util.CardType;
@@ -44,9 +46,10 @@ public class MainFrame {
 	
 	int xOld,yOld;
 	
-	public MainFrame(final PlayerService playerService, final TeamService teamService){
+	public MainFrame(final PlayerService playerService, final TeamService teamService, final MatchService matchService){
 		PanelSet.set_player_service(playerService);
 		PanelSet.set_team_service(teamService);
+		PanelSet.set_match_service(matchService);
 	}
 	
 	public void run(){
@@ -141,6 +144,15 @@ public class MainFrame {
 				init_button();
 				button1.setIcon(new ImageIcon("Img2/button1.png"));
 				
+				if(ConcisePara.type.equals(CardType.PLAYER_FLAT) || (ConcisePara.type.equals(CardType.TEAM_FLAT))){
+					ConcisePara.type = CardType.MATCH_FLAT;
+				}
+				else if(ConcisePara.type.equals(CardType.PLAYER_RECT) || (ConcisePara.type.equals(CardType.TEAM_RECT))){
+					ConcisePara.type = CardType.MATCH_RECT;
+				}
+				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
+				ConcisePara.view_all = false;
+				
 				listener1 = button1.getMouseListeners()[1];
 				button1.removeMouseListener(button1.getMouseListeners()[1]);
 			}
@@ -151,10 +163,10 @@ public class MainFrame {
 				init_button();
 				button2.setIcon(new ImageIcon("Img2/button2.png"));
 				
-				if(ConcisePara.type.equals(CardType.PLAYER_FLAT)){
+				if(ConcisePara.type.equals(CardType.PLAYER_FLAT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.TEAM_FLAT;
 				}
-				else if(ConcisePara.type.equals(CardType.PLAYER_RECT)){
+				else if(ConcisePara.type.equals(CardType.PLAYER_RECT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.TEAM_RECT;
 				}
 				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
@@ -170,10 +182,10 @@ public class MainFrame {
 				init_button();
 				button3.setIcon(new ImageIcon("Img2/button3.png"));
 				
-				if(ConcisePara.type.equals(CardType.TEAM_FLAT)){
+				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.PLAYER_FLAT;
 				}
-				else if(ConcisePara.type.equals(CardType.TEAM_RECT)){
+				else if(ConcisePara.type.equals(CardType.TEAM_RECT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.PLAYER_RECT;
 				}
 				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);

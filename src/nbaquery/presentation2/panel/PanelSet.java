@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.info.Match;
@@ -23,6 +24,7 @@ public class PanelSet {
 
 	public static PlayerService ps;
 	public static TeamService ts;
+	public static MatchService ms;
 	
 	private static JFrame frame;
 	private static ConcisePanel concise;
@@ -133,6 +135,12 @@ public class PanelSet {
 	}
 	public static TeamService get_team_service(){
 		return ts;
+	}
+	public static void set_match_service(MatchService get_ms){
+		ms = get_ms;
+	}
+	public static MatchService get_match_service(){
+		return ms;
 	}
 	
 }
