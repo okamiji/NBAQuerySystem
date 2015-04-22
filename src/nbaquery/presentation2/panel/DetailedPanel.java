@@ -1,7 +1,6 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -31,6 +30,7 @@ public class DetailedPanel extends JPanel{
 	
 	String[] player_detailed_info = null;
 	String[] team_detailed_info = null;
+	String[][] match_detailed_info = null;
 	
 	int scr_height;
 	
@@ -191,19 +191,18 @@ public class DetailedPanel extends JPanel{
 		this.add(info_panel);
 		info_panel.setVisible(false);
 		
-		data_panel = new JPanel();
-		data_panel.setBackground(new Color(245, 245, 245));
-		data_panel.setLayout(null);
-		data_panel.setSize(575, 530);
-		data_panel.setLocation(-5, 5);
-		this.add(data_panel);
-		data_panel.setVisible(false);
-
-		//info panel
-		player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_name());
+		int match_id = Integer.parseInt(match.get_id());
+		match_detailed_info = PanelSet.get_match_service().searchForOneMatchById(match_id);
+		System.out.println(match_detailed_info[0].length);
+		for(int i=0; i<1; i++){
+			for(int j=0; j<match_detailed_info[0].length; j++){
+				System.out.println(i + " " + j + " " +match_detailed_info[i][j]);
+				System.out.println("hehe");
+			}
+		}
 		team_label = new JLabel();
-		String player_team_name = "所属球队： " + player.get_team();
-		team_label.setText(player_team_name);
+		String team_name = "所属球队： " + match.get_team()[0] + match.get_team()[1];
+		team_label.setText(team_name);
 		
 		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background1.png"));
 		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
