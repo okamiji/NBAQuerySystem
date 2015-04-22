@@ -74,12 +74,12 @@ public class TeamServiceAdapter implements TeamService
 		
 		SelectProjectQuery query = null;
 		try {
-			query = new SelectProjectQuery("team_query_result.TEAM_NAME=='"+teamName+"'",team);
+			query = new SelectProjectQuery("team_query_result.TEAM_NAME=='"+teamName+"'",queryResult);
 		} catch (Exception e) {	
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		sort=new SortQuery(team, "team_name");
+		sort=new SortQuery(queryResult, "team_name");
 		tableHost.performQuery(sort, "team_query_result");
 		queryResult = tableHost.getTable("team_query_result");
 		Row[] rows = queryResult.getRows();
