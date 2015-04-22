@@ -34,9 +34,9 @@ public class TeamPanel extends ConcisePanel {
 	    super.set_scr();
 	    
 		search_panel.setLayout(null);
-		search_panel.setBackground(new Color(245, 245, 245));
-		search_panel.setBounds(130, 20, 570, 60);
-
+		search_panel.setBackground(new Color(0, 0, 0, 0));
+		search_panel.setBounds(190, 75, 570, 60);
+		
 		typeBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 80, 24, 
 				new String[]{"全局数据", "场均数据"});
 		search_panel.add(typeBox);

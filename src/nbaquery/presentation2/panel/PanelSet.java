@@ -17,9 +17,6 @@ import nbaquery.presentation2.panel.DetailedPanel;
 import nbaquery.presentation2.panel.PanelSet;
 
 public class PanelSet {	
-	//Confirm that all panels needed have been initialized.
-	//Provide an access to each panel/frame.
-	
 	private static PanelSet instance = null;
 
 	public static PlayerService ps;
@@ -76,7 +73,7 @@ public class PanelSet {
 		JPanel detailed_added_panel = new JPanel();
 		detailed_added_panel.setBackground(new Color(0,0,0,0.0f));
 		detailed_added_panel.setLayout(null);
-		detailed_added_panel.setSize(714, 545);
+		detailed_added_panel.setSize(784, 545);
 		detailed_added_panel.setLocation(0, 0);
 
 		DetailedPanel detailed_panel = new DetailedPanel(player);
@@ -89,7 +86,7 @@ public class PanelSet {
 		JPanel detailed_added_panel = new JPanel();
 		detailed_added_panel.setBackground(new Color(0,0,0,0.0f));
 		detailed_added_panel.setLayout(null);
-		detailed_added_panel.setSize(714, 545);
+		detailed_added_panel.setSize(784, 545);
 		detailed_added_panel.setLocation(0, 0);
 
 		DetailedPanel detailed_panel = new DetailedPanel(team);
@@ -102,7 +99,7 @@ public class PanelSet {
 		JPanel detailed_added_panel = new JPanel();
 		detailed_added_panel.setBackground(new Color(0,0,0,0.0f));
 		detailed_added_panel.setLayout(null);
-		detailed_added_panel.setSize(714, 545);
+		detailed_added_panel.setSize(784, 545);
 		detailed_added_panel.setLocation(0, 0);
 
 		DetailedPanel detailed_panel = new DetailedPanel(match);

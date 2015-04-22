@@ -17,8 +17,22 @@ public class MyBasicComboBoxUI extends BasicComboBoxUI
 	
     public void installUI(JComponent comboBox) {
         super.installUI(box);
+        /*
            listBox.setForeground(new Color(1,1,1,0.8f));
            listBox.setBackground(new Color(0,0,0,0.3f));
+           */
+        listBox.setForeground(new Color(1, 1, 1));
+        listBox.setBackground(new Color(31, 109, 97));
+        
+        box.setOpaque(true);
+        
+       // this.comboBox.setForeground(new Color(1, 1, 0));
+       // this.comboBox.setBackground(new Color(0, 0, 0, 0));
+        
+       // this.box.setBackground(new Color(0, 0, 0, 0));
+        
+       // this.currentValuePane.setBackground(new Color(0, 0, 0, 0));
+       // comboBox.getParent().setBackground(new Color(0, 0, 0, 0));
          }
        
          /**

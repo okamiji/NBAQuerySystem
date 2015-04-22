@@ -35,7 +35,7 @@ public class MainFrame {
 	
 	static CardLocation location = null;
 	
-	static Button button1, button2, button3, button4;
+	static Button button1, button2, button3, button4, button5;
 	static Button exit, mini, show;
 
 
@@ -43,6 +43,7 @@ public class MainFrame {
 	static MouseListener listener2 = null;
 	static MouseListener listener3 = null;
 	static MouseListener listener4 = null;
+	static MouseListener listener5 = null;
 	
 	int xOld,yOld;
 	
@@ -54,12 +55,28 @@ public class MainFrame {
 	
 	public void run(){
 		initialize();
-		
+		refresh.start();
 	}
+	
+	Thread refresh = new Thread()
+	{
+		public void run()
+		{
+			while(frame.isVisible()) try
+			{
+				frame.repaint();
+				Thread.sleep(16);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+	};
 	
 	public void initialize(){
 		
-		background_img = new ImageIcon("Img2/main_frame_green.png");
+		background_img = new ImageIcon("Img2/main_frame.png");
 		int background_width = background_img.getIconWidth();
 		int background_height = background_img.getIconHeight();
 
@@ -82,14 +99,14 @@ public class MainFrame {
 		background_label.setBounds(0, 0, background_width, background_height); 
 		
 		button_left_panel = new JPanel();
-		button_left_panel.setBounds(0, 0, 104, background_height);
+		button_left_panel.setBounds(0, 0, 115, background_height);
 		button_left_panel.setLayout(null);
 		button_left_panel.setVisible(true);
 		button_left_panel.setOpaque(false);
 		frame.add(button_left_panel);
 
 		button_right_panel = new JPanel();
-		button_right_panel.setBounds(714, 0, 25, background_height);
+		button_right_panel.setBounds(714, 0, 180, 90);
 		button_right_panel.setLayout(null);
 		button_right_panel.setVisible(true);
 		button_right_panel.setOpaque(false);
@@ -123,26 +140,28 @@ public class MainFrame {
 	}
 	
 	private static void initialize_buttons(){
-		button1 = new Button("Img2/blank_big.png", "Img2/button1.png", button_left_panel);
-		button2 = new Button("Img2/blank_big.png", "Img2/button2.png", button_left_panel);
-		button3 = new Button("Img2/blank_big.png", "Img2/button3.png", button_left_panel);
-		button4 = new Button("Img2/blank_big.png", "Img2/button4.png", button_left_panel);
-		button1.setBounds(10, 144, 94, 87);
-		button2.setBounds(10, 231, 94, 87);
-		button3.setBounds(10, 318, 94, 87);
-		button4.setBounds(10, 405, 94, 87);
+		button1 = new Button("Img2/blank_big.png", "Img2/button_chosen.png", button_left_panel);
+		button2 = new Button("Img2/blank_big.png", "Img2/button_chosen.png", button_left_panel);
+		button3 = new Button("Img2/blank_big.png", "Img2/button_chosen.png", button_left_panel);
+		button4 = new Button("Img2/blank_big.png", "Img2/button_chosen.png", button_left_panel);
+		button5 = new Button("Img2/blank_big.png", "Img2/button_chosen.png", button_left_panel);
+		button1.setBounds(35, 105, 82, 82);
+		button2.setBounds(35, 192, 82, 82);
+		button3.setBounds(35, 279, 82, 82);
+		button4.setBounds(35, 366, 82, 82);
+		button5.setBounds(35, 453, 82, 82);
 		
 		exit = new Button("Img2/blank_small.png", "Img2/line.png", button_right_panel);
 		mini = new Button("Img2/blank_small.png", "Img2/line.png", button_right_panel);
 		show = new Button("Img2/blank_small.png", "Img2/line.png", button_right_panel);
-		exit.setBounds(1, 34, 24, 25);
-		mini.setBounds(1, 59, 24, 25);
-		show.setBounds(1, 84, 24, 25);
-		
+		exit.setBounds(120, 34, 24, 25);
+		mini.setBounds(100, 34, 24, 25);
+		show.setBounds(10, 45, 24, 25);
+
 		button1.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				init_button();
-				button1.setIcon(new ImageIcon("Img2/button1.png"));
+				button1.setIcon(new ImageIcon("Img2/button_chosen.png"));
 				
 				if(ConcisePara.type.equals(CardType.PLAYER_FLAT) || (ConcisePara.type.equals(CardType.TEAM_FLAT))){
 					ConcisePara.type = CardType.MATCH_FLAT;
@@ -150,8 +169,8 @@ public class MainFrame {
 				else if(ConcisePara.type.equals(CardType.PLAYER_RECT) || (ConcisePara.type.equals(CardType.TEAM_RECT))){
 					ConcisePara.type = CardType.MATCH_RECT;
 				}
-				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
 				ConcisePara.view_all = false;
+				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
 				
 				listener1 = button1.getMouseListeners()[1];
 				button1.removeMouseListener(button1.getMouseListeners()[1]);
@@ -161,7 +180,7 @@ public class MainFrame {
 		button2.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				init_button();
-				button2.setIcon(new ImageIcon("Img2/button2.png"));
+				button2.setIcon(new ImageIcon("Img2/button_chosen.png"));
 				
 				if(ConcisePara.type.equals(CardType.PLAYER_FLAT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.TEAM_FLAT;
@@ -169,8 +188,8 @@ public class MainFrame {
 				else if(ConcisePara.type.equals(CardType.PLAYER_RECT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.TEAM_RECT;
 				}
-				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
 				ConcisePara.view_all = false;
+				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
 				
 				listener2 = button2.getMouseListeners()[1];
 				button2.removeMouseListener(button2.getMouseListeners()[1]);
@@ -180,7 +199,7 @@ public class MainFrame {
 		button3.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {	
 				init_button();
-				button3.setIcon(new ImageIcon("Img2/button3.png"));
+				button3.setIcon(new ImageIcon("Img2/button_chosen.png"));
 				
 				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.PLAYER_FLAT;
@@ -188,8 +207,8 @@ public class MainFrame {
 				else if(ConcisePara.type.equals(CardType.TEAM_RECT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.PLAYER_RECT;
 				}
-				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
 				ConcisePara.view_all = false;
+				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
 				
 				
 				listener3 = button3.getMouseListeners()[1];
@@ -200,7 +219,7 @@ public class MainFrame {
 		button4.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				init_button();
-				button4.setIcon(new ImageIcon("Img2/button4.png"));
+				button4.setIcon(new ImageIcon("Img2/button_chosen.png"));
 				
 				ConcisePara.type = CardType.TEAM_RECT;
 				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
@@ -210,7 +229,16 @@ public class MainFrame {
 				button4.removeMouseListener(button4.getMouseListeners()[1]);
 			}
 		});
-		
+
+		button5.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				init_button();
+				button5.setIcon(new ImageIcon("Img2/button_chosen.png"));
+
+				listener5 = button5.getMouseListeners()[1];
+				button5.removeMouseListener(button5.getMouseListeners()[1]);
+			}
+		});
 		exit.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
@@ -255,6 +283,9 @@ public class MainFrame {
 		if(listener4 != null && (button4.getMouseListeners().length <= 1)){
 			button4.addMouseListener(listener4);
 		}
+		if(listener5 != null && (button5.getMouseListeners().length <= 1)){
+			button5.addMouseListener(listener5);
+		}
 	}
 	
 	private static void init_button(){
@@ -264,6 +295,7 @@ public class MainFrame {
 		button2.setIcon(new ImageIcon("Img2/blank_big.png"));
 		button3.setIcon(new ImageIcon("Img2/blank_big.png"));
 		button4.setIcon(new ImageIcon("Img2/blank_big.png"));
+		button5.setIcon(new ImageIcon("Img2/blank_big.png"));
 	}
 	
 }

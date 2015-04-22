@@ -35,7 +35,7 @@ class TeamRectCard extends RectCard {
 		label_name.setOpaque(true);
 		label_name.setForeground(Color.white);
 		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
-		label_name.setBounds(117, 3, 140, 30);
+		label_name.setBounds(117, 3, 139, 30);
 		shadow_label.add(label_name);
 
 		JSVGComponent svgComponent = new JSVGComponent(null, false, false);

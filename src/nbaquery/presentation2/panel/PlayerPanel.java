@@ -33,8 +33,8 @@ public class PlayerPanel extends ConcisePanel {
 	    super.set_scr();
 	    
 		search_panel.setLayout(null);
-		search_panel.setBackground(new Color(245, 245, 245));
-		search_panel.setBounds(130, 20, 570, 60);
+		search_panel.setBackground(new Color(0, 0, 0, 0));
+		search_panel.setBounds(190, 75, 570, 60);
 		
 		positionBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 80, 24, 
 				new String[]{"全部位置", "前锋", "中锋", "后卫"});
@@ -121,7 +121,7 @@ public class PlayerPanel extends ConcisePanel {
 			}
 		});
 		
-		searchButton = new Button("Img2/search_button.png", "Img2/search_button_c.png", search_panel);
+		searchButton = new Button("Img2/search_button_c.png", "Img2/search_button.png", search_panel);
 		searchButton.setBounds(460, 15, 72, 24);		
 		
 		searchButton.addMouseListener(new MouseAdapter(){
