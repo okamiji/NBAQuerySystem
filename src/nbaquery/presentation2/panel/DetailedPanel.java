@@ -240,6 +240,7 @@ public class DetailedPanel extends JPanel{
 		info_panel.setLayout(null);
 		info_panel.setSize(590, 530);
 		info_panel.setLocation(-5, -25);
+		this.add(info_panel);
 		
 		//info panel
 		team_detailed_info = PanelSet.get_team_service().searchForOneTeam(team.get_name());
@@ -383,9 +384,10 @@ public class DetailedPanel extends JPanel{
 		return player_string;
 	}
 	private String get_team_text(){
-	/*	for(int i=0; i<team_detailed_info.length; i++){
-			System.out.println(team_detailed_info[i]);
-		}*/
+		for(int i=0; i<team_detailed_info.length; i++){
+			System.out.println(i + " " + team_detailed_info[i]);
+		}
+		System.out.println(" ");
 		String team_string = "<html>";
 		team_string += "<b>赛季：</b> " + team_detailed_info[0];
 		team_string += "<br/>";
@@ -440,26 +442,26 @@ public class DetailedPanel extends JPanel{
 		return team_string;
 	}
 	private String get_match_text(){
-		String player_string = "<html>";
-		player_string += "<b>球员姓名：</b> " + player_detailed_info[0];
-		player_string += "<br/>";
-		player_string += "<b>球衣编号： </b>" + player_detailed_info[1];
-		player_string += "<br/>";
-		player_string += "<b>球员位置：</b> " + player_detailed_info[2];
-		player_string += "<br/>";
-		player_string += "<b>球员身高： </b>" + player_detailed_info[3];
-		player_string += "<br/>";
-		player_string += "<b>球员体重： </b>" + player_detailed_info[4];
-		player_string += "<br/>";
-		player_string += "<b>出生日期： </b>" + player_detailed_info[5];
-		player_string += "<br/>";
-		player_string += "<b>年龄： </b>" + player_detailed_info[6];
-		player_string += "<br/>";
-		player_string += "<b>球龄：</b> " + player_detailed_info[7];
-		player_string += "<br/>";
-		player_string += "<b>毕业学校： </b>" + player_detailed_info[8];
-		player_string += "</html>";
-		return player_string;
+		String match_string = "<html>";
+		match_string += "<b>球员姓名：</b> " + player_detailed_info[0];
+		match_string += "<br/>";
+		match_string += "<b>球衣编号： </b>" + player_detailed_info[1];
+		match_string += "<br/>";
+		match_string += "<b>球员位置：</b> " + player_detailed_info[2];
+		match_string += "<br/>";
+		match_string += "<b>球员身高： </b>" + player_detailed_info[3];
+		match_string += "<br/>";
+		match_string += "<b>球员体重： </b>" + player_detailed_info[4];
+		match_string += "<br/>";
+		match_string += "<b>出生日期： </b>" + player_detailed_info[5];
+		match_string += "<br/>";
+		match_string += "<b>年龄： </b>" + player_detailed_info[6];
+		match_string += "<br/>";
+		match_string += "<b>球龄：</b> " + player_detailed_info[7];
+		match_string += "<br/>";
+		match_string += "<b>毕业学校： </b>" + player_detailed_info[8];
+		match_string += "</html>";
+		return match_string;
 	}
 }
 
