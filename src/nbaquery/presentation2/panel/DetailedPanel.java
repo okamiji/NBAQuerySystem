@@ -286,7 +286,7 @@ public class DetailedPanel extends JPanel{
 	}
 	private void set_match_info(){
 		direction_label = new JLabel();
-		direction_label.setText("比赛 < " + match.get_season() + " " + match.get_date() + " " + match.get_team()[0] + " : " + match.get_team()[1]);
+		direction_label.setText("球员 < " + player.get_name());
 		direction_label.setFont(new Font("微软雅黑",Font.BOLD, 12));
 		direction_label.setForeground(new Color(191, 211, 200));
 		direction_label.setBounds(0, 0, 160, 30);
@@ -295,26 +295,54 @@ public class DetailedPanel extends JPanel{
 		info_panel = new JPanel();
 		info_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		info_panel.setLayout(null);
-		info_panel.setSize(575, 530);
+		info_panel.setSize(590, 530);
 		info_panel.setLocation(-5, -25);
-		this.add(info_panel);
-		info_panel.setVisible(false);
 		
-		int match_id = Integer.parseInt(match.get_id());
-		match_detailed_info = PanelSet.get_match_service().searchForOneMatchById(match_id);
-		if(match_detailed_info.length > 0)
-		{
-			System.out.println(match_detailed_info[0].length);
-			for(int i=0; i<1; i++){
-				for(int j=0; j<match_detailed_info[0].length; j++){
-					System.out.println(i + " " + j + " " +match_detailed_info[i][j]);
-					System.out.println("hehe");
-				}
+		data_panel = new JPanel();
+		data_panel.setBackground(new Color(0, 0, 0, 0.0f));
+		data_panel.setLayout(null);
+		//data_panel.setSize(575, 530);
+		//data_panel.setLocation(-5, 5);
+		//this.add(data_panel);+
+		
+		data_scr = new JScrollPane(data_panel, 
+    		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
+    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		data_scr.setSize(590, 400);
+		data_scr.setLocation(-5, 35);
+		data_scr.setBorder(null);
+		data_scr.setBackground(new Color(0, 0, 0, 0));
+		data_scr.setOpaque(true);
+		this.add(data_scr);
+		data_scr.setVisible(false);
+
+		//data panel
+		MatchService ms = PanelSet.ms;
+		String[][] str = ms.searchForMatchsByPlayer(player.get_name());
+		for(int i=0;i<str.length;i++){
+			for(int j=0;j<str[0].length;j++){
+				System.out.println(i+ " " + j + " " + str[i][j]);
 			}
 		}
+		CardCreator creator = new CardCreator();
+		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
+		CardLocation location = new CardLocation(CardType.MATCH_of_PLAYER);
+		scr_height = location.get_total_height(card_list.size());
+		for(int i=0; i<card_list.size(); i++){
+			Card card = card_list.get(i);
+			data_panel.add(card);
+			card.setLocation(card.width, card.height);
+		}
+		data_panel.repaint();
+		
+
+	    data_panel.setPreferredSize(new Dimension(data_scr.getWidth() - 50, scr_height));
+		
+		//info panel
+		player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_name());
 		team_label = new JLabel();
-		String team_name = "所属球队： " + match.get_team()[0] + match.get_team()[1];
-		team_label.setText(team_name);
+		String player_team_name = "所属球队： " + player.get_team();
+		team_label.setText(player_team_name);
 		
 		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background1.png"));
 		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
@@ -327,11 +355,19 @@ public class DetailedPanel extends JPanel{
 		
 		info_label = new JLabel();
 
-//		info_label.setText(get_player_text());
+		info_label.setText(get_player_text());
 		info_label.setForeground(new Color(191, 211, 200));
 		info_label.setFont(info_label.getFont().deriveFont(Font.PLAIN));
 		info_label.setBounds(215, 5, 490, 290);
 		info_panel.add(info_label);
+		
+		portrait = new ImageIcon(player.get_portrait_path());
+		portrait.setImage(portrait.getImage().getScaledInstance(154, 132, Image.SCALE_DEFAULT));
+		
+		portrait_label = new JLabel(portrait);
+		portrait_label.setSize(154, 132);
+		portrait_label.setLocation(10, 95);
+		info_panel.add(portrait_label);
 		
 		
 		team_label.addMouseListener(new MouseAdapter(){
@@ -343,22 +379,6 @@ public class DetailedPanel extends JPanel{
 			}
 		});
 		
-		//data panel
-		
-		//button
-		info_button.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				info_button.setRolloverSelectedIcon(new ImageIcon("Img2/detail_button1_c.png"));
-				info_panel.setVisible(true);
-				data_scr.setVisible(false);
-			}
-		});
-		data_button.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				info_panel.setVisible(false);
-				data_scr.setVisible(true);
-			}
-		});
 	}
 
 	private String get_player_text(){
