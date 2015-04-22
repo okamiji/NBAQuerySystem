@@ -55,8 +55,24 @@ public class MainFrame {
 	
 	public void run(){
 		initialize();
-		
+		refresh.start();
 	}
+	
+	Thread refresh = new Thread()
+	{
+		public void run()
+		{
+			while(frame.isVisible()) try
+			{
+				frame.repaint();
+				Thread.sleep(16);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+	};
 	
 	public void initialize(){
 		

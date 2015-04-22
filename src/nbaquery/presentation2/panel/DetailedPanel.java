@@ -5,17 +5,24 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import nbaquery.logic.match.MatchService;
+import nbaquery.presentation2.addedcard.Card;
+import nbaquery.presentation2.card.CardCreator;
+import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.info.Match;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.info.Team;
 import nbaquery.presentation2.panel.PanelSet;
 import nbaquery.presentation2.util.Button;
+import nbaquery.presentation2.util.CardType;
 
 @SuppressWarnings("serial")
 public class DetailedPanel extends JPanel{
@@ -42,6 +49,9 @@ public class DetailedPanel extends JPanel{
 	
 	String team_string, match_string;
 
+	MouseListener player_listener1 = null;
+	MouseListener player_listener2 = null;
+	
 	public DetailedPanel(Player get_player){		
 		player = get_player;
 		initialize_player();
@@ -96,24 +106,37 @@ public class DetailedPanel extends JPanel{
 		direction_label.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));
 		direction_label.setForeground(new Color(191, 211, 200));
 		direction_label.setBounds(0, 0, 160, 30);
-		this.add(direction_label);
 		
 		info_panel = new JPanel();
 		info_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		info_panel.setLayout(null);
 		info_panel.setSize(575, 530);
 		info_panel.setLocation(-5, -25);
-		this.add(info_panel);
-		info_panel.setVisible(false);
 		
 		data_panel = new JPanel();
-		data_panel.setBackground(new Color(245, 245, 245));
+		data_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		data_panel.setLayout(null);
 		data_panel.setSize(575, 530);
 		data_panel.setLocation(-5, 5);
 		this.add(data_panel);
 		data_panel.setVisible(false);
-
+		
+		//data panel
+		MatchService ms = PanelSet.ms;
+		String[][] str = ms.searchForMatchsByPlayer(player.get_name());
+		CardCreator creator = new CardCreator();
+		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_RECT, str, ConcisePara.view_all);
+		CardLocation location = new CardLocation(CardType.MATCH_RECT);
+		scr_height = location.get_total_height(card_list.size());
+		for(int i=0; i<card_list.size(); i++){
+			Card card = card_list.get(i);
+			data_panel.add(card);
+			card.setLocation(card.width, card.height);
+		}
+		data_panel.repaint();
+		
+		
+		
 		//info panel
 		player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_name());
 		team_label = new JLabel();
@@ -161,17 +184,29 @@ public class DetailedPanel extends JPanel{
 		info_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				info_button.setRolloverSelectedIcon(new ImageIcon("Img2/detail_button1_c.png"));
+				
+				add(info_panel);
 				info_panel.setVisible(true);
 				data_panel.setVisible(false);
+				remove(data_panel);
+				//invalidate();
+				validate();
+				repaint();
 			}
 		});
 		data_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				info_panel.setVisible(false);
+				remove(info_panel);
+				add(data_panel);
 				data_panel.setVisible(true);
+				//invalidate();
+				validate();
+				repaint();
 			}
 		});
 	}
+	
 	private void set_team_info(){
 		//TODO
 	}
