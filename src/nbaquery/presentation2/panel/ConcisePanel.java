@@ -44,7 +44,9 @@ public class ConcisePanel {
 		PanelSet.set_concise(this);
 
 		concise_panel.setLayout(null);
-		concise_panel.setBackground(new Color(9, 27, 25));
+	//	concise_panel.setOpaque(true);
+		concise_panel.setBackground(new Color(0, 0, 0, 0));
+	//	concise_panel.setBackground(new Color(9, 27, 25));
 	}
 	
 	protected void run(){
@@ -53,6 +55,8 @@ public class ConcisePanel {
 	    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	    scr.setBounds(180, 125, 610, 400);//+70, +65
 	    scr.setBorder(null);
+	    scr.setBackground(new Color(0, 0, 0, 0));
+	    scr.setOpaque(true);
 	    
 	    frame.add(scr);
 	    
