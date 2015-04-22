@@ -264,7 +264,7 @@ public class DetailedPanel extends JPanel{
 		//data panel
 		MatchService ms = PanelSet.ms;
 		//TODO
-		String[][] str = ms.searchForMatchsByTEAM(team.get_name());
+		String[][] str = ms.searchForMatchsByTeam(team.get_name());
 		for(int i=0;i<str.length;i++){
 			for(int j=0;j<str[0].length;j++){
 				System.out.println(i+ " " + j + " " + str[i][j]);
