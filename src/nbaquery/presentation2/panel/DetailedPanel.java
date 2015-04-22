@@ -196,7 +196,8 @@ public class DetailedPanel extends JPanel{
 		
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				PanelSet.set_detailed_visible(false);
+				//TODO
+			//	PanelSet.set_detailed_visible(false);
 			//	InfoRetriever retriever = new InfoRetriever();
 			//	Team set_team = retriever.get_team_by_name(team_label.getText());
 			//	PanelSet.create_detailed_panel(set_team);
