@@ -228,14 +228,8 @@ public class DetailedPanel extends JPanel{
 	}
 	
 	private void set_team_info(){
-		info_button = new Button("Img2/detail_button1_n.png", "Img2/detail_button1_c.png", this);
-		info_button.setBounds(174, 3, 195, 30);
-		
-		data_button = new Button("Img2/detail_button2_n.png", "Img2/detail_button2_c.png", this);
-		data_button.setBounds(370, 3, 195, 30);
-		
 		direction_label = new JLabel();
-		direction_label.setText("球队 < " );
+		direction_label.setText("球队 < " + team.get_name());
 		direction_label.setFont(new Font("微软雅黑",Font.BOLD, 12));
 		direction_label.setForeground(new Color(191, 211, 200));
 		direction_label.setBounds(0, 0, 160, 30);
@@ -269,7 +263,7 @@ public class DetailedPanel extends JPanel{
 		info_label.setBounds(215, 5, 490, 290);
 		info_panel.add(info_label);
 		
-		portrait = new ImageIcon(player.get_portrait_path());
+		portrait = new ImageIcon(team.get_portrait_path());
 		portrait.setImage(portrait.getImage().getScaledInstance(154, 132, Image.SCALE_DEFAULT));
 		
 		portrait_label = new JLabel(portrait);
@@ -287,31 +281,7 @@ public class DetailedPanel extends JPanel{
 			}
 		});
 		
-		//data panel
 		
-		//button
-		info_button.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				info_button.setRolloverSelectedIcon(new ImageIcon("Img2/detail_button1_c.png"));
-				
-				add(info_panel);
-				info_panel.setVisible(true);
-				data_scr.setVisible(false);
-				remove(data_scr);
-				validate();
-				repaint();
-			}
-		});
-		data_button.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				info_panel.setVisible(false);
-				remove(info_panel);
-				add(data_scr);
-				data_scr.setVisible(true);
-				validate();
-				repaint();
-			}
-		});
 	}
 	private void set_match_info(){
 		direction_label = new JLabel();
@@ -413,6 +383,63 @@ public class DetailedPanel extends JPanel{
 		return player_string;
 	}
 	private String get_team_text(){
+	/*	for(int i=0; i<team_detailed_info.length; i++){
+			System.out.println(team_detailed_info[i]);
+		}*/
+		String team_string = "<html>";
+		team_string += "<b>赛季：</b> " + team_detailed_info[0];
+		team_string += "<br/>";
+		team_string += "<b>比赛场数：</b> " + team_detailed_info[2];
+		team_string += "<br/>";
+		team_string += "<b>投篮命中数： </b>" + team_detailed_info[3];
+		team_string += "<br/>";
+		team_string += "<b>投篮出手次数： </b>" + team_detailed_info[4];
+		team_string += "<br/>";
+		team_string += "<b>三分命中数： </b>" + team_detailed_info[5] + " ";
+		team_string += "<b>三分出手数： </b>" + team_detailed_info[6];
+		team_string += "<br/>";
+		team_string += "<b>罚球命中数： </b>" + team_detailed_info[7] + " ";
+		team_string += "<b>罚球出手数： </b>" + team_detailed_info[8];
+		team_string += "<br/>";
+	/*	team_string += "<b>进攻篮板数：</b> " + team_detailed_info[9] + " ";
+		team_string += "<b>防守篮板数： </b>" + team_detailed_info[10] + " ";
+		team_string += "<b>篮板数： </b>" + team_detailed_info[11];
+		team_string += "<br/>";
+		team_string += "<b>助攻数： </b>" + team_detailed_info[12];
+		team_string += "<br/>";
+		team_string += "<b>抢断数： </b>" + team_detailed_info[13];
+		team_string += "<br/>";
+		team_string += "<b>盖帽数： </b>" + team_detailed_info[14];
+		team_string += "<br/>";
+		team_string += "<b>失误数： </b>" + team_detailed_info[15];
+		team_string += "<br/>";
+		team_string += "<b>犯规数： </b>" + team_detailed_info[16];
+		team_string += "<br/>";
+		team_string += "<b>比赛得分： </b>" + team_detailed_info[17];
+		team_string += "<br/>";
+		team_string += "<b>投篮命中率： </b>" + team_detailed_info[18];
+		team_string += "<br/>";
+		team_string += "<b>三分命中率： </b>" + team_detailed_info[19];
+		team_string += "<br/>";
+		team_string += "<b>罚球命中率： </b>" + team_detailed_info[20];
+		team_string += "<br/>";
+		team_string += "<b>胜率： </b>" + team_detailed_info[21];
+		team_string += "<br/>";
+		team_string += "<b>进攻回合： </b>" + team_detailed_info[22];
+		team_string += "<br/>";
+		team_string += "<b>进攻效率： </b>" + team_detailed_info[23] + " ";
+		team_string += "<b>防守效率： </b>" + team_detailed_info[24];
+		team_string += "<br/>";
+		team_string += "<b>进攻篮板效率： </b>" + team_detailed_info[25] + " ";
+		team_string += "<b>防守篮板效率： </b>" + team_detailed_info[26];
+		team_string += "<br/>";
+		team_string += "<b>抢断效率： </b>" + team_detailed_info[27];
+		team_string += "<br/>";
+		team_string += "<b>助攻效率： </b>" + team_detailed_info[28];*/
+		team_string += "</html>";
+		return team_string;
+	}
+	private String get_match_text(){
 		String player_string = "<html>";
 		player_string += "<b>球员姓名：</b> " + player_detailed_info[0];
 		player_string += "<br/>";

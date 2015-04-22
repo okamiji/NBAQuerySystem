@@ -7,7 +7,7 @@ public class Match {
 	
 	public Match(String[] string_info){
 		//TODO
-	/*	for(int i=0; i<string_info.length; i++){
+		/*for(int i=0; i<string_info.length; i++){
 			System.out.print(string_info[i] + "  ");
 		}
 		System.out.println(" ");*/
