@@ -34,8 +34,8 @@ class TeamRectCard extends RectCard {
 		label_name.setBackground(new Color(90, 225, 149));
 		label_name.setOpaque(true);
 		label_name.setForeground(Color.white);
-		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
-		label_name.setBounds(117, 3, 139, 30);
+		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));	
+		label_name.setBounds(112, 6, 139, 30);
 		shadow_label.add(label_name);
 
 		JSVGComponent svgComponent = new JSVGComponent(null, false, false);
@@ -47,13 +47,14 @@ class TeamRectCard extends RectCard {
 	        } catch (IOException ex) {
 	            ex.printStackTrace();
 	        }
-			svgComponent.setBounds(10, 8, 100, 85);
+			svgComponent.setBounds(10, 6, 100, 85);
 			shadow_label.add(svgComponent);
 			shadow_label.repaint();
 		}
 		
 		label_info = new JLabel();
 		set_team_text(team);
+		label_info.setForeground(new Color(191, 211, 200));
 		label_info.setText(team_text);
 		label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
 		shadow_label.add(label_info);

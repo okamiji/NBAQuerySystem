@@ -44,9 +44,7 @@ public class ConcisePanel {
 		PanelSet.set_concise(this);
 
 		concise_panel.setLayout(null);
-	//	concise_panel.setOpaque(true);
 		concise_panel.setBackground(new Color(0, 0, 0, 0));
-	//	concise_panel.setBackground(new Color(9, 27, 25));
 	}
 	
 	protected void run(){

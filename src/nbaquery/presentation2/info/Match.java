@@ -37,8 +37,8 @@ public class Match {
 	public String[] get_logo(){
 		//TODO
 		String[] return_str = new String[2];
-		return_str[0] = match_info[3];
-		return_str[1] = match_info[4];
+		return_str[0] = match_info[7];
+		return_str[1] = match_info[8];
 		return return_str;
 	}
 	
@@ -47,5 +47,9 @@ public class Match {
 	}
 	public int get_index(){
 		return index;
+	}
+	
+	public String[] get_match_info(){
+		return match_info;
 	}
 }

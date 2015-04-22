@@ -21,7 +21,7 @@ public class CardCreator {
 		else if(type.equals(CardType.TEAM_FLAT) || (type.equals(CardType.TEAM_RECT))){
 			list = turn_team_list(str);
 		}
-		else if(type.equals(CardType.MATCH_FLAT) || (type.equals(CardType.MATCH_RECT))){
+		else if(type.equals(CardType.MATCH_FLAT) || (type.equals(CardType.MATCH_RECT) || (type.equals(CardType.MATCH_of_PLAYER)))){
 			list = turn_match_list(str);
 		}
 		ArrayList<Card> card_list = null;

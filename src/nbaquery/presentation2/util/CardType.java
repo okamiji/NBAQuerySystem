@@ -8,5 +8,6 @@ public enum CardType {
 	MATCH_RECT,
 	MATCH_FLAT,
 	MORE_RECT,
-	MORE_FLAT;
+	MORE_FLAT,
+	MATCH_of_PLAYER;
 }
