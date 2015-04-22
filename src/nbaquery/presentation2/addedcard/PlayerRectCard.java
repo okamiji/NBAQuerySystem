@@ -33,7 +33,7 @@ class PlayerRectCard extends RectCard {
 		label_name.setOpaque(true);
 		label_name.setForeground(Color.white);
 		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
-		label_name.setBounds(112, 3, 145, 30);
+		label_name.setBounds(112, 3, 144, 30);
 		shadow_label.add(label_name);
 		
 		try{

@@ -44,15 +44,14 @@ public class ConcisePanel {
 		PanelSet.set_concise(this);
 
 		concise_panel.setLayout(null);
-		concise_panel.setBackground(new Color(245, 245, 245));
-		concise_panel.setBounds(0, 60, 600, 481);
+		concise_panel.setBackground(new Color(9, 27, 25));
 	}
 	
 	protected void run(){
 	    scr = new JScrollPane(concise_panel, 
 	    		ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, 
 	    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    scr.setBounds(110, 60, 600, 482);
+	    scr.setBounds(180, 125, 610, 400);//+70, +65
 	    scr.setBorder(null);
 	    
 	    frame.add(scr);

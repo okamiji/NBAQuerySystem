@@ -1,6 +1,7 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -35,9 +36,8 @@ public class DetailedPanel extends JPanel{
 	
 	JLabel direction_label;
 	
-	boolean is_portrait;
 	JLabel info_label, team_label;
-	JLabel portrait_label, action_label;
+	JLabel portrait_label;
 	ImageIcon portrait, action;
 	
 	String team_string, match_string;
@@ -70,8 +70,8 @@ public class DetailedPanel extends JPanel{
 	private void initialize(){
 		this.setBackground(new Color(0,0,0,0.0f));
 		this.setLayout(null);
-		this.setSize(587, 545);
-		this.setLocation(127, 3);
+		this.setSize(784, 545);
+		this.setLocation(197, 93);//+70, +90
 		
 		exit_button = new Button("Img2/detail_exit.png", "Img2/detail_exit_c.png", this);
 		exit_button.setBounds(567, 3, 20, 30);
@@ -93,15 +93,16 @@ public class DetailedPanel extends JPanel{
 		
 		direction_label = new JLabel();
 		direction_label.setText("«Ú‘± < " + player.get_name());
-		direction_label.setFont(new Font("Œ¢»Ì—≈∫⁄",Font.PLAIN, 12));
-		direction_label.setBounds(10, 5, 160, 30);
+		direction_label.setFont(new Font("Œ¢»Ì—≈∫⁄",Font.BOLD, 12));
+		direction_label.setForeground(new Color(191, 211, 200));
+		direction_label.setBounds(0, 0, 160, 30);
 		this.add(direction_label);
 		
 		info_panel = new JPanel();
 		info_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		info_panel.setLayout(null);
 		info_panel.setSize(575, 530);
-		info_panel.setLocation(-5, 5);
+		info_panel.setLocation(-5, -25);
 		this.add(info_panel);
 		info_panel.setVisible(false);
 		
@@ -121,50 +122,29 @@ public class DetailedPanel extends JPanel{
 		
 		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background1.png"));
 		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
-		background_label.setBounds(0, 0, 587, 545); 
+		background_label.setBounds(-15, 5, 610, 545); 
 		
 		team_label.setSize(130, 100);
-		team_label.setLocation(230, 180);
+		team_label.setLocation(215, 185);
+		team_label.setForeground(new Color(191, 211, 200));
 		info_panel.add(team_label);
 		
 		info_label = new JLabel();
 
 		info_label.setText(get_player_text());
-		info_label.setBackground(new Color(225, 225, 225));
+		info_label.setForeground(new Color(191, 211, 200));
 		info_label.setFont(info_label.getFont().deriveFont(Font.PLAIN));
-		info_label.setBounds(230, 0, 490, 290);
+		info_label.setBounds(215, 5, 490, 290);
 		info_panel.add(info_label);
 		
-		is_portrait = true;
 		portrait = new ImageIcon(player.get_portrait_path());
-		action = new ImageIcon(player.get_action_path());
 		portrait.setImage(portrait.getImage().getScaledInstance(154, 132, Image.SCALE_DEFAULT));
-		action.setImage(action.getImage().getScaledInstance(154, 132, Image.SCALE_DEFAULT));
 		
 		portrait_label = new JLabel(portrait);
 		portrait_label.setSize(154, 132);
-		portrait_label.setLocation(15, 90);
+		portrait_label.setLocation(5, 95);
 		info_panel.add(portrait_label);
-		action_label = new JLabel(action);
-		action_label.setSize(130, 200);
-		action_label.setLocation(0, 50);
-		info_panel.add(action_label);
-		action_label.setVisible(false);
 		
-		portrait_label.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				if(is_portrait){
-					action_label.setVisible(true);
-					portrait_label.setVisible(false);
-					is_portrait = false;
-				}
-				else{
-					action_label.setVisible(false);
-					portrait_label.setVisible(true);
-					is_portrait = true;
-				}
-			}
-		});
 		
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -196,7 +176,78 @@ public class DetailedPanel extends JPanel{
 		//TODO
 	}
 	private void set_match_info(){
+		direction_label = new JLabel();
+		direction_label.setText("±»»¸ < " + match.get_season() + " " + match.get_date() + " " + match.get_team()[0] + " : " + match.get_team()[1]);
+		direction_label.setFont(new Font("Œ¢»Ì—≈∫⁄",Font.BOLD, 12));
+		direction_label.setForeground(new Color(191, 211, 200));
+		direction_label.setBounds(0, 0, 160, 30);
+		this.add(direction_label);
 		
+		info_panel = new JPanel();
+		info_panel.setBackground(new Color(0, 0, 0, 0.0f));
+		info_panel.setLayout(null);
+		info_panel.setSize(575, 530);
+		info_panel.setLocation(-5, -25);
+		this.add(info_panel);
+		info_panel.setVisible(false);
+		
+		data_panel = new JPanel();
+		data_panel.setBackground(new Color(245, 245, 245));
+		data_panel.setLayout(null);
+		data_panel.setSize(575, 530);
+		data_panel.setLocation(-5, 5);
+		this.add(data_panel);
+		data_panel.setVisible(false);
+
+		//info panel
+		player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_name());
+		team_label = new JLabel();
+		String player_team_name = "À˘ Ù«Ú∂”£∫ " + player.get_team();
+		team_label.setText(player_team_name);
+		
+		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background1.png"));
+		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
+		background_label.setBounds(-15, 5, 610, 545); 
+		
+		team_label.setSize(130, 100);
+		team_label.setLocation(215, 185);
+		team_label.setForeground(new Color(191, 211, 200));
+		info_panel.add(team_label);
+		
+		info_label = new JLabel();
+
+		info_label.setText(get_player_text());
+		info_label.setForeground(new Color(191, 211, 200));
+		info_label.setFont(info_label.getFont().deriveFont(Font.PLAIN));
+		info_label.setBounds(215, 5, 490, 290);
+		info_panel.add(info_label);
+		
+		
+		team_label.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				PanelSet.set_detailed_visible(false);
+			//	InfoRetriever retriever = new InfoRetriever();
+			//	Team set_team = retriever.get_team_by_name(team_label.getText());
+			//	PanelSet.create_detailed_panel(set_team);
+			}
+		});
+		
+		//data panel
+		
+		//button
+		info_button.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				info_button.setRolloverSelectedIcon(new ImageIcon("Img2/detail_button1_c.png"));
+				info_panel.setVisible(true);
+				data_panel.setVisible(false);
+			}
+		});
+		data_button.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				info_panel.setVisible(false);
+				data_panel.setVisible(true);
+			}
+		});
 	}
 	
 	private String get_player_text(){

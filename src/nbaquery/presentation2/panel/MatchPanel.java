@@ -34,8 +34,8 @@ public class MatchPanel extends ConcisePanel {
 	    super.set_scr();
 	    
 		search_panel.setLayout(null);
-		search_panel.setBackground(new Color(245, 245, 245));
-		search_panel.setBounds(130, 20, 570, 60);
+		search_panel.setBackground(new Color(0, 0, 0, 0));
+		search_panel.setBounds(190, 75, 570, 60);
 		
 		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{
@@ -125,8 +125,8 @@ public class MatchPanel extends ConcisePanel {
 	
 	private void add_cards(){
 		MatchService ms = PanelSet.ms;
-		String[][] str = ms.searchForMatchs(0, true);
-	//	String[][] str = ms.searchForMatchs(ConcisePara.match_index, ConcisePara.match_isUp);
+	//	String[][] str = ms.searchForMatchs(0, true);
+		String[][] str = ms.searchForMatchs(ConcisePara.match_index, ConcisePara.match_isUp);
 		CardCreator creator = new CardCreator();
 		ArrayList<Card> card_list = creator.create_needed_cards(ConcisePara.type, str, ConcisePara.view_all);
 		CardLocation location = new CardLocation(ConcisePara.type);

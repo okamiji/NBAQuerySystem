@@ -22,7 +22,6 @@ class MatchFlatCard extends FlatCard {
 	JLabel label_name, label_pic1, label_pic2, label_info;
 	String match_text;
 	
-	@SuppressWarnings("deprecation")
 	public void create_card(Object obj) {
 		super.create_card(obj);
 		
