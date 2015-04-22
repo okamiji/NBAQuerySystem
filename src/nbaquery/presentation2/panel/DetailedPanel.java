@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import nbaquery.logic.match.MatchService;
+import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
@@ -234,7 +235,7 @@ public class DetailedPanel extends JPanel{
 		data_button.setBounds(370, 3, 195, 30);
 		
 		direction_label = new JLabel();
-		direction_label.setText("球队 < " + team.get_name());
+		direction_label.setText("球队 < " );
 		direction_label.setFont(new Font("微软雅黑",Font.BOLD, 12));
 		direction_label.setForeground(new Color(191, 211, 200));
 		direction_label.setBounds(0, 0, 160, 30);
@@ -246,49 +247,10 @@ public class DetailedPanel extends JPanel{
 		info_panel.setSize(590, 530);
 		info_panel.setLocation(-5, -25);
 		
-		data_panel = new JPanel();
-		data_panel.setBackground(new Color(0, 0, 0, 0.0f));
-		data_panel.setLayout(null);
-		
-		data_scr = new JScrollPane(data_panel, 
-    		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
-    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		data_scr.setSize(590, 400);
-		data_scr.setLocation(-5, 35);
-		data_scr.setBorder(null);
-		data_scr.setBackground(new Color(0, 0, 0, 0));
-		data_scr.setOpaque(true);
-		this.add(data_scr);
-		data_scr.setVisible(false);
-
-		//data panel
-		MatchService ms = PanelSet.ms;
-		//TODO
-		String[][] str = ms.searchForMatchsByTeam(team.get_name());
-		for(int i=0;i<str.length;i++){
-			for(int j=0;j<str[0].length;j++){
-				System.out.println(i+ " " + j + " " + str[i][j]);
-			}
-		}
-		CardCreator creator = new CardCreator();
-		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
-		CardLocation location = new CardLocation(CardType.MATCH_RECT);
-		scr_height = location.get_total_height(card_list.size());
-		for(int i=0; i<card_list.size(); i++){
-			Card card = card_list.get(i);
-			data_panel.add(card);
-			card.setLocation(card.width, card.height);
-		}
-		data_panel.repaint();
-		
-
-	    data_panel.setPreferredSize(new Dimension(data_scr.getWidth() - 50, scr_height));
-		
 		//info panel
-		player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_name());
+		team_detailed_info = PanelSet.get_team_service().searchForOneTeam(team.get_name());
 		team_label = new JLabel();
-		String player_team_name = "所属球队： " + player.get_team();
-		team_label.setText(player_team_name);
+		team_label.setText("team_label_test");
 		
 		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background1.png"));
 		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
@@ -301,7 +263,7 @@ public class DetailedPanel extends JPanel{
 		
 		info_label = new JLabel();
 
-		info_label.setText(get_player_text());
+		info_label.setText(get_team_text());
 		info_label.setForeground(new Color(191, 211, 200));
 		info_label.setFont(info_label.getFont().deriveFont(Font.PLAIN));
 		info_label.setBounds(215, 5, 490, 290);
@@ -427,8 +389,30 @@ public class DetailedPanel extends JPanel{
 			}
 		});
 	}
-	
+
 	private String get_player_text(){
+		String player_string = "<html>";
+		player_string += "<b>球员姓名：</b> " + player_detailed_info[0];
+		player_string += "<br/>";
+		player_string += "<b>球衣编号： </b>" + player_detailed_info[1];
+		player_string += "<br/>";
+		player_string += "<b>球员位置：</b> " + player_detailed_info[2];
+		player_string += "<br/>";
+		player_string += "<b>球员身高： </b>" + player_detailed_info[3];
+		player_string += "<br/>";
+		player_string += "<b>球员体重： </b>" + player_detailed_info[4];
+		player_string += "<br/>";
+		player_string += "<b>出生日期： </b>" + player_detailed_info[5];
+		player_string += "<br/>";
+		player_string += "<b>年龄： </b>" + player_detailed_info[6];
+		player_string += "<br/>";
+		player_string += "<b>球龄：</b> " + player_detailed_info[7];
+		player_string += "<br/>";
+		player_string += "<b>毕业学校： </b>" + player_detailed_info[8];
+		player_string += "</html>";
+		return player_string;
+	}
+	private String get_team_text(){
 		String player_string = "<html>";
 		player_string += "<b>球员姓名：</b> " + player_detailed_info[0];
 		player_string += "<br/>";

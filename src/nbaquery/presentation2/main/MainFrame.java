@@ -185,7 +185,7 @@ public class MainFrame {
 				if(ConcisePara.type.equals(CardType.PLAYER_FLAT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.TEAM_FLAT;
 				}
-				else if(ConcisePara.type.equals(CardType.PLAYER_RECT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
+				else if(ConcisePara.type.equals(CardType.PLAYER_RECT) || (ConcisePara.type.equals(CardType.MATCH_RECT))){
 					ConcisePara.type = CardType.TEAM_RECT;
 				}
 				ConcisePara.view_all = false;
@@ -204,7 +204,7 @@ public class MainFrame {
 				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.PLAYER_FLAT;
 				}
-				else if(ConcisePara.type.equals(CardType.TEAM_RECT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
+				else if(ConcisePara.type.equals(CardType.TEAM_RECT) || (ConcisePara.type.equals(CardType.MATCH_RECT))){
 					ConcisePara.type = CardType.PLAYER_RECT;
 				}
 				ConcisePara.view_all = false;

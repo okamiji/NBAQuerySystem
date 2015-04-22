@@ -15,7 +15,6 @@ public class TeamServiceAdapter implements TeamService
 {
 	protected GrossTeam gross;
 	protected AverageTeam average;
-	protected LogicWatcher nativeTeam;
 	public TableHost tableHost;
 	public String[] columnNames; 
 	
@@ -26,8 +25,6 @@ public class TeamServiceAdapter implements TeamService
 		this.gross = gross;
 		this.average = average;
 		this.columnNames = columnNames;
-		
-		nativeTeam=new LogicWatcher(new NativeTablePipeline(tableHost, "team"));
 	}
 	
 	@Override
@@ -73,12 +70,12 @@ public class TeamServiceAdapter implements TeamService
 		Table team=tableHost.getTable("team");
 		SelectProjectQuery query = null;
 		try {
-			query = new SelectProjectQuery("player.TEAM_NAME=="+"'"+teamName+"'",team);
+			query = new SelectProjectQuery("team.TEAM_NAME=='"+teamName+"'",team);
 		} catch (Exception e) {	
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		SortQuery sort=new SortQuery(nativeTeam.getTable(),teamName);
+		SortQuery sort=new SortQuery(team, "team_name");
 		tableHost.performQuery(sort, "team_query_result");
 		Table queryResult = tableHost.getTable("team_query_result");
 		Row[] rows = queryResult.getRows();
