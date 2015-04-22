@@ -36,7 +36,6 @@ public class ConcisePanel extends JPanel {
 		search_panel = new JPanel();
 		button_panel = new JPanel();
 		card_panel = new JPanel();
-	//	card_panel.setBackground(Color.BLACK);
 		card_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		card_panel.setLayout(null);
 	    this.add(search_panel);
@@ -54,7 +53,7 @@ public class ConcisePanel extends JPanel {
 	
 	protected void run(){
 	    scr = new JScrollPane(card_panel, 
-	    		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
+	    		ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, 
 	    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	    scr.setBounds(20, 70, 610, 400);//+70, +65
 	    scr.setBorder(null);
@@ -71,6 +70,8 @@ public class ConcisePanel extends JPanel {
 	    card_panel.setPreferredSize(new Dimension(scr.getWidth() - 50, scr_height));
 	    card_panel.revalidate();
 	    card_panel.repaint();
+	    card_panel.setVisible(true);
+	    scr.setVisible(true);
 	    scr.repaint();
 	    this.updateUI();
 	}

@@ -6,17 +6,11 @@ import javax.swing.JLabel;
 
 import nbaquery.presentation2.util.CardType;
 
+@SuppressWarnings("serial")
 public class AboutUsPanel extends ConcisePanel {
 	
 	public AboutUsPanel(CardType type, boolean view_all_cards) {
 		super(type, view_all_cards);
-		
-		search_panel.setLayout(null);
-		search_panel.setBackground(new Color(0, 0, 0, 0));
-		search_panel.setBounds(190, 125, 570, 400);
-		this.add(search_panel);
-		
-		
 		
 		JLabel label_info = new JLabel();
 		
@@ -24,7 +18,7 @@ public class AboutUsPanel extends ConcisePanel {
 		label_info.setBounds(220, 40, 200, 300);
 		label_info.setText(set_text());
 		
-		search_panel.add(label_info);
+		this.add(label_info);
 	}
 	
 	private String set_text(){

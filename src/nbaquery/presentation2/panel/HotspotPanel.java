@@ -18,6 +18,7 @@ import nbaquery.presentation2.util.Button;
 import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.util.HotspotType;
 
+@SuppressWarnings("serial")
 public class HotspotPanel extends ConcisePanel{
 
 	boolean view_all;
@@ -41,15 +42,17 @@ public class HotspotPanel extends ConcisePanel{
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-	    scr.setBounds(220, 125, 610, 400);
 		super.set_scr();
+		
+		scr.setBounds(60, 70, 590, 400);
+		
 		button_panel.setLayout(null);
 		button_panel.setBackground(new Color(0, 0, 0, 0));
-		button_panel.setBounds(146, 150, 82, 328);
+		button_panel.setBounds(0, 80, 82, 328);
 		
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(0, 0, 0, 0));
-		search_panel.setBounds(190, 80, 570, 60);
+		search_panel.setBounds(40, 25, 570, 60);
 		
 		daily_player = new Button("Img2/hotspot1.png", "Img2/hotspot1_.png", button_panel);
 		season_player = new Button("Img2/hotspot2.png", "Img2/hotspot2_.png", button_panel);
@@ -236,10 +239,9 @@ public class HotspotPanel extends ConcisePanel{
 		scr_height = location.get_total_height(card_list.size());
 		for(int i=0; i<card_list.size(); i++){
 			Card card = card_list.get(i);
-			this.add(card);
+			card_panel.add(card);
 			card.setLocation(card.width, card.height);
 		}
-		this.repaint();
 		ConcisePara.is_hot = false;
 	}
 	private void set_season_player_combobox(){
