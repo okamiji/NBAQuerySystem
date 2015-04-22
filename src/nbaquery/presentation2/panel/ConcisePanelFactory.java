@@ -28,5 +28,6 @@ public class ConcisePanelFactory {
 		}
 		panel.run();
 		PanelSet.set_all_detailed_panel_invisible();
+		PanelSet.get_frame().add(panel);
 	}
 }

@@ -236,10 +236,10 @@ public class HotspotPanel extends ConcisePanel{
 		scr_height = location.get_total_height(card_list.size());
 		for(int i=0; i<card_list.size(); i++){
 			Card card = card_list.get(i);
-			concise_panel.add(card);
+			this.add(card);
 			card.setLocation(card.width, card.height);
 		}
-		concise_panel.repaint();
+		this.repaint();
 		ConcisePara.is_hot = false;
 	}
 	private void set_season_player_combobox(){

@@ -143,11 +143,6 @@ public class DetailedPanel extends JPanel{
 		//data panel
 		MatchService ms = PanelSet.ms;
 		String[][] str = ms.searchForMatchsByPlayer(player.get_name());
-		for(int i=0;i<str.length;i++){
-			for(int j=0;j<str[0].length;j++){
-				System.out.println(i+ " " + j + " " + str[i][j]);
-			}
-		}
 		CardCreator creator = new CardCreator();
 		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
 		CardLocation location = new CardLocation(CardType.MATCH_of_PLAYER);

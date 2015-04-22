@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
@@ -28,10 +27,6 @@ public class PanelSet {
 	private static ConcisePanel concise;
 	
 	private static ArrayList<JPanel> detailed_list;
-
-	private static JScrollPane concise_scr;
-	private static JPanel concise_search_panel;
-	private static JPanel concise_button_panel;
 	
 	private PanelSet(){
 	}
@@ -57,24 +52,10 @@ public class PanelSet {
 	public static void set_concise(ConcisePanel concise_panel){
 		concise = concise_panel;
 	}
-	public static ConcisePanel get_concise(){
-		return concise;
-	}
 	public static void set_concise_invisible(){
 		if(concise != null){
-			concise_scr = concise.get_scr();
-			concise_search_panel = concise.get_search_panel();
-			concise_button_panel = concise.get_button_panel();
-			
-			if(concise.get_button_panel() != null){
-				concise.get_button_panel().setVisible(false);
-			}
-			if(concise.get_scr() != null){
-				concise.get_scr().setVisible(false);
-				frame.remove(concise.get_scr());
-			}
-			concise.set_search_invisible();
-			frame.remove(concise.get_search_panel());
+			concise.setVisible(false);
+			frame.remove(concise);
 			frame.revalidate();
 			frame.repaint();
 		}
@@ -135,9 +116,8 @@ public class PanelSet {
 			frame.add(detailed_list.get(detailed_list.size() - 1));
 		}
 		else{
-			frame.add(concise_button_panel);
-			frame.add(concise_scr);
-			frame.add(concise_search_panel);
+			concise.setVisible(true);
+			frame.add(concise);
 		}
 	}
 	

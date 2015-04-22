@@ -22,7 +22,7 @@ public class CardLocation {
 			is_flat = false;
 		}
 		
-		start_height = 25;
+		start_height = 15;
 		if(is_flat){
 			start_width = 30;
 			gap_height = 53;

@@ -14,7 +14,7 @@ public class AboutUsPanel extends ConcisePanel {
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(0, 0, 0, 0));
 		search_panel.setBounds(190, 125, 570, 400);
-		frame.add(search_panel);
+		this.add(search_panel);
 		
 		
 		
