@@ -122,7 +122,9 @@ public class PanelSet {
 		}
 	}
 	public static void remove_detailed(){
-		frame.remove(detailed_list.get(detailed_list.size() - 1));
+		if(detailed_list.size() != 0){
+			frame.remove(detailed_list.get(detailed_list.size() - 1));
+		}
 	}
 
 	public static void set_player_service(PlayerService get_ps){

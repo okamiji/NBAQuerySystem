@@ -28,7 +28,6 @@ import nbaquery.presentation2.panel.AboutUsPanel;
 import nbaquery.presentation2.panel.ConcisePanelFactory;
 import nbaquery.presentation2.panel.ConcisePara;
 import nbaquery.presentation2.panel.PanelSet;
-import nbaquery.presentation2.panel.PlayerPanel;
 
 public class MainFrame {
 	
@@ -239,6 +238,7 @@ public class MainFrame {
 				init_button();
 				button5.setIcon(new ImageIcon("Img2/button_chosen.png"));
 
+				PanelSet.remove_detailed();
 				new AboutUsPanel(null, ConcisePara.view_all);
 				
 				listener5 = button5.getMouseListeners()[1];
