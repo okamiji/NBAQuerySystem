@@ -5,6 +5,7 @@ public interface MatchService {
 	public String[][] searchForOneMatchById(int matchID);
 	public String[][] searchForMatchsByPlayer(String player_name);
 	public String[][] searchForMatchsByDate(String date);
+	public String[][] searchForMatchsByTeam(String team_name_abbr);
 	public String[][] searchOneMatchByPlayerAndID(String player_name,int matchID);
 	public String[][] searchOneMatchByTeamAndID(String team_name_abbr,int matchID);
 }

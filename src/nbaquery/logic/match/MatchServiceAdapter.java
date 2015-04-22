@@ -233,7 +233,7 @@ public class MatchServiceAdapter implements MatchService{
 		return convertTableToStrings(queryResult);
 	}
 	
-	public Table searchByTeam(String team_name_abbr){
+	public String[][] searchForMatchsByTeam(String team_name_abbr){
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try {
@@ -245,7 +245,7 @@ public class MatchServiceAdapter implements MatchService{
 		}
 		tableHost.performQuery(query, "match_query_result_team");
 		Table queryResult = tableHost.getTable("match_query_result_team");
-		return queryResult;
+		return convertTableToStrings(queryResult);
 	}
 	
 	public String[][] convertTableToStrings(Table queryResult){
