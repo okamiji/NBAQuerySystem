@@ -123,7 +123,49 @@ public class LogicAssembler implements ILogicAssembler
 				"steal_efficiency",//"抢断效率"
 				"assist_efficiency",//"助攻效率"
 				"team_logo"	//"队伍标志"
-		});
+		},
+		 new String[]
+					{
+							"match_season", //"赛季"
+							"team_name", //"球队名称"
+							"game",//"比赛场数"
+							"shoot_score",//"投篮命中数"
+							"shoot",//"投篮出手次数"
+							"three_shoot_score",//"三分命中数"
+							"three_shoot",//"三分出手数"
+							"foul_shoot_score",//"罚球命中数"
+							"foul_shoot",//"罚球出手数"
+							"attack_board",//"进攻篮板数"
+							"defence_board",//"防守篮板数"
+							"total_board",//"篮板数"
+							"assist",//"助攻数"
+							"steal",//"抢断数"
+							"cap",//"盖帽数"
+							"miss",//"失误数"
+							"foul",//"犯规数"
+							"self_score",//"比赛得分"
+							"shoot_rate",//"投篮命中率"
+							"three_shoot_rate",//"三分命中率"
+							"foul_shoot_rate",//"罚球命中率"
+							"win_rate",//"胜率"
+							"attack_round",//"进攻回合"
+							"attack_efficiency",//"进攻效率"
+							"defence_efficiency",//"防守效率"
+							"attack_board_efficiency",//"进攻篮板效率"
+							"defence_board_efficiency",//"防守篮板效率"
+							"steal_efficiency",//"抢断效率"
+							"assist_efficiency",//"助攻效率"
+							"team_logo"	,//"队伍标志"
+							
+							"team_name_abbr",//队名缩写 
+							"team_location",//队伍所在地 
+							"team_match_area",//赛区 
+							"team_sector",//分区 
+							"team_host",//主场 
+							"team_foundation",//创建时间(年份) 
+
+							
+					});
 		
 		player_service = new PlayerServiceAdapter(tableHost, gross_player, average_player,hot_player_today,progress_player, new String[]
 		{
