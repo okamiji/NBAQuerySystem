@@ -326,6 +326,8 @@ public class DetailedPanel extends JPanel{
 		guest_panel = new JPanel();
 		guest_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		guest_panel.setLayout(null);
+		guest_panel.setSize(590, 530);
+		guest_panel.setLocation(-5, -25);
 		
 		guest_scr = new JScrollPane(data_panel, 
     		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
@@ -343,6 +345,12 @@ public class DetailedPanel extends JPanel{
 		
 		int match_id = Integer.parseInt(match.get_id());
 		String[][] str_team1 = ms.searchOneMatchByTeamAndID(match.get_team()[0], match_id);
+		System.out.println(str_team1.length);
+		for(int i=0; i<str_team1.length; i++){
+			for(int j=0; j<str_team1[0].length; j++){
+				System.out.println(i + " " + j + "  " + str_team1[i][j]);
+			}
+		}
 		String[][] str_team2 = ms.searchOneMatchByTeamAndID(match.get_team()[1], match_id);
 	/*	CardCreator creator = new CardCreator();
 		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
@@ -365,6 +373,7 @@ public class DetailedPanel extends JPanel{
 				host_panel.setVisible(true);
 				guest_scr.setVisible(false);
 				remove(guest_scr);
+				remove(guest_panel);
 				validate();
 				repaint();
 			}
@@ -375,6 +384,7 @@ public class DetailedPanel extends JPanel{
 				guest_panel.setVisible(true);
 				host_scr.setVisible(false);
 				remove(host_scr);
+				remove(host_panel);
 				validate();
 				repaint();
 			}
