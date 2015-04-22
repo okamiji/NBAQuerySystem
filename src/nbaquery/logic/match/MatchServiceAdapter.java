@@ -120,7 +120,7 @@ public class MatchServiceAdapter implements MatchService{
 		String[][] returnValue = new String[rows.length][9];
 		Column[] columns = new Column[columnNames.length];
 		for(int i = 0; i < columnNames.length; i ++){
-			if(queryResult.getColumn(columnNames[i])!=null){
+			if(queryResult.getColumn(columnNames[i])!=null)
 				columns[i] = queryResult.getColumn(columnNames[i]);
 			}
 		for(int row = 0; row < rows.length; row ++){
@@ -185,10 +185,19 @@ public class MatchServiceAdapter implements MatchService{
 		return queryResult;
 	}
 	
-	
 	@Override
-	public String[][] searchForMatchsByDate(String date) {
+	public String[][] searchForMatchsByDateAndSeason(String date,String season) {
 		Table queryResult = searchByDate(date);
+		SelectProjectQuery query = null;
+		try {
+			query = new SelectProjectQuery("match_query_result_date.MATCH_SEASON='" + season + "'", queryResult);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "match_query_result_date");
+		queryResult = tableHost.getTable("match_query_result_date");
 		tableHost.deleteTable("match_query_result_date");
 		return  convertTableToStrings(queryResult);
 	}
