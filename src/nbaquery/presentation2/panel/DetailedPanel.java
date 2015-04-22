@@ -344,7 +344,8 @@ public class DetailedPanel extends JPanel{
 		MatchService ms = PanelSet.ms;
 		
 		int match_id = Integer.parseInt(match.get_id());
-		String[][] str_team1 = ms.searchOneMatchByTeamAndID(match.get_team()[0], match_id);
+		System.out.println(match_id);
+		String[][] str_team1 = ms.searchForOneMatchById(match_id);
 		System.out.println(str_team1.length);
 		for(int i=0; i<str_team1.length; i++){
 			for(int j=0; j<str_team1[0].length; j++){
