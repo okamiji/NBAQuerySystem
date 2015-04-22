@@ -14,6 +14,7 @@ import nbaquery.presentation.combobox.ComboBoxFactory;
 import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
+import nbaquery.presentation2.util.Button;
 import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.util.HotspotType;
 
@@ -40,34 +41,30 @@ public class HotspotPanel extends ConcisePanel{
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-	    scr.setBounds(110, 100, 600, 422);
+	    scr.setBounds(220, 125, 610, 400);
 		super.set_scr();
 		button_panel.setLayout(null);
-		search_panel.setBackground(new Color(245, 245, 245));
-		button_panel.setBounds(130, 20, 570, 40);
+		button_panel.setBackground(new Color(0, 0, 0, 0));
+		button_panel.setBounds(146, 150, 82, 328);
 		
 		search_panel.setLayout(null);
-		search_panel.setBackground(new Color(245, 245, 245));
-		search_panel.setBounds(130, 60, 570, 60);
+		search_panel.setBackground(new Color(0, 0, 0, 0));
+		search_panel.setBounds(190, 80, 570, 60);
 		
-		daily_player = new JButton("daily_player");
-		season_player = new JButton("season_player");
-		season_team = new JButton("season_team");
-		progress_player = new JButton("progress_player");
+		daily_player = new Button("Img2/hotspot1.png", "Img2/hotspot1_.png", button_panel);
+		season_player = new Button("Img2/hotspot2.png", "Img2/hotspot2_.png", button_panel);
+		season_team = new Button("Img2/hotspot3.png", "Img2/hotspot3_.png", button_panel);
+		progress_player = new Button("Img2/hotspot4.png", "Img2/hotspot4_.png", button_panel);
 
-		daily_player.setBounds(10, 0, 140, 30);
-		season_player.setBounds(150, 0, 140, 30);
-		season_team.setBounds(290, 0, 140, 30);
-		progress_player.setBounds(430, 0, 140, 30);
-		
-		button_panel.add(daily_player);
-		button_panel.add(season_player);
-		button_panel.add(season_team);
-		button_panel.add(progress_player);
+		daily_player.setBounds(0, 0, 82, 82);
+		season_player.setBounds(0, 70, 82, 82);
+		season_team.setBounds(0, 140, 82, 82);
+		progress_player.setBounds(0, 210, 82, 82);
 
 		set_progress_player_combobox();
 		daily_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+				daily_player.setIcon(new ImageIcon("Img2/hotspot1_.png"));
 ///				ConcisePara.is_hot = true;
 				//TODO
 
@@ -91,6 +88,7 @@ public class HotspotPanel extends ConcisePanel{
 		
 		season_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+				season_player.setIcon(new ImageIcon("Img2/hotspot2_.png"));
 //				ConcisePara.is_hot = true;
 				//TODO
 
@@ -114,6 +112,8 @@ public class HotspotPanel extends ConcisePanel{
 		
 		season_team.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+				init_buttons();
+				season_team.setIcon(new ImageIcon("Img2/hotspot3_.png"));
 //				ConcisePara.is_hot = true;
 				//TODO
 
@@ -137,6 +137,7 @@ public class HotspotPanel extends ConcisePanel{
 
 		progress_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+				progress_player.setIcon(new ImageIcon("Img2/hotspot4_.png"));
 //				ConcisePara.is_hot = true;
 				//TODO
 
@@ -338,4 +339,11 @@ public class HotspotPanel extends ConcisePanel{
 		search_panel.add(valueBox);
 	}
 	
+	private void init_buttons(){
+		daily_player.setIcon(new ImageIcon("Img2/hotspot1.png"));
+		season_player.setIcon(new ImageIcon("Img2/hotspot2.png"));
+		season_team.setIcon(new ImageIcon("Img2/hotspot3.png"));
+		progress_player.setIcon(new ImageIcon("Img2/hotspot4.png"));
+
+	}
 }

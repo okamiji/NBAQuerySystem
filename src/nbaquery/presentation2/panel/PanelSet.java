@@ -121,12 +121,24 @@ public class PanelSet {
 			frame.remove(detailed);
 		}
 	}
-	public static void remove_detailed(){
+	private static void remove_detailed(){
 		if(detailed_list.size() != 0){
 			frame.remove(detailed_list.get(detailed_list.size() - 1));
+			detailed_list.remove(detailed_list.size() - 1);
 		}
 	}
-
+	public static void detailed_exit(){
+		remove_detailed();
+		if(detailed_list.size() != 0){
+			frame.add(detailed_list.get(detailed_list.size() - 1));
+		}
+		else{
+			frame.add(concise.get_button_panel());
+			frame.add(concise.get_scr());
+			frame.add(concise.get_search_panel());
+		}
+	}
+	
 	public static void set_player_service(PlayerService get_ps){
 		ps = get_ps;
 	}

@@ -97,8 +97,7 @@ public class DetailedPanel extends JPanel{
 		
 		exit_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				PanelSet.remove_detailed();
-				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
+				PanelSet.detailed_exit();
 			}
 		});
 	}
