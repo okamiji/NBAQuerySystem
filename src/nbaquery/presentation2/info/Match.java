@@ -48,4 +48,8 @@ public class Match {
 	public int get_index(){
 		return index;
 	}
+	
+	public String[] get_match_info(){
+		return match_info;
+	}
 }

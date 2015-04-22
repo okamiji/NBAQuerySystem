@@ -1,6 +1,7 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -12,6 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import nbaquery.logic.match.MatchService;
 import nbaquery.presentation2.addedcard.Card;
@@ -27,6 +30,7 @@ import nbaquery.presentation2.util.CardType;
 @SuppressWarnings("serial")
 public class DetailedPanel extends JPanel{
 	JPanel info_panel, data_panel;
+	JScrollPane data_scr;
 	
 	JButton exit_button;
 	Button info_button, data_button;
@@ -106,27 +110,43 @@ public class DetailedPanel extends JPanel{
 		direction_label.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));
 		direction_label.setForeground(new Color(191, 211, 200));
 		direction_label.setBounds(0, 0, 160, 30);
+		this.add(direction_label);
 		
 		info_panel = new JPanel();
 		info_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		info_panel.setLayout(null);
-		info_panel.setSize(575, 530);
+		info_panel.setSize(590, 530);
 		info_panel.setLocation(-5, -25);
 		
 		data_panel = new JPanel();
 		data_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		data_panel.setLayout(null);
-		data_panel.setSize(575, 530);
-		data_panel.setLocation(-5, 5);
-		this.add(data_panel);
-		data_panel.setVisible(false);
+		//data_panel.setSize(575, 530);
+		//data_panel.setLocation(-5, 5);
+		//this.add(data_panel);+
 		
+		data_scr = new JScrollPane(data_panel, 
+    		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
+    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		data_scr.setSize(590, 400);
+		data_scr.setLocation(-5, 35);
+		data_scr.setBorder(null);
+		data_scr.setBackground(new Color(0, 0, 0, 0));
+		data_scr.setOpaque(true);
+		this.add(data_scr);
+		data_scr.setVisible(false);
+
 		//data panel
 		MatchService ms = PanelSet.ms;
 		String[][] str = ms.searchForMatchsByPlayer(player.get_name());
+		for(int i=0;i<str.length;i++){
+			for(int j=0;j<str[0].length;j++){
+				System.out.println(i+ " " + j + " " + str[i][j]);
+			}
+		}
 		CardCreator creator = new CardCreator();
-		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_RECT, str, ConcisePara.view_all);
-		CardLocation location = new CardLocation(CardType.MATCH_RECT);
+		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
+		CardLocation location = new CardLocation(CardType.MATCH_of_PLAYER);
 		scr_height = location.get_total_height(card_list.size());
 		for(int i=0; i<card_list.size(); i++){
 			Card card = card_list.get(i);
@@ -135,7 +155,8 @@ public class DetailedPanel extends JPanel{
 		}
 		data_panel.repaint();
 		
-		
+
+	    data_panel.setPreferredSize(new Dimension(data_scr.getWidth() - 50, scr_height));
 		
 		//info panel
 		player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_name());
@@ -165,7 +186,7 @@ public class DetailedPanel extends JPanel{
 		
 		portrait_label = new JLabel(portrait);
 		portrait_label.setSize(154, 132);
-		portrait_label.setLocation(5, 95);
+		portrait_label.setLocation(10, 95);
 		info_panel.add(portrait_label);
 		
 		
@@ -187,9 +208,8 @@ public class DetailedPanel extends JPanel{
 				
 				add(info_panel);
 				info_panel.setVisible(true);
-				data_panel.setVisible(false);
-				remove(data_panel);
-				//invalidate();
+				data_scr.setVisible(false);
+				remove(data_scr);
 				validate();
 				repaint();
 			}
@@ -198,9 +218,8 @@ public class DetailedPanel extends JPanel{
 			public void mouseClicked(MouseEvent e) {
 				info_panel.setVisible(false);
 				remove(info_panel);
-				add(data_panel);
-				data_panel.setVisible(true);
-				//invalidate();
+				add(data_scr);
+				data_scr.setVisible(true);
 				validate();
 				repaint();
 			}
@@ -208,7 +227,129 @@ public class DetailedPanel extends JPanel{
 	}
 	
 	private void set_team_info(){
+		info_button = new Button("Img2/detail_button1_n.png", "Img2/detail_button1_c.png", this);
+		info_button.setBounds(174, 3, 195, 30);
+		
+		data_button = new Button("Img2/detail_button2_n.png", "Img2/detail_button2_c.png", this);
+		data_button.setBounds(370, 3, 195, 30);
+		
+		direction_label = new JLabel();
+		direction_label.setText("Çò¶Ó < " + team.get_name());
+		direction_label.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));
+		direction_label.setForeground(new Color(191, 211, 200));
+		direction_label.setBounds(0, 0, 160, 30);
+		this.add(direction_label);
+		
+		info_panel = new JPanel();
+		info_panel.setBackground(new Color(0, 0, 0, 0.0f));
+		info_panel.setLayout(null);
+		info_panel.setSize(590, 530);
+		info_panel.setLocation(-5, -25);
+		
+		data_panel = new JPanel();
+		data_panel.setBackground(new Color(0, 0, 0, 0.0f));
+		data_panel.setLayout(null);
+		
+		data_scr = new JScrollPane(data_panel, 
+    		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
+    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		data_scr.setSize(590, 400);
+		data_scr.setLocation(-5, 35);
+		data_scr.setBorder(null);
+		data_scr.setBackground(new Color(0, 0, 0, 0));
+		data_scr.setOpaque(true);
+		this.add(data_scr);
+		data_scr.setVisible(false);
+
+		//data panel
+		MatchService ms = PanelSet.ms;
 		//TODO
+		String[][] str = ms.searchForMatchsByTEAM(team.get_name());
+		for(int i=0;i<str.length;i++){
+			for(int j=0;j<str[0].length;j++){
+				System.out.println(i+ " " + j + " " + str[i][j]);
+			}
+		}
+		CardCreator creator = new CardCreator();
+		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
+		CardLocation location = new CardLocation(CardType.MATCH_RECT);
+		scr_height = location.get_total_height(card_list.size());
+		for(int i=0; i<card_list.size(); i++){
+			Card card = card_list.get(i);
+			data_panel.add(card);
+			card.setLocation(card.width, card.height);
+		}
+		data_panel.repaint();
+		
+
+	    data_panel.setPreferredSize(new Dimension(data_scr.getWidth() - 50, scr_height));
+		
+		//info panel
+		player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_name());
+		team_label = new JLabel();
+		String player_team_name = "ËùÊôÇò¶Ó£º " + player.get_team();
+		team_label.setText(player_team_name);
+		
+		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background1.png"));
+		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
+		background_label.setBounds(-15, 5, 610, 545); 
+		
+		team_label.setSize(130, 100);
+		team_label.setLocation(215, 185);
+		team_label.setForeground(new Color(191, 211, 200));
+		info_panel.add(team_label);
+		
+		info_label = new JLabel();
+
+		info_label.setText(get_player_text());
+		info_label.setForeground(new Color(191, 211, 200));
+		info_label.setFont(info_label.getFont().deriveFont(Font.PLAIN));
+		info_label.setBounds(215, 5, 490, 290);
+		info_panel.add(info_label);
+		
+		portrait = new ImageIcon(player.get_portrait_path());
+		portrait.setImage(portrait.getImage().getScaledInstance(154, 132, Image.SCALE_DEFAULT));
+		
+		portrait_label = new JLabel(portrait);
+		portrait_label.setSize(154, 132);
+		portrait_label.setLocation(10, 95);
+		info_panel.add(portrait_label);
+		
+		
+		team_label.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				PanelSet.set_detailed_visible(false);
+			//	InfoRetriever retriever = new InfoRetriever();
+			//	Team set_team = retriever.get_team_by_name(team_label.getText());
+			//	PanelSet.create_detailed_panel(set_team);
+			}
+		});
+		
+		//data panel
+		
+		//button
+		info_button.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				info_button.setRolloverSelectedIcon(new ImageIcon("Img2/detail_button1_c.png"));
+				
+				add(info_panel);
+				info_panel.setVisible(true);
+				data_scr.setVisible(false);
+				remove(data_scr);
+				validate();
+				repaint();
+			}
+		});
+		data_button.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				info_panel.setVisible(false);
+				remove(info_panel);
+				add(data_scr);
+				data_scr.setVisible(true);
+				validate();
+				repaint();
+			}
+		});
 	}
 	private void set_match_info(){
 		direction_label = new JLabel();
@@ -228,11 +369,14 @@ public class DetailedPanel extends JPanel{
 		
 		int match_id = Integer.parseInt(match.get_id());
 		match_detailed_info = PanelSet.get_match_service().searchForOneMatchById(match_id);
-		System.out.println(match_detailed_info[0].length);
-		for(int i=0; i<1; i++){
-			for(int j=0; j<match_detailed_info[0].length; j++){
-				System.out.println(i + " " + j + " " +match_detailed_info[i][j]);
-				System.out.println("hehe");
+		if(match_detailed_info.length > 0)
+		{
+			System.out.println(match_detailed_info[0].length);
+			for(int i=0; i<1; i++){
+				for(int j=0; j<match_detailed_info[0].length; j++){
+					System.out.println(i + " " + j + " " +match_detailed_info[i][j]);
+					System.out.println("hehe");
+				}
 			}
 		}
 		team_label = new JLabel();
@@ -250,7 +394,7 @@ public class DetailedPanel extends JPanel{
 		
 		info_label = new JLabel();
 
-		info_label.setText(get_player_text());
+//		info_label.setText(get_player_text());
 		info_label.setForeground(new Color(191, 211, 200));
 		info_label.setFont(info_label.getFont().deriveFont(Font.PLAIN));
 		info_label.setBounds(215, 5, 490, 290);
@@ -273,13 +417,13 @@ public class DetailedPanel extends JPanel{
 			public void mouseClicked(MouseEvent e) {
 				info_button.setRolloverSelectedIcon(new ImageIcon("Img2/detail_button1_c.png"));
 				info_panel.setVisible(true);
-				data_panel.setVisible(false);
+				data_scr.setVisible(false);
 			}
 		});
 		data_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				info_panel.setVisible(false);
-				data_panel.setVisible(true);
+				data_scr.setVisible(true);
 			}
 		});
 	}

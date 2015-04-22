@@ -11,7 +11,10 @@ public class CardLocation {
 	
 	boolean is_flat;
 	
+	CardType type_;
+	
 	public CardLocation(CardType type){
+		type_ = type;
 		if(type.equals(CardType.MATCH_FLAT) || (type.equals(CardType.PLAYER_FLAT)) || (type.equals(CardType.TEAM_FLAT))){
 			is_flat = true;
 		}
@@ -28,6 +31,9 @@ public class CardLocation {
 			start_width = 25;
 			gap_width = 270;
 			gap_height = 110;
+			if(type.equals(CardType.MATCH_of_PLAYER)){
+				gap_height = 220;
+			}
 		}
 	}
 	

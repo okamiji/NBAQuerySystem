@@ -19,6 +19,8 @@ public class CardFactory {
 				card = new MatchRectCard();break;
 			case MATCH_FLAT:
 				card = new MatchFlatCard();break;
+			case MATCH_of_PLAYER:
+				card = new MatchofPlayerCard();break;
 			default:
 				break;
 			}

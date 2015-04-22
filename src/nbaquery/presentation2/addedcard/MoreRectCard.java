@@ -1,5 +1,6 @@
 package nbaquery.presentation2.addedcard;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,8 +23,9 @@ class MoreRectCard extends RectCard {
 		
 		label_name = new JLabel();
 		label_name.setText("查看更多");
+		label_name.setForeground(new Color(191, 211, 200));
 		label_name.setFont(new Font("微软雅黑",Font.PLAIN, 12));	
-		label_name.setBounds(110, 10, 140, 50);
+		label_name.setBounds(110, 20, 140, 50);
 		shadow_label.add(label_name);
 		
 		this.addMouseListener(new MouseAdapter(){

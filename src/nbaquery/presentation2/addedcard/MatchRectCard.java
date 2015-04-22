@@ -36,8 +36,8 @@ class MatchRectCard extends RectCard {
 		label_name.setBackground(new Color(90, 225, 149));
 		label_name.setOpaque(true);
 		label_name.setForeground(Color.white);
-		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
-		label_name.setBounds(92, 3, 74, 30);
+		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));	
+		label_name.setBounds(92, 6, 74, 30);
 		shadow_label.add(label_name);
 
 		String[] path = match.get_logo();
@@ -68,6 +68,7 @@ class MatchRectCard extends RectCard {
 		}
 		label_info = new JLabel();
 		set_player_text(match);
+		label_info.setForeground(new Color(191, 211, 200));
 		label_info.setText(match_text);
 		label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
 		shadow_label.add(label_info);
