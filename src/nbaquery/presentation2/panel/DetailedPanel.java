@@ -104,10 +104,10 @@ public class DetailedPanel extends JPanel{
 	}
 	
 	private void set_player_info(){
-		info_button = new Button("Img2/detail_button1_n.png", "Img2/detail_button1_c.png", this);
+		info_button = new Button("Img2/primary_info.png", "Img2/primary_info_c.png", this);
 		info_button.setBounds(174, 3, 195, 30);
 		
-		data_button = new Button("Img2/detail_button2_n.png", "Img2/detail_button2_c.png", this);
+		data_button = new Button("Img2/match_data.png", "Img2/match_data_c.png", this);
 		data_button.setBounds(370, 3, 195, 30);
 		
 		direction_label = new JLabel();
@@ -193,11 +193,10 @@ public class DetailedPanel extends JPanel{
 		
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				//TODO
-			//	PanelSet.set_detailed_visible(false);
-			//	InfoRetriever retriever = new InfoRetriever();
-			//	Team set_team = retriever.get_team_by_name(team_label.getText());
-			//	PanelSet.create_detailed_panel(set_team);
+				String team_name = player.get_team();
+				Team created_team = new Team(PanelSet.get_team_service().searchForOneTeam(team_name));
+				PanelSet.create_detailed_panel(created_team);
+				
 			}
 		});
 		
