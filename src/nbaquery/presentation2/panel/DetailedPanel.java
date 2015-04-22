@@ -23,6 +23,7 @@ import org.apache.batik.swing.svg.JSVGComponent;
 import nbaquery.logic.match.MatchService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.addedcard.Card;
+import nbaquery.presentation2.addon.GoodLookingScrollBar;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.info.Match;
@@ -138,6 +139,7 @@ public class DetailedPanel extends JPanel{
 		data_scr.setBorder(null);
 		data_scr.setBackground(new Color(0, 0, 0, 0));
 		data_scr.setOpaque(true);
+		data_scr.setVerticalScrollBar(new GoodLookingScrollBar());
 		this.add(data_scr);
 		data_scr.setVisible(false);
 
@@ -320,6 +322,7 @@ public class DetailedPanel extends JPanel{
 		host_scr.setBorder(null);
 		host_scr.setBackground(new Color(0, 0, 0, 0));
 		host_scr.setOpaque(true);
+		host_scr.setVerticalScrollBar(new GoodLookingScrollBar());
 		this.add(host_scr);
 		host_scr.setVisible(false);
 		
@@ -337,6 +340,7 @@ public class DetailedPanel extends JPanel{
 		guest_scr.setBorder(null);
 		guest_scr.setBackground(new Color(0, 0, 0, 0));
 		guest_scr.setOpaque(true);
+		guest_scr.setVerticalScrollBar(new GoodLookingScrollBar());
 		this.add(guest_scr);
 		guest_scr.setVisible(false);
 

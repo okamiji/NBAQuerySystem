@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import nbaquery.presentation2.util.CardType;
+import nbaquery.presentation2.addon.GoodLookingScrollBar;
 import nbaquery.presentation2.panel.PanelSet;
 
 public class ConcisePanel {
@@ -55,6 +56,7 @@ public class ConcisePanel {
 	    scr.setBorder(null);
 	    scr.setBackground(new Color(0, 0, 0, 0));
 	    scr.setOpaque(true);
+	    scr.setVerticalScrollBar(new GoodLookingScrollBar());
 	    
 	    frame.add(scr);
 	    
