@@ -16,12 +16,15 @@ import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 
+
+
 import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.util.Button;
+import nbaquery.presentation2.panel.AboutUsPanel;
 import nbaquery.presentation2.panel.ConcisePanelFactory;
 import nbaquery.presentation2.panel.ConcisePara;
 import nbaquery.presentation2.panel.PanelSet;
@@ -235,6 +238,9 @@ public class MainFrame {
 				init_button();
 				button5.setIcon(new ImageIcon("Img2/button_chosen.png"));
 
+				PanelSet.remove_detailed();
+				new AboutUsPanel(null, ConcisePara.view_all);
+				
 				listener5 = button5.getMouseListeners()[1];
 				button5.removeMouseListener(button5.getMouseListeners()[1]);
 			}

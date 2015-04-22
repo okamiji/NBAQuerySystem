@@ -57,12 +57,16 @@ public class PanelSet {
 	}
 	public static void set_concise_invisible(){
 		if(concise != null){
-			concise.get_scr().setVisible(false);
+			if(concise.get_scr() != null){
+				concise.get_scr().setVisible(false);
+			}
 			if(concise.get_button_panel() != null){
 				concise.get_button_panel().setVisible(false);
 			}
 			concise.set_search_invisible();
-			frame.remove(concise.get_scr());
+			if(concise.get_scr() != null){
+				frame.remove(concise.get_scr());
+			}
 			frame.remove(concise.get_search_panel());
 			frame.revalidate();
 			frame.repaint();
@@ -118,7 +122,9 @@ public class PanelSet {
 		}
 	}
 	public static void remove_detailed(){
-		frame.remove(detailed_list.get(detailed_list.size() - 1));
+		if(detailed_list.size() != 0){
+			frame.remove(detailed_list.get(detailed_list.size() - 1));
+		}
 	}
 
 	public static void set_player_service(PlayerService get_ps){

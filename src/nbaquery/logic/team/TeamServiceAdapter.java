@@ -4,6 +4,7 @@ import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.LogicWatcher;
@@ -16,15 +17,16 @@ public class TeamServiceAdapter implements TeamService
 	protected GrossTeam gross;
 	protected AverageTeam average;
 	public TableHost tableHost;
-	public String[] columnNames; 
+	public String[] columnNames,oneTeamColumns;
 	
 	public TeamServiceAdapter(TableHost tableHost,
-			GrossTeam gross, AverageTeam average, String[] columnNames)
+			GrossTeam gross, AverageTeam average, String[] columnNames,String[] oneTeamColumns)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
 		this.average = average;
 		this.columnNames = columnNames;
+		this.oneTeamColumns=oneTeamColumns;
 	}
 	
 	@Override
@@ -68,24 +70,45 @@ public class TeamServiceAdapter implements TeamService
 	@Override
 	public String[] searchForOneTeam(String teamName) {
 		Table team=tableHost.getTable("team");
+		SortQuery sort = new SortQuery(this.gross.getTable(), oneTeamColumns[0], true);
+		tableHost.performQuery(sort, "team_query_result");
+		Table queryResult = tableHost.getTable("team_query_result");
+//		Column[] columns=queryResult.getColumns().toArray(new Column[0]);
+	//	for(Column c:columns)
+		//	System.out.print(" "+c.getColumnName());
+		
 		SelectProjectQuery query = null;
 		try {
-			query = new SelectProjectQuery("team.TEAM_NAME=='"+teamName+"'",team);
+			query = new SelectProjectQuery("team_query_result.TEAM_NAME=='"+teamName+"'",queryResult);
 		} catch (Exception e) {	
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		SortQuery sort=new SortQuery(team, "team_name");
-		tableHost.performQuery(sort, "team_query_result");
-		Table queryResult = tableHost.getTable("team_query_result");
+		tableHost.performQuery(query, "team_query_result");
+		queryResult = tableHost.getTable("team_query_result");
+	
+		NaturalJoinQuery joinQuery = new NaturalJoinQuery(queryResult, team, new String[]{"team_name"}, new String[]{"team_name"});
+		tableHost.performQuery(joinQuery, "team_query_result");
+		queryResult = tableHost.getTable("team_query_result");
+		
 		Row[] rows = queryResult.getRows();
-		Object[] values=rows[0].getAttributes();
-		String[] returnValue=new String[values.length];
+		String[] returnValue=new String[oneTeamColumns.length];
+		Column[] columns = new Column[oneTeamColumns.length];
+		for(int i = 0; i < oneTeamColumns.length; i ++)
+			columns[i] = queryResult.getColumn(oneTeamColumns[i]);
+		for(int column = 0; column < columns.length; column ++)
+		{
+			Object value = columns[column].getAttribute(rows[0]);
+			if(value != null) returnValue[column] = value.toString();
+		}
+		
+	/*	Object[] values=rows[0].getAttributes();
+		
 		for(int i = 0; i < values.length; i ++){
 			Object value=values[i];
-			if(value != null)
-				returnValue[i]=value.toString();
-		}
+			if(value != null){
+				returnValue[i]=value.toString();}
+		}*/
 		return returnValue;
 	}
 }
