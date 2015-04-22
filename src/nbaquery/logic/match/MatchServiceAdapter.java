@@ -4,9 +4,14 @@ import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.query.GroupColumnInfo;
 import nbaquery.data.query.GroupQuery;
+import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
+import nbaquery.logic.LogicPipeline;
+import nbaquery.logic.LogicWatcher;
+import nbaquery.logic.NativeTablePipeline;
 import nbaquery.logic.infrustructure.DirectMatchNaturalJoinPerformance;
 
 public class MatchServiceAdapter implements MatchService{
@@ -23,13 +28,12 @@ public class MatchServiceAdapter implements MatchService{
 	public String[][] searchForMatchs(int head, boolean isUp) {
 		if(head < 0) head = 1;
 		if(head > columnNames.length) return null;
+		
 		SortQuery sort = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
-		sort= new SortQuery(table, columnNames[head], isUp);
-		tableHost.performQuery(sort, "match_query_result");
-		Table queryResult = tableHost.getTable("match_query_result");
 		
-		GroupQuery group = new GroupQuery(queryResult,new String[]{"match_id",//比赛编号
+		
+		GroupQuery group = new GroupQuery(table,new String[]{"match_id",//比赛编号
 				"match_season",//赛季
 				"match_date",//比赛日期
 				"match_host_abbr",//主场队伍缩写
@@ -38,12 +42,86 @@ public class MatchServiceAdapter implements MatchService{
 				"match_guest_score",//客场队伍得分})
 		});
 		tableHost.performQuery(group, "match_query_result");
+		Table queryResult = tableHost.getTable("match_query_result");
+		
+		
+		NaturalJoinQuery joinQuery = new NaturalJoinQuery(queryResult, tableHost.getTable("team"), new String[]{"match_host_abbr"}, new String[]{"team_name_abbr"});
+		tableHost.performQuery(joinQuery, "match_query_result");
+		queryResult = tableHost.getTable("match_query_result");
+		
+		GroupQuery group2 = new GroupQuery(queryResult,new String[]{"match_id",//比赛编号
+				"match_season",//赛季
+				"match_date",//比赛日期
+				"match_host_abbr",//主场队伍缩写
+				"match_guest_abbr",//客场队伍缩写
+				"match_host_score",//主场队伍得分
+				"match_guest_score",//客场队伍得分
+				},
+		new GroupColumnInfo("match_host_image", String.class)
+		{
+			Column team_logo;
+
+			@Override
+			public void retrieve(Table originalTable,
+					Table resultTable)
+			{
+				team_logo = originalTable.getColumn("team_logo");
+			}
+
+			@Override
+			public void collapse(Row[] rows, Row resultRow)
+			{
+				String sum = team_logo.getAttribute(rows[0]).toString();
+				this.getGroupColumn().setAttribute(resultRow, sum);	
+			}
+			
+		});
+		tableHost.performQuery(group2, "match_query_result");
+		queryResult = tableHost.getTable("match_query_result");
+		
+		joinQuery = new NaturalJoinQuery(queryResult, tableHost.getTable("team"), new String[]{"match_guest_abbr"}, new String[]{"team_name_abbr"});
+		tableHost.performQuery(joinQuery, "match_query_result");
+		queryResult = tableHost.getTable("match_query_result");
+		
+		group2 = new GroupQuery(queryResult,new String[]{"match_id",//比赛编号
+				"match_season",//赛季
+				"match_date",//比赛日期
+				"match_host_abbr",//主场队伍缩写
+				"match_guest_abbr",//客场队伍缩写
+				"match_host_score",//主场队伍得分
+				"match_guest_score",//客场队伍得分
+				"match_host_image"//主队logo
+				},
+		new GroupColumnInfo("match_guest_image", String.class)
+		{
+			Column team_logo;
+
+			@Override
+			public void retrieve(Table originalTable,
+					Table resultTable)
+			{
+				team_logo = originalTable.getColumn("team_logo");
+			}
+
+			@Override
+			public void collapse(Row[] rows, Row resultRow)
+			{
+				Object sum= team_logo.getAttribute(rows[0]).toString();
+				getGroupColumn().setAttribute(resultRow, sum);	
+			}
+			
+		});
+		tableHost.performQuery(group2, "match_query_result");
+		queryResult = tableHost.getTable("match_query_result");
+		
+		sort= new SortQuery(queryResult, columnNames[head], isUp);
+		tableHost.performQuery(sort, "match_query_result");
 		queryResult = tableHost.getTable("match_query_result");
 		
 		Row[] rows = queryResult.getRows();
-		String[][] returnValue = new String[rows.length][columnNames.length];
-		Column[] columns = new Column[columnNames.length];
-		for(int i = 0; i < columnNames.length; i ++)
+		String[][] returnValue = new String[rows.length][9];
+		Column[] columns = new Column[9];
+		for(int i = 0; i < 9; i ++)
 			columns[i] = queryResult.getColumn(columnNames[i]);
 		for(int row = 0; row < rows.length; row ++)
 			for(int column = 0; column < columns.length; column ++)
@@ -67,7 +145,7 @@ public class MatchServiceAdapter implements MatchService{
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try {
-			query = new SelectProjectQuery("match_natural_join_performance.MATCH_ID='" + matchID + "'", table);
+			query = new SelectProjectQuery("match_natural_join_performance.MATCH_ID=" + matchID , table);
 		}
 		catch (Exception e)
 		{
