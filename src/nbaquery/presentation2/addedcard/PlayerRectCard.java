@@ -68,9 +68,13 @@ class PlayerRectCard extends RectCard {
 		player_text = "<html>";
 		player_text += "球队：" + player.get_team();
 		player_text += "<br/>";
-		player_text += "位置：" + player_info[30] + "  ";
-		player_text += "联盟：" + player_info[31];	
-		player_text += "<br/>";
+		try{
+			player_text += "位置：" + player_info[30] + "  ";
+			player_text += "联盟：" + player_info[31];	
+			player_text += "<br/>";
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		if(ConcisePara.player_index_index != 0){
 			if(player_text.substring(player_text.length() - 2, player_text.length()).equals("  ")){
 				player_text += "<br/>";

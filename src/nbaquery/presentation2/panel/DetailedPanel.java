@@ -98,8 +98,7 @@ public class DetailedPanel extends JPanel{
 		
 		exit_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				PanelSet.remove_detailed();
-				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
+				PanelSet.detailed_exit();
 			}
 		});
 	}
@@ -146,11 +145,6 @@ public class DetailedPanel extends JPanel{
 		//data panel
 		MatchService ms = PanelSet.ms;
 		String[][] str = ms.searchForMatchsByPlayer(player.get_name());
-		for(int i=0;i<str.length;i++){
-			for(int j=0;j<str[0].length;j++){
-				System.out.println(i+ " " + j + " " + str[i][j]);
-			}
-		}
 		CardCreator creator = new CardCreator();
 		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
 		CardLocation location = new CardLocation(CardType.MATCH_of_PLAYER);
@@ -199,7 +193,8 @@ public class DetailedPanel extends JPanel{
 		
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				PanelSet.set_detailed_visible(false);
+				//TODO
+			//	PanelSet.set_detailed_visible(false);
 			//	InfoRetriever retriever = new InfoRetriever();
 			//	Team set_team = retriever.get_team_by_name(team_label.getText());
 			//	PanelSet.create_detailed_panel(set_team);

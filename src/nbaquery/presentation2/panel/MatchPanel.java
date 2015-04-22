@@ -16,6 +16,7 @@ import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.util.Button;
 import nbaquery.presentation2.util.CardType;
 
+@SuppressWarnings("serial")
 public class MatchPanel extends ConcisePanel {
 
 	boolean view_all;
@@ -35,7 +36,7 @@ public class MatchPanel extends ConcisePanel {
 	    
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(0, 0, 0, 0));
-		search_panel.setBounds(190, 75, 570, 60);
+		search_panel.setBounds(40, 25, 570, 60);
 		
 		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{
@@ -133,10 +134,9 @@ public class MatchPanel extends ConcisePanel {
 		scr_height = location.get_total_height(card_list.size());
 		for(int i=0; i<card_list.size(); i++){
 			Card card = card_list.get(i);
-			concise_panel.add(card);
+			card_panel.add(card);
 			card.setLocation(card.width, card.height);
 		}
-		concise_panel.repaint();
 	}
 
 }

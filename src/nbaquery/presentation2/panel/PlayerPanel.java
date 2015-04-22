@@ -16,6 +16,7 @@ import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.util.Button;
 
+@SuppressWarnings("serial")
 public class PlayerPanel extends ConcisePanel {
 
 	boolean view_all;
@@ -29,12 +30,12 @@ public class PlayerPanel extends ConcisePanel {
 
 	public void run(){
 		super.run();
-	    add_cards();
+		add_cards();
 	    super.set_scr();
 	    
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(0, 0, 0, 0));
-		search_panel.setBounds(190, 75, 570, 60);
+		search_panel.setBounds(40, 25, 570, 60);
 		
 		positionBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 80, 24, 
 				new String[]{"全部位置", "前锋", "中锋", "后卫"});
@@ -175,9 +176,9 @@ public class PlayerPanel extends ConcisePanel {
 		scr_height = location.get_total_height(card_list.size());
 		for(int i=0; i<card_list.size(); i++){
 			Card card = card_list.get(i);
-			concise_panel.add(card);
+			card_panel.add(card);
 			card.setLocation(card.width, card.height);
 		}
-		concise_panel.repaint();
+		card_panel.repaint();
 	}
 }

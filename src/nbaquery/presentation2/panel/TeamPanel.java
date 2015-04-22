@@ -16,6 +16,7 @@ import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
 
+@SuppressWarnings("serial")
 public class TeamPanel extends ConcisePanel {
 
 	CardType type;
@@ -35,7 +36,7 @@ public class TeamPanel extends ConcisePanel {
 	    
 		search_panel.setLayout(null);
 		search_panel.setBackground(new Color(0, 0, 0, 0));
-		search_panel.setBounds(190, 75, 570, 60);
+		search_panel.setBounds(40, 25, 570, 60);
 		
 		typeBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 80, 24, 
 				new String[]{"全局数据", "场均数据"});
@@ -145,9 +146,8 @@ public class TeamPanel extends ConcisePanel {
 		scr_height = location.get_total_height(card_list.size());
 		for(int i=0; i<card_list.size(); i++){
 			Card card = card_list.get(i);
-			concise_panel.add(card);
+			card_panel.add(card);
 			card.setLocation(card.width, card.height);
 		}
-		concise_panel.repaint();
 	}
 }
