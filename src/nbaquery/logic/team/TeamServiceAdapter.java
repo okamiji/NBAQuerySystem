@@ -68,16 +68,20 @@ public class TeamServiceAdapter implements TeamService
 	@Override
 	public String[] searchForOneTeam(String teamName) {
 		Table team=tableHost.getTable("team");
+		SortQuery sort = new SortQuery(this.gross.getTable(), columnNames[0], true);
+		tableHost.performQuery(sort, "team_query_result");
+		Table queryResult = tableHost.getTable("team_query_result");
+		
 		SelectProjectQuery query = null;
 		try {
-			query = new SelectProjectQuery("team.TEAM_NAME=='"+teamName+"'",team);
+			query = new SelectProjectQuery("team_query_result.TEAM_NAME=='"+teamName+"'",team);
 		} catch (Exception e) {	
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		SortQuery sort=new SortQuery(team, "team_name");
+		sort=new SortQuery(team, "team_name");
 		tableHost.performQuery(sort, "team_query_result");
-		Table queryResult = tableHost.getTable("team_query_result");
+		queryResult = tableHost.getTable("team_query_result");
 		Row[] rows = queryResult.getRows();
 		Object[] values=rows[0].getAttributes();
 		String[] returnValue=new String[values.length];
