@@ -226,8 +226,6 @@ public class LogicAssembler implements ILogicAssembler
 				"match_guest_abbr",//客场队伍缩写
 				"match_host_score",//主场队伍得分
 				"match_guest_score",//客场队伍得分
-				"match_host_image",//
-				"match_guest_image",//
 				"team_name_abbr",//球队缩写
 				"player_name",//球员名称
 				"player_position",//球员位置
@@ -247,7 +245,9 @@ public class LogicAssembler implements ILogicAssembler
 				"cap",//盖帽
 				"miss",//失误
 				"foul",//犯规
-				"self_score"//个人得分
+				"self_score",//个人得分
+				"match_host_image",//
+				"match_guest_image"//
 		});
 	}
 

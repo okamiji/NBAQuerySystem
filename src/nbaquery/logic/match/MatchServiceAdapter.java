@@ -32,7 +32,6 @@ public class MatchServiceAdapter implements MatchService{
 		SortQuery sort = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		
-		
 		GroupQuery group = new GroupQuery(table,new String[]{"match_id",//比赛编号
 				"match_season",//赛季
 				"match_date",//比赛日期
@@ -43,7 +42,6 @@ public class MatchServiceAdapter implements MatchService{
 		});
 		tableHost.performQuery(group, "match_query_result");
 		Table queryResult = tableHost.getTable("match_query_result");
-		
 		
 		NaturalJoinQuery joinQuery = new NaturalJoinQuery(queryResult, tableHost.getTable("team"), new String[]{"match_host_abbr"}, new String[]{"team_name_abbr"});
 		tableHost.performQuery(joinQuery, "match_query_result");
@@ -120,16 +118,25 @@ public class MatchServiceAdapter implements MatchService{
 		
 		Row[] rows = queryResult.getRows();
 		String[][] returnValue = new String[rows.length][9];
-		Column[] columns = new Column[9];
-		for(int i = 0; i < 9; i ++)
-			columns[i] = queryResult.getColumn(columnNames[i]);
-		for(int row = 0; row < rows.length; row ++)
-			for(int column = 0; column < columns.length; column ++)
+		Column[] columns = new Column[columnNames.length];
+		for(int i = 0; i < columnNames.length; i ++){
+			if(queryResult.getColumn(columnNames[i])!=null){
+				columns[i] = queryResult.getColumn(columnNames[i]);
+			}
+		for(int row = 0; row < rows.length; row ++){
+			for(int column = 0; column < 7; column ++)
 				if(columns[column]!=null)
 			{
 				Object value = columns[column].getAttribute(rows[row]);
 				if(value != null) returnValue[row][column] = value.toString();
 			}
+			for(int column = 27; column < 29; column ++)
+				if(columns[column]!=null)
+			{
+				Object value = columns[column].getAttribute(rows[row]);
+				if(value != null) returnValue[row][column-20] = value.toString();
+			}
+		}
 		tableHost.deleteTable("match_query_result");
 		return returnValue;
 	}
