@@ -179,6 +179,5 @@ public class PlayerPanel extends ConcisePanel {
 			card_panel.add(card);
 			card.setLocation(card.width, card.height);
 		}
-		card_panel.repaint();
 	}
 }

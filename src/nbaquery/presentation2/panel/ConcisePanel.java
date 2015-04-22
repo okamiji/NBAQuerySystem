@@ -66,11 +66,8 @@ public class ConcisePanel extends JPanel {
 	}
 	
 	void set_scr(){
-	    card_panel.setPreferredSize(new Dimension(scr.getWidth() - 50, scr_height));
-	    card_panel.revalidate();
-	    card_panel.repaint();
-	    card_panel.setVisible(true);
-	    scr.setVisible(true);
+	    card_panel.setSize(new Dimension(scr.getWidth() - 50, scr_height));
+	    card_panel.setPreferredSize(card_panel.getSize());
 	}
 	
 	public final TreeMap<String, String> lookups = new TreeMap<String, String>();{
