@@ -43,7 +43,7 @@ public class TeamPanel extends ConcisePanel {
 
 		valueBox = ComboBoxFactory.getInstance().createComboBox(115, 15, 110, 24, 
 				new String[]{
-				"按赛季排序",
+				"赛季",
 				"球队名称",
 				"比赛场数",
 				"投篮命中数",

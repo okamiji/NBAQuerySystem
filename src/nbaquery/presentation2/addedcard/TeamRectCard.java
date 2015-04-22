@@ -47,7 +47,7 @@ class TeamRectCard extends RectCard {
 	        } catch (IOException ex) {
 	            ex.printStackTrace();
 	        }
-			svgComponent.setBounds(10, 8, 100, 85);
+			svgComponent.setBounds(10, 6, 100, 85);
 			shadow_label.add(svgComponent);
 			shadow_label.repaint();
 		}

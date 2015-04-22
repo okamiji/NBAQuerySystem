@@ -27,7 +27,7 @@ public class ConcisePara {
 	
 	public static int team_isGross_index = 0;
 	
-	public static String team_item_name = "°´Èü¼¾ÅÅĞò";
+	public static String team_item_name = "Èü¼¾";
 	
 	public static boolean match_isUp = true;
 	public static int match_index = 0;

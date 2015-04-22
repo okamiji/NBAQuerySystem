@@ -32,12 +32,12 @@ class MatchRectCard extends RectCard {
 		match = (Match) obj;
 		
 		label_name = new JLabel();
-		label_name.setText(match.get_season() + " " + match.get_date());
+		label_name.setText(" " + match.get_season() + " " + match.get_date());
 		label_name.setBackground(new Color(90, 225, 149));
 		label_name.setOpaque(true);
 		label_name.setForeground(Color.white);
 		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));	
-		label_name.setBounds(92, 6, 74, 30);
+		label_name.setBounds(92, 8, 76, 30);
 		shadow_label.add(label_name);
 
 		String[] path = match.get_logo();
@@ -50,19 +50,19 @@ class MatchRectCard extends RectCard {
 	        } catch (IOException ex) {
 	            ex.printStackTrace();
 	        }
-			svgComponent1.setBounds(10, 8, 50, 40);
+			svgComponent1.setBounds(10, 8, 80, 80);
 			shadow_label.add(svgComponent1);
 			shadow_label.repaint();
 		}
 		JSVGComponent svgComponent2 = new JSVGComponent(null, false, false);
 		if(path[0] != null){
-			File f = new File(path[0]);
+			File f = new File(path[1]);
 			try {
 	            svgComponent2.loadSVGDocument(f.toURL().toString());
 	        } catch (IOException ex) {
 	            ex.printStackTrace();
 	        }
-			svgComponent2.setBounds(70, 8, 50, 40);
+			svgComponent2.setBounds(170, 8, 80, 80);
 			shadow_label.add(svgComponent2);
 			shadow_label.repaint();
 		}
@@ -72,7 +72,7 @@ class MatchRectCard extends RectCard {
 		label_info.setText(match_text);
 		label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
 		shadow_label.add(label_info);
-		label_info.setBounds(92, 32, 215, 60);//112
+		label_info.setBounds(95, 32, 215, 60);//112
 		
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
