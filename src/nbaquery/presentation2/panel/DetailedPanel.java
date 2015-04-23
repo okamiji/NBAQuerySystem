@@ -104,10 +104,10 @@ public class DetailedPanel extends JPanel{
 	}
 	
 	private void set_player_info(){
-		info_button = new Button("Img2/detail_button1_n.png", "Img2/detail_button1_c.png", this);
+		info_button = new Button("Img2/primary_info.png", "Img2/primary_info_c.png", this);
 		info_button.setBounds(174, 3, 195, 30);
 		
-		data_button = new Button("Img2/detail_button2_n.png", "Img2/detail_button2_c.png", this);
+		data_button = new Button("Img2/match_data.png", "Img2/match_data_c.png", this);
 		data_button.setBounds(370, 3, 195, 30);
 		
 		direction_label = new JLabel();
@@ -190,23 +190,24 @@ public class DetailedPanel extends JPanel{
 		portrait_label.setLocation(10, 95);
 		info_panel.add(portrait_label);
 		
+		//initialize with primary information panel
+		add(info_panel);
+		info_button.setIcon(new ImageIcon("Img2/primary_info_c.png"));
 		
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				//TODO
-			//	PanelSet.set_detailed_visible(false);
-			//	InfoRetriever retriever = new InfoRetriever();
-			//	Team set_team = retriever.get_team_by_name(team_label.getText());
-			//	PanelSet.create_detailed_panel(set_team);
+				String team_name = player.get_team();
+				Team created_team = new Team(PanelSet.get_team_service().searchForOneTeam(team_name));
+				PanelSet.create_detailed_panel(created_team);
+				
 			}
 		});
-		
-		//data panel
 		
 		//button
 		info_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				info_button.setRolloverSelectedIcon(new ImageIcon("Img2/detail_button1_c.png"));
+				info_button.setIcon(new ImageIcon("Img2/primary_info_c.png"));
+				data_button.setIcon(new ImageIcon("Img2/match_data.png"));
 				
 				add(info_panel);
 				info_panel.setVisible(true);
@@ -218,6 +219,9 @@ public class DetailedPanel extends JPanel{
 		});
 		data_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+				data_button.setIcon(new ImageIcon("Img2/match_data_c.png"));
+				info_button.setIcon(new ImageIcon("Img2/primary_info.png"));
+				
 				info_panel.setVisible(false);
 				remove(info_panel);
 				add(data_scr);
@@ -227,6 +231,8 @@ public class DetailedPanel extends JPanel{
 			}
 		});
 	}
+	
+	
 	
 	@SuppressWarnings("deprecation")
 	private void set_team_info(){

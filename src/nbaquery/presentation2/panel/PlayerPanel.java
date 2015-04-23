@@ -122,7 +122,7 @@ public class PlayerPanel extends ConcisePanel {
 			}
 		});
 		
-		searchButton = new Button("Img2/search_button_c.png", "Img2/search_button.png", search_panel);
+		searchButton = new Button("Img2/search_button.png", "Img2/search_button_c.png", search_panel);
 		searchButton.setBounds(460, 15, 72, 24);		
 		
 		searchButton.addMouseListener(new MouseAdapter(){

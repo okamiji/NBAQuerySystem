@@ -13,15 +13,14 @@ public class AboutUsPanel extends ConcisePanel {
 		super(type, view_all_cards);
 		
 		search_panel.setLayout(null);
-		search_panel.setBackground(Color.RED);
-	//	search_panel.setBackground(new Color(0, 0, 0, 0));
-		search_panel.setBounds(40, 25, 570, 60);
+		search_panel.setBackground(new Color(0, 0, 0, 0));
+		search_panel.setBounds(40, 80, 570, 350);
 		search_panel.setVisible(true);
 		
 		JLabel label_info = new JLabel();
 		
 		label_info.setForeground(new Color(191, 211, 200));
-		label_info.setBounds(220, 40, 200, 300);
+		label_info.setBounds(200, 40, 200, 300);
 		label_info.setText(set_text());
 		
 		search_panel.add(label_info);

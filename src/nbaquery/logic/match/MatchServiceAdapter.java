@@ -144,15 +144,14 @@ public class MatchServiceAdapter implements MatchService{
 	@Override
 	public String[][] searchForOneMatchById(int matchID) {
 		Table queryResult = searchByID(matchID);
-		tableHost.deleteTable("match_query_result_id");
 		return convertTableToStrings(queryResult);
 	}
 	
-	public Table searchByID(int matchID){
+	public Table searchByID(Integer matchID){
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try {
-			query = new SelectProjectQuery("match_natural_join_performance.MATCH_ID=" + matchID , table);
+			query = new SelectProjectQuery("match_natural_join_performance.MATCH_ID<>"+matchID, table);
 		}
 		catch (Exception e)
 		{
@@ -245,7 +244,6 @@ public class MatchServiceAdapter implements MatchService{
 		}
 		tableHost.performQuery(query, "match_query_result_team_and_id");
 		Table queryResult = tableHost.getTable("match_query_result_team_and_id");
-		tableHost.deleteTable("match_query_result_team_and_id");
 		return convertTableToStrings(queryResult);
 	}
 	
@@ -272,6 +270,7 @@ public class MatchServiceAdapter implements MatchService{
 		for(int i = 0; i < columnNumber; i ++){
 			columns[i] = queryResult.getColumn(columnNames[i]);
 		}
+		System.out.println("length1___"+rows.length);
 		for(int row = 0; row < rows.length; row ++)
 			for(int column = 0; column < columns.length; column ++)
 			{
@@ -279,9 +278,9 @@ public class MatchServiceAdapter implements MatchService{
 				Object value = columns[column].getAttribute(rows[row]);
 				if(value != null) 
 					returnValue[row][column] = value.toString();
-				
 				}
 			}
+		System.out.println("length"+returnValue.length);
 		return returnValue;
 	}
 

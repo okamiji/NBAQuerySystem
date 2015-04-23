@@ -238,7 +238,8 @@ public class MainFrame {
 				button5.setIcon(new ImageIcon("Img2/button_chosen.png"));
 
 				PanelSet.set_all_detailed_panel_invisible();
-				new AboutUsPanel(null, ConcisePara.view_all);
+				JPanel panel = new AboutUsPanel(null, ConcisePara.view_all);
+				PanelSet.get_frame().add(panel);
 				
 				listener5 = button5.getMouseListeners()[1];
 				button5.removeMouseListener(button5.getMouseListeners()[1]);
