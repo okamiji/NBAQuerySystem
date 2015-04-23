@@ -194,10 +194,16 @@ public class HotspotPanel extends ConcisePanel{
 		else progress_player.setIcon(hotspot4);
 		
 		if(ConcisePara.type.isFlat){
-			ConcisePara.type = CardType.PLAYER_FLAT;
+			if(ConcisePara.hotspot_type.isPlayer)
+					ConcisePara.type = CardType.PLAYER_FLAT;
+			else if(ConcisePara.hotspot_type.isTeam)
+				ConcisePara.type = CardType.TEAM_FLAT;
 		}
 		else if(ConcisePara.type.isRect){
-			ConcisePara.type = CardType.PLAYER_RECT;
+			if(ConcisePara.hotspot_type.isPlayer)
+				ConcisePara.type = CardType.PLAYER_RECT;
+			else if(ConcisePara.hotspot_type.isTeam)
+				ConcisePara.type = CardType.TEAM_RECT;
 		}
 		
 		if(stateSwitch.isPlayer) ConcisePara.player_index_index = 0;
