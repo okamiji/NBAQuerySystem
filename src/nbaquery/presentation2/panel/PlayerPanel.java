@@ -89,6 +89,7 @@ public class PlayerPanel extends ConcisePanel {
 		positionBox.setSelectedIndex(ConcisePara.player_position_index);
 		leagueBox.setSelectedIndex(ConcisePara.player_league_index);
 		
+		
 		descendButton = new JButton();
 		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
 		descendButton.setContentAreaFilled(false);
