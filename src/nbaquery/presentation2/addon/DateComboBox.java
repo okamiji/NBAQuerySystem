@@ -39,9 +39,21 @@ public class DateComboBox extends JPanel
 				{
 					dateContainer.setVisible(false);
 					season = dateSelector.fromSeason.getText() + "-" + dateSelector.toSeason.getText();
-					date = (dateSelector.month + 1) + "-" + dateSelector.calendarSelector.date;
+					
+					int actualMonth = (dateSelector.month + 1);
+					int actualDay = dateSelector.calendarSelector.date;
+					
+					if(actualMonth < 10) date = "0" + actualMonth;
+					else date = "" + actualMonth;
+					
+					date += "-";
+					
+					if(actualDay < 10) date += ("0" + actualDay);
+					else date += ("" + actualDay);
+					
 					display.setText(season + " " + date);
 					clear.setEnabled(true);
+					update();
 				}
 			}
 		});
@@ -59,6 +71,7 @@ public class DateComboBox extends JPanel
 				season = null;
 				date = null;
 				display.setText("所有比赛数据");
+				update();
 			}
 		});
 		
@@ -107,29 +120,16 @@ public class DateComboBox extends JPanel
 		return this.date;
 	}
 	
+	public void update()
+	{
+		
+	}
+	
 	public void popupDateContainer()
 	{
 		dateContainer.setVisible(true);
 		dateContainer.setSize(this.getWidth(), (int) (this.getWidth() * 0.7));
 		Point loc = this.getLocationOnScreen();
 		dateContainer.setLocation(loc.x, loc.y + this.getHeight());
-	}
-	
-	public static void main(String[] arguments) throws Exception
-	{
-		JFrame jframe = new JFrame();
-		jframe.setLayout(null);
-		jframe.setSize(600, 480);
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		DateComboBox calendar = new DateComboBox();
-		calendar.setLocation(100, 200);
-		calendar.setSize(400, 30);
-		jframe.add(calendar);
-		jframe.setVisible(true);
-		while(true)
-		{
-			jframe.repaint();
-			Thread.sleep(10);
-		}
 	}
 }

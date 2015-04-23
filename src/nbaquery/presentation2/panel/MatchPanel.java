@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import nbaquery.presentation.combobox.ComboBoxFactory;
 import nbaquery.logic.match.MatchService;
 import nbaquery.presentation2.addedcard.Card;
+import nbaquery.presentation2.addon.DateComboBox;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.util.Button;
@@ -22,14 +23,23 @@ import nbaquery.presentation2.util.CardType;
 public class MatchPanel extends ConcisePanel {
 
 	boolean view_all;
+	static MatchPanel mp;
 	
 	public MatchPanel(CardType type_, boolean view_all_) {		
 		super(type_, view_all_);
 		
 		type = type_;
-		view_all = view_all_;	
-		
+		view_all = view_all_;
+		mp = this;
 	}
+	
+	static DateComboBox dateComboBox = new DateComboBox()
+	{
+		public void update()
+		{
+			mp.responseMouseClicked();
+		}
+	};
 	
 	public void run(){
 		super.run();
@@ -103,6 +113,16 @@ public class MatchPanel extends ConcisePanel {
 	    };
 	    
 	    valueBox.addItemListener(l);
+	    
+	    dateComboBox.setBounds(140, 15, 210, 24);
+	    dateComboBox.setFont(getFont());
+	    
+	    search_panel.add(dateComboBox);
+	    
+	    dateComboBox.calendar.setText("+");
+	    dateComboBox.calendar.setFont(dateComboBox.calendar.getFont().deriveFont(15.0f));
+	    dateComboBox.clear.setText("-");
+	    dateComboBox.clear.setFont(dateComboBox.clear.getFont().deriveFont(15.0f));
 	}
 	
 	public void update()
@@ -126,7 +146,11 @@ public class MatchPanel extends ConcisePanel {
 	private void add_cards(){
 		MatchService ms = PanelSet.ms;
 	//	String[][] str = ms.searchForMatchs(0, true);
-		String[][] str = ms.searchForMatchs(ConcisePara.match_index, ConcisePara.match_isUp);
+		
+		String[][] str;
+		if(dateComboBox.getDate() != null && dateComboBox.getSeason() != null)
+			str = ms.searchForMatchsByDateAndSeason(dateComboBox.getDate(), dateComboBox.getSeason());
+		else str = ms.searchForMatchs(ConcisePara.match_index, ConcisePara.match_isUp);
 		CardCreator creator = new CardCreator();
 		ArrayList<Card> card_list = creator.create_needed_cards(ConcisePara.type, str, ConcisePara.view_all);
 		CardLocation location = new CardLocation(ConcisePara.type);
