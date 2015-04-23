@@ -35,7 +35,7 @@ public class HotPlayerTodayPerformanceSelect implements LogicPipeline {
 	@Override
 	public Table getTable() {
 		this.date=getDate();
-		this.date="02-03";
+		this.date="02-04";
 		if(base.checkDepenency())
 		{
 			try {
