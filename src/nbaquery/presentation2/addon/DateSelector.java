@@ -145,13 +145,27 @@ public class DateSelector extends JPanel
 	{
 		if(month < 6)
 		{
-			this.fromSeason.setText("" + (year - 2001));
-			this.toSeason.setText("" + (year - 2000));
+			int fromSeasonValue = year - 2001;
+			int toSeasonValue = year - 2000;
+			if(fromSeasonValue > 10)
+				this.fromSeason.setText("" + fromSeasonValue);
+			else this.fromSeason.setText("0" + fromSeasonValue);
+			
+			if(toSeasonValue > 10)
+				this.toSeason.setText("" + toSeasonValue);
+			else this.toSeason.setText("0" + toSeasonValue);
 		}
 		else
 		{
-			this.fromSeason.setText("" + (year - 2000));
-			this.toSeason.setText("" + (year - 1999));
+			int fromSeasonValue = year - 2000;
+			int toSeasonValue = year - 1999;
+			if(fromSeasonValue > 10)
+				this.fromSeason.setText("" + fromSeasonValue);
+			else this.fromSeason.setText("0" + fromSeasonValue);
+			
+			if(toSeasonValue > 10)
+				this.toSeason.setText("" + toSeasonValue);
+			else this.toSeason.setText("0" + toSeasonValue);
 		}
 		this.monthCombo.setSelectedIndex(month);
 		if(legacyYear != year || legacyMonth != month)

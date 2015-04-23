@@ -206,7 +206,7 @@ public class MatchServiceAdapter implements MatchService{
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try {
-			query = new SelectProjectQuery("match_natural_join_performance.MATCH_DATE='" + date + "'", table);
+			query = new SelectProjectQuery("match_natural_join_performance.match_date=\"" + date + "\"", table);
 		}
 		catch (Exception e)
 		{

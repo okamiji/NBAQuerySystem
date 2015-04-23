@@ -14,7 +14,7 @@ public class TestMainFrame
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainFrame window = new MainFrame(new Presentation_Stub(), new Presentation_Stub());
+					MainFrame window = new MainFrame();
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
