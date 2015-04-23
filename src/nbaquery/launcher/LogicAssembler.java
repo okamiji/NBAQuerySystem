@@ -245,6 +245,7 @@ public class LogicAssembler implements ILogicAssembler
 				"total_board_rate",//"篮板进步率"
 				"assist_rate",//"助攻进步率"
 				"team_name_abbr"//所属球队
+				
 		},new String[]{
 				"player_name"	, //球员名称
 				"player_number",  //球衣编号

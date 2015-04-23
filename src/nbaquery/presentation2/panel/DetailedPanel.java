@@ -160,6 +160,12 @@ public class DetailedPanel extends JPanel{
 		
 		//info panel
 		player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_name());
+		if(player_detailed_info == null){
+			player_detailed_info = PanelSet.get_player_service().searchForOnePlayer(player.get_player_info()[0]);
+		}
+		for(int i=0; i<player_detailed_info.length; i++){
+			System.out.println(i + " " + player_detailed_info[i]);
+		}
 		team_label = new JLabel();
 		String player_team_name = "所属球队： " + player.get_team();
 		team_label.setText(player_team_name);
@@ -175,20 +181,28 @@ public class DetailedPanel extends JPanel{
 		
 		info_label = new JLabel();
 
-		info_label.setText(get_player_text());
+		info_label.setText(get_player_text(player_detailed_info));
 		info_label.setForeground(new Color(191, 211, 200));
 		info_label.setFont(info_label.getFont().deriveFont(Font.PLAIN));
 		info_label.setBounds(215, 5, 490, 290);
 		info_panel.add(info_label);
-		
-		portrait = new ImageIcon(player.get_portrait_path());
-		portrait.setImage(portrait.getImage().getScaledInstance(154, 132, Image.SCALE_DEFAULT));
-		
-		portrait_label = new JLabel(portrait);
-		portrait_label.setSize(154, 132);
-		portrait_label.setLocation(10, 95);
-		info_panel.add(portrait_label);
-		
+
+		String portrait_path = player.get_portrait_path();
+		if(portrait_path == null){
+			portrait_path = player_detailed_info[9];
+		}
+		try{
+			portrait = new ImageIcon(portrait_path);
+			portrait.setImage(portrait.getImage().getScaledInstance(154, 132, Image.SCALE_DEFAULT));
+			
+			portrait_label = new JLabel(portrait);
+			portrait_label.setSize(154, 132);
+			portrait_label.setLocation(10, 95);
+			info_panel.add(portrait_label);
+		}
+		catch(Exception e1){
+			e1.printStackTrace();
+		}
 		//initialize with primary information panel
 		add(info_panel);
 		info_button.setIcon(new ImageIcon("Img2/primary_info_c.png"));
@@ -345,16 +359,9 @@ public class DetailedPanel extends JPanel{
 		MatchService ms = PanelSet.ms;
 		
 		int match_id = Integer.parseInt(match.get_id());
-		System.out.println(match_id);
 		String[][] str = ms.searchForOneMatchById(match_id);
 		ArrayList<String[]> team1_players = new ArrayList<String[]>();
 		ArrayList<String[]> team2_players = new ArrayList<String[]>();
-		//TODO print information
-		for(int i=0; i<str.length; i++){
-			for(int j=0; j<str[0].length; j++){
-				System.out.println(i + " " + j + " " + str[i][j]);
-			}
-		}
 		
 		String host_team_name = match.get_team()[0];
 		String guest_team_name = match.get_team()[1];
@@ -375,14 +382,10 @@ public class DetailedPanel extends JPanel{
 			public void mouseClicked(MouseEvent e) {
 				team1_button.setIcon(new ImageIcon("Img2/host_c.png"));
 				team2_button.setIcon(new ImageIcon("Img2/guest.png"));
-				
-				add(host_panel);
+
 				add(host_scr);
 				host_scr.setVisible(true);
-				host_panel.setVisible(true);
 				guest_scr.setVisible(false);
-				guest_panel.setVisible(false);
-				remove(guest_panel);
 				remove(guest_scr);
 				validate();
 				repaint();
@@ -393,13 +396,9 @@ public class DetailedPanel extends JPanel{
 				team1_button.setIcon(new ImageIcon("Img2/host.png"));
 				team2_button.setIcon(new ImageIcon("Img2/guest_c.png"));
 				
-				add(guest_panel);
 				add(guest_scr);
 				guest_scr.setVisible(true);
-				guest_panel.setVisible(true);
 				host_scr.setVisible(false);
-				host_panel.setVisible(false);
-				remove(host_panel);
 				remove(host_scr);
 				validate();
 				repaint();
@@ -439,25 +438,25 @@ public class DetailedPanel extends JPanel{
 		
 	}
 	
-	private String get_player_text(){
+	private String get_player_text(String[] info){
 		String player_string = "<html>";
-		player_string += "<b>球员姓名：</b> " + player_detailed_info[0];
+		player_string += "<b>球员姓名：</b> " + info[0];
 		player_string += "<br/>";
-		player_string += "<b>球衣编号： </b>" + player_detailed_info[1];
+		player_string += "<b>球衣编号： </b>" + info[1];
 		player_string += "<br/>";
-		player_string += "<b>球员位置：</b> " + player_detailed_info[2];
+		player_string += "<b>球员位置：</b> " + info[2];
 		player_string += "<br/>";
-		player_string += "<b>球员身高： </b>" + player_detailed_info[3];
+		player_string += "<b>球员身高： </b>" + info[3];
 		player_string += "<br/>";
-		player_string += "<b>球员体重： </b>" + player_detailed_info[4];
+		player_string += "<b>球员体重： </b>" + info[4];
 		player_string += "<br/>";
-		player_string += "<b>出生日期： </b>" + player_detailed_info[5];
+		player_string += "<b>出生日期： </b>" + info[5];
 		player_string += "<br/>";
-		player_string += "<b>年龄： </b>" + player_detailed_info[6];
+		player_string += "<b>年龄： </b>" + info[6];
 		player_string += "<br/>";
-		player_string += "<b>球龄：</b> " + player_detailed_info[7];
+		player_string += "<b>球龄：</b> " + info[7];
 		player_string += "<br/>";
-		player_string += "<b>毕业学校： </b>" + player_detailed_info[8];
+		player_string += "<b>毕业学校： </b>" + info[8];
 		player_string += "</html>";
 		return player_string;
 	}

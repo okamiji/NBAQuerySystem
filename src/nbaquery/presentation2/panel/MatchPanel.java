@@ -46,30 +46,15 @@ public class MatchPanel extends ConcisePanel {
 				"客场队伍缩写",
 				"主场队伍得分",
 				"客场队伍得分",
-				"球队缩写",
-				"球员名称",
-				"球员位置",
-				"上场时间（分钟部分）",
-				"上场时间（秒钟部分）",
-				"二分进球数",
-				"二分出手数",
-				"三分进球数",
-				"三分出手数",
-				"罚球进球数",
-				"罚球出手数",
-				"进攻篮板",
-				"防守篮板",
-				"总篮板",
-				"助攻",
-				"抢断",
-				"盖帽",
-				"失误",
-				"犯规",
-				"个人得分"
 				});
 		search_panel.add(valueBox);
 		
-		valueBox.setSelectedIndex(ConcisePara.match_index);
+		if(ConcisePara.match_index >= 1){
+			valueBox.setSelectedIndex(ConcisePara.match_index - 1);
+		}
+		else{
+			valueBox.setSelectedIndex(0);
+		}
 		
 		descendButton = new JButton();
 		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
@@ -110,7 +95,7 @@ public class MatchPanel extends ConcisePanel {
 		searchButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				
-				ConcisePara.match_index = valueBox.getSelectedIndex();
+				ConcisePara.match_index = valueBox.getSelectedIndex() + 1;
 				ConcisePara.match_item_name = (String)(valueBox.getSelectedItem());
 				ConcisePara.view_all = false;
 				

@@ -55,10 +55,11 @@ public class Player {
 		return return_str;
 	}
 	public String get_portrait_path(){
-		String return_str = player_info[33];
+		String return_str = null;
 		if(is_hot){
 			switch(type){
 			case SEASON_PLAYER:
+				return_str = player_info[33];
 				break;
 			case DAILY_PLAYER:
 				return_str = player_info[9];

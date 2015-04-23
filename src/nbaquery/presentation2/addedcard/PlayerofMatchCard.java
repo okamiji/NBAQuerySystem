@@ -16,7 +16,7 @@ public class PlayerofMatchCard extends RectCard {
 	String[] player_info;
 	JLabel label_name, label_pic, label_info;
 	ImageIcon pic;
-	String text;
+	String player_text;
 	
 	public void create_card(Object obj) {
 		
@@ -41,7 +41,7 @@ public class PlayerofMatchCard extends RectCard {
 		shadow_label.add(label_name);
 
 		set_text();
-		label_info = new JLabel(text);
+		label_info = new JLabel(player_text);
 		label_info.setForeground(new Color(191, 211, 200));
 		label_info.setFont(new Font("微软雅黑",Font.PLAIN, 12));	
 		label_info.setBounds(5, 48, 255, 137);
@@ -51,27 +51,27 @@ public class PlayerofMatchCard extends RectCard {
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				PanelSet.set_concise_invisible();
-				Player player = new Player(PanelSet.get_player_service().searchForOnePlayer(player_info[8]));
+				String[] str = PanelSet.get_player_service().searchForOnePlayer(player_info[8]);
+				Player player = new Player(str);
+				String[] test = player.get_player_info();
 				PanelSet.create_detailed_panel(player);
 			}
 		});
 		
 	}
 
-	private void set_text(){/*
-		String[] match_info = match.get_match_info();
-		match_text = "<html><center>";
-		match_text += "位置： " + match_info[9] + " ";
-		match_text += "上场时间： " + match_info[10] + "分 " +match_info[11] + "秒<br/>";
-		match_text += "二分进球/出手数： " + match_info[12] + " /  " + match_info[13] + "<br/>";
-		match_text += "三分进球/出手数： " + match_info[14] + " / " + match_info[15] + "<br/>";
-		match_text += "罚球进球/出手数： " + match_info[16] + " /  " + match_info[17] + "<br/>";
-		match_text += "进攻/防守/总篮板： " + match_info[18] + " / " + match_info[19] + " / " + match_info[20] + "<br/>";
-		match_text += "助攻： " + match_info[21] + " 抢断： " + match_info[22] + " 盖帽：" + match_info[23] + "<br/>";
-		match_text += "失误：" + match_info[24] + " 犯规：" + match_info[25] + "<br/>";
-		match_text += "个人得分：" + match_info[26] + "<br/>";
-		match_text += "</center></html>";
-		*/
+	private void set_text(){
+		player_text = "<html><center>";
+		player_text += "位置： " + player_info[9] + " ";
+		player_text += "上场时间： " + player_info[10] + "分 " + player_info[11] + "秒<br/>";
+		player_text += "二分进球/出手数： " + player_info[12] + " /  " + player_info[13] + "<br/>";
+		player_text += "三分进球/出手数： " + player_info[14] + " / " + player_info[15] + "<br/>";
+		player_text += "罚球进球/出手数： " + player_info[16] + " /  " + player_info[17] + "<br/>";
+		player_text += "进攻/防守/总篮板： " + player_info[18] + " / " + player_info[19] + " / " + player_info[20] + "<br/>";
+		player_text += "助攻： " + player_info[21] + " 抢断： " + player_info[22] + " 盖帽：" + player_info[23] + "<br/>";
+		player_text += "失误：" + player_info[24] + " 犯规：" + player_info[25] + "<br/>";
+		player_text += "个人得分：" + player_info[26] + "<br/>";
+		player_text += "</center></html>";
 	}
 
 }

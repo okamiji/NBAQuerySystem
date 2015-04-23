@@ -65,7 +65,7 @@ public class MatchofPlayerCard extends RectCard {
 		String[] match_info = match.get_match_info();
 		match_text = "<html><center>";
 		match_text += "位置： " + match_info[9] + " ";
-		match_text += "上场时间： " + match_info[10] + "分 " +match_info[11] + "秒<br/>";
+		match_text += "上场时间： " + match_info[10] + "分 " + match_info[11] + "秒<br/>";
 		match_text += "二分进球/出手数： " + match_info[12] + " /  " + match_info[13] + "<br/>";
 		match_text += "三分进球/出手数： " + match_info[14] + " / " + match_info[15] + "<br/>";
 		match_text += "罚球进球/出手数： " + match_info[16] + " /  " + match_info[17] + "<br/>";
