@@ -120,6 +120,7 @@ public class HotspotPanel extends ConcisePanel{
 				default:break;
 	
 				}
+				/*
 				if(ConcisePara.hotspot_type.isPlayer){
 					ConcisePara.player_index_index = valueBox.getSelectedIndex();
 					ConcisePara.player_item_name = (String)(valueBox.getSelectedItem());
@@ -128,10 +129,13 @@ public class HotspotPanel extends ConcisePanel{
 					ConcisePara.team_index = valueBox.getSelectedIndex();
 					ConcisePara.team_item_name = (String)(valueBox.getSelectedItem());
 				}
+				*/
 				PanelSet.set_concise_invisible();
 				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
 			}
 		});
+		
+		updateSearchPanel(ConcisePara.hotspot_type);
 	}
 	
 	public void stateSwitch(HotspotType stateSwitch)
@@ -139,6 +143,14 @@ public class HotspotPanel extends ConcisePanel{
 		if(stateSwitch == null) return;
 		if(stateSwitch == ConcisePara.hotspot_type) return;
 		ConcisePara.hotspot_type = stateSwitch;
+		this.updateSearchPanel(stateSwitch);
+		
+		PanelSet.set_concise_invisible();
+		ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
+	}
+	
+	protected void updateSearchPanel(HotspotType stateSwitch)
+	{
 		set_combobox_invisible();
 		
 		if(stateSwitch == HotspotType.DAILY_PLAYER)
@@ -182,9 +194,6 @@ public class HotspotPanel extends ConcisePanel{
 		
 		if(stateSwitch.isPlayer) ConcisePara.player_index_index = 0;
 		else if(stateSwitch.isTeam) ConcisePara.team_index = 0;
-		
-		PanelSet.set_concise_invisible();
-		ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
 	}
 	
 	private void add_cards() throws Exception{
