@@ -190,6 +190,9 @@ public class DetailedPanel extends JPanel{
 		portrait_label.setLocation(10, 95);
 		info_panel.add(portrait_label);
 		
+		//initialize with primary information panel
+		add(info_panel);
+		info_button.setIcon(new ImageIcon("Img2/primary_info_c.png"));
 		
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -200,12 +203,11 @@ public class DetailedPanel extends JPanel{
 			}
 		});
 		
-		//data panel
-		
 		//button
 		info_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				info_button.setRolloverSelectedIcon(new ImageIcon("Img2/detail_button1_c.png"));
+				info_button.setIcon(new ImageIcon("Img2/primary_info_c.png"));
+				data_button.setIcon(new ImageIcon("Img2/match_data.png"));
 				
 				add(info_panel);
 				info_panel.setVisible(true);
@@ -217,6 +219,9 @@ public class DetailedPanel extends JPanel{
 		});
 		data_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+				data_button.setIcon(new ImageIcon("Img2/match_data_c.png"));
+				info_button.setIcon(new ImageIcon("Img2/primary_info.png"));
+				
 				info_panel.setVisible(false);
 				remove(info_panel);
 				add(data_scr);
@@ -226,6 +231,8 @@ public class DetailedPanel extends JPanel{
 			}
 		});
 	}
+	
+	
 	
 	@SuppressWarnings("deprecation")
 	private void set_team_info(){

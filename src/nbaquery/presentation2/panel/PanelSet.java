@@ -61,6 +61,11 @@ public class PanelSet {
 		}
 	}
 	public static void create_detailed_panel(Object obj){
+		//make the last detailed panel invisible
+		if(detailed_list.size() != 0){
+			frame.remove(detailed_list.get(detailed_list.size() - 1));
+		}
+		//create a new detailed panel
 		Player player = null;
 		Team team = null;
 		Match match = null;
@@ -91,12 +96,7 @@ public class PanelSet {
 		}
 		detailed_added_panel.add(detailed_panel);
 		detailed_list.add(detailed_added_panel);
-		
-		if(detailed_list.size() != 0){
-			System.out.println("yes");
-			System.out.println(detailed_list.size());
-			frame.remove(detailed_list.get(detailed_list.size() - 1));
-		}
+		//add the nearly created detailed panel to list
 		frame.add(detailed_list.get(detailed_list.size() - 1));
 	}
 
@@ -104,6 +104,7 @@ public class PanelSet {
 		for(JPanel detailed : detailed_list){
 			frame.remove(detailed);
 		}
+		detailed_list = new ArrayList<JPanel>();
 	}
 	public static void detailed_exit(){
 		if(detailed_list.size() != 0){

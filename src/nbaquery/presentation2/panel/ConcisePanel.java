@@ -2,7 +2,6 @@ package nbaquery.presentation2.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.util.TreeMap;
 
 import javax.swing.JButton;
@@ -57,7 +56,7 @@ public class ConcisePanel extends JPanel {
 	    scr = new JScrollPane(card_panel, 
 	    		ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, 
 	    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    scr.setBounds(20, 70, 610, 400);//+70, +65
+	    scr.setBounds(20, 70, 610, 400);
 	    scr.setBorder(null);
 	    scr.setBackground(new Color(0, 0, 0, 0));
 	    scr.setVerticalScrollBar(new GoodLookingScrollBar());
