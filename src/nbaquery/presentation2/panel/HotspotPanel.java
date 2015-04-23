@@ -27,7 +27,7 @@ public class HotspotPanel extends ConcisePanel{
 	String[][] str = null;
 	
 	JButton daily_player, season_player, season_team, progress_player;
-	JComboBox box1, box2, box3, box4;
+	JComboBox<String> box1, box2, box3, box4;
 	
 	public HotspotPanel(CardType type_, boolean view_all_) {
 		super(type_, view_all_);
@@ -35,7 +35,8 @@ public class HotspotPanel extends ConcisePanel{
 		view_all = view_all_;
 		//TODO
 //		ConcisePara.is_hot = false;
-	//	init_combobox();
+		init_combobox();
+		set_combobox_invisible();
 	}
 	
 	public void run(){
@@ -65,9 +66,6 @@ public class HotspotPanel extends ConcisePanel{
 		season_player.setBounds(120, 10, 120, 40);
 		season_team.setBounds(240, 10, 120, 40);
 		progress_player.setBounds(360, 10, 120, 40);
-
-		//init
-		set_season_team_combobox();
 		
 		daily_player.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -77,10 +75,10 @@ public class HotspotPanel extends ConcisePanel{
 				daily_player.setIcon(new ImageIcon("Img2/hotspot1_.png"));
 ///				ConcisePara.is_hot = true;
 				//TODO
-				valueBox.setVisible(false);
-				search_panel.remove(valueBox);
-				set_daily_player_combobox();
-				valueBox.setSelectedIndex(ConcisePara.hot_season_player_index);
+				box1.setVisible(true);
+				set_combobox_invisible();
+				box1.setVisible(true);
+				box1.setSelectedIndex(ConcisePara.hot_season_player_index);
 				
 				ConcisePara.hot_daily_player_index = 0;
 				ConcisePara.player_index_index = 0;
@@ -105,10 +103,9 @@ public class HotspotPanel extends ConcisePanel{
 				season_player.setIcon(new ImageIcon("Img2/hotspot2_.png"));
 //				ConcisePara.is_hot = true;
 				//TODO
-				valueBox.setVisible(false);
-				search_panel.remove(valueBox);
-				set_season_player_combobox();
-				valueBox.setSelectedIndex(ConcisePara.hot_daily_player_index);
+				set_combobox_invisible();
+				box2.setVisible(true);
+				box2.setSelectedIndex(ConcisePara.hot_daily_player_index);
 				
 				ConcisePara.hot_season_player_index = 0;
 				ConcisePara.player_index_index = 0;
@@ -133,15 +130,9 @@ public class HotspotPanel extends ConcisePanel{
 				season_team.setIcon(new ImageIcon("Img2/hotspot3_.png"));
 //				ConcisePara.is_hot = true;
 				//TODO
-
-			//	valueBox.setVisible(false);
-				//search_panel.remove(valueBox);
-				set_season_team_combobox();
-				valueBox.setVisible(true);
-				search_panel.add(valueBox);
-				System.out.println(valueBox.getItemCount());
-//				valueBox.setVisible(true);
-				valueBox.setSelectedIndex(ConcisePara.hot_season_team_index);
+				set_combobox_invisible();
+				box2.setVisible(true);
+				box2.setSelectedIndex(ConcisePara.hot_season_team_index);
 				search_panel.repaint();
 				
 				ConcisePara.hot_season_team_index = 0;
@@ -168,10 +159,9 @@ public class HotspotPanel extends ConcisePanel{
 //				ConcisePara.is_hot = true;
 				//TODO
 
-				valueBox.setVisible(false);
-				search_panel.remove(valueBox);
-				set_progress_player_combobox();
-				valueBox.setSelectedIndex(ConcisePara.hot_progress_player_index);
+				set_combobox_invisible();
+				box4.setVisible(true);
+				box4.setSelectedIndex(ConcisePara.hot_progress_player_index);
 				
 				ConcisePara.hot_progress_player_index = 0;
 				ConcisePara.player_index_index = 0;
@@ -267,8 +257,22 @@ public class HotspotPanel extends ConcisePanel{
 		}
 		ConcisePara.is_hot = false;
 	}
+	
+	private void init_combobox(){
+		set_daily_player_combobox();
+		set_season_player_combobox();
+		set_season_team_combobox();
+		set_progress_player_combobox();
+	}
+	private void set_combobox_invisible(){
+		box1.setVisible(false);
+		box2.setVisible(false);
+		box3.setVisible(false);
+		box4.setVisible(false);
+	}
+	
 	private void set_daily_player_combobox(){
-		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
+		box1 = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{
 				"按得分排序",
 				"篮板",
@@ -276,11 +280,10 @@ public class HotspotPanel extends ConcisePanel{
 				"盖帽",
 				"抢断",
 				});
-	//	search_panel.add(valueBox);
-		search_panel.repaint();
+		search_panel.add(box1);
 	}
 	private void set_season_player_combobox(){
-		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
+		box2 = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{
 				"参赛场数",
 				"先发场数",
@@ -313,11 +316,10 @@ public class HotspotPanel extends ConcisePanel{
 				"联盟",
 				"分/板/助",
 				});
-	//	search_panel.add(valueBox);
-		search_panel.repaint();
+		search_panel.add(box2);
 	}
 	private void set_season_team_combobox(){
-		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
+		box3 = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{
 				"按赛季排序",
 				"球队名称",
@@ -348,12 +350,11 @@ public class HotspotPanel extends ConcisePanel{
 				"防守篮板效率",
 				"抢断效率",
 				"助攻效率"});
-//		search_panel.add(valueBox);
-		search_panel.repaint();
+		search_panel.add(box3);
 	}
 	
 	private void set_progress_player_combobox(){
-		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
+		box4 = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{
 				"按近五场场均得分排序",
 				"近五场篮板",
@@ -365,7 +366,6 @@ public class HotspotPanel extends ConcisePanel{
 				"篮板进步率",
 				"助攻进步率",
 				});
-//		search_panel.add(valueBox);
-		search_panel.repaint();
+		search_panel.add(box4);
 	}
 }
