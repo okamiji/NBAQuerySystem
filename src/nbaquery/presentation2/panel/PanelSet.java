@@ -27,7 +27,7 @@ public class PanelSet {
 	private static ConcisePanel concise;
 	
 	private static ArrayList<JPanel> detailed_list;
-
+	
 	private PanelSet(){
 	}
 	
@@ -52,81 +52,74 @@ public class PanelSet {
 	public static void set_concise(ConcisePanel concise_panel){
 		concise = concise_panel;
 	}
-	public static ConcisePanel get_concise(){
-		return concise;
-	}
 	public static void set_concise_invisible(){
 		if(concise != null){
-			if(concise.get_scr() != null){
-				concise.get_scr().setVisible(false);
-			}
-			if(concise.get_button_panel() != null){
-				concise.get_button_panel().setVisible(false);
-			}
-			concise.set_search_invisible();
-			if(concise.get_scr() != null){
-				frame.remove(concise.get_scr());
-			}
-			frame.remove(concise.get_search_panel());
+			concise.setVisible(false);
+			frame.remove(concise);
 			frame.revalidate();
 			frame.repaint();
 		}
 	}
-
-	public static void create_detailed_panel(Player player){
+	public static void create_detailed_panel(Object obj){
+		Player player = null;
+		Team team = null;
+		Match match = null;
+		if(obj instanceof Player){
+			player = (Player) obj;
+		}
+		else if(obj instanceof Team){
+			team = (Team) obj;
+		}
+		else if(obj instanceof Match){
+			match = (Match) obj;
+		}
 		JPanel detailed_added_panel = new JPanel();
 		detailed_added_panel.setBackground(new Color(0,0,0,0.0f));
 		detailed_added_panel.setLayout(null);
 		detailed_added_panel.setSize(784, 545);
 		detailed_added_panel.setLocation(0, 0);
-
-		DetailedPanel detailed_panel = new DetailedPanel(player);
+		
+		DetailedPanel detailed_panel = null;
+		if(obj instanceof Player){
+			detailed_panel = new DetailedPanel(player);
+		}
+		else if(obj instanceof Team){
+			detailed_panel = new DetailedPanel(team);
+		}
+		else if(obj instanceof Match){
+			detailed_panel = new DetailedPanel(match);
+		}
 		detailed_added_panel.add(detailed_panel);
 		detailed_list.add(detailed_added_panel);
 		
+		if(detailed_list.size() != 0){
+			System.out.println("yes");
+			System.out.println(detailed_list.size());
+			frame.remove(detailed_list.get(detailed_list.size() - 1));
+		}
 		frame.add(detailed_list.get(detailed_list.size() - 1));
 	}
-	public static void create_detailed_panel(Team team){
-		JPanel detailed_added_panel = new JPanel();
-		detailed_added_panel.setBackground(new Color(0,0,0,0.0f));
-		detailed_added_panel.setLayout(null);
-		detailed_added_panel.setSize(784, 545);
-		detailed_added_panel.setLocation(0, 0);
 
-		DetailedPanel detailed_panel = new DetailedPanel(team);
-		detailed_added_panel.add(detailed_panel);
-		detailed_list.add(detailed_added_panel);
-		
-		frame.add(detailed_list.get(detailed_list.size() - 1));
-	}
-	public static void create_detailed_panel(Match match){
-		JPanel detailed_added_panel = new JPanel();
-		detailed_added_panel.setBackground(new Color(0,0,0,0.0f));
-		detailed_added_panel.setLayout(null);
-		detailed_added_panel.setSize(784, 545);
-		detailed_added_panel.setLocation(0, 0);
-
-		DetailedPanel detailed_panel = new DetailedPanel(match);
-		detailed_added_panel.add(detailed_panel);
-		detailed_list.add(detailed_added_panel);
-		
-		frame.add(detailed_list.get(detailed_list.size() - 1));
-		
-	}
-	public static void set_detailed_visible(boolean is_visible){
-		detailed_list.get(detailed_list.size() - 1).setVisible(is_visible);
-	}
 	public static void set_all_detailed_panel_invisible(){
 		for(JPanel detailed : detailed_list){
 			frame.remove(detailed);
 		}
 	}
-	public static void remove_detailed(){
+	public static void detailed_exit(){
 		if(detailed_list.size() != 0){
 			frame.remove(detailed_list.get(detailed_list.size() - 1));
+			detailed_list.remove(detailed_list.size() - 1);
+		}
+		
+		if(detailed_list.size() != 0){
+			frame.add(detailed_list.get(detailed_list.size() - 1));
+		}
+		else{
+			concise.setVisible(true);
+			frame.add(concise);
 		}
 	}
-
+	
 	public static void set_player_service(PlayerService get_ps){
 		ps = get_ps;
 	}

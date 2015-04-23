@@ -23,6 +23,7 @@ import org.apache.batik.swing.svg.JSVGComponent;
 import nbaquery.logic.match.MatchService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.addedcard.Card;
+import nbaquery.presentation2.addon.GoodLookingScrollBar;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.info.Match;
@@ -97,17 +98,16 @@ public class DetailedPanel extends JPanel{
 		
 		exit_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				PanelSet.remove_detailed();
-				ConcisePanelFactory.create_panel(ConcisePara.type, false, false);
+				PanelSet.detailed_exit();
 			}
 		});
 	}
 	
 	private void set_player_info(){
-		info_button = new Button("Img2/detail_button1_n.png", "Img2/detail_button1_c.png", this);
+		info_button = new Button("Img2/primary_info.png", "Img2/primary_info_c.png", this);
 		info_button.setBounds(174, 3, 195, 30);
 		
-		data_button = new Button("Img2/detail_button2_n.png", "Img2/detail_button2_c.png", this);
+		data_button = new Button("Img2/match_data.png", "Img2/match_data_c.png", this);
 		data_button.setBounds(370, 3, 195, 30);
 		
 		direction_label = new JLabel();
@@ -138,17 +138,13 @@ public class DetailedPanel extends JPanel{
 		data_scr.setBorder(null);
 		data_scr.setBackground(new Color(0, 0, 0, 0));
 		data_scr.setOpaque(true);
+		data_scr.setVerticalScrollBar(new GoodLookingScrollBar());
 		this.add(data_scr);
 		data_scr.setVisible(false);
 
 		//data panel
 		MatchService ms = PanelSet.ms;
 		String[][] str = ms.searchForMatchsByPlayer(player.get_name());
-		for(int i=0;i<str.length;i++){
-			for(int j=0;j<str[0].length;j++){
-				System.out.println(i+ " " + j + " " + str[i][j]);
-			}
-		}
 		CardCreator creator = new CardCreator();
 		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
 		CardLocation location = new CardLocation(CardType.MATCH_of_PLAYER);
@@ -197,10 +193,10 @@ public class DetailedPanel extends JPanel{
 		
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				PanelSet.set_detailed_visible(false);
-			//	InfoRetriever retriever = new InfoRetriever();
-			//	Team set_team = retriever.get_team_by_name(team_label.getText());
-			//	PanelSet.create_detailed_panel(set_team);
+				String team_name = player.get_team();
+				Team created_team = new Team(PanelSet.get_team_service().searchForOneTeam(team_name));
+				PanelSet.create_detailed_panel(created_team);
+				
 			}
 		});
 		
@@ -320,6 +316,7 @@ public class DetailedPanel extends JPanel{
 		host_scr.setBorder(null);
 		host_scr.setBackground(new Color(0, 0, 0, 0));
 		host_scr.setOpaque(true);
+		host_scr.setVerticalScrollBar(new GoodLookingScrollBar());
 		this.add(host_scr);
 		host_scr.setVisible(false);
 		
@@ -337,6 +334,7 @@ public class DetailedPanel extends JPanel{
 		guest_scr.setBorder(null);
 		guest_scr.setBackground(new Color(0, 0, 0, 0));
 		guest_scr.setOpaque(true);
+		guest_scr.setVerticalScrollBar(new GoodLookingScrollBar());
 		this.add(guest_scr);
 		guest_scr.setVisible(false);
 

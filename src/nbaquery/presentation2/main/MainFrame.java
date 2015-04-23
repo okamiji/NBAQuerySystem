@@ -88,13 +88,12 @@ public class MainFrame {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setBackground(bac);
-		frame.setBounds(270, 80, background_width, background_height);
+		frame.setBounds(240, 50, background_width, background_height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("NBAQuerySyetem");
 		frame.setVisible(true);		
 		frame.setLayout(null);
 		frame.setResizable(false);
-//		frame.setOpacity(0.95f);
 		
 		((JPanel)frame.getContentPane()).setOpaque(false);
 		background_label=new JLabel(background_img);
@@ -102,7 +101,7 @@ public class MainFrame {
 		background_label.setBounds(0, 0, background_width, background_height); 
 		
 		button_left_panel = new JPanel();
-		button_left_panel.setBounds(0, 0, 115, background_height);
+		button_left_panel.setBounds(0, 0, 118, background_height);
 		button_left_panel.setLayout(null);
 		button_left_panel.setVisible(true);
 		button_left_panel.setOpaque(false);
@@ -148,18 +147,18 @@ public class MainFrame {
 		button3 = new Button("Img2/blank_big.png", "Img2/button_chosen.png", button_left_panel);
 		button4 = new Button("Img2/blank_big.png", "Img2/button_chosen.png", button_left_panel);
 		button5 = new Button("Img2/blank_big.png", "Img2/button_chosen.png", button_left_panel);
-		button1.setBounds(35, 105, 82, 82);
-		button2.setBounds(35, 192, 82, 82);
-		button3.setBounds(35, 279, 82, 82);
-		button4.setBounds(35, 366, 82, 82);
-		button5.setBounds(35, 453, 82, 82);
+		button1.setBounds(34, 105, 82, 82);
+		button2.setBounds(34, 192, 82, 82);
+		button3.setBounds(34, 279, 82, 82);
+		button4.setBounds(34, 366, 82, 82);
+		button5.setBounds(34, 453, 82, 82);
 		
 		exit = new Button("Img2/blank_small.png", "Img2/line.png", button_right_panel);
 		mini = new Button("Img2/blank_small.png", "Img2/line.png", button_right_panel);
 		show = new Button("Img2/blank_small.png", "Img2/line.png", button_right_panel);
-		exit.setBounds(120, 34, 24, 25);
-		mini.setBounds(100, 34, 24, 25);
-		show.setBounds(10, 45, 24, 25);
+		exit.setBounds(118, 44, 24, 25);
+		mini.setBounds(98, 44, 24, 25);
+		show.setBounds(14, 50, 24, 25);
 
 		button1.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -238,7 +237,7 @@ public class MainFrame {
 				init_button();
 				button5.setIcon(new ImageIcon("Img2/button_chosen.png"));
 
-				PanelSet.remove_detailed();
+				PanelSet.set_all_detailed_panel_invisible();
 				new AboutUsPanel(null, ConcisePara.view_all);
 				
 				listener5 = button5.getMouseListeners()[1];
