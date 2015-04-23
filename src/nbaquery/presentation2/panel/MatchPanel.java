@@ -118,6 +118,11 @@ public class MatchPanel extends ConcisePanel {
 	    dateComboBox.setFont(getFont());
 	    
 	    search_panel.add(dateComboBox);
+	    
+	    dateComboBox.calendar.setText("+");
+	    dateComboBox.calendar.setFont(dateComboBox.calendar.getFont().deriveFont(15.0f));
+	    dateComboBox.clear.setText("-");
+	    dateComboBox.clear.setFont(dateComboBox.clear.getFont().deriveFont(15.0f));
 	}
 	
 	public void update()
