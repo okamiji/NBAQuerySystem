@@ -1,6 +1,8 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -50,6 +52,13 @@ public class HotspotPanel extends ConcisePanel{
 			hotspot4_ = new ImageIcon("Img2/hotspot4_.png");
 		}
 	}
+	
+	ItemListener l = new ItemListener(){
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			responseMouseClicked();
+		}
+    };
 	
 	public void run(){
 		super.run();
@@ -106,36 +115,35 @@ public class HotspotPanel extends ConcisePanel{
 			}
 		});
 		
-		searchButton = new Button("Img2/search_button.png", "Img2/search_button_c.png", search_panel);
-		searchButton.setBounds(460, 15, 72, 24);
-		search_panel.add(searchButton);
-		
-		searchButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				switch(ConcisePara.hotspot_type){
-				case DAILY_PLAYER: ConcisePara.hot_daily_player_index = box1.getSelectedIndex(); break;
-				case SEASON_PLAYER: ConcisePara.hot_season_player_index = box2.getSelectedIndex(); break;
-				case SEASON_TEAM: ConcisePara.hot_season_team_index = box3.getSelectedIndex(); break;
-				case PROGRESS_PLAYER: ConcisePara.hot_progress_player_index = box4.getSelectedIndex(); break;
-				default:break;
-	
-				}
-				/*
-				if(ConcisePara.hotspot_type.isPlayer){
-					ConcisePara.player_index_index = valueBox.getSelectedIndex();
-					ConcisePara.player_item_name = (String)(valueBox.getSelectedItem());
-				}
-				else if(ConcisePara.hotspot_type.isTeam){
-					ConcisePara.team_index = valueBox.getSelectedIndex();
-					ConcisePara.team_item_name = (String)(valueBox.getSelectedItem());
-				}
-				*/
-				PanelSet.set_concise_invisible();
-				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
-			}
-		});
-		
 		updateSearchPanel(ConcisePara.hotspot_type);
+		
+		box1.addItemListener(l);
+	    box2.addItemListener(l);
+	    box3.addItemListener(l);
+	    box4.addItemListener(l);
+	}
+	
+	public void responseMouseClicked() {
+		switch(ConcisePara.hotspot_type){
+		case DAILY_PLAYER: ConcisePara.hot_daily_player_index = box1.getSelectedIndex(); break;
+		case SEASON_PLAYER: ConcisePara.hot_season_player_index = box2.getSelectedIndex(); break;
+		case SEASON_TEAM: ConcisePara.hot_season_team_index = box3.getSelectedIndex(); break;
+		case PROGRESS_PLAYER: ConcisePara.hot_progress_player_index = box4.getSelectedIndex(); break;
+		default:break;
+
+		}
+		/*
+		if(ConcisePara.hotspot_type.isPlayer){
+			ConcisePara.player_index_index = valueBox.getSelectedIndex();
+			ConcisePara.player_item_name = (String)(valueBox.getSelectedItem());
+		}
+		else if(ConcisePara.hotspot_type.isTeam){
+			ConcisePara.team_index = valueBox.getSelectedIndex();
+			ConcisePara.team_item_name = (String)(valueBox.getSelectedItem());
+		}
+		*/
+		PanelSet.set_concise_invisible();
+		ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
 	}
 	
 	public void stateSwitch(HotspotType stateSwitch)

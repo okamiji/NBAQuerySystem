@@ -1,6 +1,8 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -79,6 +81,7 @@ public class MatchPanel extends ConcisePanel {
 				descendButton.setVisible(false);
 				ascendButton.setVisible(true);
 				ConcisePara.match_isUp = false;
+				responseMouseClicked();
 			}
 		});
 		ascendButton.addMouseListener(new MouseAdapter(){
@@ -86,26 +89,37 @@ public class MatchPanel extends ConcisePanel {
 				ascendButton.setVisible(false);
 				descendButton.setVisible(true);
 				ConcisePara.match_isUp = true;
+				responseMouseClicked();
 			}
 		});
 		
-		searchButton = new Button("Img2/search_button.png", "Img2/search_button_c.png", search_panel);
-		searchButton.setBounds(460, 15, 72, 24);		
+		update();
 		
-		searchButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				
-				ConcisePara.match_index = valueBox.getSelectedIndex() + 1;
-				ConcisePara.match_item_name = (String)(valueBox.getSelectedItem());
-				ConcisePara.view_all = false;
-				
-				valueBox.setSelectedIndex(ConcisePara.match_index);
-				
-				PanelSet.set_concise_invisible();
-				ConcisePanelFactory.create_panel(type, view_all, false);
-				
+		ItemListener l = new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				responseMouseClicked();
 			}
-		});
+	    };
+	    
+	    valueBox.addItemListener(l);
+	}
+	
+	public void update()
+	{
+		//valueBox.setSelectedIndex(ConcisePara.match_index);
+	}
+	
+	public void responseMouseClicked() {
+		
+		ConcisePara.match_index = valueBox.getSelectedIndex() + 1;
+		ConcisePara.match_item_name = (String)(valueBox.getSelectedItem());
+		ConcisePara.view_all = false;
+		
+		
+		
+		PanelSet.set_concise_invisible();
+		ConcisePanelFactory.create_panel(type, view_all, false);
 		
 	}
 	
