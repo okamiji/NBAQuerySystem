@@ -101,7 +101,7 @@ public class MatchLoader implements FileLoader
 		self_score = host.getColumn("performance.self_score");
 	}
 	
-	public void record(File file, long matchId, KeywordTable matchTable, KeywordTable quarterTable, KeywordTable performanceTable) throws Exception
+	public void record(File file, int matchId, KeywordTable matchTable, KeywordTable quarterTable, KeywordTable performanceTable) throws Exception
 	{
 		if(!file.getName().matches("[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}_[A-Z]+-[A-Z]+")) return;
 		Tuple tuple = matchTable.createTuple();
@@ -214,7 +214,7 @@ public class MatchLoader implements FileLoader
 		return splitted;
 	}
 	
-	long matchId = 1;
+	int matchId = 1;
 	
 	public void setRoot(File root)
 	{

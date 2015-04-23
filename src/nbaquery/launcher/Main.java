@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 import nbaquery.data.TableHost;
 import nbaquery.data.file.FileTableHost;

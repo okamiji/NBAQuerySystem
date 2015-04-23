@@ -27,7 +27,7 @@ public enum EnumAttribute
 	PLAYER_PORTRAIT(EnumTable.PLAYER, Image.class),
 	PLAYER_ACTION(EnumTable.PLAYER, Image.class),
 	
-	MATCH_ID(new EnumTable[]{EnumTable.MATCH, EnumTable.QUARTER_SCORE, EnumTable.PERFORMANCE}, Long.class, new boolean[]{true, false, false}),
+	MATCH_ID(new EnumTable[]{EnumTable.MATCH, EnumTable.QUARTER_SCORE, EnumTable.PERFORMANCE}, Integer.class, new boolean[]{true, false, false}),
 	MATCH_SEASON(EnumTable.MATCH, String.class),
 	MATCH_DATE(EnumTable.MATCH, String.class),
 	MATCH_HOST_ABBR(EnumTable.MATCH, String.class),

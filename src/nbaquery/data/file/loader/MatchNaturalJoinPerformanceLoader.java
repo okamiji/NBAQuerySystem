@@ -129,9 +129,9 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 		self_score = match_natural_join_performance.getColumn("self_score");
 	}
 	
-	long matchId = 1;
+	int matchId = 1;
 	
-	public void record(File file, long matchId, KeywordTable quarterTable, MultivaluedTable matchTable) throws Exception
+	public void record(File file, int matchId, KeywordTable quarterTable, MultivaluedTable matchTable) throws Exception
 	{
 		if(!file.getName().matches("[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}_[A-Z]+-[A-Z]+")) return;
 		
