@@ -35,24 +35,8 @@ public class Player {
 		return return_str;
 	}
 	public String get_team(){
-		String return_str = player_info[2];
-		if(is_hot){
-			switch(type){
-			case SEASON_PLAYER:
-				break;
-			case DAILY_PLAYER:
-				//TODO
-				return_str = "TODO";
-				break;
-			case PROGRESS_PLAYER:
-				//TODO
-				return_str = "TODO";
-				break;
-			default:
-				break;
-			}
-		}
-		return return_str;
+		if(!is_hot) return player_info[2];
+		else return null;
 	}
 	public String get_portrait_path(){
 		String return_str = null;
