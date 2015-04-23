@@ -21,5 +21,5 @@ public interface TeamService
 	 * @param teamName 球队名字
 	 * @return 所查询的球队的基本信息
 	 */
-	public String[] searchForOneTeam(String teamName);
+	public String[] searchForOneTeam(String teamNameOrAbbr, boolean isAbbr);
 }

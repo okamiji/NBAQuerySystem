@@ -23,6 +23,9 @@ public class CardLocation {
 		}
 		
 		start_height = 15;
+		if(type.equals(CardType.PLAYER_of_MATCH)){
+			start_height = 130;
+		}
 		if(is_flat){
 			start_width = 30;
 			gap_height = 53;
@@ -31,7 +34,7 @@ public class CardLocation {
 			start_width = 25;
 			gap_width = 270;
 			gap_height = 110;
-			if(type.equals(CardType.MATCH_of_PLAYER)){
+			if(type.equals(CardType.MATCH_of_PLAYER) || type.equals(CardType.PLAYER_of_MATCH)){
 				gap_height = 220;
 			}
 		}
