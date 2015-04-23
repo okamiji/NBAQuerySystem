@@ -1,6 +1,9 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -113,6 +116,7 @@ public class PlayerPanel extends ConcisePanel {
 				descendButton.setVisible(false);
 				ascendButton.setVisible(true);
 				ConcisePara.player_isUp = false;
+				responseMouseClicked();
 			}
 		});
 		ascendButton.addMouseListener(new MouseAdapter(){
@@ -120,52 +124,67 @@ public class PlayerPanel extends ConcisePanel {
 				ascendButton.setVisible(false);
 				descendButton.setVisible(true);
 				ConcisePara.player_isUp = true;
+				responseMouseClicked();
 			}
-		});
+		});	
 		
-		searchButton = new Button("Img2/search_button.png", "Img2/search_button_c.png", search_panel);
-		searchButton.setBounds(460, 15, 72, 24);		
+		update();
 		
-		searchButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				
-				int index = valueBox.getSelectedIndex();
-				if(index > 0){
-					ConcisePara.player_index = index + 2;
-				}
-				else{
-					ConcisePara.player_index = index + 1;
-				}
-				
-				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
-					ConcisePara.player_isGross = true;
-				}
-				else{
-					ConcisePara.player_isGross = false;
-				}
-				
-				ConcisePara.player_position = lookups.get((String) positionBox.getSelectedItem());
-				ConcisePara.player_league = lookups.get((String) leagueBox.getSelectedItem());		
-				
-				ConcisePara.player_item_name = (String)(valueBox.getSelectedItem());
-				ConcisePara.view_all = false;
-				
-				ConcisePara.player_isGross_index = typeBox.getSelectedIndex();
-				ConcisePara.player_index_index = valueBox.getSelectedIndex();
-				ConcisePara.player_position_index = positionBox.getSelectedIndex();
-				ConcisePara.player_league_index = leagueBox.getSelectedIndex();
-				
-				typeBox.setSelectedIndex(ConcisePara.player_isGross_index);
-				valueBox.setSelectedIndex(ConcisePara.player_index_index);
-				positionBox.setSelectedIndex(ConcisePara.player_position_index);
-				leagueBox.setSelectedIndex(ConcisePara.player_league_index);
-				
-				PanelSet.set_concise_invisible();
-				ConcisePanelFactory.create_panel(type, view_all, false);
-				
+		ItemListener l = new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				responseMouseClicked();
 			}
-		});
+	    };
 		
+	    positionBox.addItemListener(l);
+	    
+	    leagueBox.addItemListener(l);
+	    
+	    typeBox.addItemListener(l);
+	    
+	    valueBox.addItemListener(l);
+	}
+	
+	public void responseMouseClicked() {
+		
+		int index = valueBox.getSelectedIndex();
+		if(index > 0){
+			ConcisePara.player_index = index + 2;
+		}
+		else{
+			ConcisePara.player_index = index + 1;
+		}
+		
+		if(((String)typeBox.getSelectedItem()).equals("全局数据")){
+			ConcisePara.player_isGross = true;
+		}
+		else{
+			ConcisePara.player_isGross = false;
+		}
+		
+		ConcisePara.player_position = lookups.get((String) positionBox.getSelectedItem());
+		ConcisePara.player_league = lookups.get((String) leagueBox.getSelectedItem());		
+		
+		ConcisePara.player_item_name = (String)(valueBox.getSelectedItem());
+		ConcisePara.view_all = false;
+		
+		ConcisePara.player_isGross_index = typeBox.getSelectedIndex();
+		ConcisePara.player_index_index = valueBox.getSelectedIndex();
+		ConcisePara.player_position_index = positionBox.getSelectedIndex();
+		ConcisePara.player_league_index = leagueBox.getSelectedIndex();
+		
+		PanelSet.set_concise_invisible();
+		ConcisePanelFactory.create_panel(type, view_all, false);
+		
+	}
+	
+	public void update()
+	{
+		typeBox.setSelectedIndex(ConcisePara.player_isGross_index);
+		valueBox.setSelectedIndex(ConcisePara.player_index_index);
+		positionBox.setSelectedIndex(ConcisePara.player_position_index);
+		leagueBox.setSelectedIndex(ConcisePara.player_league_index);
 	}
 	
 	private void add_cards(){
