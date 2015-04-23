@@ -21,8 +21,10 @@ import javax.swing.ScrollPaneConstants;
 import org.apache.batik.swing.svg.JSVGComponent;
 
 import nbaquery.logic.match.MatchService;
+import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.addedcard.Card;
+import nbaquery.presentation2.addedcard.CardFactory;
 import nbaquery.presentation2.addon.GoodLookingScrollBar;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
@@ -126,9 +128,6 @@ public class DetailedPanel extends JPanel{
 		data_panel = new JPanel();
 		data_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		data_panel.setLayout(null);
-		//data_panel.setSize(575, 530);
-		//data_panel.setLocation(-5, 5);
-		//this.add(data_panel);+
 		
 		data_scr = new JScrollPane(data_panel, 
     		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
@@ -169,7 +168,7 @@ public class DetailedPanel extends JPanel{
 		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
 		background_label.setBounds(-15, 5, 610, 545); 
 		
-		team_label.setSize(130, 100);
+		team_label.setSize(170, 100);
 		team_label.setLocation(215, 185);
 		team_label.setForeground(new Color(191, 211, 200));
 		info_panel.add(team_label);
@@ -197,7 +196,7 @@ public class DetailedPanel extends JPanel{
 		team_label.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				String team_name = player.get_team();
-				Team created_team = new Team(PanelSet.get_team_service().searchForOneTeam(team_name));
+				Team created_team = new Team(PanelSet.get_team_service().searchForOneTeam(team_name, false));
 				PanelSet.create_detailed_panel(created_team);
 				
 			}
@@ -251,7 +250,7 @@ public class DetailedPanel extends JPanel{
 		this.add(info_panel);
 		
 		//info panel
-		team_detailed_info = PanelSet.get_team_service().searchForOneTeam(team.get_name());
+		team_detailed_info = PanelSet.get_team_service().searchForOneTeam(team.get_name(), false);
 
 		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background2.png"));
 		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
@@ -312,10 +311,8 @@ public class DetailedPanel extends JPanel{
 		host_panel = new JPanel();
 		host_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		host_panel.setLayout(null);
-		host_panel.setSize(590, 530);
-		host_panel.setLocation(-5, -25);
 		
-		host_scr = new JScrollPane(data_panel, 
+		host_scr = new JScrollPane(host_panel, 
 	    		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
 	    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		host_scr.setSize(590, 400);
@@ -325,7 +322,9 @@ public class DetailedPanel extends JPanel{
 		host_scr.setOpaque(true);
 		host_scr.setVerticalScrollBar(new GoodLookingScrollBar());
 		this.add(host_scr);
-		host_scr.setVisible(false);
+		
+		host_scr.setVisible(true);
+		team1_button.setIcon(new ImageIcon("Img2/host_c.png"));
 		
 		guest_panel = new JPanel();
 		guest_panel.setBackground(new Color(0, 0, 0, 0.0f));
@@ -333,7 +332,7 @@ public class DetailedPanel extends JPanel{
 		guest_panel.setSize(590, 530);
 		guest_panel.setLocation(-5, -25);
 		
-		guest_scr = new JScrollPane(data_panel, 
+		guest_scr = new JScrollPane(guest_panel, 
     		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
     		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		guest_scr.setSize(590, 400);
@@ -351,27 +350,56 @@ public class DetailedPanel extends JPanel{
 		int match_id = Integer.parseInt(match.get_id());
 		System.out.println(match_id);
 		String[][] str = ms.searchForOneMatchById(match_id);
-		String[][] team1_players;
-		String[][] team2_players;
+		ArrayList<String[]> team1_players = new ArrayList<String[]>();
+		ArrayList<String[]> team2_players = new ArrayList<String[]>();
+		//TODO print information
+		for(int i=0; i<str.length; i++){
+			for(int j=0; j<str[0].length; j++){
+				System.out.println(i + " " + j + " " + str[i][j]);
+			}
+		}
 		
-	/*	for(int i=0; i<str.length; i++){
-			if()
-		}8*/
+		String host_team_name = match.get_team()[0];
+		String guest_team_name = match.get_team()[1];
+		for(int i=0; i<str.length; i++){
+			if(str[i][7].equals(host_team_name)){
+				team1_players.add(str[i]);
+			}
+			else if(str[i][7].equals(guest_team_name)){
+				team2_players.add(str[i]);
+			}
+		}
 		
-		/*CardCreator creator = new CardCreator();
-		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
-		CardLocation location = new CardLocation(CardType.MATCH_of_PLAYER);
-		scr_height = location.get_total_height(card_list.size());
+		//host panel
+		TeamService ts = PanelSet.get_team_service();
+		String[] get_host_team = ts.searchForOneTeam(host_team_name, true);
+		String[][] host_str = new String[1][get_host_team.length];
+		host_str[0] = get_host_team;
+		CardCreator creator = new CardCreator();
+		Card host_card = creator.create_needed_cards(CardType.TEAM_RECT, host_str, true).get(0);
+		CardLocation host_location = new CardLocation(CardType.TEAM_RECT);
+		scr_height = host_location.get_total_height(1);
+		host_panel.add(host_card);
+		host_card.setLocation(host_card.width, host_card.height);
+		
+		//the same use as card creator
+		ArrayList<Card> card_list = new ArrayList<Card>();
+		for(int i=0; i<team1_players.size(); i++){
+			Card card = CardFactory.create(CardType.PLAYER_of_MATCH, team1_players.get(i), true);
+			card_list.add(card);
+		}
+		CardLocation location = new CardLocation(CardType.PLAYER_of_MATCH);
+		int host_scr_height = location.get_total_height(card_list.size());
 		for(int i=0; i<card_list.size(); i++){
+			card_list.get(i).width = location.get_location(i)[0];
+			card_list.get(i).height = location.get_location(i)[1];
 			Card card = card_list.get(i);
-			data_panel.add(card);
+			host_panel.add(card);
 			card.setLocation(card.width, card.height);
 		}
-		data_panel.repaint();
+	    host_panel.setPreferredSize(new Dimension(host_scr.getWidth() - 50, host_scr_height));
 		
 
-	    data_panel.setPreferredSize(new Dimension(data_scr.getWidth() - 50, scr_height));
-		*/
 		//button
 		team1_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {

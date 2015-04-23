@@ -68,7 +68,7 @@ public class TeamServiceAdapter implements TeamService
 	}
 
 	@Override
-	public String[] searchForOneTeam(String teamName) {
+	public String[] searchForOneTeam(String teamNameAbbr, boolean isAbbr) {
 		Table team=tableHost.getTable("team");
 		SortQuery sort = new SortQuery(this.gross.getTable(), oneTeamColumns[0], true);
 		tableHost.performQuery(sort, "team_query_result");
@@ -79,7 +79,8 @@ public class TeamServiceAdapter implements TeamService
 		
 		SelectProjectQuery query = null;
 		try {
-			query = new SelectProjectQuery("team_query_result.TEAM_NAME=='"+teamName+"'",queryResult);
+			if(isAbbr) query = new SelectProjectQuery("team_query_result.TEAM_NAME_ABBR=='"+teamNameAbbr+"'",queryResult);
+			else query = new SelectProjectQuery("team_query_result.TEAM_NAME=='"+teamNameAbbr+"'",queryResult);
 		} catch (Exception e) {	
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,6 +94,8 @@ public class TeamServiceAdapter implements TeamService
 		
 		Row[] rows = queryResult.getRows();
 		String[] returnValue=new String[oneTeamColumns.length];
+		if(rows.length == 0) return returnValue;
+		
 		Column[] columns = new Column[oneTeamColumns.length];
 		for(int i = 0; i < oneTeamColumns.length; i ++)
 			columns[i] = queryResult.getColumn(oneTeamColumns[i]);
