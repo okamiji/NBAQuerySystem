@@ -39,6 +39,8 @@ public class CardFactory {
 				card = new MoreRectCard();break;
 			case MATCH_RECT:
 				card = new MoreRectCard();break;
+			case PLAYER_of_MATCH:
+				card = new PlayerofMatchCard();break;
 			default:
 				break;
 			}

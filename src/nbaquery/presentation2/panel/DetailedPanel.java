@@ -323,14 +323,9 @@ public class DetailedPanel extends JPanel{
 		host_scr.setVerticalScrollBar(new GoodLookingScrollBar());
 		this.add(host_scr);
 		
-		host_scr.setVisible(true);
-		team1_button.setIcon(new ImageIcon("Img2/host_c.png"));
-		
 		guest_panel = new JPanel();
 		guest_panel.setBackground(new Color(0, 0, 0, 0.0f));
 		guest_panel.setLayout(null);
-		guest_panel.setSize(590, 530);
-		guest_panel.setLocation(-5, -25);
 		
 		guest_scr = new JScrollPane(guest_panel, 
     		ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
@@ -344,7 +339,9 @@ public class DetailedPanel extends JPanel{
 		this.add(guest_scr);
 		guest_scr.setVisible(false);
 
-
+		host_scr.setVisible(true);
+		team1_button.setIcon(new ImageIcon("Img2/host_c.png"));
+		
 		MatchService ms = PanelSet.ms;
 		
 		int match_id = Integer.parseInt(match.get_id());
@@ -370,36 +367,9 @@ public class DetailedPanel extends JPanel{
 			}
 		}
 		
-		//host panel
-		TeamService ts = PanelSet.get_team_service();
-		String[] get_host_team = ts.searchForOneTeam(host_team_name, true);
-		String[][] host_str = new String[1][get_host_team.length];
-		host_str[0] = get_host_team;
-		CardCreator creator = new CardCreator();
-		Card host_card = creator.create_needed_cards(CardType.TEAM_RECT, host_str, true).get(0);
-		CardLocation host_location = new CardLocation(CardType.TEAM_RECT);
-		scr_height = host_location.get_total_height(1);
-		host_panel.add(host_card);
-		host_card.setLocation(host_card.width, host_card.height);
+		add_player_of_match_card(host_panel, host_team_name, team1_players);
+		add_player_of_match_card(guest_panel, guest_team_name, team2_players);
 		
-		//the same use as card creator
-		ArrayList<Card> card_list = new ArrayList<Card>();
-		for(int i=0; i<team1_players.size(); i++){
-			Card card = CardFactory.create(CardType.PLAYER_of_MATCH, team1_players.get(i), true);
-			card_list.add(card);
-		}
-		CardLocation location = new CardLocation(CardType.PLAYER_of_MATCH);
-		int host_scr_height = location.get_total_height(card_list.size());
-		for(int i=0; i<card_list.size(); i++){
-			card_list.get(i).width = location.get_location(i)[0];
-			card_list.get(i).height = location.get_location(i)[1];
-			Card card = card_list.get(i);
-			host_panel.add(card);
-			card.setLocation(card.width, card.height);
-		}
-	    host_panel.setPreferredSize(new Dimension(host_scr.getWidth() - 50, host_scr_height));
-		
-
 		//button
 		team1_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
@@ -407,10 +377,13 @@ public class DetailedPanel extends JPanel{
 				team2_button.setIcon(new ImageIcon("Img2/guest.png"));
 				
 				add(host_panel);
+				add(host_scr);
+				host_scr.setVisible(true);
 				host_panel.setVisible(true);
 				guest_scr.setVisible(false);
-				remove(guest_scr);
+				guest_panel.setVisible(false);
 				remove(guest_panel);
+				remove(guest_scr);
 				validate();
 				repaint();
 			}
@@ -421,16 +394,51 @@ public class DetailedPanel extends JPanel{
 				team2_button.setIcon(new ImageIcon("Img2/guest_c.png"));
 				
 				add(guest_panel);
+				add(guest_scr);
+				guest_scr.setVisible(true);
 				guest_panel.setVisible(true);
 				host_scr.setVisible(false);
-				remove(host_scr);
+				host_panel.setVisible(false);
 				remove(host_panel);
+				remove(host_scr);
 				validate();
 				repaint();
 			}
 		});
 	}
+	private void add_player_of_match_card(JPanel panel, String team_name, ArrayList<String[]> players){
 
+		//host panel
+		TeamService ts = PanelSet.get_team_service();
+		String[] get_host_team = ts.searchForOneTeam(team_name, true);
+		String[][] host_str = new String[1][get_host_team.length];
+		host_str[0] = get_host_team;
+		CardCreator creator = new CardCreator();
+		Card host_card = creator.create_needed_cards(CardType.TEAM_RECT, host_str, true).get(0);
+		CardLocation host_location = new CardLocation(CardType.TEAM_RECT);
+		scr_height = host_location.get_total_height(1);
+		panel.add(host_card);
+		host_card.setLocation(host_card.width, host_card.height);
+		
+		//the same use as card creator
+		ArrayList<Card> card_list = new ArrayList<Card>();
+		for(int i=0; i<players.size(); i++){
+			Card card = CardFactory.create(CardType.PLAYER_of_MATCH, players.get(i), true);
+			card_list.add(card);
+		}
+		CardLocation location = new CardLocation(CardType.PLAYER_of_MATCH);
+		int host_scr_height = location.get_total_height(card_list.size());
+		for(int i=0; i<card_list.size(); i++){
+			card_list.get(i).width = location.get_location(i)[0];
+			card_list.get(i).height = location.get_location(i)[1];
+			Card card = card_list.get(i);
+			panel.add(card);
+			card.setLocation(card.width, card.height);
+		}
+		panel.setPreferredSize(new Dimension(host_scr.getWidth() - 50, host_scr_height));
+		
+	}
+	
 	private String get_player_text(){
 		String player_string = "<html>";
 		player_string += "<b>«Ú‘±–’√˚£∫</b> " + player_detailed_info[0];

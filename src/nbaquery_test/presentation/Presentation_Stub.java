@@ -27,7 +27,7 @@ public class Presentation_Stub implements PlayerService , TeamService{
 	}
 
 	@Override
-	public String[] searchForOneTeam(String teamName) {
+	public String[] searchForOneTeam(String teamName, boolean isAbbr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
