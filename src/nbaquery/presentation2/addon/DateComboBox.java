@@ -42,6 +42,7 @@ public class DateComboBox extends JPanel
 					date = (dateSelector.month + 1) + "-" + dateSelector.calendarSelector.date;
 					display.setText(season + " " + date);
 					clear.setEnabled(true);
+					update();
 				}
 			}
 		});
@@ -59,6 +60,7 @@ public class DateComboBox extends JPanel
 				season = null;
 				date = null;
 				display.setText("所有比赛数据");
+				update();
 			}
 		});
 		
@@ -105,6 +107,11 @@ public class DateComboBox extends JPanel
 	public String getDate()
 	{
 		return this.date;
+	}
+	
+	public void update()
+	{
+		
 	}
 	
 	public void popupDateContainer()

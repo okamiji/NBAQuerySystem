@@ -55,7 +55,7 @@ public class Player {
 				break;
 			}
 		}
-		else return_str =  player_info[33];
+		else if(player_info.length > 33) return_str =  player_info[33];
 		return return_str;
 	}
 	public String get_action_path(){

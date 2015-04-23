@@ -184,6 +184,7 @@ public class MatchServiceAdapter implements MatchService{
 		return queryResult;
 	}
 	
+	//XXX you sb
 	@Override
 	public String[][] searchForMatchsByDateAndSeason(String date,String season) {
 		Table queryResult = searchByDate(date);
