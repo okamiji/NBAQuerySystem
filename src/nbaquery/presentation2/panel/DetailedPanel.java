@@ -295,10 +295,10 @@ public class DetailedPanel extends JPanel{
 		
 	}
 	private void set_match_info(){
-		team1_button = new Button("Img2/detail_button1_n.png", "Img2/detail_button1_c.png", this);
+		team1_button = new Button("Img2/host.png", "Img2/host_c.png", this);
 		team1_button.setBounds(174, 3, 195, 30);
 		
-		team2_button = new Button("Img2/detail_button2_n.png", "Img2/detail_button2_c.png", this);
+		team2_button = new Button("Img2/guest.png", "Img2/guest_c.png", this);
 		team2_button.setBounds(370, 3, 195, 30);
 		
 		
@@ -350,15 +350,15 @@ public class DetailedPanel extends JPanel{
 		
 		int match_id = Integer.parseInt(match.get_id());
 		System.out.println(match_id);
-		String[][] str_team1 = ms.searchForOneMatchById(match_id);
-		System.out.println(str_team1.length);
-		for(int i=0; i<str_team1.length; i++){
-			for(int j=0; j<str_team1[0].length; j++){
-				System.out.println(i + " " + j + "  " + str_team1[i][j]);
-			}
-		}
-		String[][] str_team2 = ms.searchOneMatchByTeamAndID(match.get_team()[1], match_id);
-	/*	CardCreator creator = new CardCreator();
+		String[][] str = ms.searchForOneMatchById(match_id);
+		String[][] team1_players;
+		String[][] team2_players;
+		
+	/*	for(int i=0; i<str.length; i++){
+			if()
+		}8*/
+		
+		/*CardCreator creator = new CardCreator();
 		ArrayList<Card> card_list = creator.create_needed_cards(CardType.MATCH_of_PLAYER, str, true);
 		CardLocation location = new CardLocation(CardType.MATCH_of_PLAYER);
 		scr_height = location.get_total_height(card_list.size());
@@ -375,6 +375,9 @@ public class DetailedPanel extends JPanel{
 		//button
 		team1_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+				team1_button.setIcon(new ImageIcon("Img2/host_c.png"));
+				team2_button.setIcon(new ImageIcon("Img2/guest.png"));
+				
 				add(host_panel);
 				host_panel.setVisible(true);
 				guest_scr.setVisible(false);
@@ -386,6 +389,9 @@ public class DetailedPanel extends JPanel{
 		});
 		team2_button.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
+				team1_button.setIcon(new ImageIcon("Img2/host.png"));
+				team2_button.setIcon(new ImageIcon("Img2/guest_c.png"));
+				
 				add(guest_panel);
 				guest_panel.setVisible(true);
 				host_scr.setVisible(false);
