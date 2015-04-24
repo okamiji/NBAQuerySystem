@@ -9,7 +9,7 @@ public class MultivaluedTable extends KeywordTable
 		super(host, header, dataTypes, null);
 	}
 	
-	public Tuple createTuple()
+	public synchronized Tuple createTuple()
 	{
 		notify.clear();
 		Tuple tuple = new Tuple();

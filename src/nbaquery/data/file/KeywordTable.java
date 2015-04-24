@@ -42,7 +42,7 @@ public class KeywordTable implements Table
 		else this.keyword = null;
 	}
 	
-	public Tuple createTuple()
+	public synchronized Tuple createTuple()
 	{
 		notify.clear();
 		Tuple tuple = new Tuple();
@@ -51,12 +51,12 @@ public class KeywordTable implements Table
 		return tuple;
 	}
 	
-	public Collection<Tuple> listTuples()
+	public synchronized Collection<Tuple> listTuples()
 	{
 		return this.keyToTupleMap.values();
 	}
 	
-	public void removeTuple(Tuple tuple)
+	public synchronized void removeTuple(Tuple tuple)
 	{
 		if(tuple.table != this) return;
 		this.keyToTupleMap.remove(keyword.getAttribute(tuple));
@@ -99,7 +99,7 @@ public class KeywordTable implements Table
 	}
 	
 	@Override
-	public Row[] getRows()
+	public synchronized Row[] getRows()
 	{
 		return this.keyToTupleMap.values().toArray(new Row[0]);
 	}
