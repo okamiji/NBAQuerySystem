@@ -69,11 +69,16 @@ class TeamRectCard extends RectCard {
 	}
 	
 	private void set_team_text(Team team){
-		String[] team_info = team.get_team_info();
-		int item_index = ConcisePara.team_index;
-		String item_name = ConcisePara.team_item_name;
-		team_text = "<html>";
-		team_text += item_name + "£º" + team_info[item_index];
-		team_text += "</html>";
+		if(!ConcisePara.is_hot){
+			String[] team_info = team.get_team_info();
+			int item_index = ConcisePara.team_index;
+			String item_name = ConcisePara.team_item_name;
+			team_text = "<html>";
+			team_text += item_name + "£º" + team_info[item_index];
+			team_text += "</html>";
+		}
+		else{
+			team_text = "";
+		}
 	}
 }

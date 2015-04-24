@@ -75,10 +75,16 @@ public class MainFrame extends JFrame{
 			}
 		}	
 	
-	public MainFrame(PlayerService pls,TeamService tms){
+	public static void main(String[] args){
+		MainFrame f=new MainFrame();
+	}
+	
+	
+
+	public MainFrame(){
 		UIManager.put("ComboBox.background", new Color(0,0,0,0));
-		this.ps=pls;
-		this.ts=tms;
+		//this.ps=pls;
+		//this.ts=tms;
 		Color back = new Color(0,0,0,0.0f);
 		Color white = new Color(245,245,245);
 		Color gray = new Color(41,48,62);

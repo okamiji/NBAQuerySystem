@@ -1,6 +1,8 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -11,7 +13,6 @@ import javax.swing.JButton;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation.combobox.ComboBoxFactory;
 import nbaquery.presentation2.addedcard.Card;
-import nbaquery.presentation2.util.Button;
 import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
@@ -103,6 +104,7 @@ public class TeamPanel extends ConcisePanel {
 				ascendButton.setVisible(true);
 				descendButton.setVisible(false);
 				ConcisePara.team_isUp = false;
+				responseMouseEvent();
 			}
 		});
 		ascendButton.addMouseListener(new MouseAdapter(){
@@ -110,31 +112,36 @@ public class TeamPanel extends ConcisePanel {
 				ascendButton.setVisible(false);
 				descendButton.setVisible(true);
 				ConcisePara.team_isUp = true;
+				responseMouseEvent();
 			}
 		});
 		
-		searchButton = new Button("Img2/search_button.png", "Img2/search_button_c.png", search_panel);
-		searchButton.setBounds(460, 15, 72, 24);		
-		
-		searchButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-
-				ConcisePara.team_index = valueBox.getSelectedIndex();
-				
-				ConcisePara.team_item_name = (String)(valueBox.getSelectedItem());
-				
-				if(((String)typeBox.getSelectedItem()).equals("全局数据")){
-					ConcisePara.team_isGross = true;
-				}
-				else{
-					ConcisePara.team_isGross = false;
-				}
-				
-				PanelSet.set_concise_invisible();
-				ConcisePanelFactory.create_panel(type, ConcisePara.view_all, false);
-				
+		ItemListener l = new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				responseMouseEvent();
 			}
-		});
+	    };
+		
+	    typeBox.addItemListener(l);
+	    valueBox.addItemListener(l);
+	}
+	
+	public void responseMouseEvent()
+	{
+		ConcisePara.team_index = valueBox.getSelectedIndex();
+		
+		ConcisePara.team_item_name = (String)(valueBox.getSelectedItem());
+		
+		if(((String)typeBox.getSelectedItem()).equals("全局数据")){
+			ConcisePara.team_isGross = true;
+		}
+		else{
+			ConcisePara.team_isGross = false;
+		}
+		
+		PanelSet.set_concise_invisible();
+		ConcisePanelFactory.create_panel(type, ConcisePara.view_all, false);
 	}
 	
 	private void add_cards(){
