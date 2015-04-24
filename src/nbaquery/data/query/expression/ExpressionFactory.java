@@ -247,6 +247,24 @@ public class ExpressionFactory
 					constant.constant = null;
 					reversedPolishForm.add(constant);
 				}
+				else if(currentPointerLowered.equals("+inf"))
+				{
+					ConstantOperator constant = new ConstantOperator();
+					constant.constant = Float.POSITIVE_INFINITY;
+					reversedPolishForm.add(constant);
+				}
+				else if(currentPointerLowered.equals("-inf"))
+				{
+					ConstantOperator constant = new ConstantOperator();
+					constant.constant = Float.NEGATIVE_INFINITY;
+					reversedPolishForm.add(constant);
+				}
+				else if(currentPointerLowered.equals("NaN"))
+				{
+					ConstantOperator constant = new ConstantOperator();
+					constant.constant = Float.NaN;
+					reversedPolishForm.add(constant);
+				}
 				else
 				{
 					Column column = host.getColumn(currentPointerLowered);

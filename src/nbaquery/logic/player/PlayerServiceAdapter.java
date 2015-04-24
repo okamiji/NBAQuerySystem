@@ -19,10 +19,10 @@ public class PlayerServiceAdapter implements PlayerService
 	protected HotPlayerToday hot;
 	protected ProgressPlayer progress;
 	public TableHost tableHost;
-	public String[] columnNames,hotColumnNames, progressColumnNames,playerInfoColumnNames;
+	public String[] columnNames, hotColumnNames, progressColumnNames, playerInfoColumnNames;
 	
-	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average,HotPlayerToday hot,ProgressPlayer progress,String[] columnNames,
-			String[] hotColumnNames,String[] progressColumnNames,String[] playerInfoColumnNames)
+	public PlayerServiceAdapter(TableHost tableHost, GrossPlayer gross, AveragePlayer average, HotPlayerToday hot, ProgressPlayer progress,
+			String[] columnNames, String[] hotColumnNames, String[] progressColumnNames, String[] playerInfoColumnNames)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
@@ -33,6 +33,11 @@ public class PlayerServiceAdapter implements PlayerService
 		this.progressColumnNames=progressColumnNames;
 		this.columnNames = columnNames;
 		this.playerInfoColumnNames=playerInfoColumnNames;
+		
+		this.gross.getTable();
+		this.average.getTable();
+		this.hot.getTable();
+		this.progress.getTable();
 	}
 
 	@Override
@@ -69,6 +74,7 @@ public class PlayerServiceAdapter implements PlayerService
 			tableHost.performQuery(selectPosition, "player_query_result");
 			table = tableHost.getTable("player_query_result");
 			
+			//Filter top 50 in this case.
 			sort = new SortQuery(table, columnNames[head], 50, isUp);
 		}
 		catch(Exception e)
@@ -79,7 +85,9 @@ public class PlayerServiceAdapter implements PlayerService
 		
 		tableHost.performQuery(sort, "player_query_result");
 		Table queryResult = tableHost.getTable("player_query_result");
+		
 		Row[] rows = queryResult.getRows();
+		
 		String[][] returnValue = new String[rows.length][columnNames.length];
 		Column[] columns = new Column[columnNames.length];
 		for(int i = 0; i < columnNames.length; i ++)
@@ -178,7 +186,7 @@ public class PlayerServiceAdapter implements PlayerService
 		SelectProjectQuery query = null;
 		Table player = tableHost.getTable("player");
 		try {
-			query = new SelectProjectQuery("player.PLAYER_NAME=='" + playerName + "'", player);
+			query = new SelectProjectQuery("player.PLAYER_NAME=='%1'".replace("%1", playerName), player);
 		}
 		catch (Exception e)
 		{
@@ -199,7 +207,6 @@ public class PlayerServiceAdapter implements PlayerService
 				Object value = columns[column].getAttribute(rows[0]);
 				if(value != null) returnValue[column] = value.toString();
 			}
-			
 			return returnValue;
 		}
 		else return null;
