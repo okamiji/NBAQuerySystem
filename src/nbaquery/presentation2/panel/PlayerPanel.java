@@ -13,6 +13,7 @@ import javax.swing.JButton;
 
 import nbaquery.logic.player.PlayerService;
 import nbaquery.presentation.combobox.ComboBoxFactory;
+import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
@@ -94,14 +95,14 @@ public class PlayerPanel extends ConcisePanel {
 		
 		
 		descendButton = new JButton();
-		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
+		descendButton.setIcon(ImageIconResource.getImageIcon("Img2/descend.png"));
 		descendButton.setContentAreaFilled(false);
 		descendButton.setBorder(null);
 		descendButton.setBounds(420, 15, 24, 24);
 		search_panel.add(descendButton);
 		
 		ascendButton = new JButton();
-		ascendButton.setIcon(new ImageIcon("Img2/ascend.png"));
+		ascendButton.setIcon(ImageIconResource.getImageIcon("Img2/ascend.png"));
 		ascendButton.setContentAreaFilled(false);
 		ascendButton.setBorder(null);
 		ascendButton.setBounds(420, 15, 24, 24);

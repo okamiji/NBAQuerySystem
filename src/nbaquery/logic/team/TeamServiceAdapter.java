@@ -7,8 +7,6 @@ import nbaquery.data.TableHost;
 import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
-import nbaquery.logic.LogicWatcher;
-import nbaquery.logic.NativeTablePipeline;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.gross_team.GrossTeam;
 
@@ -27,6 +25,9 @@ public class TeamServiceAdapter implements TeamService
 		this.average = average;
 		this.columnNames = columnNames;
 		this.oneTeamColumns=oneTeamColumns;
+		
+		this.gross.getTable();
+		this.average.getTable();
 	}
 	
 	@Override
@@ -53,7 +54,6 @@ public class TeamServiceAdapter implements TeamService
 				if(value != null) returnValue[row][column] = value.toString();
 			}
 		tableHost.deleteTable("team_query_result");
-		
 		return returnValue;
 	}
 
@@ -79,8 +79,8 @@ public class TeamServiceAdapter implements TeamService
 		
 		SelectProjectQuery query = null;
 		try {
-			if(isAbbr) query = new SelectProjectQuery("team_query_result.TEAM_NAME_ABBR=='"+teamNameAbbr+"'",queryResult);
-			else query = new SelectProjectQuery("team_query_result.TEAM_NAME=='"+teamNameAbbr+"'",queryResult);
+			if(isAbbr) query = new SelectProjectQuery("team_query_result.TEAM_NAME_ABBR=='%1'".replace("%1", teamNameAbbr), queryResult);
+			else query = new SelectProjectQuery("team_query_result.TEAM_NAME=='%1'".replace("%1", teamNameAbbr), queryResult);
 		} catch (Exception e) {	
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,13 +105,6 @@ public class TeamServiceAdapter implements TeamService
 			if(value != null) returnValue[column] = value.toString();
 		}
 		
-	/*	Object[] values=rows[0].getAttributes();
-		
-		for(int i = 0; i < values.length; i ++){
-			Object value=values[i];
-			if(value != null){
-				returnValue[i]=value.toString();}
-		}*/
 		return returnValue;
 	}
 }

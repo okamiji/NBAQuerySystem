@@ -16,7 +16,7 @@ public class MatchServiceAdapter implements MatchService{
 	public String[] columnNames;
 	
 	public MatchServiceAdapter(TableHost tableHost,String[] columnNames){
-		this.tableHost=tableHost;
+		this.tableHost = tableHost;
 		this.columnNames=columnNames;
 	}
 	

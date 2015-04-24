@@ -5,6 +5,8 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import nbaquery.presentation.resource.ImageIconResource;
+
 @SuppressWarnings("serial")
 class FlatCard extends Card{
 
@@ -14,7 +16,7 @@ class FlatCard extends Card{
 		this.setSize(530, 40);
 		this.setLayout(null);
 		this.setVisible(true);this.setBackground(new Color(0, 0, 0, 0.0f));
-		shadow_label = new JLabel(new ImageIcon("Img2/card_shadow2.png"));
+		shadow_label = new JLabel(ImageIconResource.getImageIcon("Img2/card_shadow2.png"));
 		this.add(shadow_label);
 		shadow_label.setBounds(0, 0, 530, 40);
 	}

@@ -26,12 +26,14 @@ import javax.swing.UIManager;
 
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
+import nbaquery.presentation.resource.ImageIconResource;
 
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.plaf.FontUIResource;
+
 
 
 import java.awt.event.FocusAdapter;
@@ -301,19 +303,17 @@ public class MainFrame extends JFrame{
 	}
 	
 	class exitListener extends MouseAdapter {
-
+		ImageIcon enterIcon = ImageIconResource.getImageIcon("IMGS/close2.png");
+		ImageIcon leaveIcon = ImageIconResource.getImageIcon("IMGS/close.png");
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			exitButton.setIcon(new ImageIcon("IMGS/close2.png"));
+			exitButton.setIcon(enterIcon);
 			exitButton.repaint();
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-			exitButton.setIcon(new ImageIcon("IMGS/close.png"));
+			exitButton.setIcon(leaveIcon);
 			exitButton.repaint();
 		}
 
