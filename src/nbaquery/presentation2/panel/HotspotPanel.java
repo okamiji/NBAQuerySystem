@@ -209,7 +209,7 @@ public class HotspotPanel extends ConcisePanel{
 				System.out.println("is null");
 			}
 			for(int i=0; i<str.length; i++){
-				for(int j=0; j<str[0].length; j++){
+				for(int j=0; j<str[i].length; j++){
 					System.out.println( i + "  " + j + " "+ str[i][j]);
 				}
 			}
@@ -223,7 +223,7 @@ public class HotspotPanel extends ConcisePanel{
 				System.out.println("is null");
 			}
 			for(int i=0; i<str.length; i++){
-				for(int j=0; j<str[0].length; j++){
+				for(int j=0; j<str[i].length; j++){
 					System.out.println(str[i][j]);
 				}
 			}

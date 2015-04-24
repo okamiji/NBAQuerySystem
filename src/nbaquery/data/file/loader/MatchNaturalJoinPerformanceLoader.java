@@ -14,7 +14,8 @@ import nbaquery.data.file.StringPool;
 import nbaquery.data.file.Tuple;
 
 /**
- * This class will natural join match and performance on start up.
+ * This class will natural join match and performance on start up.<br>
+ * <b>Warning:</b> However only will have match and match_natual_join_performance table.
  * @author luohaoran
  */
 
@@ -30,6 +31,14 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 	FileTableColumn host_score;
 	FileTableColumn guest_abbr;
 	FileTableColumn guest_score;
+	
+	FileTableColumn joined_identity;
+	FileTableColumn joined_season;
+	FileTableColumn joined_date;
+	FileTableColumn joined_host_abbr;
+	FileTableColumn joinied_host_score;
+	FileTableColumn joined_guest_abbr;
+	FileTableColumn joined_guest_score;
 	
 	FileTableColumn quarter_id;
 	FileTableColumn quarter_number;
@@ -64,7 +73,23 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 		
 		this.host.makeProtectedTable(EnumTable.QUARTER_SCORE.toString(), 
 				this.host.getTableFromPreset(EnumTable.QUARTER_SCORE));
+		
+		quarter_id = host.getColumn("quarter_score.match_id");
+		quarter_number = host.getColumn("quarter_score.quarter_number");
+		quarter_host_score = host.getColumn("quarter_score.quarter_host_score");
+		quarter_guest_score = host.getColumn("quarter_score.quarter_guest_score");
 
+		this.host.makeProtectedTable(EnumTable.MATCH.toString(),
+				this.host.getTableFromPreset(EnumTable.MATCH));
+		
+		identity = host.getColumn("match.match_id");
+		season = host.getColumn("match.match_season");
+		date = host.getColumn("match.match_date");
+		host_abbr = host.getColumn("match.match_host_abbr");
+		host_score = host.getColumn("match.match_host_score");
+		guest_abbr = host.getColumn("match.match_guest_abbr");
+		guest_score = host.getColumn("match.match_guest_score");
+		
 		String[] performanceAttributes = EnumTable.PERFORMANCE.getTableAttributes();
 		Class<?>[] performanceClasses = EnumTable.PERFORMANCE.getDataClasses();
 		
@@ -93,18 +118,13 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 		
 		this.host.makeProtectedTable("match_natural_join_performance", match_natural_join_performance);
 		
-		identity = match_natural_join_performance.getColumn("match_id");
-		season = match_natural_join_performance.getColumn("match_season");
-		date = match_natural_join_performance.getColumn("match_date");
-		host_abbr = match_natural_join_performance.getColumn("match_host_abbr");
-		host_score = match_natural_join_performance.getColumn("match_host_score");
-		guest_abbr = match_natural_join_performance.getColumn("match_guest_abbr");
-		guest_score = match_natural_join_performance.getColumn("match_guest_score");
-		
-		quarter_id = host.getColumn("quarter_score.match_id");
-		quarter_number = host.getColumn("quarter_score.quarter_number");
-		quarter_host_score = host.getColumn("quarter_score.quarter_host_score");
-		quarter_guest_score = host.getColumn("quarter_score.quarter_guest_score");
+		joined_identity = match_natural_join_performance.getColumn("match_id");
+		joined_season = match_natural_join_performance.getColumn("match_season");
+		joined_date = match_natural_join_performance.getColumn("match_date");
+		joined_host_abbr = match_natural_join_performance.getColumn("match_host_abbr");
+		joinied_host_score = match_natural_join_performance.getColumn("match_host_score");
+		joined_guest_abbr = match_natural_join_performance.getColumn("match_guest_abbr");
+		joined_guest_score = match_natural_join_performance.getColumn("match_guest_score");
 		
 		performance_match_id = match_natural_join_performance.getColumn("match_id");
 		game_team = match_natural_join_performance.getColumn("team_name_abbr");
@@ -131,23 +151,30 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 	
 	int matchId = 1;
 	
-	public void record(File file, int matchId, KeywordTable quarterTable, MultivaluedTable matchTable) throws Exception
+	public void record(File file, int matchId, KeywordTable quarterTable, KeywordTable matchTable, MultivaluedTable matchNaturalJoinPerformanceTable) throws Exception
 	{
 		if(!file.getName().matches("[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}_[A-Z]+-[A-Z]+")) return;
 		
 		String[] splitted = file.getName().split("_", 3);
+		Tuple matchTuple = matchTable.createTuple();
+		
+		identity.setAttribute(matchTuple, matchId);
 		
 		//String season_str = splitted[0];
 		String season_str = StringPool.createSeasonFromPool(splitted[0]);
+		season.setAttribute(matchTuple, season_str);
+		
 		//String date_str = splitted[1];
 		String date_str = StringPool.createSeasonFromPool(splitted[1]);
+		date.setAttribute(matchTuple, date_str);
 		
 		String[] duals = splitted[2].split("-", 2);
 		//String host_abbr_str = duals[0];
 		//String guest_abbr_str = duals[1];
 		String host_abbr_str = StringPool.createSeasonFromPool(duals[0]);
 		String guest_abbr_str = StringPool.createSeasonFromPool(duals[1]);
-		
+		host_abbr.setAttribute(matchTuple, host_abbr_str);
+		guest_abbr.setAttribute(matchTuple, guest_abbr_str);
 		
 		//Getting data from the file.
 		BufferedReader br = new BufferedReader(new FileReader(file));
@@ -162,7 +189,9 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 		String[] scores = tokenize(currentLine).get(2).split("-");
 		
 		int host_score_int = Integer.parseInt(scores[0]);
+		host_score.setAttribute(matchTuple, host_score_int);
 		int guest_score_int = Integer.parseInt(scores[1]);
+		guest_score.setAttribute(matchTuple, guest_score_int);
 		
 		currentLine = br.readLine();
 		if(currentLine == null)
@@ -189,7 +218,7 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 			else
 			{
 				tokens = tokenize(currentLine);
-				Tuple performance = matchTable.createTuple();
+				Tuple performance = matchNaturalJoinPerformanceTable.createTuple();
 				Tuple tuple = performance;
 				
 				performance_match_id.setAttribute(performance, matchId);
@@ -226,15 +255,15 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 				foul.setAttribute(performance, tokens.get(16));
 				self_score.setAttribute(performance, tokens.get(17));
 				
-				season.setAttribute(tuple, season_str);
+				joined_season.setAttribute(tuple, season_str);
 				//season.setAttribute(tuple, season_ins);
-				date.setAttribute(tuple, date_str);
+				joined_date.setAttribute(tuple, date_str);
 				
-				host_abbr.setAttribute(tuple, host_abbr_str);
-				guest_abbr.setAttribute(tuple, guest_abbr_str);
+				joined_host_abbr.setAttribute(tuple, host_abbr_str);
+				joined_guest_abbr.setAttribute(tuple, guest_abbr_str);
 				
-				host_score.setAttribute(tuple, host_score_int);
-				guest_score.setAttribute(tuple, guest_score_int);
+				joinied_host_score.setAttribute(tuple, host_score_int);
+				joined_guest_score.setAttribute(tuple, guest_score_int);
 			}
 		}
 		br.close();
@@ -264,10 +293,11 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 	@Override
 	public void load(File aFile) throws Exception
 	{
+		KeywordTable matchTable = (KeywordTable) host.getTable("match");
 		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
 		MultivaluedTable joinedTable = (MultivaluedTable) host.getTable("match_natural_join_performance");
 		
-		this.record(aFile, matchId, quarterTable, joinedTable);
+		this.record(aFile, matchId, quarterTable, matchTable, joinedTable);
 		matchId ++;
 	}
 }
