@@ -11,6 +11,7 @@ public final class ImageIconResource
 	
 	public static ImageIcon getImageIcon(String imageFile)
 	{
+		if(imageFile == null) return null;
 		ImageIcon img;
 		if((img = image.get(imageFile)) == null)
 		{

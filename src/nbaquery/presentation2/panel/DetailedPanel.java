@@ -1,6 +1,7 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -24,6 +25,7 @@ import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation.resource.ImageIconResource;
+import nbaquery.presentation.resource.JSVGComponentResource;
 import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.addedcard.CardFactory;
 import nbaquery.presentation2.addon.GoodLookingScrollBar;
@@ -285,6 +287,7 @@ public class DetailedPanel extends JPanel{
 		info_label.setBounds(215, 16, 490, 490);
 		info_panel.add(info_label);
 		
+		/*
 		JSVGComponent svgComponent = new JSVGComponent(null, false, false);
 		String path = team.get_team_info()[29];
 		if(path != null){
@@ -297,6 +300,13 @@ public class DetailedPanel extends JPanel{
 			svgComponent.setBounds(18, 55, 130, 130);
 			this.add(svgComponent);
 			this.repaint();
+		}
+		*/
+		String path = team.get_team_info()[29];
+		if(path != null){
+			Component svgComponent = JSVGComponentResource.createJSVGComponent(path);
+			svgComponent.setBounds(18, 55, 130, 130);
+			this.add(svgComponent);
 		}
 		
 		JLabel team_name_label = new JLabel();
