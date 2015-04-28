@@ -1,17 +1,13 @@
 package nbaquery.presentation3.table;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
-
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import nbaquery.data.Column;
 import nbaquery.data.Image;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
-import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation.resource.JSVGComponentResource;
 
 public class DefaultTableColumn implements DisplayTableColumn
@@ -48,19 +44,7 @@ public class DefaultTableColumn implements DisplayTableColumn
 	}
 
 	protected JLabel displayComponent = new JLabel();
-	@SuppressWarnings("serial")
-	protected JLabel imageComponent = new JLabel()
-	{
-		public void paint(Graphics g)
-		{
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, this.getHeight(), this.getHeight());
-			if(this.getIcon() == null) return;
-			g.drawImage(((ImageIcon)this.getIcon()).getImage()
-					.getScaledInstance(getHeight(), getHeight(), java.awt.Image.SCALE_DEFAULT)
-					, 0, 0, null);
-		}
-	};
+	protected ImageDisplayLabel imageComponent = new ImageDisplayLabel();
 	
 	@Override
 	public Component render(DisplayTable table, Object value, int row, int column)
@@ -80,8 +64,7 @@ public class DefaultTableColumn implements DisplayTableColumn
 					return JSVGComponentResource.createJSVGComponent(image.toString());
 				else
 				{
-					ImageIcon icon = ImageIconResource.getImageIcon(image.toString());
-					imageComponent.setIcon(icon);
+					imageComponent.setImage(image);
 					return imageComponent;
 				}
 			}

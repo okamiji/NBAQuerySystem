@@ -32,16 +32,16 @@ public class TestP3Table
 		
 		DisplayTable table = new DisplayTable();
 		DefaultTableColumnModel columnModel = ((DefaultTableColumnModel)table.columnModel);
-		columnModel.addColumn("  ", "player_portrait").padding = 20;
+		columnModel.addColumn("  ", "player_portrait").padding = 35;
 		columnModel.addColumn("«Ú‘±√˚≥∆", "player_name").padding = 80;
 		columnModel.addColumn("Œª÷√", "player_position").padding = 0;
 		columnModel.addColumn("«Ú“¬±‡∫≈", "player_number").padding = 0;
 		
-		table.setRowHeight(20);
+		table.setRowHeight(35);
 		
 		final PagedDisplayTableModel tableModel = ((PagedDisplayTableModel)table.tableModel);
 		
-		tableModel.setSectionPerPage(18);
+		tableModel.setSectionPerPage(5);
 		columnModel.setTable(playerTable);
 		
 		jframe.add(table);

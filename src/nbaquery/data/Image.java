@@ -20,4 +20,15 @@ public class Image
 	{
 		this.imageFile = file;
 	}
+	
+	public boolean equals(Object obj)
+	{
+		if(!(obj instanceof Image)) return false;
+		return ((Image)obj).imageFile.getPath().equals(imageFile.getPath());
+	}
+	
+	public int hashCode()
+	{
+		return imageFile.getPath().hashCode();
+	}
 }
