@@ -7,7 +7,12 @@ public class PagedDisplayTableModel implements DisplayTableModel
 	protected int pageIndex = 0;
 	protected int sectionPerPage = 5;
 	
-	protected Row[] row;
+	protected Row[] rows;
+	
+	public void setRow(Row[] rows)
+	{
+		this.rows = rows;
+	}
 
 	public void setPageIndex(int pageIndex)
 	{
@@ -34,7 +39,7 @@ public class PagedDisplayTableModel implements DisplayTableModel
 	@Override
 	public Object getValueAt(DisplayTable table, int row, int column)
 	{
-		return this.row[pageIndex * sectionPerPage + row];
+		return this.rows[pageIndex * sectionPerPage + row];
 	}
 
 	@Override
@@ -42,13 +47,13 @@ public class PagedDisplayTableModel implements DisplayTableModel
 	{
 		if(getPageCount() == 0) return 0;
 		if(this.pageIndex < getPageCount() - 1) return sectionPerPage;
-		return row.length % sectionPerPage;
+		return rows.length % sectionPerPage;
 	}
 	
 	public int getPageCount()
 	{
-		if(row == null) return 0;
-		return (row.length + sectionPerPage - 1) / sectionPerPage;
+		if(rows == null) return 0;
+		return (rows.length + sectionPerPage - 1) / sectionPerPage;
 	}
 
 	@Override

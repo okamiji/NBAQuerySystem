@@ -7,24 +7,32 @@ import javax.swing.JLabel;
 
 import nbaquery.data.Column;
 import nbaquery.data.Row;
+import nbaquery.data.Table;
 
 public class DefaultTableColumn implements DisplayTableColumn
 {
 	public int padding = 20;
 	
+	public final String columnDisplayName;
 	public final String columnName;
-	public final Column tableColumn;
+	public Column tableColumn;
 	
-	public DefaultTableColumn(String columnName, Column tableColumn)
+	public DefaultTableColumn(String displayName, String columnName)
 	{
+		this.columnDisplayName = displayName;
 		this.columnName = columnName;
-		this.tableColumn = tableColumn;
+	}
+	
+	public void setTable(Table table)
+	{
+		if(table != this.tableColumn.getDeclaringTable())
+			this.tableColumn = table.getColumn(columnName); 
 	}
 
 	@Override
 	public String getColumnName()
 	{
-		return this.columnName;
+		return this.columnDisplayName;
 	}
 
 	@Override
