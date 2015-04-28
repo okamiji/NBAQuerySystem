@@ -32,7 +32,7 @@ public class DisplayTable extends Component
 	
 	protected final MouseAdapter mouseAdapter = new MouseAdapter()
 	{
-		public void mousePressed(MouseEvent me)
+		public void mouseClicked(MouseEvent me)
 		{
 			Point point = me.getPoint();
 			if(point.y <= metricOffset) return;
@@ -87,6 +87,9 @@ public class DisplayTable extends Component
 	
 	public void paint(Graphics g)
 	{
+		this.columnModel.onRepaint(this);
+		this.tableModel.onRepaint(this);
+		
 		g.setColor(this.getBackground());
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
@@ -129,14 +132,17 @@ public class DisplayTable extends Component
 		
 		for(int row = 0; row < tableModel.getRowCount(); row ++)
 		{
+			
 			if((row & 1) == 0) g.setColor(evenBackground);
 			else g.setColor(oddBackground);
 			
 			g.fillRoundRect(interleave, yOffsetCounter, 
 					xBeginOffset[columnModel.getColumnCount()] - 2 *interleave,
 					rowHeight, rectDisplace, rectDisplace);
+					
 			for(int column = 0; column < columnModel.getColumnCount(); column ++)
 			{
+				
 				/*
 				if((row & 1) == 0) g.setColor(evenBackground);
 				else g.setColor(oddBackground);
@@ -176,18 +182,26 @@ public class DisplayTable extends Component
 			{
 				return 3;
 			}
+
+			@Override
+			public void onRepaint(DisplayTable table)
+			{
+				// TODO Auto-generated method stub
+				
+			}
 			
 		}, new DisplayTableColumnModel()
 		{
+			String[] columns = new String[]{"表头名称1", "表头名称2", "表头名称3"};
 			@Override
-			public DisplayTableColumn getColumn(int index)
+			public DisplayTableColumn getColumn(final int index)
 			{
 				return new DisplayTableColumn(){
-
+					
 					@Override
 					public String getColumnName()
 					{
-						return "表头名称";
+						return columns[index];
 					}
 
 					@Override
@@ -211,6 +225,13 @@ public class DisplayTable extends Component
 			{
 				return 3;
 			}
+
+			@Override
+			public void onRepaint(DisplayTable table)
+			{
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		dp.setBounds(100, 100, 450, 350);
 		frame.add(dp);
@@ -221,8 +242,10 @@ public class DisplayTable extends Component
 		
 		dp.setFont(new Font("Monospaced", 1, 1).deriveFont(16f).deriveFont(Font.PLAIN));
 		
+		dp.headerDivisionLineColor = Color.BLACK.brighter().brighter().brighter();
+		
 		dp.setForeground(Color.BLUE);
-		dp.rowHeight = 20;
+		dp.setRowHeight(30);
 		
 		dp.addTableSelectionListener(new TableSelectionListener()
 		{
@@ -237,11 +260,12 @@ public class DisplayTable extends Component
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+		/*
 		while(frame.isDisplayable())
 		{
 			frame.repaint();
 		}
+		*/
 	}
 	
 }

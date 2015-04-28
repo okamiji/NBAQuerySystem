@@ -19,7 +19,7 @@ import nbaquery.presentation2.main.MainFrame;
 
 public class Main
 {
-	TableHost host;
+	public TableHost host;
 	public void loadDataLayer(String root) throws Exception
 	{
 		//host = new FileTableHost(new File(root));
@@ -27,9 +27,9 @@ public class Main
 			PlayerLoader.class, MatchNaturalJoinPerformanceLoader.class});
 	}
 	
-	TeamService teamService;
-	PlayerService playerService;
-	MatchService matchService;
+	public TeamService teamService;
+	public PlayerService playerService;
+	public MatchService matchService;
 	public void loadLogicLayer()
 	{
 		ILogicAssembler assembler = new LogicAssembler();
