@@ -12,12 +12,14 @@ public class PagedDisplayTableModel implements DisplayTableModel
 	public void setRow(Row[] rows)
 	{
 		this.rows = rows;
+		this.setPageIndex(pageIndex);
 	}
 
 	public void setPageIndex(int pageIndex)
 	{
-		if(pageIndex < 0 || pageIndex >= getPageCount()) return;
-		this.pageIndex = pageIndex;
+		if(pageIndex < 0) this.pageIndex = 0;
+		else if(pageIndex >= getPageCount()) this.pageIndex = getPageCount() - 1;
+		else this.pageIndex = pageIndex;
 	}
 	
 	public int getPageIndex()

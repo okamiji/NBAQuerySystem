@@ -22,10 +22,12 @@ public class DefaultTableColumnModel implements DisplayTableColumnModel
 		return columns.size();
 	}
 
-	public void addColumn(String displayName, String name, int index)
+	public DefaultTableColumn addColumn(String displayName, String name, int index)
 	{
 		this.removeColumn(name);
-		this.columns.add(index, new DefaultTableColumn(displayName, name));
+		DefaultTableColumn returned = new DefaultTableColumn(displayName, name);
+		this.columns.add(index, returned);
+		return returned;
 	}
 	
 	public void removeColumn(String name)
@@ -39,10 +41,12 @@ public class DefaultTableColumnModel implements DisplayTableColumnModel
 		}
 	}
 	
-	public void addColumn(String displayName, String name)
+	public DefaultTableColumn addColumn(String displayName, String name)
 	{
 		this.removeColumn(name);
-		this.columns.add(new DefaultTableColumn(displayName, name));
+		DefaultTableColumn returned = new DefaultTableColumn(displayName, name);
+		this.columns.add(returned);
+		return returned;
 	}
 	
 	public void setTable(Table table)

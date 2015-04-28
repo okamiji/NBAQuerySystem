@@ -2,16 +2,12 @@ package nbaquery.presentation3.table;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
 public class DisplayTable extends Component
@@ -65,14 +61,19 @@ public class DisplayTable extends Component
 	
 	
 	//XXX Table Models.
-	protected DisplayTableModel tableModel;
-	protected DisplayTableColumnModel columnModel;
+	public DisplayTableModel tableModel;
+	public DisplayTableColumnModel columnModel;
 	protected int[] xBeginOffset;
 	
 	public DisplayTable(DisplayTableModel tableModel, DisplayTableColumnModel columnModel)
 	{
 		this.tableModel = tableModel;
 		this.columnModel = columnModel;
+	}
+	
+	public DisplayTable()
+	{
+		this(new PagedDisplayTableModel(), new DefaultTableColumnModel());
 	}
 	
 	//XXX Display Configuration
@@ -160,112 +161,5 @@ public class DisplayTable extends Component
 			}
 			yOffsetCounter += rowHeight + interleave;
 		}
-	}
-	
-	public static void main(String[] args)
-	{
-		JFrame frame = new JFrame();
-		
-		frame.setLayout(null);
-		frame.setSize(600, 480);
-		DisplayTable dp = new DisplayTable(new DisplayTableModel()
-		{
-
-			@Override
-			public Object getValueAt(DisplayTable table, int row, int column)
-			{
-				return row + column;
-			}
-
-			@Override
-			public int getRowCount()
-			{
-				return 3;
-			}
-
-			@Override
-			public void onRepaint(DisplayTable table)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}, new DisplayTableColumnModel()
-		{
-			String[] columns = new String[]{"表头名称1", "表头名称2", "表头名称3"};
-			@Override
-			public DisplayTableColumn getColumn(final int index)
-			{
-				return new DisplayTableColumn(){
-					
-					@Override
-					public String getColumnName()
-					{
-						return columns[index];
-					}
-
-					@Override
-					public int getWidth(Graphics g)
-					{
-						return (int)(20 + g.getFontMetrics().getStringBounds(getColumnName(), g).getWidth());
-					}
-
-					@Override
-					public Component render(DisplayTable table, Object value,
-							int row, int column)
-					{
-						JLabel jl = new JLabel(value.toString());
-						jl.setHorizontalAlignment(JLabel.CENTER);
-						return jl;
-					}};
-			}
-
-			@Override
-			public int getColumnCount()
-			{
-				return 3;
-			}
-
-			@Override
-			public void onRepaint(DisplayTable table)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		dp.setBounds(100, 100, 450, 350);
-		frame.add(dp);
-		
-		dp.setBackground(Color.WHITE);
-		dp.evenBackground = Color.WHITE.darker();
-		dp.oddBackground = dp.evenBackground.darker();
-		
-		dp.setFont(new Font("Monospaced", 1, 1).deriveFont(16f).deriveFont(Font.PLAIN));
-		
-		dp.headerDivisionLineColor = Color.BLACK.brighter().brighter().brighter();
-		
-		dp.setForeground(Color.BLUE);
-		dp.setRowHeight(30);
-		
-		dp.addTableSelectionListener(new TableSelectionListener()
-		{
-
-			@Override
-			public void onSelect(DisplayTable table, int row, int column)
-			{
-				System.out.println(row + " " + column + " " + table.tableModel.getValueAt(table, row, column));
-			}
-			
-		});
-		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		/*
-		while(frame.isDisplayable())
-		{
-			frame.repaint();
-		}
-		*/
-	}
-	
+	}	
 }
