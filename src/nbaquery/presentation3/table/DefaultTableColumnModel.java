@@ -7,7 +7,7 @@ import nbaquery.data.Table;
 
 public class DefaultTableColumnModel implements DisplayTableColumnModel
 {
-	public final ArrayList<DefaultTableColumn> columns = new ArrayList<DefaultTableColumn>();
+	public final ArrayList<DisplayTableColumn> columns = new ArrayList<DisplayTableColumn>();
 	
 	@Override
 	public DisplayTableColumn getColumn(int index)
@@ -24,7 +24,7 @@ public class DefaultTableColumnModel implements DisplayTableColumnModel
 
 	public DefaultTableColumn addColumn(String displayName, String name, int index)
 	{
-		this.removeColumn(name);
+		this.removeColumn(displayName);
 		DefaultTableColumn returned = new DefaultTableColumn(displayName, name);
 		this.columns.add(index, returned);
 		return returned;
@@ -32,10 +32,10 @@ public class DefaultTableColumnModel implements DisplayTableColumnModel
 	
 	public void removeColumn(String name)
 	{
-		Iterator<DefaultTableColumn> iterator = this.columns.iterator();
+		Iterator<DisplayTableColumn> iterator = this.columns.iterator();
 		while(iterator.hasNext())
 		{
-			DefaultTableColumn column = iterator.next();
+			DisplayTableColumn column = iterator.next();
 			if(column.getColumnName().equalsIgnoreCase(name))
 				iterator.remove();
 		}
@@ -43,7 +43,7 @@ public class DefaultTableColumnModel implements DisplayTableColumnModel
 	
 	public DefaultTableColumn addColumn(String displayName, String name)
 	{
-		this.removeColumn(name);
+		this.removeColumn(displayName);
 		DefaultTableColumn returned = new DefaultTableColumn(displayName, name);
 		this.columns.add(returned);
 		return returned;
@@ -51,8 +51,9 @@ public class DefaultTableColumnModel implements DisplayTableColumnModel
 	
 	public void setTable(Table table)
 	{
-		for(DefaultTableColumn column : columns)
-			column.setTable(table);
+		for(DisplayTableColumn column : columns)
+			if(column instanceof DefaultTableColumn)
+				((DefaultTableColumn) column).setTable(table);
 	}
 	
 	@Override
