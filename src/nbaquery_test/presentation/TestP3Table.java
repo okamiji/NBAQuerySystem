@@ -15,6 +15,7 @@ import nbaquery.data.file.loader.TeamLoader;
 import nbaquery.presentation3.table.DefaultTableColumnModel;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.PagedDisplayTableModel;
+import nbaquery.presentation3.table.RankingTableColumn;
 
 public class TestP3Table
 {
@@ -32,6 +33,7 @@ public class TestP3Table
 		
 		DisplayTable table = new DisplayTable();
 		DefaultTableColumnModel columnModel = ((DefaultTableColumnModel)table.columnModel);
+		columnModel.addColumn(new RankingTableColumn(), 0);
 		columnModel.addColumn("  ", "player_portrait").padding = 35;
 		columnModel.addColumn("«Ú‘±√˚≥∆", "player_name").padding = 80;
 		columnModel.addColumn("Œª÷√", "player_position").padding = 0;

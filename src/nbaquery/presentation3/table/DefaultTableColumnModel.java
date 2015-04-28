@@ -35,10 +35,21 @@ public class DefaultTableColumnModel implements DisplayTableColumnModel
 		Iterator<DisplayTableColumn> iterator = this.columns.iterator();
 		while(iterator.hasNext())
 		{
+			
 			DisplayTableColumn column = iterator.next();
+			if(!(column instanceof DefaultTableColumn)) continue;
 			if(column.getColumnName().equalsIgnoreCase(name))
 				iterator.remove();
 		}
+	}
+	
+	public void addColumn(DisplayTableColumn column, int index)
+	{
+		if(column instanceof DefaultTableColumn)
+			this.removeColumn(column.getColumnName());
+		else this.columns.remove(column);
+
+		columns.add(index, column);
 	}
 	
 	public DefaultTableColumn addColumn(String displayName, String name)
