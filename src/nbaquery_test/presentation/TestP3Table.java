@@ -12,6 +12,7 @@ import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.loader.MatchNaturalJoinPerformanceLoader;
 import nbaquery.data.file.loader.PlayerLoader;
 import nbaquery.data.file.loader.TeamLoader;
+import nbaquery.data.query.SortQuery;
 import nbaquery.presentation3.table.DefaultTableColumnModel;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.PagedDisplayTableModel;
@@ -30,6 +31,8 @@ public class TestP3Table
 			PlayerLoader.class, MatchNaturalJoinPerformanceLoader.class});
 		
 		Table playerTable = host.getTable("player");
+		
+		SortQuery sq = new SortQuery(playerTable, "player_number", true);
 		
 		DisplayTable table = new DisplayTable();
 		DefaultTableColumnModel columnModel = ((DefaultTableColumnModel)table.columnModel);
@@ -76,6 +79,12 @@ public class TestP3Table
 		
 		while(true) try
 		{
+			if(host.getTable("player").hasTableChanged(host))
+			{
+				host.performQuery(sq, "player_result");
+				playerTable = host.getTable("player_result");
+			}
+			columnModel.setTable(playerTable);
 			tableModel.setRow(playerTable.getRows());
 			jframe.repaint();
 			Thread.sleep(100);
