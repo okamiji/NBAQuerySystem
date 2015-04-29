@@ -128,23 +128,8 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 
 	@Override
 	public String[][] searchForOneMatchById(int matchID) {
-		Table queryResult = searchByID(matchID);
+		Table queryResult = searchPerformanceByID(matchID);
 		return convertTableToStrings(queryResult);
-	}
-	
-	public Table searchByID(Integer matchID){
-		SelectProjectQuery query = null;
-		Table table = tableHost.getTable("match_natural_join_performance");
-		try {
-			query = new SelectProjectQuery("match_natural_join_performance.MATCH_ID="+matchID, table);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		tableHost.performQuery(query, "match_query_result_id");
-		Table queryResult = tableHost.getTable("match_query_result_id");
-		return queryResult;
 	}
 	
 	@Override
@@ -169,7 +154,6 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 		return queryResult;
 	}
 	
-	//XXX you sb
 	@Override
 	public String[][] searchForMatchsByDateAndSeason(String date,String season) {
 		Table queryResult = searchByDate(date);
@@ -204,7 +188,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 	
 	public String[][] searchOneMatchByPlayerAndID(String player_name,int matchID){
 		SelectProjectQuery query = null;
-		Table table = searchByID(matchID);
+		Table table = searchPerformanceByID(matchID);
 		try {
 			query = new SelectProjectQuery("match_query_result_id.PLAYER_NAME='" + player_name + "'", table);
 		}
@@ -220,7 +204,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 	
 	public String[][] searchOneMatchByTeamAndID(String team_name_abbr,int matchID){
 		SelectProjectQuery query = null;
-		Table table = searchByID(matchID);
+		Table table = searchPerformanceByID(matchID);
 		try {
 			query = new SelectProjectQuery("match_query_result_id.TEAM_NAME_ABBR='" + team_name_abbr + "'", table);
 		}
@@ -266,7 +250,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 					returnValue[row][column] = value.toString();
 		//		System.out.print(columns[column].getColumnName()+"___"+value.getClass()+"______");
 				}
-			}System.out.println();}
+			}/*System.out.println();*/}
 //		System.out.println("length2___"+returnValue.length);
 		return returnValue;
 	}

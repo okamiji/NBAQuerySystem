@@ -63,6 +63,22 @@ public class NewMatchServiceAdapter implements NewMatchService
 		return null;
 	}
 
+	public Table searchPerformanceByID(Integer matchID){
+		SelectProjectQuery query = null;
+		try
+		{
+			query = new SelectProjectQuery("match_natural_join_performance.MATCH_ID=".concat(Integer.toString(matchID)),
+					tableHost.getTable("match_natural_join_performance"));
+		}
+		catch (Exception e)
+		{
+
+		}
+		tableHost.performQuery(query, "match_query_result_id");
+		Table queryResult = tableHost.getTable("match_query_result_id");
+		return queryResult;
+	}
+	
 	@Override
 	public Table searchForMatchesTable(String[] keyword, boolean isUp)
 	{
