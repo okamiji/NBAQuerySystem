@@ -19,21 +19,37 @@ public class NewMatchServiceAdapter implements NewMatchService
 		this.tableHost = tableHost;
 	}
 
-	@Override
 	public Table searchMatchesByDateAndSeason(String date, String season)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Table table = tableHost.getTable("match");
+		if(date == null && season == null) return table;
+		
+		SelectProjectQuery query = null;
+		try
+		{
+			if(date == null)
+				query = new SelectProjectQuery("match.match_season='%season'"
+						.replace("%season", season), table);
+			else query = new SelectProjectQuery("match.match_season='%season' and match.match_date='%date'"
+					.replace("%season", season).replace("%date", date), table);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(query, "match_query_result_date_season");
+		return tableHost.getTable("match_query_result_date_season");
 	}
 
 	@Override
 	public Table searchMatchesByTeamNameAbbr(String team_name_abbr)
 	{
 		SelectProjectQuery query = null;
-		Table table = tableHost.getTable("match");
+		Table table = this.searchForMatchesTable(new String[]{"match_id"}, null, null, true);
 		try
 		{
-			query = new SelectProjectQuery("match.host_name_abbr='%1' or match.guest_name_abbr='%1'".replace("%1", team_name_abbr), table);
+			query = new SelectProjectQuery("match.host_name_abbr='%1' or match.guest_name_abbr='%1'"
+					.replace("%1", team_name_abbr), table);
 		}
 		catch (Exception e)
 		{
@@ -79,9 +95,9 @@ public class NewMatchServiceAdapter implements NewMatchService
 	}
 	
 	@Override
-	public Table searchForMatchesTable(String[] keyword, boolean descend)
+	public Table searchForMatchesTable(String[] keyword, String season, String date, boolean descend)
 	{
-		Table queryResult = tableHost.getTable("match");
+		Table queryResult = this.searchMatchesByDateAndSeason(date, season);
 		
 		DeriveQuery derive = null;
 		try
@@ -99,7 +115,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 		tableHost.performQuery(derive, "match_query_result");
 		queryResult = tableHost.getTable("match_query_result");
 		
-		for(int i = keyword.length - 1; i >= 0; i --)
+		if(keyword != null) for(int i = keyword.length - 1; i >= 0; i --)
 		{
 			SortQuery sort = new SortQuery(queryResult, keyword[i], descend);
 			tableHost.performQuery(sort, "match_query_result");

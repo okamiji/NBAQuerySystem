@@ -99,7 +99,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 		queryResult = tableHost.getTable("match_query_result");
 		*/
 		
-		Table queryResult = this.searchForMatchesTable(new String[]{columnNames[head]}, isUp);
+		Table queryResult = this.searchForMatchesTable(new String[]{columnNames[head]}, null, null, isUp);
 		
 		Row[] rows = queryResult.getRows();
 		String[][] returnValue = new String[rows.length][9];
