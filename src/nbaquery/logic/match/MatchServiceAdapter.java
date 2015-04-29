@@ -4,19 +4,14 @@ import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
-import nbaquery.data.query.GroupColumnInfo;
-import nbaquery.data.query.GroupQuery;
-import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
-import nbaquery.data.query.SortQuery;
 
-public class MatchServiceAdapter implements MatchService{
+public class MatchServiceAdapter extends NewMatchServiceAdapter implements MatchService{
 
-	TableHost tableHost;
 	public String[] columnNames;
 	
 	public MatchServiceAdapter(TableHost tableHost,String[] columnNames){
-		this.tableHost = tableHost;
+		super(tableHost);
 		this.columnNames=columnNames;
 	}
 	
@@ -24,6 +19,8 @@ public class MatchServiceAdapter implements MatchService{
 	public String[][] searchForMatchs(int head, boolean isUp) {
 		if(head < 0) head = 1;
 		if(head > columnNames.length) return null;
+
+		/*
 		
 		Table queryResult = tableHost.getTable("match");
 		
@@ -100,6 +97,9 @@ public class MatchServiceAdapter implements MatchService{
 		SortQuery sort = new SortQuery(queryResult, columnNames[head], isUp);
 		tableHost.performQuery(sort, "match_query_result");
 		queryResult = tableHost.getTable("match_query_result");
+		*/
+		
+		Table queryResult = this.searchForMatchesTable(new String[]{columnNames[head]}, isUp);
 		
 		Row[] rows = queryResult.getRows();
 		String[][] returnValue = new String[rows.length][9];
@@ -122,7 +122,7 @@ public class MatchServiceAdapter implements MatchService{
 				if(value != null) returnValue[row][column-20] = value.toString();
 			}
 		}
-		tableHost.deleteTable("match_query_result");
+	//	tableHost.deleteTable("match_query_result");
 		return returnValue;
 	}
 

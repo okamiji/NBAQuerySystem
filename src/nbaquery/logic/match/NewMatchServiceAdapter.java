@@ -7,7 +7,6 @@ import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.DeriveColumnInfo;
 import nbaquery.data.query.DeriveQuery;
-import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 
@@ -69,18 +68,14 @@ public class NewMatchServiceAdapter implements NewMatchService
 	{
 		Table queryResult = tableHost.getTable("match");
 		
-		NaturalJoinQuery joinQuery = new NaturalJoinQuery(queryResult, tableHost.getTable("team"), new String[]{"match_host_abbr"}, new String[]{"team_name_abbr"});
-		tableHost.performQuery(joinQuery, "match_query_result");
-		queryResult = tableHost.getTable("match_query_result");
-		
 		DeriveQuery derive = null;
 		try
 		{
 			derive = new DeriveQuery(queryResult,
 					new DeriveColumnInfo[]
 					{
-						new ImageJointer(tableHost, "match_host_image"),
-						new ImageJointer(tableHost, "match_guest_image")
+						new ImageJointer(tableHost, "match_host_abbr", "match_host_image"),
+						new ImageJointer(tableHost, "match_guest_abbr", "match_guest_image")
 					});
 		}catch(Exception e)
 		{
@@ -100,12 +95,14 @@ public class NewMatchServiceAdapter implements NewMatchService
 	
 	class ImageJointer extends DeriveColumnInfo
 	{
-		public ImageJointer(TableHost host, String columnName)
+		public ImageJointer(TableHost host, String fetchColumnName, String columnName)
 		{
 			super(columnName, Image.class);
 			this.host = host;
+			this.fetchColumnName = fetchColumnName;
 		}
-		Column team_logo;
+		String fetchColumnName;
+		Column team_name;
 		TableHost host;
 		Table table;
 
@@ -113,21 +110,22 @@ public class NewMatchServiceAdapter implements NewMatchService
 		public void retrieve(Table resultTable)
 		{
 			table = host.getTable("team");
-			team_logo = table.getColumn("team_logo");
+			team_name = resultTable.getColumn(fetchColumnName);
 		}
 
 		@Override
 		public void derive(Row resultRow)
 		{
-			Table team_info = host.getTable("team_info_".concat((String)(team_logo.getAttribute(resultRow))));
+			String teamName = (String)(team_name.getAttribute(resultRow));
+			Table team_info = host.getTable("team_info_".concat(teamName));
 			if(team_info == null)
 			try
 			{
 				SelectProjectQuery query = new SelectProjectQuery("team.team_name_abbr='%1'"
-						.replace("%1", (String)(team_logo.getAttribute(resultRow))), table);
-				host.performQuery(query, "team_info_".concat((String)(team_logo.getAttribute(resultRow))));
+						.replace("%1", teamName), table);
+				host.performQuery(query, "team_info_".concat(teamName));
 				
-				team_info = host.getTable("team_info_".concat((String)(team_logo.getAttribute(resultRow))));
+				team_info = host.getTable("team_info_".concat(teamName));
 			}
 			catch(Exception e)
 			{
