@@ -12,7 +12,7 @@ import nbaquery.logic.hot_player_today.HotPlayerToday;
 import nbaquery.logic.progress_player.ProgressPlayer;
 
 //XXX 最基本的要求：比较运算符前后必须留1空格，逗号之后必须留一空格，没事不要初始化为null。
-public class PlayerServiceAdapter implements PlayerService
+public class PlayerServiceAdapter implements PlayerService, NewPlayerService
 {
 	protected GrossPlayer gross;
 	protected AveragePlayer average;
@@ -39,53 +39,14 @@ public class PlayerServiceAdapter implements PlayerService
 		this.hot.getTable();
 		this.progress.getTable();
 	}
-
+	
 	@Override
 	public String[][] searchForPlayers(boolean isGross, int head, boolean isUp, String position, String league)
 	{
 		if(head < 0) head = 1;
 		if(head > columnNames.length) return null;
 		
-		Table table;
-		String tableName;
-		if(isGross)
-		{
-			table = this.gross.getTable();
-			tableName = "gross_player";
-		}
-		else
-		{
-			table = this.average.getTable();
-			tableName = "average_player";
-		}
-		
-		SortQuery sort = null;
-		if(position != null || league != null) try
-		{
-			String thePosition = tableName + ".player_position='"+ position + "'";
-			String theLeague = tableName + ".team_match_area='" + league + "'";
-			
-			String statement = null;
-			if(position != null && league != null) statement = thePosition + " and " + theLeague;
-			else if(position != null) statement = thePosition;
-			else statement = theLeague;
-			
-			SelectProjectQuery selectPosition = new SelectProjectQuery(statement, table);
-			tableHost.performQuery(selectPosition, "player_query_result");
-			table = tableHost.getTable("player_query_result");
-			
-			//Filter top 50 in this case.
-			sort = new SortQuery(table, columnNames[head], 50, isUp);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		if(sort == null) sort = new SortQuery(table, columnNames[head], isUp);
-		
-		tableHost.performQuery(sort, "player_query_result");
-		Table queryResult = tableHost.getTable("player_query_result");
-		
+		Table queryResult = this.searchForPlayers(isGross, columnNames[head], isUp, position, league);
 		Row[] rows = queryResult.getRows();
 		
 		String[][] returnValue = new String[rows.length][columnNames.length];
@@ -210,6 +171,79 @@ public class PlayerServiceAdapter implements PlayerService
 			return returnValue;
 		}
 		else return null;
+	}
+
+	@Override
+	public Table searchForPlayers(boolean isGross, String head, boolean isUp,
+			String position, String league)
+	{
+		Table table;
+		String tableName;
+		if(isGross)
+		{
+			table = this.gross.getTable();
+			tableName = "gross_player";
+		}
+		else
+		{
+			table = this.average.getTable();
+			tableName = "average_player";
+		}
+		
+		SortQuery sort = null;
+		if(position != null || league != null) try
+		{
+			String thePosition = tableName + ".player_position='"+ position + "'";
+			String theLeague = tableName + ".team_match_area='" + league + "'";
+			
+			String statement = null;
+			if(position != null && league != null) statement = thePosition + " and " + theLeague;
+			else if(position != null) statement = thePosition;
+			else statement = theLeague;
+			
+			SelectProjectQuery selectPosition = new SelectProjectQuery(statement, table);
+			tableHost.performQuery(selectPosition, "player_query_result");
+			table = tableHost.getTable("player_query_result");
+			
+			//Filter top 50 in this case.
+			sort = new SortQuery(table, head, 50, isUp);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		if(sort == null) sort = new SortQuery(table, head, isUp);
+		
+		tableHost.performQuery(sort, "player_query_result");
+		return tableHost.getTable("player_query_result");
+	}
+
+	@Override
+	public Table searchForTodayHotPlayers(String head)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Table searchForProgressPlayers(String head)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Table searchForSeasonHotPlayers(String head)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Table searchForOnePlayerTable(String playerName)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
