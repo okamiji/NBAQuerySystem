@@ -34,9 +34,11 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	
 	
 	@Override
-	public Table searchForPlayers(boolean isGross, String head, boolean isUp,
+	public Table searchForPlayers(boolean isGross, String[] head, boolean isUp,
 			String position, String league)
 	{
+		if(head == null || head.length == 0) head = new String[]{"player_name"};	//Automatically sort by player name.
+		
 		Table table;
 		String tableName;
 		if(isGross)
@@ -51,6 +53,14 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		}
 		
 		SortQuery sort = null;
+		
+		for(int i = head.length - 1; i > 0; i --)
+		{
+			sort = new SortQuery(table, head[i], isUp);
+			tableHost.performQuery(sort, "player_query_result");
+			table = tableHost.getTable("player_query_result");
+		}
+		
 		if(position != null || league != null) try
 		{
 			String thePosition = tableName + ".player_position='"+ position + "'";
@@ -66,13 +76,13 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 			table = tableHost.getTable("player_query_result");
 			
 			//Filter top 50 in this case.
-			sort = new SortQuery(table, head, 50, isUp);
+			sort = new SortQuery(table, head[0], 50, isUp);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		if(sort == null) sort = new SortQuery(table, head, isUp);
+		if(sort == null) sort = new SortQuery(table, head[0], isUp);
 		
 		tableHost.performQuery(sort, "player_query_result");
 		return tableHost.getTable("player_query_result");
@@ -100,7 +110,7 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	@Override
 	public Table searchForSeasonHotPlayers(String head)
 	{
-		return this.searchForPlayers(true, head, false, null, null);
+		return this.searchForPlayers(true, new String[]{head}, false, null, null);
 	}
 
 	@Override

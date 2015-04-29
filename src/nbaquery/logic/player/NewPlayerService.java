@@ -13,7 +13,7 @@ public interface NewPlayerService
 	 * @param league 球员联盟
 	 * @return 所查询的球员信息表格
 	 */
-	public Table searchForPlayers(boolean isGross, String head, boolean isUp, String position, String league);
+	public Table searchForPlayers(boolean isGross, String[] head, boolean isUp, String position, String league);
 	/**
 	 * 查询今日热点球员信息
 	 * @param head 所需要排序的项目在hotPlayerColumnNames数组中的index

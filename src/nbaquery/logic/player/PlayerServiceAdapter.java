@@ -19,10 +19,10 @@ public class PlayerServiceAdapter extends NewPlayerServiceAdapter implements Pla
 	{
 		
 		super(tableHost, gross, average, hot, progress);
-		this.hotColumnNames=hotColumnNames;
-		this.progressColumnNames=progressColumnNames;
+		this.hotColumnNames = hotColumnNames;
+		this.progressColumnNames = progressColumnNames;
 		this.columnNames = columnNames;
-		this.playerInfoColumnNames=playerInfoColumnNames;
+		this.playerInfoColumnNames = playerInfoColumnNames;
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class PlayerServiceAdapter extends NewPlayerServiceAdapter implements Pla
 		if(head < 0) head = 1;
 		if(head > columnNames.length) return null;
 		
-		Table queryResult = this.searchForPlayers(isGross, columnNames[head], isUp, position, league);
+		Table queryResult = this.searchForPlayers(isGross, new String[]{columnNames[head]}, isUp, position, league);
 		Row[] rows = queryResult.getRows();
 		
 		String[][] returnValue = new String[rows.length][columnNames.length];
