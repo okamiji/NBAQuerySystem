@@ -18,20 +18,6 @@ public class NewMatchServiceAdapter implements NewMatchService
 	{
 		this.tableHost = tableHost;
 	}
-	
-	@Override
-	public Table searchForOneMatchByIdTable(int matchID)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Table searchForMatchsByPlayerTable(String player_name)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Table searchForMatchsByDateAndSeasonTable(String date, String season)
@@ -62,8 +48,26 @@ public class NewMatchServiceAdapter implements NewMatchService
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Table searchByPlayer(String player_name){
+		SelectProjectQuery query = null;
+		Table table = tableHost.getTable("match_natural_join_performance");
+		try
+		{
+			query = new SelectProjectQuery("match_natural_join_performance.PLAYER_NAME='%1'".replace("%1", player_name), table);
+		}
+		catch (Exception e)
+		{
+			
+		}
+		tableHost.performQuery(query, "match_query_result_player");
+		Table queryResult = tableHost.getTable("match_query_result_player");
+		return queryResult;
+	}
 
-	public Table searchPerformanceByID(Integer matchID){
+	@Override
+	public Table searchPerformanceByID(int matchID){
 		SelectProjectQuery query = null;
 		try
 		{

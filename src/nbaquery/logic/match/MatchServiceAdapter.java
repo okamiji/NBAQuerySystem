@@ -135,23 +135,8 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 	@Override
 	public String[][] searchForMatchsByPlayer(String player_name) {
 		Table queryResult = searchByPlayer(player_name);
-		tableHost.deleteTable("match_query_result_player");
+		//tableHost.deleteTable("match_query_result_player");
 		return convertTableToStrings(queryResult);
-	}
-	
-	public Table searchByPlayer(String player_name){
-		SelectProjectQuery query = null;
-		Table table = tableHost.getTable("match_natural_join_performance");
-		try {
-			query = new SelectProjectQuery("match_natural_join_performance.PLAYER_NAME='" + player_name + "'", table);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		tableHost.performQuery(query, "match_query_result_player");
-		Table queryResult = tableHost.getTable("match_query_result_player");
-		return queryResult;
 	}
 	
 	@Override
