@@ -31,7 +31,8 @@ public class MatchServiceAdapter implements MatchService{
 		tableHost.performQuery(joinQuery, "match_query_result");
 		queryResult = tableHost.getTable("match_query_result");
 		
-		GroupQuery group2 = new GroupQuery(queryResult,new String[]{"match_id",//比赛编号
+		GroupQuery group2 = new GroupQuery(queryResult,new String[]{
+				"match_id",//比赛编号
 				"match_season",//赛季
 				"match_date",//比赛日期
 				"match_host_abbr",//主场队伍缩写
