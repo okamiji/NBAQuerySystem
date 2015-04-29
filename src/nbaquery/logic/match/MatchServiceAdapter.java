@@ -134,7 +134,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 	
 	@Override
 	public String[][] searchForMatchsByPlayer(String player_name) {
-		Table queryResult = searchByPlayer(player_name);
+		Table queryResult = searchPerformanceByPlayer(player_name);
 		//tableHost.deleteTable("match_query_result_player");
 		return convertTableToStrings(queryResult);
 	}

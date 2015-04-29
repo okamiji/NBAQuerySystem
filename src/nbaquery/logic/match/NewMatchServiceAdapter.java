@@ -20,37 +20,32 @@ public class NewMatchServiceAdapter implements NewMatchService
 	}
 
 	@Override
-	public Table searchForMatchsByDateAndSeasonTable(String date, String season)
+	public Table searchMatchesByDateAndSeason(String date, String season)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Table searchForMatchsByTeamTable(String team_name_abbr)
+	public Table searchMatchesByTeamNameAbbr(String team_name_abbr)
 	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Table searchOneMatchByPlayerAndIDTable(String player_name,
-			int matchID)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Table searchOneMatchByTeamAndIDTable(String team_name_abbr,
-			int matchID)
-	{
-		// TODO Auto-generated method stub
-		return null;
+		SelectProjectQuery query = null;
+		Table table = tableHost.getTable("match");
+		try
+		{
+			query = new SelectProjectQuery("match.host_name_abbr='%1' or match.guest_name_abbr='%1'".replace("%1", team_name_abbr), table);
+		}
+		catch (Exception e)
+		{
+			
+		}
+		tableHost.performQuery(query, "match_query_result_team");
+		Table queryResult = tableHost.getTable("match_query_result_team");
+		return queryResult;
 	}
 	
 	@Override
-	public Table searchByPlayer(String player_name){
+	public Table searchPerformanceByPlayer(String player_name){
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try
@@ -84,7 +79,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 	}
 	
 	@Override
-	public Table searchForMatchesTable(String[] keyword, boolean isUp)
+	public Table searchForMatchesTable(String[] keyword, boolean descend)
 	{
 		Table queryResult = tableHost.getTable("match");
 		
@@ -106,7 +101,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 		
 		for(int i = keyword.length - 1; i >= 0; i --)
 		{
-			SortQuery sort = new SortQuery(queryResult, keyword[i], isUp);
+			SortQuery sort = new SortQuery(queryResult, keyword[i], descend);
 			tableHost.performQuery(sort, "match_query_result");
 			queryResult = tableHost.getTable("match_query_result");
 		}
