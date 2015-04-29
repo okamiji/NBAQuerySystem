@@ -49,7 +49,7 @@ public class PagedDisplayTableModel implements DisplayTableModel
 	{
 		if(getPageCount() == 0) return 0;
 		if(this.pageIndex < getPageCount() - 1) return sectionPerPage;
-		return rows.length % sectionPerPage;
+		return rows.length - sectionPerPage * (getPageCount() - 1);
 	}
 	
 	public int getPageCount()
