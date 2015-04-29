@@ -23,11 +23,6 @@ public class PlayerServiceAdapter extends NewPlayerServiceAdapter implements Pla
 		this.progressColumnNames=progressColumnNames;
 		this.columnNames = columnNames;
 		this.playerInfoColumnNames=playerInfoColumnNames;
-		
-		this.gross.getTable();
-		this.average.getTable();
-		this.hot.getTable();
-		this.progress.getTable();
 	}
 	
 	@Override
@@ -109,7 +104,7 @@ public class PlayerServiceAdapter extends NewPlayerServiceAdapter implements Pla
 				
 			}
 		}
-		tableHost.deleteTable("progress_player_query_result");
+		//tableHost.deleteTable("progress_player_query_result");
 		return returnValue;
 	}
 	
