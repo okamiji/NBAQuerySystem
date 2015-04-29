@@ -41,6 +41,9 @@ public class TestP3Table
 		columnModel.addColumn("球员名称", "player_name").padding = 80;
 		columnModel.addColumn("位置", "player_position").padding = 0;
 		columnModel.addColumn("球衣编号", "player_number").padding = 0;
+		columnModel.addColumn("年龄", "player_age").padding = 10;
+		columnModel.addColumn("球龄", "player_exp").padding = 10;
+		columnModel.addColumn("毕业学校", "player_school").padding = 80;
 		
 		table.setRowHeight(35);
 		
