@@ -10,24 +10,16 @@ import nbaquery.data.query.SortQuery;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.gross_team.GrossTeam;
 
-public class TeamServiceAdapter implements TeamService
+public class TeamServiceAdapter extends NewTeamServiceAdapter implements TeamService, NewTeamService
 {
-	protected GrossTeam gross;
-	protected AverageTeam average;
-	public TableHost tableHost;
 	public String[] columnNames,oneTeamColumns;
 	
 	public TeamServiceAdapter(TableHost tableHost,
 			GrossTeam gross, AverageTeam average, String[] columnNames,String[] oneTeamColumns)
 	{
-		this.tableHost = tableHost;
-		this.gross = gross;
-		this.average = average;
+		super(tableHost, gross, average);
 		this.columnNames = columnNames;
 		this.oneTeamColumns=oneTeamColumns;
-		
-		this.gross.getTable();
-		this.average.getTable();
 	}
 	
 	@Override
@@ -35,12 +27,17 @@ public class TeamServiceAdapter implements TeamService
 	{
 		if(head < 0) head = 1;	//Team name by default.
 		if(head > columnNames.length) return null;
+		
+		/*
 		SortQuery sort;
 		if(isGross)
 			sort = new SortQuery(this.gross.getTable(), columnNames[head], isUp);
 		else sort = new SortQuery(this.average.getTable(), columnNames[head], isUp);
 		tableHost.performQuery(sort, "team_query_result");
 		Table queryResult = tableHost.getTable("team_query_result");
+		*/
+		Table queryResult = this.searchForTeams(isGross, new String[]{columnNames[head]}, isUp);
+		
 		Row[] rows = queryResult.getRows();
 		String[][] returnValue = new String[rows.length][columnNames.length];
 		Column[] columns = new Column[columnNames.length];
