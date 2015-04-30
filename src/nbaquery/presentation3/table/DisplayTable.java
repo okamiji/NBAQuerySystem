@@ -25,13 +25,23 @@ public class DisplayTable extends Component
 	}
 	
 	public final ArrayList<TableSelectionListener> tableSelection = new ArrayList<TableSelectionListener>();
+	public final ArrayList<ColumnSelectionListener> columnSelection = new ArrayList<ColumnSelectionListener>();
 	
 	protected final MouseAdapter mouseAdapter = new MouseAdapter()
 	{
 		public void mouseClicked(MouseEvent me)
 		{
 			Point point = me.getPoint();
-			if(point.y <= metricOffset) return;
+			if(point.y <= metricOffset)
+			{
+				for(int i = 0; i < columnModel.getColumnCount(); i ++)
+					if(xBeginOffset[i] <= point.x && point.x <= xBeginOffset[i + 1])
+						synchronized(tableSelection)
+						{
+							for(ColumnSelectionListener cls : columnSelection)
+								cls.onSelect(DisplayTable.this, i);
+						}
+			}
 			
 			int rowIndex = (point.y - metricOffset) / (rowHeight + interleave);
 			if(rowIndex >= tableModel.getRowCount()) return;
@@ -59,6 +69,15 @@ public class DisplayTable extends Component
 		tableSelection.remove(tls);
 	}
 	
+	public synchronized void addColumnSelectionListener(ColumnSelectionListener cls)
+	{
+		columnSelection.add(cls);
+	}
+	
+	public synchronized void removeColumnSelectionListener(ColumnSelectionListener cls)
+	{
+		columnSelection.remove(cls);
+	}
 	
 	//XXX Table Models.
 	public DisplayTableModel tableModel;

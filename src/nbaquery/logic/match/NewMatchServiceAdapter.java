@@ -165,4 +165,22 @@ public class NewMatchServiceAdapter implements NewMatchService
 			getDeriveColumn().setAttribute(resultRow, team_info.getColumn("team_logo").getAttribute(team_info.getRows()[0]));
 		}
 	}
+
+	@Override
+	public Table searchQuarterScoreByID(int matchID)
+	{
+		SelectProjectQuery query = null;
+		try
+		{
+			query = new SelectProjectQuery("quarter_score.MATCH_ID=".concat(Integer.toString(matchID)),
+					tableHost.getTable("quarter_score"));
+		}
+		catch (Exception e)
+		{
+
+		}
+		tableHost.performQuery(query, "quarter_query_result_id");
+		Table queryResult = tableHost.getTable("quarter_query_result_id");
+		return queryResult;
+	}
 }

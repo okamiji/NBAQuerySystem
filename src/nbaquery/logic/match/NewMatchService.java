@@ -8,6 +8,8 @@ public interface NewMatchService
 	
 	public Table searchPerformanceByID(int matchID);
 	
+	public Table searchQuarterScoreByID(int matchID);
+	
 	public Table searchPerformanceByPlayer(String player_name);
 	
 	public Table searchMatchesByTeamNameAbbr(String team_name_abbr);
