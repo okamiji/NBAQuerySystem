@@ -20,7 +20,7 @@ public class HotPlayerTodayPerformanceSelect implements LogicPipeline {
 	protected Table table;
 	protected String date;
 	
-	public HotPlayerTodayPerformanceSelect(TableHost tableHost,MatchNaturalJoinPerformance base){
+	public HotPlayerTodayPerformanceSelect(TableHost tableHost, MatchNaturalJoinPerformance base){
 		this.tableHost = tableHost;
 		this.base = new LogicWatcher(base);
 	}
@@ -34,18 +34,20 @@ public class HotPlayerTodayPerformanceSelect implements LogicPipeline {
 	
 	@Override
 	public Table getTable() {
-		this.date=getDate();
-		this.date="02-03";
+		this.date = getDate();
+		this.date = "02-03";
 		if(base.checkDepenency())
 		{
-			try {
-				SelectProjectQuery query = new SelectProjectQuery("match_natural_join_performance.match_date='"+date+"'",base.getTable());
+			try
+			{
+				SelectProjectQuery query = new SelectProjectQuery("match_natural_join_performance.match_date='%1'".replace("%1", date), base.getTable());
 				tableHost.performQuery(query, "todayPerformance");
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			}
+			catch (Exception e)
+			{
+			
 			}	
-			table=tableHost.getTable("todayPerformance");
+			table = tableHost.getTable("todayPerformance");
 		}
 		return table;
 	}

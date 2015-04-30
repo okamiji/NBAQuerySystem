@@ -23,7 +23,7 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		this.tableHost = tableHost;
 		this.gross = gross;
 		this.average = average;
-		this.hot=hot;
+		this.hot = hot;
 		this.progress = progress;
 		
 		this.gross.getTable();
@@ -32,6 +32,14 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		this.progress.getTable();
 	}
 	
+	@Override
+	public boolean shouldRedoQuery(Object host)
+	{
+		boolean shouldRedo = tableHost.getTable("player").hasTableChanged(host);
+		shouldRedo |= tableHost.getTable("match").hasTableChanged(host);
+		shouldRedo |= tableHost.getTable("match_natural_join_performance").hasTableChanged(host);
+		return shouldRedo;
+	}
 	
 	@Override
 	public Table searchForPlayers(boolean isGross, String[] head, boolean isUp,
