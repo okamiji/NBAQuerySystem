@@ -41,22 +41,26 @@ public abstract class DisplayButton extends Component implements MouseListener
 
 	protected abstract void activate();
 	
+	boolean hasExited = true;
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0)
 	{
-		this.activate();
+		//this.activate();
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0)
 	{
 		this.state = HANGING;
+		this.hasExited = false;
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0)
 	{
 		this.state = IDLE;
+		this.hasExited = true;
 	}
 
 	@Override
@@ -68,6 +72,11 @@ public abstract class DisplayButton extends Component implements MouseListener
 	@Override
 	public void mouseReleased(MouseEvent arg0)
 	{
-		this.state = HANGING;
+		if(hasExited) this.state = IDLE;
+		else
+		{
+			this.activate();
+			this.state = HANGING;
+		}
 	}
 }

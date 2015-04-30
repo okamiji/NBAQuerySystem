@@ -1,6 +1,9 @@
 package nbaquery.presentation3;
 
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JFrame;
 
 import nbaquery.logic.match.NewMatchService;
@@ -76,6 +79,36 @@ public class MainFrame extends JFrame
 			}
 		}
 	};
+	
+	MouseAdapter windowMove = new MouseAdapter()
+	{
+		int renderThreshold = 30;
+		
+		int x, y;
+		boolean shouldMove = false;
+		public void mousePressed(MouseEvent me)
+		{
+			if(!shouldMove) if(me.getY() < renderThreshold)
+			{
+				x = me.getXOnScreen();
+				y = me.getYOnScreen();
+				shouldMove = true;
+			}
+		}
+		
+		public void mouseReleased(MouseEvent me)
+		{
+			if(shouldMove)
+			{
+				MainFrame.this.setLocation(MainFrame.this.getX() + me.getXOnScreen() - x,
+						MainFrame.this.getY() + me.getYOnScreen() - y);
+				shouldMove = false;
+			}
+		}
+	};
+	{
+		this.addMouseListener(windowMove);
+	}
 	
 	public static void main(String[] arguments)
 	{
