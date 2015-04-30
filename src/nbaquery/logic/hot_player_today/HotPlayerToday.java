@@ -1,16 +1,10 @@
 package nbaquery.logic.hot_player_today;
 
-import java.util.Collection;
-
-import nbaquery.data.Column;
-import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.GroupQuery;
 import nbaquery.data.query.NaturalJoinQuery;
-import nbaquery.logic.LogicPipeline;
 import nbaquery.logic.LogicWatcher;
-import nbaquery.logic.NativeTablePipeline;
 import nbaquery.logic.SumColumnInfo;
 
 public class HotPlayerToday {
@@ -26,6 +20,7 @@ public class HotPlayerToday {
 	}
 	
 	public Table getTable() {	
+		
 		if(base.checkDepenency())
 		{
 			GroupQuery groupQuery = new GroupQuery(base.getTable(), new String[]{"player_name"},
@@ -43,6 +38,7 @@ public class HotPlayerToday {
 			tableHost.performQuery(joinQuery, "hot_player_performance_today");
 			table = tableHost.getTable("hot_player_performance_today");
 		}
+		
 		return table;
 	}
 }
