@@ -12,7 +12,10 @@ public class MultivaluedTable extends KeywordTable
 	public synchronized Tuple createTuple()
 	{
 		gainLock();
-		notify.clear();
+		synchronized(notify)
+		{
+			notify.clear();
+		}
 		Tuple tuple = new Tuple();
 		tuple.attributes = new Object[super.headerLength + 1];
 		tuple.attributes[super.headerLength] = rowId;

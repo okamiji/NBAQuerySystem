@@ -64,12 +64,12 @@ public class KeywordTable implements Table
 	
 	public synchronized Tuple createTuple()
 	{
+		gainLock();
 		synchronized(notify)
 		{
 			notify.clear();
 		}
 		
-		gainLock();
 		Tuple tuple = new Tuple();
 		tuple.attributes = new Object[headerLength];
 		tuple.table = this;
@@ -90,6 +90,11 @@ public class KeywordTable implements Table
 		if(tuple.table != this) return;
 		
 		gainLock();
+		synchronized(notify)
+		{
+			notify.clear();
+		}
+		
 		this.keyToTupleMap.remove(keyword.getAttribute(tuple));
 		releaseLock();
 	}
