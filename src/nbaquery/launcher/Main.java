@@ -62,11 +62,15 @@ public class Main
 	
 	public static void main(String[] arguments) throws Exception
 	{
+		System.out.println("begin");
 		Main main = new Main();
 		main.loadDataLayer("D:\\迭代一数据");
+		System.out.println("begin2");
 		//main.loadDataLayer("D:\\dynamics");
 		main.loadLogicLayer();
+		System.out.println("begin3");
 		main.loadPresentation();
+		System.out.println("end");
 	}
 	
 }

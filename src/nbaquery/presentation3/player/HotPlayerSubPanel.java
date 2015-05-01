@@ -58,7 +58,7 @@ public class HotPlayerSubPanel extends JPanel
 	
 	public void paint(Graphics g)
 	{
-		
+		currentTableModel.onRepaint(playerTable);
 		super.paint(g);
 	}
 }

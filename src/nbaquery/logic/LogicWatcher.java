@@ -22,6 +22,7 @@ public class LogicWatcher
 			table.hasTableChanged(this);
 			return true;
 		}
+		else if(table == null) return true;
 		else return table.hasTableChanged(this);
 	}
 	
