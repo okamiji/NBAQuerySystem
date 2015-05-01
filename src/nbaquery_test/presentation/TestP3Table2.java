@@ -19,6 +19,7 @@ import nbaquery.presentation3.table.DefaultTableColumn;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.DisplayTableColumn;
 import nbaquery.presentation3.table.RankingTableColumn;
+import nbaquery.presentation3.table.TableSelectionListener;
 
 public class TestP3Table2
 {
@@ -113,6 +114,16 @@ public class TestP3Table2
 					descend = !descend;
 					sq.descend = descend;
 				}
+			}
+			
+		});
+		
+		table.addTableSelectionListener(new TableSelectionListener()
+		{
+
+			@Override
+			public void onSelect(DisplayTable table, int row, int column, Object value) {
+				System.out.println(value);
 			}
 			
 		});

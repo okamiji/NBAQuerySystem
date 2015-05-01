@@ -40,6 +40,7 @@ public class DisplayTable extends Component
 						{
 							for(ColumnSelectionListener cls : columnSelection)
 								cls.onSelect(DisplayTable.this, i);
+							return;
 						}
 			}
 			
@@ -50,8 +51,9 @@ public class DisplayTable extends Component
 				if(xBeginOffset[i] <= point.x && point.x <= xBeginOffset[i + 1])
 					synchronized(tableSelection)
 					{
+						Object value = tableModel.getValueAt(DisplayTable.this, rowIndex, i);
 						for(TableSelectionListener tls : tableSelection)
-							tls.onSelect(DisplayTable.this, rowIndex, i);
+							tls.onSelect(DisplayTable.this, rowIndex, i, value);
 					}
 		}
 	};
