@@ -2,6 +2,8 @@ package nbaquery.presentation3.table;
 
 import java.awt.Component;
 import java.awt.Graphics;
+import java.util.Date;
+
 import javax.swing.JLabel;
 
 import nbaquery.data.Column;
@@ -56,6 +58,17 @@ public class DefaultTableColumn implements DisplayTableColumn
 			displayComponent.setText(object.toString());
 			if(!object.getClass().equals(String.class))
 				displayComponent.setHorizontalAlignment(JLabel.CENTER);
+			
+			if(object.getClass().equals(Date.class))
+			{
+				Date date = (Date)object;
+				@SuppressWarnings("deprecation")
+				String formatted = "%year-%month-%day"
+					.replace("%year", Integer.toString(1900 + date.getYear()))
+					.replace("%month", Integer.toString(1 + date.getMonth()))
+					.replace("%day", Integer.toString(1 + date.getDate()));
+				displayComponent.setText(formatted);
+			}
 			
 			if(object.getClass().equals(Image.class))
 			{
