@@ -101,8 +101,8 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	{
 		Table table = this.hot.getTable();
 		SortQuery sort = new SortQuery(table, head, 5, true);		//"5" stands for top 5 here.
-		tableHost.performQuery(sort, "hot_player_query_result");
-		return tableHost.getTable("hot_player_query_result");
+		tableHost.performQuery(sort, "today_hot_player_query_result");
+		return tableHost.getTable("today_hot_player_query_result");
 	}
 
 	@Override

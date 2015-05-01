@@ -11,6 +11,7 @@ public class MultivaluedTable extends KeywordTable
 	
 	public synchronized Tuple createTuple()
 	{
+		gainLock();
 		notify.clear();
 		Tuple tuple = new Tuple();
 		tuple.attributes = new Object[super.headerLength + 1];
@@ -18,6 +19,7 @@ public class MultivaluedTable extends KeywordTable
 		tuple.table = this;
 		super.keyToTupleMap.put(rowId, tuple);
 		rowId ++;
+		releaseLock();
 		return tuple;
 	}
 	

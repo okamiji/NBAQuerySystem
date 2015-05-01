@@ -2,6 +2,8 @@ package nbaquery.presentation3.player;
 
 import javax.swing.JPanel;
 
+import nbaquery.data.Column;
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.PresentationTableModel;
@@ -42,6 +44,9 @@ public class HotPlayerSubPanel extends JPanel
 				
 				this.columnModel.addColumn("球员名称", "player_name").padding = 80;
 				this.columnModel.addColumn("个人得分", "self_score");
+				this.columnModel.addColumn("助攻", "assist");
+				this.columnModel.addColumn("盖帽", "cap");
+				this.columnModel.addColumn("篮板", "total_board");
 				
 				this.columnModel.addColumn(new RankingTableColumn(), 0);
 			}
@@ -54,6 +59,7 @@ public class HotPlayerSubPanel extends JPanel
 				{
 					Table resultTable = HotPlayerSubPanel.this.playerService
 							.searchForTodayHotPlayers(todayHotPlayerSorting);
+					
 					this.updateTable(resultTable);
 					shouldRedoTodayHotplayerQuery = false;
 				}

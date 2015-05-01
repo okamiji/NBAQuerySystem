@@ -3,8 +3,6 @@ package nbaquery.data.file;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import nbaquery.data.Column;
 import nbaquery.data.Row;
@@ -16,10 +14,27 @@ public class KeywordTable implements Table
 	public final FileTableHost host;
 	public final int headerLength;
 	public final KeywordColumn keyword;
-	public ConcurrentMap<Object, Tuple> keyToTupleMap = new ConcurrentHashMap<Object, Tuple>();
+	public TreeMap<Object, Tuple> keyToTupleMap = new TreeMap<Object, Tuple>();
 	public TreeMap<String, FileTableColumn> index = new TreeMap<String, FileTableColumn>();
 	
-	boolean modificationLock = false;
+	boolean tableLocked = false;
+	public void gainLock()
+	{
+		while(tableLocked)
+		try
+		{
+			Thread.sleep(1);
+		}
+		catch(InterruptedException e)
+		{
+		
+		}
+		tableLocked = true;
+	}
+	public void releaseLock()
+	{
+		tableLocked = false;
+	}
 	
 	public KeywordTable(FileTableHost host, String[] header, Class<?>[] dataType, String keyword)
 	{
@@ -53,30 +68,29 @@ public class KeywordTable implements Table
 			notify.clear();
 		}
 		
-		synchronized(this.keyToTupleMap)
-		{
-			Tuple tuple = new Tuple();
-			tuple.attributes = new Object[headerLength];
-			tuple.table = this;
-			return tuple;
-		}
+		gainLock();
+		Tuple tuple = new Tuple();
+		tuple.attributes = new Object[headerLength];
+		tuple.table = this;
+		releaseLock();
+		return tuple;
 	}
 	
 	public synchronized Collection<Tuple> listTuples()
 	{
-		synchronized(this.keyToTupleMap)
-		{
-			return this.keyToTupleMap.values();
-		}
+		gainLock();
+		Collection<Tuple> returnValue = this.keyToTupleMap.values();
+		releaseLock();
+		return returnValue;
 	}
 	
 	public synchronized void removeTuple(Tuple tuple)
 	{
 		if(tuple.table != this) return;
-		synchronized(this.keyToTupleMap)
-		{
-			this.keyToTupleMap.remove(keyword.getAttribute(tuple));
-		}
+		
+		gainLock();
+		this.keyToTupleMap.remove(keyword.getAttribute(tuple));
+		releaseLock();
 	}
 
 	@Override
@@ -118,11 +132,10 @@ public class KeywordTable implements Table
 	@Override
 	public Row[] getRows()
 	{
-		synchronized(this.keyToTupleMap)
-		{
-			Row[] rows = this.keyToTupleMap.values().toArray(new Row[0]);
-			return rows;
-		}
+		gainLock();
+		Row[] rows = this.keyToTupleMap.values().toArray(new Row[0]);
+		releaseLock();
+		return rows;
 	}
 
 	@Override
