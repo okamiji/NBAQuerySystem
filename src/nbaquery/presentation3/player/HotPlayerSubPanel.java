@@ -2,8 +2,6 @@ package nbaquery.presentation3.player;
 
 import javax.swing.JPanel;
 
-import nbaquery.data.Column;
-import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.PresentationTableModel;

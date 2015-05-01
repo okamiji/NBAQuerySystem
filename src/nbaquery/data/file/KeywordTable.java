@@ -23,9 +23,10 @@ public class KeywordTable implements Table
 		while(tableLocked)
 		try
 		{
-			Thread.sleep(1);
+			//Thread.sleep(1);
+			Thread.yield();
 		}
-		catch(InterruptedException e)
+		catch(Exception e)
 		{
 		
 		}
