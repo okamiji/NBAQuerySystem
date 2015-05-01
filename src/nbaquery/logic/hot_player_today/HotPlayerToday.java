@@ -11,7 +11,7 @@ public class HotPlayerToday {
 
 	public TableHost tableHost;
 	protected LogicWatcher base;
-	protected Table table,nativePlayer;
+	protected Table table, nativePlayer;
 	
 	public HotPlayerToday(TableHost tableHost, HotPlayerTodayPerformanceSelect base){
 		this.tableHost = tableHost;

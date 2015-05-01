@@ -3,6 +3,8 @@ package nbaquery.data.file;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import nbaquery.data.Column;
 import nbaquery.data.Row;
@@ -14,8 +16,10 @@ public class KeywordTable implements Table
 	public final FileTableHost host;
 	public final int headerLength;
 	public final KeywordColumn keyword;
-	public TreeMap<Object, Tuple> keyToTupleMap = new TreeMap<Object, Tuple>();
+	public ConcurrentMap<Object, Tuple> keyToTupleMap = new ConcurrentHashMap<Object, Tuple>();
 	public TreeMap<String, FileTableColumn> index = new TreeMap<String, FileTableColumn>();
+	
+	boolean modificationLock = false;
 	
 	public KeywordTable(FileTableHost host, String[] header, Class<?>[] dataType, String keyword)
 	{
@@ -44,22 +48,35 @@ public class KeywordTable implements Table
 	
 	public synchronized Tuple createTuple()
 	{
-		notify.clear();
-		Tuple tuple = new Tuple();
-		tuple.attributes = new Object[headerLength];
-		tuple.table = this;
-		return tuple;
+		synchronized(notify)
+		{
+			notify.clear();
+		}
+		
+		synchronized(this.keyToTupleMap)
+		{
+			Tuple tuple = new Tuple();
+			tuple.attributes = new Object[headerLength];
+			tuple.table = this;
+			return tuple;
+		}
 	}
 	
 	public synchronized Collection<Tuple> listTuples()
 	{
-		return this.keyToTupleMap.values();
+		synchronized(this.keyToTupleMap)
+		{
+			return this.keyToTupleMap.values();
+		}
 	}
 	
 	public synchronized void removeTuple(Tuple tuple)
 	{
 		if(tuple.table != this) return;
-		this.keyToTupleMap.remove(keyword.getAttribute(tuple));
+		synchronized(this.keyToTupleMap)
+		{
+			this.keyToTupleMap.remove(keyword.getAttribute(tuple));
+		}
 	}
 
 	@Override
@@ -99,9 +116,13 @@ public class KeywordTable implements Table
 	}
 	
 	@Override
-	public synchronized Row[] getRows()
+	public Row[] getRows()
 	{
-		return this.keyToTupleMap.values().toArray(new Row[0]);
+		synchronized(this.keyToTupleMap)
+		{
+			Row[] rows = this.keyToTupleMap.values().toArray(new Row[0]);
+			return rows;
+		}
 	}
 
 	@Override
@@ -112,10 +133,13 @@ public class KeywordTable implements Table
 	
 	protected HashSet<Object> notify = new HashSet<Object>();
 	
-	public boolean hasTableChanged(Object accessor)
+	public synchronized boolean hasTableChanged(Object accessor)
 	{
-		if(notify.contains(accessor)) return false;
-		notify.add(accessor); return true;
+		synchronized(notify)
+		{
+			if(notify.contains(accessor)) return false;
+			notify.add(accessor); return true;
+		}
 	}
 
 	@Override

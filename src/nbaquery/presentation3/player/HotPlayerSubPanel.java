@@ -1,7 +1,5 @@
 package nbaquery.presentation3.player;
 
-import java.awt.Graphics;
-
 import javax.swing.JPanel;
 
 import nbaquery.data.Table;
@@ -19,13 +17,20 @@ public class HotPlayerSubPanel extends JPanel
 	PresentationTableModel todayHotPlayerModel;
 	String todayHotPlayerSorting = "self_score";
 	
-	PresentationTableModel currentTableModel;
-	
 	public HotPlayerSubPanel(NewPlayerService playerService, int width, int height)
 	{
+		//XXX layout sub panel.
 		this.playerService = playerService;
 		super.setLayout(null);
 		super.setSize(width, height);
+		
+		//XXX layout the table.
+		this.playerTable = new DisplayTable();
+		this.playerTable.setSize((int) (0.7 * width), height);
+		this.playerTable.setLocation((int) (0.3 * width), 0);
+		
+		this.playerTable.setRowHeight(height / 6);
+		super.add(this.playerTable);
 		
 		todayHotPlayerModel = new PresentationTableModel()
 		{
@@ -35,7 +40,7 @@ public class HotPlayerSubPanel extends JPanel
 				this.setPageIndex(0);
 				this.setSectionPerPage(5);
 				
-				this.columnModel.addColumn("球员名称", "player_name");
+				this.columnModel.addColumn("球员名称", "player_name").padding = 80;
 				this.columnModel.addColumn("个人得分", "self_score");
 				
 				this.columnModel.addColumn(new RankingTableColumn(), 0);
@@ -45,7 +50,7 @@ public class HotPlayerSubPanel extends JPanel
 			public void onRepaint(DisplayTable table)
 			{
 				if(shouldRedoTodayHotplayerQuery ||
-						HotPlayerSubPanel.this.playerService.shouldRedoQuery(HotPlayerSubPanel.this))
+						HotPlayerSubPanel.this.playerService.shouldRedoQuery(this))
 				{
 					Table resultTable = HotPlayerSubPanel.this.playerService
 							.searchForTodayHotPlayers(todayHotPlayerSorting);
@@ -54,11 +59,14 @@ public class HotPlayerSubPanel extends JPanel
 				}
 			}
 		};
+		
+		//XXX initialize it to today hot player.
+		this.switchTableModel(todayHotPlayerModel);
 	}
 	
-	public void paint(Graphics g)
+	public void switchTableModel(PresentationTableModel tableModel)
 	{
-		currentTableModel.onRepaint(playerTable);
-		super.paint(g);
+		this.playerTable.columnModel = tableModel;
+		this.playerTable.tableModel = tableModel;
 	}
 }

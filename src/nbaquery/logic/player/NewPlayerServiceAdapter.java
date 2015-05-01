@@ -110,7 +110,6 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	{
 		Table table = this.progress.getTable();
 		SortQuery sort = new SortQuery(table, head, 5, true);		//"5" stands for top 5 here. 
-		
 		tableHost.performQuery(sort, "progress_player_query_result");
 		return tableHost.getTable("progress_player_query_result");
 	}

@@ -40,7 +40,7 @@ public class RankingTableColumn implements DisplayTableColumn
 			if(background != null)
 			{
 				g.setColor(background);
-				g.fillOval(2, 2, size - 4, size - 4);
+				g.fillOval(2, 2 + (this.getHeight() - size)/ 2, size - 4, size - 4);
 			}
 			
 			this.setBackground(opaque);
