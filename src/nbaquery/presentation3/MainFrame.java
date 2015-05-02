@@ -11,7 +11,7 @@ import nbaquery.logic.player.NewPlayerService;
 import nbaquery.logic.team.NewTeamService;
 
 @SuppressWarnings("serial")
-public class MainFrame extends JFrame
+public class MainFrame extends JFrame implements DetailedInfoContainer
 {
 	NewPlayerService newPlayerService;
 	NewTeamService newTeamService;
@@ -113,5 +113,20 @@ public class MainFrame extends JFrame
 	public static void main(String[] arguments)
 	{
 		new MainFrame(null, null, null).setVisible(true);
+	}
+	
+	public void displayPlayerInfo(String playerName)
+	{
+		
+	}
+	
+	public void displayTeamInfo(String teamNameOrAbbr, boolean isAbbr)
+	{
+		
+	}
+	
+	public void displayMatchInfo(int matchId)
+	{
+		
 	}
 }

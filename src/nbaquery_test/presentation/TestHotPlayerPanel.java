@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import nbaquery.launcher.Main;
 import nbaquery.logic.player.NewPlayerService;
+import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.player.HotPlayerSubPanel;
 
 public class TestHotPlayerPanel extends Main
@@ -16,7 +17,30 @@ public class TestHotPlayerPanel extends Main
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
-		theFrame.add(new HotPlayerSubPanel((NewPlayerService) this.playerService, 400, 230));
+		theFrame.add(new HotPlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainer()
+		{
+
+			@Override
+			public void displayPlayerInfo(String playerName)
+			{
+				System.out.println(playerName);
+			}
+
+			@Override
+			public void displayTeamInfo(String teamNameOrAbbr, boolean isAbbr)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void displayMatchInfo(int matchId)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}, 400, 230));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}

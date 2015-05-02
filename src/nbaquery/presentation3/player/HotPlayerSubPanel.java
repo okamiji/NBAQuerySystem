@@ -11,18 +11,21 @@ import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation.resource.ImageIconResource;
+import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.DisplayButton;
 import nbaquery.presentation3.DropMenu;
 import nbaquery.presentation3.PresentationTableModel;
 import nbaquery.presentation3.table.ColumnSelectionListener;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.RankingTableColumn;
+import nbaquery.presentation3.table.TableSelectionListener;
 
 @SuppressWarnings("serial")
 public class HotPlayerSubPanel extends JPanel
 {
 	NewPlayerService playerService;
 	DisplayTable playerTable;
+	DetailedInfoContainer infoContainer;
 	
 	HotPlayerSection currentSection;
 	
@@ -149,10 +152,11 @@ public class HotPlayerSubPanel extends JPanel
 		playerName.setText("");
 	}
 	
-	public HotPlayerSubPanel(NewPlayerService playerService, int width, int height)
+	public HotPlayerSubPanel(NewPlayerService playerService, DetailedInfoContainer infoContainer, int width, int height)
 	{
 		//XXX layout sub panel.
 		this.playerService = playerService;
+		this.infoContainer = infoContainer;
 		super.setLayout(null);
 		super.setSize(width, height);
 		
@@ -197,6 +201,23 @@ public class HotPlayerSubPanel extends JPanel
 		super.add(imageDisplay);
 		super.add(description);
 		super.add(playerName);
+		
+		//XXX adding detailed info container reaction.
+		playerTable.addTableSelectionListener(new TableSelectionListener()
+		{
+
+			@Override
+			public void onSelect(DisplayTable table, int row, int column,
+					Object value, Point mousePoint)
+			{
+				if(value == null) return;
+				Row rowObject = (Row)value;
+				String playerName = (String) rowObject.getDeclaredTable()
+						.getColumn("player_name").getAttribute(rowObject);
+				HotPlayerSubPanel.this.infoContainer.displayPlayerInfo(playerName);
+			}
+			
+		});
 		
 		//XXX initialize it to today hot player.
 		this.switchSection(todayHotPlayer);
