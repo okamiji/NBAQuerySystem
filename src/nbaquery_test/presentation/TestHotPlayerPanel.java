@@ -14,8 +14,8 @@ public class TestHotPlayerPanel extends Main
 		theFrame = new JFrame();
 		theFrame.setSize(400, 240);
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
-		
 		theFrame.add(new HotPlayerSubPanel((NewPlayerService) this.playerService, 400, 230));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
