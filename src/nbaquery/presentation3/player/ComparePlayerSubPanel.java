@@ -25,14 +25,21 @@ public class ComparePlayerSubPanel extends JPanel
 	public boolean isGross = true;
 	public String league = null;
 	public String position = null;
-	public String[] keyword = new String[]{"player_name"};
 	public boolean descend = false;
 	
 	public boolean shouldRedoQuery = true;
 	
+	protected ComparePlayerModel currentPlayerModel;
+	public void switchToModel(ComparePlayerModel model)
+	{
+		playerTable.columnModel = model;
+		playerTable.tableModel = model;
+	}
+	
 	public class ComparePlayerModel extends PresentationTableModel
 	{
 		public final HashMap<DisplayTableColumn, String[]> keywordMap = new HashMap<DisplayTableColumn, String[]>();
+		public String[] keyword = new String[]{"player_name"};
 		
 		@Override
 		public void onRepaint(DisplayTable table)
@@ -48,8 +55,8 @@ public class ComparePlayerSubPanel extends JPanel
 		}
 	}
 
-	public final PresentationTableModel basicData;
-	public final PresentationTableModel analyticData;
+	public final ComparePlayerModel basicData;
+	public final ComparePlayerModel analyticData;
 	
 	public ComparePlayerSubPanel(NewPlayerService playerService, DetailedInfoContainer detailedInfo, int width, int height, final int sectionPerPageParam)
 	{
@@ -85,28 +92,40 @@ public class ComparePlayerSubPanel extends JPanel
 				columnModel.addColumn(attendance);	keywordMap.put(attendance, new String[]{"game_count", "first_count"});
 				
 				GameTimeColumn game_time = new GameTimeColumn();
-				columnModel.addColumn(game_time);	keywordMap.put(game_time, new String[]{});
+				columnModel.addColumn(game_time);	keywordMap.put(game_time, new String[]{"game_time"});
 				
 				DualTableColumn foul_shoot = new DualTableColumn("·£Çò", "foul_shoot_score", "foul_shoot_count", "%1-%2"); foul_shoot.padding = 5;
-				columnModel.addColumn(foul_shoot);
+				columnModel.addColumn(foul_shoot);	keywordMap.put(foul_shoot, new String[]{"foul_shoot_count", "foul_shoot_score"});
 				
 				DualTableColumn two_shoot = new DualTableColumn("Í¶Àº", "shoot_score", "shoot_count", "%1-%2"); two_shoot.padding = 5;
-				columnModel.addColumn(two_shoot);
+				columnModel.addColumn(two_shoot);	keywordMap.put(two_shoot, new String[]{"shoot_count", "shoot_score"});
 				
 				DualTableColumn three_shoot = new DualTableColumn("Èý·Ö", "three_shoot_score", "three_shoot_count", "%1-%2"); three_shoot.padding = 5;
-				columnModel.addColumn(three_shoot);
+				columnModel.addColumn(three_shoot);	keywordMap.put(three_shoot, new String[]{"three_shoot_count", "three_shoot_score"});
 				
-				columnModel.addColumn("µÃ·Ö", "self_score").padding = 5;
+				DefaultTableColumn self_score = columnModel.addColumn("µÃ·Ö", "self_score");
+				self_score.padding = 5;			keywordMap.put(self_score, new String[]{"self_score"});
 				
 				DualTableColumn attack_defence = new DualTableColumn("¹¥ÊØ", "attack_board", "defence_board", "%1-%2"); attack_defence.padding = 5;
-				columnModel.addColumn(attack_defence);
+				columnModel.addColumn(attack_defence);	keywordMap.put(attack_defence, new String[]{"attack_board", "defence_board"});
 				
-				columnModel.addColumn("Àº°å", "total_board").padding = 6;
-				columnModel.addColumn("Öú¹¥", "assist").padding = 6;
-				columnModel.addColumn("¸ÇÃ±", "cap").padding = 6;
-				columnModel.addColumn("ÇÀ¶Ï", "steal").padding = 6;
-				columnModel.addColumn("Ê§Îó", "miss").padding = 6;
-				columnModel.addColumn("·¸¹æ", "foul").padding = 6;
+				DefaultTableColumn total_board = columnModel.addColumn("Àº°å", "total_board");
+				total_board.padding = 6;	keywordMap.put(total_board, new String[]{"total_board"});
+				
+				DefaultTableColumn assist = columnModel.addColumn("Öú¹¥", "assist");
+				assist.padding = 6;		keywordMap.put(assist, new String[]{"assist"});
+				
+				DefaultTableColumn cap = columnModel.addColumn("¸ÇÃ±", "cap");
+				cap.padding = 6;	keywordMap.put(cap, new String[]{"cap"});
+				
+				DefaultTableColumn steal = columnModel.addColumn("ÇÀ¶Ï", "steal");
+				steal.padding = 6;	keywordMap.put(steal, new String[]{"steal"});
+				
+				DefaultTableColumn miss = columnModel.addColumn("Ê§Îó", "miss");
+				miss.padding = 6;	keywordMap.put(miss, new String[]{"miss"});
+				
+				DefaultTableColumn foul = columnModel.addColumn("·¸¹æ", "foul");
+				foul.padding = 6;	keywordMap.put(foul, new String[]{"foul"});
 			}
 		};
 		
@@ -125,8 +144,6 @@ public class ComparePlayerSubPanel extends JPanel
 				
 				DefaultTableColumn team_name = columnModel.addColumn("Çò¶Ó", "team_name_abbr");
 				team_name.padding = 5;	keywordMap.put(team_name, new String[]{"team_name_abbr"});
-				
-				
 			}
 		};
 		
@@ -150,15 +167,9 @@ public class ComparePlayerSubPanel extends JPanel
 			protected void onSelectionChanged(int index)
 			{
 				if(index == 0)
-				{
-					playerTable.columnModel = basicData;
-					playerTable.tableModel = basicData;
-				}
+					switchToModel(basicData);
 				else
-				{
-					playerTable.columnModel = analyticData;
-					playerTable.tableModel = analyticData;
-				}
+					switchToModel(analyticData);
 				shouldRedoQuery = true;
 			}
 		};

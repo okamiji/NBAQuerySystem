@@ -33,34 +33,24 @@ public class GameTimeColumn implements DisplayTableColumn
 			int column)
 	{		
 		Row rowObject = (Row)value;
-		Object minute = rowObject.getDeclaredTable().getColumn("game_time_minute").getAttribute(rowObject);
-		Object second = rowObject.getDeclaredTable().getColumn("game_time_second").getAttribute(rowObject);
-		if(minute == null || second == null) textLabel.setText("");
-		else if(minute instanceof Float)
+		Object second = rowObject.getDeclaredTable().getColumn("game_time").getAttribute(rowObject);
+		if(second == null) textLabel.setText("");
+		else if(second instanceof Float)
 		{
-			//Then second should be float
-			float minuteFloat = (float) minute;
-			float secondFloat = (float) second;
-			
-			float totalSeconds = minuteFloat * 60.0f + secondFloat;
-			int integerSeconds = (int) totalSeconds;
-			//float remainderSeconds = totalSeconds - integerSeconds;
+			float secondValue = ((Float)second);
+			int integerSeconds = (int)secondValue;
 			
 			textLabel.setText("%m'%s\""
 					.replace("%m", Integer.toString(integerSeconds / 60))
 					.replace("%s", Integer.toString(integerSeconds % 60)));
 		}
-		else if(minute instanceof Integer)
+		else if(second instanceof Integer)
 		{
-			//Then second should be integer.
-			int minuteInt = (int) minute;
 			int secondInt = (int) second;
 			
-			int totalSeconds = minuteInt * 60 + secondInt;
-			
 			textLabel.setText("%m'%s\""
-					.replace("%m", Integer.toString(totalSeconds / 60))
-					.replace("%s", Integer.toString(totalSeconds % 60)));
+					.replace("%m", Integer.toString(secondInt / 60))
+					.replace("%s", Integer.toString(secondInt % 60)));
 		}
 		return textLabel;
 	}
