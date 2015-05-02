@@ -39,7 +39,7 @@ public class DisplayTable extends Component
 						synchronized(tableSelection)
 						{
 							for(ColumnSelectionListener cls : columnSelection)
-								cls.onSelect(DisplayTable.this, i);
+								cls.onSelect(DisplayTable.this, i, me.getPoint());
 							return;
 						}
 			}
@@ -53,7 +53,7 @@ public class DisplayTable extends Component
 					{
 						Object value = tableModel.getValueAt(DisplayTable.this, rowIndex, i);
 						for(TableSelectionListener tls : tableSelection)
-							tls.onSelect(DisplayTable.this, rowIndex, i, value);
+							tls.onSelect(DisplayTable.this, rowIndex, i, value, me.getPoint());
 					}
 		}
 	};

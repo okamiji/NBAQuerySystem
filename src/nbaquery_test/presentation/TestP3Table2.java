@@ -2,6 +2,7 @@ package nbaquery_test.presentation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Point;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -102,7 +103,7 @@ public class TestP3Table2
 		{
 
 			@Override
-			public void onSelect(DisplayTable table, int column)
+			public void onSelect(DisplayTable table, int column, Point mousePoint)
 			{
 				DisplayTableColumn theColumn = model.columnModel.columns.get(column);
 				if(theColumn instanceof DefaultTableColumn)
@@ -122,7 +123,7 @@ public class TestP3Table2
 		{
 
 			@Override
-			public void onSelect(DisplayTable table, int row, int column, Object value) {
+			public void onSelect(DisplayTable table, int row, int column, Object value, Point point) {
 				System.out.println(value);
 			}
 			
