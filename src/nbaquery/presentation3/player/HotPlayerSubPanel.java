@@ -2,10 +2,15 @@ package nbaquery.presentation3.player;
 
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import nbaquery.data.Image;
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
+import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation3.DisplayButton;
 import nbaquery.presentation3.DropMenu;
 import nbaquery.presentation3.PresentationTableModel;
@@ -27,6 +32,7 @@ public class HotPlayerSubPanel extends JPanel
 	, new String[]{"self_score", "total_board", "assist", "steal", "cap"})
 	{
 		{
+			prefix = "今日";
 			tableModel = new PresentationTableModel()
 			{
 				{
@@ -47,6 +53,7 @@ public class HotPlayerSubPanel extends JPanel
 						
 						this.updateTable(resultTable);
 						shouldRedoQuery = false;
+						setHeadDisplay();
 					}
 				}
 			};
@@ -57,6 +64,7 @@ public class HotPlayerSubPanel extends JPanel
 	, new String[]{"self_score", "total_board", "assist", "steal", "cap"})
 	{
 		{
+			prefix = "赛季";
 			tableModel = new PresentationTableModel()
 			{
 				{
@@ -77,6 +85,7 @@ public class HotPlayerSubPanel extends JPanel
 						
 						this.updateTable(resultTable);
 						shouldRedoQuery = false;
+						setHeadDisplay();
 					}
 				}
 			};
@@ -107,11 +116,38 @@ public class HotPlayerSubPanel extends JPanel
 						
 						this.updateTable(resultTable);
 						shouldRedoQuery = false;
+						setHeadDisplay();
 					}
 				}
 			};
 		}
 	};
+	
+	public final JLabel imageDisplay = new JLabel();
+	public final JLabel description = new JLabel();
+	public final JLabel playerName = new JLabel();
+	
+	public void setHeadDisplay()
+	{
+		if(playerTable == null || playerTable.tableModel == null) return;
+		description.setText(this.currentSection.getDescriptionText());
+		if(playerTable.tableModel.getRowCount() > 0)
+		{
+			Row row = (Row) playerTable.tableModel.getValueAt(playerTable, 0, 0);
+			if(row != null)
+			{
+				Image icon = (Image) row.getDeclaredTable().getColumn("player_portrait").getAttribute(row);
+				imageDisplay.setIcon(new ImageIcon(
+						ImageIconResource.getImageIcon(icon.toString()).getImage()
+							.getScaledInstance(imageDisplay.getWidth(), imageDisplay.getHeight(), java.awt.Image.SCALE_SMOOTH)
+						));
+				playerName.setText((String) row.getDeclaredTable().getColumn("player_name").getAttribute(row));
+			}
+			return;
+		}
+		imageDisplay.setIcon(null);
+		playerName.setText("");
+	}
 	
 	public HotPlayerSubPanel(NewPlayerService playerService, int width, int height)
 	{
@@ -152,6 +188,16 @@ public class HotPlayerSubPanel extends JPanel
 		super.add(seasonHotPlayer.tableSwitch);
 		super.add(progressPlayer.tableSwitch);
 		
+		//XXX adding player showcase
+		imageDisplay.setBounds(5, (int)(0.1 * height + 5), (int)((0.3 * width) - 10), (int)(0.5 * height - 5));
+		description.setBounds(5, (int)(0.5 * height + 10), (int)((0.3 * width) - 10), (int)(0.25 * height));
+		description.setHorizontalAlignment(JLabel.CENTER);
+		playerName.setBounds(5, (int)(0.65 * height), (int)((0.3 * width) - 10), (int)(0.25 * height));
+		playerName.setHorizontalAlignment(JLabel.CENTER);
+		super.add(imageDisplay);
+		super.add(description);
+		super.add(playerName);
+		
 		//XXX initialize it to today hot player.
 		this.switchSection(todayHotPlayer);
 	}
@@ -160,11 +206,13 @@ public class HotPlayerSubPanel extends JPanel
 	{
 		if(this.currentSection != null)
 			this.currentSection.tableSwitch.setEnabled(true);
+			
 		this.currentSection = section;
 		this.currentSection.tableSwitch.setEnabled(false);
 		this.playerTable.columnModel = section.tableModel;
 		this.playerTable.tableModel = section.tableModel;
 		section.update();
+		this.setHeadDisplay();
 	}
 	
 	public class HotPlayerSection
@@ -217,6 +265,12 @@ public class HotPlayerSubPanel extends JPanel
 					shouldRedoQuery = true;
 				}
 			};
+		}
+		
+		protected String prefix = "";
+		public String getDescriptionText()
+		{
+			return prefix.concat(tableHeader[selectedIndex]).concat("王");
 		}
 	}
 }
