@@ -6,6 +6,7 @@ import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.DualTableColumn;
+import nbaquery.presentation3.GameTimeColumn;
 import nbaquery.presentation3.PresentationTableModel;
 import nbaquery.presentation3.table.DisplayTable;
 
@@ -19,7 +20,7 @@ public class ComparePlayerSubPanel extends JPanel
 	public boolean isGross = true;
 	public String league = null;
 	public String position = null;
-	public String keyword = "player_name";
+	public String[] keyword = new String[]{"player_name"};
 	public boolean descend = false;
 	
 	public boolean shouldRedoQuery = true;
@@ -45,7 +46,7 @@ public class ComparePlayerSubPanel extends JPanel
 				if(ComparePlayerSubPanel.this.playerService.shouldRedoQuery(this) || shouldRedoQuery)
 				{
 					Table resultTable = ComparePlayerSubPanel.this.playerService
-						.searchForPlayers(isGross, new String[]{keyword}, descend, position, league);
+						.searchForPlayers(isGross, keyword, descend, position, league);
 					
 					this.updateTable(resultTable);
 					shouldRedoQuery = false;
@@ -62,7 +63,8 @@ public class ComparePlayerSubPanel extends JPanel
 		model.columnModel.addColumn("", "player_portrait").padding = playerTable.getHeight() / (sectionPerPage + 1);
 		model.columnModel.addColumn("球员名称", "player_name").padding = 70;
 		model.columnModel.addColumn("球队", "team_name_abbr");
-		DualTableColumn game_time = new DualTableColumn("上场时间", "game_time_minute", "game_time_second", "%1'%2\""); game_time.padding = 10;
+		
+		GameTimeColumn game_time = new GameTimeColumn();
 		model.columnModel.addColumn(game_time);
 		
 		DualTableColumn foul_shoot = new DualTableColumn("罚球", "foul_shoot_score", "foul_shoot_count", "%1-%2"); foul_shoot.padding = 10;
