@@ -1,4 +1,4 @@
-package nbaquery.presentation3.dropmenu;
+package nbaquery.presentation3;
 
 import java.awt.Color;
 import java.awt.Component;

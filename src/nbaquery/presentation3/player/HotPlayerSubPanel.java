@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 
 import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
+import nbaquery.presentation3.DropMenu;
 import nbaquery.presentation3.PresentationTableModel;
-import nbaquery.presentation3.dropmenu.DropMenu;
 import nbaquery.presentation3.table.ColumnSelectionListener;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.RankingTableColumn;
