@@ -1,5 +1,8 @@
 package nbaquery.presentation3.player;
 
+import java.awt.Point;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
@@ -11,6 +14,7 @@ import nbaquery.presentation3.DropList;
 import nbaquery.presentation3.DualTableColumn;
 import nbaquery.presentation3.GameTimeColumn;
 import nbaquery.presentation3.PresentationTableModel;
+import nbaquery.presentation3.table.ColumnSelectionListener;
 import nbaquery.presentation3.table.DefaultTableColumn;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.DisplayTableColumn;
@@ -32,6 +36,7 @@ public class ComparePlayerSubPanel extends JPanel
 	protected ComparePlayerModel currentPlayerModel;
 	public void switchToModel(ComparePlayerModel model)
 	{
+		currentPlayerModel = model;
 		playerTable.columnModel = model;
 		playerTable.tableModel = model;
 	}
@@ -176,5 +181,66 @@ public class ComparePlayerSubPanel extends JPanel
 		dataModel.setBounds(84, 2, 80, 20);
 		dataModel.setHorizontalAlignment(DropList.CENTER);
 		this.add(dataModel);
+		
+		final DropList matchArea = new DropList(new String[]{"所有赛区", "东部赛区", "西部赛区"})
+		{
+			@Override
+			protected void onSelectionChanged(int index)
+			{
+				if(index == 0) league = null;
+				else if(index == 1) league = "E";
+				else league = "W";
+				shouldRedoQuery = true;
+			}
+		};
+		matchArea.setBounds(width - 82, 2, 80, 20);
+		matchArea.setHorizontalAlignment(DropList.CENTER);
+		this.add(matchArea);
+		
+		final DropList position = new DropList(new String[]{"所有位置", "前锋", "中锋", "后卫"})
+		{
+			@Override
+			protected void onSelectionChanged(int index)
+			{
+				if(index == 0) ComparePlayerSubPanel.this.position = null;
+				else if(index == 1) ComparePlayerSubPanel.this.position = "F";
+				else if(index == 2) ComparePlayerSubPanel.this.position = "C";
+				else ComparePlayerSubPanel.this.position = "G";
+				shouldRedoQuery = true;
+			}
+		};
+		position.setBounds(width - 164, 2, 80, 20);
+		position.setHorizontalAlignment(DropList.CENTER);
+		this.add(position);
+		
+		//XXX adding listeners.
+		playerTable.addColumnSelectionListener(new ColumnSelectionListener()
+		{
+			int legacyColumn = 2;
+			@Override
+			public void onSelect(DisplayTable table, int column,
+					Point mousePoint)
+			{
+				currentPlayerModel.keyword = currentPlayerModel.keywordMap
+						.get(currentPlayerModel.columnModel.getColumn(column));
+				
+				if(legacyColumn == column) descend = !descend;
+				legacyColumn = column;
+				
+				shouldRedoQuery = true;
+			}
+		});
+		
+		playerTable.addMouseWheelListener(new MouseWheelListener()
+		{
+
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent arg0)
+			{
+				currentPlayerModel.setPageIndex(currentPlayerModel.getPageIndex() + 
+						arg0.getUnitsToScroll() / arg0.getScrollAmount());
+			}
+			
+		});
 	}
 }

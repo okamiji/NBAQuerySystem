@@ -69,6 +69,7 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 			sort = new SortQuery(table, head[i], isUp);
 			tableHost.performQuery(sort, "player_query_result");
 			table = tableHost.getTable("player_query_result");
+			tableName = "player_query_result";
 		}
 		
 		if(position != null || league != null) try
