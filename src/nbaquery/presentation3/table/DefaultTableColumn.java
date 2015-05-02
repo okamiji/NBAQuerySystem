@@ -59,6 +59,9 @@ public class DefaultTableColumn implements DisplayTableColumn
 			if(!object.getClass().equals(String.class))
 				displayComponent.setHorizontalAlignment(JLabel.CENTER);
 			
+			if(object.getClass().equals(Float.class))
+				displayComponent.setText(object.toString().substring(0, 5));
+			
 			if(object.getClass().equals(Date.class))
 			{
 				Date date = (Date)object;

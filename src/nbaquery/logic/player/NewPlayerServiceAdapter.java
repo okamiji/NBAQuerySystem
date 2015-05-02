@@ -1,5 +1,7 @@
 package nbaquery.logic.player;
 
+import nbaquery.data.Column;
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.SelectProjectQuery;
@@ -117,7 +119,26 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	@Override
 	public Table searchForSeasonHotPlayers(String head)
 	{
-		return this.searchForPlayers(true, new String[]{head}, true, null, null);
+		Table matchTable = tableHost.getTable("match");
+		if(matchTable.hasTableChanged("setchForSeasonHotPlayers"))
+		{
+			Row[] rows = matchTable.getRows();
+			Column season = matchTable.getColumn("match_season");
+			String latestSeason = (String) season.getAttribute(rows[rows.length - 1]);
+			
+			Table grossTable = this.gross.getTable();
+			try
+			{
+				tableHost.performQuery(new SelectProjectQuery("gross_player.match_season==\"%season\"".replace("%season", latestSeason), grossTable), "season_hot_player_result");
+			}
+			catch(Exception e)
+			{
+
+			}
+			
+		}
+		tableHost.performQuery(new SortQuery(tableHost.getTable("season_hot_player_result"), head, 5, true), "season_hot_player_result_final");
+		return tableHost.getTable("season_hot_player_result_final");
 	}
 
 	@Override
