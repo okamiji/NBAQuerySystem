@@ -48,6 +48,13 @@ public class TestHotPlayerPanel extends Main
 	
 	public static void main(String[] arguments) throws Exception
 	{
+		try
+		{
 		new TestHotPlayerPanel().launch();
+		}
+		catch(Exception e)
+		{
+			
+		}
 	}
 }

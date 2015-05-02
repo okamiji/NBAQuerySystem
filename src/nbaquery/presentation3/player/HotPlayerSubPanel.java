@@ -20,42 +20,38 @@ public class HotPlayerSubPanel extends JPanel
 	
 	HotPlayerSection currentSection;
 	
+	boolean shouldRedoQuery = true;
+	
 	HotPlayerSection todayHotPlayer = new HotPlayerSection(new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "ÇÀ¶Ï", "¸ÇÃ±"}
 	, new String[]{"self_score", "total_board", "assist", "steal", "cap"})
 	{
 		{
 			tableModel = new PresentationTableModel()
 			{
-				boolean shouldRedoTodayHotplayerQuery = true;
 				
 				{
 					this.setPageIndex(0);
 					this.setSectionPerPage(5);
-					
 					this.columnModel.addColumn("ÇòÔ±Ãû³Æ", "player_name").padding = 80;
-					
 					this.columnModel.addColumn(new RankingTableColumn(), 0);
 				}
 				
 				@Override
 				public void onRepaint(DisplayTable table)
 				{
-					if(shouldRedoTodayHotplayerQuery ||
+					if(shouldRedoQuery ||
 							HotPlayerSubPanel.this.playerService.shouldRedoQuery(this))
 					{
 						Table resultTable = HotPlayerSubPanel.this.playerService
-								.searchForTodayHotPlayers(tableColumn[todayHotPlayerSorting]);
+								.searchForTodayHotPlayers(tableColumn[selectedIndex]);
 						
 						this.updateTable(resultTable);
-						shouldRedoTodayHotplayerQuery = false;
+						shouldRedoQuery = false;
 					}
 				}
 			};
 		}
 	};
-	
-	PresentationTableModel todayHotPlayerModel;
-	int todayHotPlayerSorting = 0;
 	
 	public HotPlayerSubPanel(NewPlayerService playerService, int width, int height)
 	{
@@ -102,8 +98,7 @@ public class HotPlayerSubPanel extends JPanel
 		PresentationTableModel tableModel;
 		String[] tableHeader;
 		String[] tableColumn;
-		int selectedIndex = 0;
-		
+		int selectedIndex = 1;
 		private int legacy = -1;
 		
 		public HotPlayerSection(String[] tableHeader, String[] tableColumn)
@@ -117,9 +112,9 @@ public class HotPlayerSubPanel extends JPanel
 		{
 			if(legacy != selectedIndex)
 			{
-				if(legacy > 0) tableModel.columnModel.removeColumn(tableColumn[legacy]);
-				tableModel.columnModel.addColumn(tableHeader[selectedIndex], tableColumn[selectedIndex]);
+				if(legacy >= 0) tableModel.columnModel.removeColumn(tableColumn[legacy]);
 				legacy = selectedIndex;
+				tableModel.columnModel.addColumn(tableHeader[legacy], tableColumn[legacy]);
 			}
 		}
 		
@@ -133,6 +128,7 @@ public class HotPlayerSubPanel extends JPanel
 				{
 					selectedIndex = itemIndex;
 					switchSection(currentSection);
+					shouldRedoQuery = true;
 				}
 			};
 		}
