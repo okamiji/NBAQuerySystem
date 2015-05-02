@@ -64,7 +64,15 @@ public class Main
 	{
 		this.loadDataLayer("D:\\迭代一数据");
 		//main.loadDataLayer("D:\\dynamics");
-		this.loadLogicLayer();
+		while(true) try
+		{
+			this.loadLogicLayer();
+			break;
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error detected while loading, retrying.");
+		}
 		this.loadPresentation();
 	}
 	
