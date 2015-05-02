@@ -8,20 +8,20 @@ import nbaquery.data.Row;
 import nbaquery.launcher.Main;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.DetailedInfoContainer;
-import nbaquery.presentation3.player.HotPlayerSubPanel;
+import nbaquery.presentation3.player.ComparePlayerSubPanel;
 
-public class TestHotPlayerPanel extends Main
+public class TestComparePlayerPanel extends Main
 {
 	JFrame theFrame;
 	public void loadPresentation()
 	{
 		theFrame = new JFrame();
-		theFrame.setSize(400, 240);
+		theFrame.setSize(600, 400);
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new HotPlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainer()
+		theFrame.add(new ComparePlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainer()
 		{
 			@Override
 			public void displayMatchInfo(int matchId)
@@ -51,7 +51,7 @@ public class TestHotPlayerPanel extends Main
 				
 			}
 			
-		}, 400, 230));
+		}, 600, 400, 15));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}
@@ -85,7 +85,7 @@ public class TestHotPlayerPanel extends Main
 	{
 		try
 		{
-		new TestHotPlayerPanel().launch();
+		new TestComparePlayerPanel().launch();
 		}
 		catch(Exception e)
 		{

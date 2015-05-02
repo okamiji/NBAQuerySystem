@@ -48,6 +48,12 @@ public class DefaultTableColumnModel implements DisplayTableColumnModel
 		columns.add(index, column);
 	}
 	
+	public void addColumn(DisplayTableColumn column)
+	{	
+		removeColumn(column);
+		columns.add(column);
+	}
+	
 	public void removeColumn(DisplayTableColumn column)
 	{
 		if(column instanceof DefaultTableColumn)
