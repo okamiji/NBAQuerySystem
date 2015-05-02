@@ -30,7 +30,7 @@ public class DefaultTableColumn implements DisplayTableColumn
 	{
 		if(this.tableColumn != null) 
 			if(table == this.tableColumn.getDeclaringTable()) return;
-		this.tableColumn = table.getColumn(columnName); 
+		this.tableColumn = table.getColumn(columnName);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class DefaultTableColumn implements DisplayTableColumn
 	@Override
 	public Component render(DisplayTable table, Object value, int row, int column)
 	{
-		Object object = (this.tableColumn.getAttribute(((Row)value)));
+		Object object = this.tableColumn.getAttribute(((Row)value));
 		if(object == null) displayComponent.setText("");
 		else
 		{

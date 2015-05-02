@@ -1,10 +1,14 @@
 package nbaquery.presentation3.player;
 
+import java.awt.Point;
+
 import javax.swing.JPanel;
 
 import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.PresentationTableModel;
+import nbaquery.presentation3.dropmenu.DropMenu;
+import nbaquery.presentation3.table.ColumnSelectionListener;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.RankingTableColumn;
 
@@ -14,8 +18,44 @@ public class HotPlayerSubPanel extends JPanel
 	NewPlayerService playerService;
 	DisplayTable playerTable;
 	
+	HotPlayerSection currentSection;
+	
+	HotPlayerSection todayHotPlayer = new HotPlayerSection(new String[]{"µÃ·Ö", "Àº°å", "Öú¹¥", "ÇÀ¶Ï", "¸ÇÃ±"}
+	, new String[]{"self_score", "total_board", "assist", "steal", "cap"})
+	{
+		{
+			tableModel = new PresentationTableModel()
+			{
+				boolean shouldRedoTodayHotplayerQuery = true;
+				
+				{
+					this.setPageIndex(0);
+					this.setSectionPerPage(5);
+					
+					this.columnModel.addColumn("ÇòÔ±Ãû³Æ", "player_name").padding = 80;
+					
+					this.columnModel.addColumn(new RankingTableColumn(), 0);
+				}
+				
+				@Override
+				public void onRepaint(DisplayTable table)
+				{
+					if(shouldRedoTodayHotplayerQuery ||
+							HotPlayerSubPanel.this.playerService.shouldRedoQuery(this))
+					{
+						Table resultTable = HotPlayerSubPanel.this.playerService
+								.searchForTodayHotPlayers(tableColumn[todayHotPlayerSorting]);
+						
+						this.updateTable(resultTable);
+						shouldRedoTodayHotplayerQuery = false;
+					}
+				}
+			};
+		}
+	};
+	
 	PresentationTableModel todayHotPlayerModel;
-	String todayHotPlayerSorting = "self_score";
+	int todayHotPlayerSorting = 0;
 	
 	public HotPlayerSubPanel(NewPlayerService playerService, int width, int height)
 	{
@@ -30,47 +70,71 @@ public class HotPlayerSubPanel extends JPanel
 		this.playerTable.setLocation((int) (0.3 * width), 0);
 		
 		this.playerTable.setRowHeight(height / 6);
+		
+		this.playerTable.addColumnSelectionListener(new ColumnSelectionListener()
+		{
+			@Override
+			public void onSelect(DisplayTable table, int column,
+					Point mousePoint)
+			{
+				if(column > 1)
+					currentSection.theDropMenu.popupWindow(playerTable.getX() + mousePoint.x,
+							playerTable.getY() + mousePoint.y);
+			}
+		});
+		
 		super.add(this.playerTable);
 		
-		todayHotPlayerModel = new PresentationTableModel()
-		{
-			boolean shouldRedoTodayHotplayerQuery = true;
-			
-			{
-				this.setPageIndex(0);
-				this.setSectionPerPage(5);
-				
-				this.columnModel.addColumn("ÇòÔ±Ãû³Æ", "player_name").padding = 80;
-				this.columnModel.addColumn("¸öÈËµÃ·Ö", "self_score");
-				this.columnModel.addColumn("Öú¹¥", "assist");
-				this.columnModel.addColumn("¸ÇÃ±", "cap");
-				this.columnModel.addColumn("Àº°å", "total_board");
-				
-				this.columnModel.addColumn(new RankingTableColumn(), 0);
-			}
-			
-			@Override
-			public void onRepaint(DisplayTable table)
-			{
-				if(shouldRedoTodayHotplayerQuery ||
-						HotPlayerSubPanel.this.playerService.shouldRedoQuery(this))
-				{
-					Table resultTable = HotPlayerSubPanel.this.playerService
-							.searchForTodayHotPlayers(todayHotPlayerSorting);
-					
-					this.updateTable(resultTable);
-					shouldRedoTodayHotplayerQuery = false;
-				}
-			}
-		};
-		
 		//XXX initialize it to today hot player.
-		this.switchTableModel(todayHotPlayerModel);
+		this.switchSection(todayHotPlayer);
 	}
 	
-	public void switchTableModel(PresentationTableModel tableModel)
+	public void switchSection(HotPlayerSection section)
 	{
-		this.playerTable.columnModel = tableModel;
-		this.playerTable.tableModel = tableModel;
+		this.currentSection = section;
+		this.playerTable.columnModel = section.tableModel;
+		this.playerTable.tableModel = section.tableModel;
+		section.update();
+	}
+	
+	public class HotPlayerSection
+	{
+		PresentationTableModel tableModel;
+		String[] tableHeader;
+		String[] tableColumn;
+		int selectedIndex = 0;
+		
+		private int legacy = -1;
+		
+		public HotPlayerSection(String[] tableHeader, String[] tableColumn)
+		{
+			this.tableHeader = tableHeader;
+			this.tableColumn = tableColumn;
+			this.initDropMenu();
+		}
+		
+		public void update()
+		{
+			if(legacy != selectedIndex)
+			{
+				if(legacy > 0) tableModel.columnModel.removeColumn(tableColumn[legacy]);
+				tableModel.columnModel.addColumn(tableHeader[selectedIndex], tableColumn[selectedIndex]);
+				legacy = selectedIndex;
+			}
+		}
+		
+		DropMenu theDropMenu;
+		public void initDropMenu()
+		{
+			this.theDropMenu = new DropMenu(tableHeader)
+			{
+				@Override
+				protected void onSelectedItem(int itemIndex)
+				{
+					selectedIndex = itemIndex;
+					switchSection(currentSection);
+				}
+			};
+		}
 	}
 }

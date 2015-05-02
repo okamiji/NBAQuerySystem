@@ -23,14 +23,13 @@ public abstract class DropMenu extends JFrame implements MouseListener, MouseMot
 	
 	protected int currentSelectedItem = -1;
 	
-	Thread repaintThread = new Thread()
+	Runnable repaintThread = new Runnable()
 	{
 		public void run()
 		{
-			while(true) try
+			while(DropMenu.this.isVisible()) try
 			{
-				if(DropMenu.this.isVisible())
-					DropMenu.this.repaint();
+				DropMenu.this.repaint();
 				Thread.sleep(100);
 			}
 			catch(Exception e)
@@ -51,6 +50,7 @@ public abstract class DropMenu extends JFrame implements MouseListener, MouseMot
 			throw new NullPointerException();
 		
 		super.setUndecorated(true);
+		super.setAlwaysOnTop(true);
 		this.components = components;
 		
 		for(Component component : components)
@@ -77,12 +77,13 @@ public abstract class DropMenu extends JFrame implements MouseListener, MouseMot
 		super.add(contentPanel);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void setVisible(boolean v)
 	{
 		super.setVisible(v);
-		if(v) this.repaintThread.start();
-		else this.repaintThread.stop();
+		if(v)
+		{
+			new Thread(this.repaintThread).start();
+		}
 	}
 	
 	JPanel contentPanel = new JPanel()
