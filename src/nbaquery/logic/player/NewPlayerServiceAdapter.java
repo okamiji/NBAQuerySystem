@@ -117,7 +117,7 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	@Override
 	public Table searchForSeasonHotPlayers(String head)
 	{
-		return this.searchForPlayers(true, new String[]{head}, false, null, null);
+		return this.searchForPlayers(true, new String[]{head}, true, null, null);
 	}
 
 	@Override
