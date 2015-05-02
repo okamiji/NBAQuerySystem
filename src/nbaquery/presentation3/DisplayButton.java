@@ -36,7 +36,8 @@ public abstract class DisplayButton extends Component implements MouseListener
 	
 	public void paint(Graphics g)
 	{
-		g.drawImage(this.icons[state].getImage(), 0, 0, null);
+		if(this.isEnabled()) g.drawImage(this.icons[state].getImage(), 0, 0, null);
+		else g.drawImage(this.icons[PRESSED].getImage(), 0, 0, null);
 	}
 
 	protected abstract void activate();
