@@ -212,9 +212,7 @@ public class HotPlayerSubPanel extends JPanel
 			{
 				if(value == null) return;
 				Row rowObject = (Row)value;
-				String playerName = (String) rowObject.getDeclaredTable()
-						.getColumn("player_name").getAttribute(rowObject);
-				HotPlayerSubPanel.this.infoContainer.displayPlayerInfo(playerName);
+				HotPlayerSubPanel.this.infoContainer.displayPlayerInfo(rowObject);
 			}
 			
 		});

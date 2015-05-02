@@ -35,9 +35,11 @@ public interface NewPlayerService
 	 */
 	public Table searchForSeasonHotPlayers(String head);
 	/**
-	 * 查询一个球员的信息
+	 * 查询一个球员的信息<br>
+	 * <i><b>弃用: </b>其他任何操作都已经返回了必要的属性值。</i>
 	 * @param playerName 查询的球员姓名
 	 * @return 返回球员基本信息
 	 */
+	@Deprecated
 	public Table searchForOnePlayerTable(String playerName);
 }

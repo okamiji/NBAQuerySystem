@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 
+import nbaquery.data.Row;
 import nbaquery.logic.match.NewMatchService;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.logic.team.NewTeamService;
@@ -114,19 +115,25 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	{
 		new MainFrame(null, null, null).setVisible(true);
 	}
-	
-	public void displayPlayerInfo(String playerName)
+
+	@Override
+	public void displayPlayerInfo(Row player)
 	{
+		// TODO Auto-generated method stub
 		
 	}
-	
-	public void displayTeamInfo(String teamNameOrAbbr, boolean isAbbr)
+
+	@Override
+	public void displayTeamInfo(Row team)
 	{
+		// TODO Auto-generated method stub
 		
 	}
-	
+
+	@Override
 	public void displayMatchInfo(int matchId)
 	{
+		// TODO Auto-generated method stub
 		
 	}
 }

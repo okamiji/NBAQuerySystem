@@ -24,5 +24,6 @@ public interface NewTeamService
 	 * @param isAbbr 是否为球队缩写
 	 * @return 所查询的球队的基本信息
 	 */
+	@Deprecated
 	public Table searchInfoByName(String teamNameOrAbbr, boolean isAbbr);
 }

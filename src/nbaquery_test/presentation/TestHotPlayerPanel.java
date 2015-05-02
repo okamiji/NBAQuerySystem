@@ -2,6 +2,7 @@ package nbaquery_test.presentation;
 
 import javax.swing.JFrame;
 
+import nbaquery.data.Row;
 import nbaquery.launcher.Main;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.DetailedInfoContainer;
@@ -19,22 +20,29 @@ public class TestHotPlayerPanel extends Main
 		theFrame.setVisible(true);
 		theFrame.add(new HotPlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainer()
 		{
-
 			@Override
-			public void displayPlayerInfo(String playerName)
-			{
-				System.out.println(playerName);
-			}
-
-			@Override
-			public void displayTeamInfo(String teamNameOrAbbr, boolean isAbbr)
+			public void displayMatchInfo(int matchId)
 			{
 				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
-			public void displayMatchInfo(int matchId)
+			public void displayPlayerInfo(Row player)
+			{
+				System.out.println("=================================================================");
+				System.out.println(player.getDeclaredTable().getColumn("player_name").getAttribute(player));
+				System.out.println(player.getDeclaredTable().getColumn("player_age").getAttribute(player));
+				System.out.println(player.getDeclaredTable().getColumn("player_exp").getAttribute(player));
+				System.out.println(player.getDeclaredTable().getColumn("player_birth").getAttribute(player));
+				System.out.println(player.getDeclaredTable().getColumn("player_school").getAttribute(player));
+				System.out.println(player.getDeclaredTable().getColumn("player_height").getAttribute(player));
+				System.out.println(player.getDeclaredTable().getColumn("player_weight").getAttribute(player));
+				System.out.println("=================================================================");
+			}
+
+			@Override
+			public void displayTeamInfo(Row team)
 			{
 				// TODO Auto-generated method stub
 				
