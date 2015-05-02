@@ -83,6 +83,36 @@ public class HotPlayerSubPanel extends JPanel
 		}
 	};
 	
+	HotPlayerSection progressPlayer = new HotPlayerSection(new String[]{"得分提升", "篮板提升", "助攻提升"}
+	, new String[]{"self_score_rate", "total_board_rate", "assist_rate"})
+	{
+		{
+			tableModel = new PresentationTableModel()
+			{
+				{
+					this.setPageIndex(0);
+					this.setSectionPerPage(5);
+					this.columnModel.addColumn("球员名称", "player_name").padding = 80;
+					this.columnModel.addColumn(new RankingTableColumn(), 0);
+				}
+				
+				@Override
+				public void onRepaint(DisplayTable table)
+				{
+					if(shouldRedoQuery ||
+							HotPlayerSubPanel.this.playerService.shouldRedoQuery(this))
+					{
+						Table resultTable = HotPlayerSubPanel.this.playerService
+								.searchForProgressPlayers(tableColumn[selectedIndex]);
+						
+						this.updateTable(resultTable);
+						shouldRedoQuery = false;
+					}
+				}
+			};
+		}
+	};
+	
 	public HotPlayerSubPanel(NewPlayerService playerService, int width, int height)
 	{
 		//XXX layout sub panel.
@@ -92,8 +122,8 @@ public class HotPlayerSubPanel extends JPanel
 		
 		//XXX layout the table.
 		this.playerTable = new DisplayTable();
-		this.playerTable.setSize((int) (0.55 * width), height);
-		this.playerTable.setLocation((int) (0.35 * width), 0);
+		this.playerTable.setSize((int) (0.60 * width), height);
+		this.playerTable.setLocation((int) (0.30 * width), 0);
 		
 		this.playerTable.setRowHeight(height / 6);
 		
@@ -116,8 +146,11 @@ public class HotPlayerSubPanel extends JPanel
 			.setBounds((int)(0.90 * width), (int)(1.0/6 * height), (int)(0.1 * width), (int)(0.1 * width));
 		seasonHotPlayer.tableSwitch
 			.setBounds((int)(0.90 * width), (int)(1.0/2 * height), (int)(0.1 * width), (int)(0.1 * width));
+		progressPlayer.tableSwitch
+			.setBounds((int)(0.90 * width), (int)(5.0/6 * height), (int)(0.1 * width), (int)(0.1 * width));
 		super.add(todayHotPlayer.tableSwitch);
 		super.add(seasonHotPlayer.tableSwitch);
+		super.add(progressPlayer.tableSwitch);
 		
 		//XXX initialize it to today hot player.
 		this.switchSection(todayHotPlayer);

@@ -60,7 +60,11 @@ public class DefaultTableColumn implements DisplayTableColumn
 				displayComponent.setHorizontalAlignment(JLabel.CENTER);
 			
 			if(object.getClass().equals(Float.class))
-				displayComponent.setText(object.toString().substring(0, 5));
+			{
+				String theFloat = object.toString();
+				if(theFloat.length() >= 5) theFloat.substring(0, 5);
+				displayComponent.setText(theFloat);
+			}
 			
 			if(object.getClass().equals(Date.class))
 			{
