@@ -57,11 +57,13 @@ public class DualTableColumn implements DisplayTableColumn
 		
 		String valueOneString = "";
 		if(valueOne != null) valueOneString = valueOne.toString();
-		if(valueOne instanceof Float) if(valueOneString.length() > 5) valueOneString.substring(0, 5);
+		if(valueOne instanceof Float) if(valueOneString.length() > 3) 
+			valueOneString = valueOneString.substring(0, 3);
 		
 		String valueTwoString = "";
 		if(valueTwo != null) valueTwoString = valueTwo.toString();
-		if(valueTwo instanceof Float) if(valueTwoString.length() > 5) valueTwoString.substring(0, 5);
+		if(valueTwo instanceof Float) if(valueTwoString.length() > 3)
+			valueTwoString = valueTwoString.substring(0, 3);
 		textLabel.setText(format.replace("%1", valueOneString).replace("%2", valueTwoString));
 		
 		return textLabel;
