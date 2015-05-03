@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation.combobox.ComboBoxFactory;
+import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
@@ -42,14 +43,14 @@ public class HotspotPanel extends ConcisePanel{
 		
 		if(!imageLoaded)
 		{
-			hotspot1 = new ImageIcon("Img2/hotspot1.png");
-			hotspot1_ = new ImageIcon("Img2/hotspot1_.png");
-			hotspot2 = new ImageIcon("Img2/hotspot2.png");
-			hotspot2_ = new ImageIcon("Img2/hotspot2_.png");
-			hotspot3 = new ImageIcon("Img2/hotspot3.png");
-			hotspot3_ = new ImageIcon("Img2/hotspot3_.png");
-			hotspot4 = new ImageIcon("Img2/hotspot4.png");
-			hotspot4_ = new ImageIcon("Img2/hotspot4_.png");
+			hotspot1 = ImageIconResource.getImageIcon("Img2/hotspot1.png");
+			hotspot1_ = ImageIconResource.getImageIcon("Img2/hotspot1_.png");
+			hotspot2 = ImageIconResource.getImageIcon("Img2/hotspot2.png");
+			hotspot2_ = ImageIconResource.getImageIcon("Img2/hotspot2_.png");
+			hotspot3 = ImageIconResource.getImageIcon("Img2/hotspot3.png");
+			hotspot3_ = ImageIconResource.getImageIcon("Img2/hotspot3_.png");
+			hotspot4 = ImageIconResource.getImageIcon("Img2/hotspot4.png");
+			hotspot4_ = ImageIconResource.getImageIcon("Img2/hotspot4_.png");
 		}
 	}
 	
@@ -223,7 +224,7 @@ public class HotspotPanel extends ConcisePanel{
 				System.out.println("is null");
 			}
 			for(int i=0; i<str.length; i++){
-				for(int j=0; j<str[0].length; j++){
+				for(int j=0; j<str[i].length; j++){
 					System.out.println( i + "  " + j + " "+ str[i][j]);
 				}
 			}
@@ -237,7 +238,7 @@ public class HotspotPanel extends ConcisePanel{
 				System.out.println("is null");
 			}
 			for(int i=0; i<str.length; i++){
-				for(int j=0; j<str[0].length; j++){
+				for(int j=0; j<str[i].length; j++){
 					System.out.println(str[i][j]);
 				}
 			}

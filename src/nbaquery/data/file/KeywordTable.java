@@ -17,6 +17,26 @@ public class KeywordTable implements Table
 	public TreeMap<Object, Tuple> keyToTupleMap = new TreeMap<Object, Tuple>();
 	public TreeMap<String, FileTableColumn> index = new TreeMap<String, FileTableColumn>();
 	
+	boolean tableLocked = false;
+	public void gainLock()
+	{
+		while(tableLocked)
+		try
+		{
+			//Thread.sleep(1);
+			Thread.yield();
+		}
+		catch(Exception e)
+		{
+		
+		}
+		tableLocked = true;
+	}
+	public void releaseLock()
+	{
+		tableLocked = false;
+	}
+	
 	public KeywordTable(FileTableHost host, String[] header, Class<?>[] dataType, String keyword)
 	{
 		this.host = host;
@@ -42,24 +62,41 @@ public class KeywordTable implements Table
 		else this.keyword = null;
 	}
 	
-	public Tuple createTuple()
+	public synchronized Tuple createTuple()
 	{
-		notify.clear();
+		gainLock();
+		synchronized(notify)
+		{
+			notify.clear();
+		}
+		
 		Tuple tuple = new Tuple();
 		tuple.attributes = new Object[headerLength];
 		tuple.table = this;
+		releaseLock();
 		return tuple;
 	}
 	
-	public Collection<Tuple> listTuples()
+	public synchronized Collection<Tuple> listTuples()
 	{
-		return this.keyToTupleMap.values();
+		gainLock();
+		Collection<Tuple> returnValue = this.keyToTupleMap.values();
+		releaseLock();
+		return returnValue;
 	}
 	
-	public void removeTuple(Tuple tuple)
+	public synchronized void removeTuple(Tuple tuple)
 	{
 		if(tuple.table != this) return;
+		
+		gainLock();
+		synchronized(notify)
+		{
+			notify.clear();
+		}
+		
 		this.keyToTupleMap.remove(keyword.getAttribute(tuple));
+		releaseLock();
 	}
 
 	@Override
@@ -101,7 +138,10 @@ public class KeywordTable implements Table
 	@Override
 	public Row[] getRows()
 	{
-		return this.keyToTupleMap.values().toArray(new Row[0]);
+		gainLock();
+		Row[] rows = this.keyToTupleMap.values().toArray(new Row[0]);
+		releaseLock();
+		return rows;
 	}
 
 	@Override
@@ -112,10 +152,13 @@ public class KeywordTable implements Table
 	
 	protected HashSet<Object> notify = new HashSet<Object>();
 	
-	public boolean hasTableChanged(Object accessor)
+	public synchronized boolean hasTableChanged(Object accessor)
 	{
-		if(notify.contains(accessor)) return false;
-		notify.add(accessor); return true;
+		synchronized(notify)
+		{
+			if(notify.contains(accessor)) return false;
+			notify.add(accessor); return true;
+		}
 	}
 
 	@Override

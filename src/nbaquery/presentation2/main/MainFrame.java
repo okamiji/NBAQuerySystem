@@ -18,9 +18,11 @@ import javax.swing.plaf.FontUIResource;
 
 
 
+
 import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
+import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation2.util.CardType;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.util.Button;
@@ -79,7 +81,7 @@ public class MainFrame {
 	
 	public void initialize(){
 		
-		background_img = new ImageIcon("Img2/main_frame.png");
+		background_img = ImageIconResource.getImageIcon("Img2/main_frame.png");
 		int background_width = background_img.getIconWidth();
 		int background_height = background_img.getIconHeight();
 
@@ -163,7 +165,7 @@ public class MainFrame {
 		button1.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				init_button();
-				button1.setIcon(new ImageIcon("Img2/button_chosen.png"));
+				button1.setIcon(ImageIconResource.getImageIcon("Img2/button_chosen.png"));
 				
 				if(ConcisePara.type.equals(CardType.PLAYER_FLAT) || (ConcisePara.type.equals(CardType.TEAM_FLAT))){
 					ConcisePara.type = CardType.MATCH_FLAT;
@@ -182,7 +184,7 @@ public class MainFrame {
 		button2.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				init_button();
-				button2.setIcon(new ImageIcon("Img2/button_chosen.png"));
+				button2.setIcon(ImageIconResource.getImageIcon("Img2/button_chosen.png"));
 				
 				if(ConcisePara.type.equals(CardType.PLAYER_FLAT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.TEAM_FLAT;
@@ -201,7 +203,7 @@ public class MainFrame {
 		button3.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {	
 				init_button();
-				button3.setIcon(new ImageIcon("Img2/button_chosen.png"));
+				button3.setIcon(ImageIconResource.getImageIcon("Img2/button_chosen.png"));
 				
 				if(ConcisePara.type.equals(CardType.TEAM_FLAT) || (ConcisePara.type.equals(CardType.MATCH_FLAT))){
 					ConcisePara.type = CardType.PLAYER_FLAT;
@@ -221,7 +223,7 @@ public class MainFrame {
 		button4.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				init_button();
-				button4.setIcon(new ImageIcon("Img2/button_chosen.png"));
+				button4.setIcon(ImageIconResource.getImageIcon("Img2/button_chosen.png"));
 				
 				ConcisePara.type = CardType.TEAM_RECT;
 				ConcisePanelFactory.create_panel(ConcisePara.type, true, true);
@@ -235,7 +237,7 @@ public class MainFrame {
 		button5.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				init_button();
-				button5.setIcon(new ImageIcon("Img2/button_chosen.png"));
+				button5.setIcon(ImageIconResource.getImageIcon("Img2/button_chosen.png"));
 
 				PanelSet.set_all_detailed_panel_invisible();
 				JPanel panel = new AboutUsPanel(null, ConcisePara.view_all);
@@ -297,11 +299,11 @@ public class MainFrame {
 	private static void init_button(){
 		add_listeners();
 		PanelSet.set_concise_invisible();
-		button1.setIcon(new ImageIcon("Img2/blank_big.png"));
-		button2.setIcon(new ImageIcon("Img2/blank_big.png"));
-		button3.setIcon(new ImageIcon("Img2/blank_big.png"));
-		button4.setIcon(new ImageIcon("Img2/blank_big.png"));
-		button5.setIcon(new ImageIcon("Img2/blank_big.png"));
+		button1.setIcon(ImageIconResource.getImageIcon("Img2/blank_big.png"));
+		button2.setIcon(ImageIconResource.getImageIcon("Img2/blank_big.png"));
+		button3.setIcon(ImageIconResource.getImageIcon("Img2/blank_big.png"));
+		button4.setIcon(ImageIconResource.getImageIcon("Img2/blank_big.png"));
+		button5.setIcon(ImageIconResource.getImageIcon("Img2/blank_big.png"));
 	}
 	
 }

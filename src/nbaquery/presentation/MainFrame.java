@@ -24,14 +24,18 @@ import javax.swing.JPanel;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
+import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
+import nbaquery.presentation.resource.ImageIconResource;
 
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.plaf.FontUIResource;
+
+
 
 
 import java.awt.event.FocusAdapter;
@@ -50,8 +54,9 @@ public class MainFrame extends JFrame{
 	boolean isTeam=false;
 	int LocationX;
 	int LocationY;
-	PlayerService ps;
-	TeamService ts;
+	PlayerService player_service;
+	TeamService team_service;
+	MatchService match_service;
 	int xOld,yOld;
 	Color background=new Color(33,122,197);
 	Color white = new Color(245,245,245);
@@ -74,17 +79,18 @@ public class MainFrame extends JFrame{
 					UIManager.put(key, fontRes);
 			}
 		}	
-	
+	/*
 	public static void main(String[] args){
 		MainFrame f=new MainFrame();
 	}
-	
+	*/
 	
 
-	public MainFrame(){
+	public MainFrame(PlayerService playerService, TeamService teamService, MatchService matchService){
 		UIManager.put("ComboBox.background", new Color(0,0,0,0));
-		//this.ps=pls;
-		//this.ts=tms;
+		this.player_service = playerService;
+		this.team_service = teamService;
+		this.match_service = matchService;
 		Color back = new Color(0,0,0,0.0f);
 		Color white = new Color(245,245,245);
 		Color gray = new Color(41,48,62);
@@ -234,7 +240,7 @@ public class MainFrame extends JFrame{
 		
 		public void newPlayerPanel(){
 			shadowPanel.removeAll();
-			PlayerTablePanel d=new PlayerTablePanel(ps);
+			PlayerTablePanel d=new PlayerTablePanel(player_service);
 			d.setSize(850,650);
 			d.setOpaque(false);
 			shadowPanel.add(d);
@@ -253,7 +259,7 @@ public class MainFrame extends JFrame{
 		
 		public void newTeamPanel(){
 			shadowPanel.removeAll();
-			TeamTablePanel d=new TeamTablePanel(ts);
+			TeamTablePanel d=new TeamTablePanel(team_service);
 			d.setSize(850,650);
 			d.setBackground(background);
 			d.setOpaque(false);
@@ -301,19 +307,17 @@ public class MainFrame extends JFrame{
 	}
 	
 	class exitListener extends MouseAdapter {
-
+		ImageIcon enterIcon = ImageIconResource.getImageIcon("IMGS/close2.png");
+		ImageIcon leaveIcon = ImageIconResource.getImageIcon("IMGS/close.png");
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			exitButton.setIcon(new ImageIcon("IMGS/close2.png"));
+			exitButton.setIcon(enterIcon);
 			exitButton.repaint();
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-			exitButton.setIcon(new ImageIcon("IMGS/close.png"));
+			exitButton.setIcon(leaveIcon);
 			exitButton.repaint();
 		}
 

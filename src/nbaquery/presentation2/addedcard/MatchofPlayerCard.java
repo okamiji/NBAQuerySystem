@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation2.info.Match;
 import nbaquery.presentation2.panel.PanelSet;
 
@@ -27,7 +28,7 @@ public class MatchofPlayerCard extends RectCard {
 		this.setLayout(null);
 		this.setVisible(true);
 		this.setBackground(new Color(0,0,0,0.0f));
-		shadow_label = new JLabel(new ImageIcon("Img2/card_shadow_big.png"));
+		shadow_label = new JLabel(ImageIconResource.getImageIcon("Img2/card_shadow_big.png"));
 		this.add(shadow_label);
 		shadow_label.setBounds(0, 0, 260, 200);
 		

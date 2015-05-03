@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation2.info.Player;
 import nbaquery.presentation2.panel.ConcisePara;
 import nbaquery.presentation2.panel.PanelSet;
@@ -37,7 +38,7 @@ class PlayerRectCard extends RectCard {
 		shadow_label.add(label_name);
 		
 		try{
-			pic = new ImageIcon(player.get_portrait_path());
+			pic = ImageIconResource.getImageIcon(player.get_portrait_path());
 			pic.setImage(pic.getImage().getScaledInstance(100, 85, Image.SCALE_DEFAULT));
 			label_pic = new JLabel(pic);
 			label_pic.setBounds(10, 8, 100, 85);

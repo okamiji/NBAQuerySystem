@@ -1,6 +1,7 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -23,6 +24,8 @@ import org.apache.batik.swing.svg.JSVGComponent;
 import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
+import nbaquery.presentation.resource.ImageIconResource;
+import nbaquery.presentation.resource.JSVGComponentResource;
 import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.addedcard.CardFactory;
 import nbaquery.presentation2.addon.GoodLookingScrollBar;
@@ -170,7 +173,7 @@ public class DetailedPanel extends JPanel{
 		String player_team_name = "À˘ Ù«Ú∂”£∫ " + player.get_team();
 		team_label.setText(player_team_name);
 		
-		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background1.png"));
+		JLabel background_label=new JLabel(ImageIconResource.getImageIcon("Img2/detail_background1.png"));
 		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
 		background_label.setBounds(-15, 5, 610, 545); 
 		
@@ -218,9 +221,12 @@ public class DetailedPanel extends JPanel{
 		
 		//button
 		info_button.addMouseListener(new MouseAdapter(){
+			ImageIcon infoButtonIcon = ImageIconResource.getImageIcon("Img2/primary_info_c.png");
+			ImageIcon dataButtonIcon = ImageIconResource.getImageIcon("Img2/match_data.png");
+			
 			public void mouseClicked(MouseEvent e) {
-				info_button.setIcon(new ImageIcon("Img2/primary_info_c.png"));
-				data_button.setIcon(new ImageIcon("Img2/match_data.png"));
+				info_button.setIcon(infoButtonIcon);
+				data_button.setIcon(dataButtonIcon);
 				
 				add(info_panel);
 				info_panel.setVisible(true);
@@ -231,9 +237,12 @@ public class DetailedPanel extends JPanel{
 			}
 		});
 		data_button.addMouseListener(new MouseAdapter(){
+			ImageIcon infoButtonIcon = ImageIconResource.getImageIcon("Img2/match_data_c.png");
+			ImageIcon dataButtonIcon = ImageIconResource.getImageIcon("Img2/primary_info.png");
+			
 			public void mouseClicked(MouseEvent e) {
-				data_button.setIcon(new ImageIcon("Img2/match_data_c.png"));
-				info_button.setIcon(new ImageIcon("Img2/primary_info.png"));
+				info_button.setIcon(infoButtonIcon);
+				data_button.setIcon(dataButtonIcon);
 				
 				info_panel.setVisible(false);
 				remove(info_panel);
@@ -266,7 +275,7 @@ public class DetailedPanel extends JPanel{
 		//info panel
 		team_detailed_info = PanelSet.get_team_service().searchForOneTeam(team.get_name(), false);
 
-		JLabel background_label=new JLabel(new ImageIcon("Img2/detail_background2.png"));
+		JLabel background_label=new JLabel(ImageIconResource.getImageIcon("Img2/detail_background2.png"));
 		info_panel.add(background_label, new Integer(Integer.MIN_VALUE));
 		background_label.setBounds(-15, 5, 610, 545); 
 		
@@ -278,6 +287,7 @@ public class DetailedPanel extends JPanel{
 		info_label.setBounds(215, 16, 490, 490);
 		info_panel.add(info_label);
 		
+		/*
 		JSVGComponent svgComponent = new JSVGComponent(null, false, false);
 		String path = team.get_team_info()[29];
 		if(path != null){
@@ -290,6 +300,13 @@ public class DetailedPanel extends JPanel{
 			svgComponent.setBounds(18, 55, 130, 130);
 			this.add(svgComponent);
 			this.repaint();
+		}
+		*/
+		String path = team.get_team_info()[29];
+		if(path != null){
+			Component svgComponent = JSVGComponentResource.createJSVGComponent(path);
+			svgComponent.setBounds(18, 55, 130, 130);
+			this.add(svgComponent);
 		}
 		
 		JLabel team_name_label = new JLabel();
@@ -354,7 +371,7 @@ public class DetailedPanel extends JPanel{
 		guest_scr.setVisible(false);
 
 		host_scr.setVisible(true);
-		team1_button.setIcon(new ImageIcon("Img2/host_c.png"));
+		team1_button.setIcon(ImageIconResource.getImageIcon("Img2/host_c.png"));
 		
 		MatchService ms = PanelSet.ms;
 		

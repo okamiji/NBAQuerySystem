@@ -1,6 +1,7 @@
 package nbaquery.presentation2.addedcard;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +12,7 @@ import javax.swing.JLabel;
 
 import org.apache.batik.swing.svg.JSVGComponent;
 
+import nbaquery.presentation.resource.JSVGComponentResource;
 import nbaquery.presentation2.info.Team;
 import nbaquery.presentation2.panel.ConcisePara;
 import nbaquery.presentation2.panel.PanelSet;
@@ -38,18 +40,11 @@ class TeamRectCard extends RectCard {
 		label_name.setBounds(112, 6, 139, 30);
 		shadow_label.add(label_name);
 
-		JSVGComponent svgComponent = new JSVGComponent(null, false, false);
 		String path = team.get_portrait_path();
 		if(path != null){
-			File f = new File(path);
-			try {
-	            svgComponent.loadSVGDocument(f.toURL().toString());
-	        } catch (IOException ex) {
-	            ex.printStackTrace();
-	        }
+			Component svgComponent = JSVGComponentResource.createJSVGComponent(path);
 			svgComponent.setBounds(10, 6, 100, 85);
 			shadow_label.add(svgComponent);
-			shadow_label.repaint();
 		}
 		
 		label_info = new JLabel();

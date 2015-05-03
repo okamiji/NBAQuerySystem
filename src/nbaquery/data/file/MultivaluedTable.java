@@ -9,15 +9,20 @@ public class MultivaluedTable extends KeywordTable
 		super(host, header, dataTypes, null);
 	}
 	
-	public Tuple createTuple()
+	public synchronized Tuple createTuple()
 	{
-		notify.clear();
+		gainLock();
+		synchronized(notify)
+		{
+			notify.clear();
+		}
 		Tuple tuple = new Tuple();
 		tuple.attributes = new Object[super.headerLength + 1];
 		tuple.attributes[super.headerLength] = rowId;
 		tuple.table = this;
 		super.keyToTupleMap.put(rowId, tuple);
 		rowId ++;
+		releaseLock();
 		return tuple;
 	}
 	

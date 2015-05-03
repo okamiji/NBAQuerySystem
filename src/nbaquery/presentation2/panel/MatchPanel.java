@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import nbaquery.presentation.combobox.ComboBoxFactory;
+import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.logic.match.MatchService;
 import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.addon.DateComboBox;
@@ -69,14 +70,14 @@ public class MatchPanel extends ConcisePanel {
 		}
 		
 		descendButton = new JButton();
-		descendButton.setIcon(new ImageIcon("Img2/descend.png"));
+		descendButton.setIcon(ImageIconResource.getImageIcon("Img2/descend.png"));
 		descendButton.setContentAreaFilled(false);
 		descendButton.setBorder(null);
 		descendButton.setBounds(420, 15, 24, 24);
 		search_panel.add(descendButton);
 		
 		ascendButton = new JButton();
-		ascendButton.setIcon(new ImageIcon("Img2/ascend.png"));
+		ascendButton.setIcon(ImageIconResource.getImageIcon("Img2/ascend.png"));
 		ascendButton.setContentAreaFilled(false);
 		ascendButton.setBorder(null);
 		ascendButton.setBounds(420, 15, 24, 24);

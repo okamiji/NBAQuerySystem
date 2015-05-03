@@ -19,7 +19,7 @@ import nbaquery.presentation2.main.MainFrame;
 
 public class Main
 {
-	TableHost host;
+	public TableHost host;
 	public void loadDataLayer(String root) throws Exception
 	{
 		//host = new FileTableHost(new File(root));
@@ -27,9 +27,9 @@ public class Main
 			PlayerLoader.class, MatchNaturalJoinPerformanceLoader.class});
 	}
 	
-	TeamService teamService;
-	PlayerService playerService;
-	MatchService matchService;
+	public TeamService teamService;
+	public PlayerService playerService;
+	public MatchService matchService;
 	public void loadLogicLayer()
 	{
 		ILogicAssembler assembler = new LogicAssembler();
@@ -60,13 +60,26 @@ public class Main
 		//mainFrame.setVisible(true);
 	}
 	
+	public void launch() throws Exception
+	{
+		this.loadDataLayer("D:\\迭代一数据");
+		//main.loadDataLayer("D:\\dynamics");
+		while(true) try
+		{
+			this.loadLogicLayer();
+			break;
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error detected while loading, retrying.");
+		}
+		this.loadPresentation();
+	}
+	
 	public static void main(String[] arguments) throws Exception
 	{
 		Main main = new Main();
-		main.loadDataLayer("D:\\迭代一数据");
-		//main.loadDataLayer("D:\\dynamics");
-		main.loadLogicLayer();
-		main.loadPresentation();
+		main.launch();
 	}
 	
 }

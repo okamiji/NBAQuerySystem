@@ -59,7 +59,9 @@ public class SortAlgorithm implements FileTableAlgorithm
 				RowLinkedListNode node = new RowLinkedListNode();
 				node.row = row[i];
 				
-				node.keyword = mapper.getKeyword(keyword.getAttribute(row[i]));
+				Object keywordObject = keyword.getAttribute(row[i]);
+				if(keywordObject != null) node.keyword = mapper.getKeyword(keywordObject);
+				else node.keyword = -1;
 				if(sort.descend) node.keyword = -node.keyword;
 				
 				current.next = node;
