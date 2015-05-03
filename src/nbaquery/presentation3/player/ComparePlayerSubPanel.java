@@ -96,7 +96,7 @@ public class ComparePlayerSubPanel extends JPanel
 				DefaultTableColumn team_name = columnModel.addColumn("球队", "team_name_abbr");
 				team_name.padding = 5;	keywordMap.put(team_name, new String[]{"team_name_abbr"});
 				
-				DualTableColumn attendance = new DualTableColumn("参赛", "first_count", "game_count", "%1-%2"); attendance.padding = 5;
+				DualTableColumn attendance = new DualTableColumn("参赛", "first_count", "game_count", "%1-%2"); attendance.padding = 3;
 				columnModel.addColumn(attendance);	keywordMap.put(attendance, new String[]{"game_count", "first_count"});
 				
 				GameTimeColumn game_time = new GameTimeColumn();
@@ -157,22 +157,40 @@ public class ComparePlayerSubPanel extends JPanel
 				team_name.padding = 5;	keywordMap.put(team_name, new String[]{"team_name_abbr"});
 				
 				DefaultTableColumn efficiency = columnModel.addColumn("效率", "efficiency");
-				efficiency.padding = 5;			keywordMap.put(efficiency, new String[]{"efficiency"});
+				efficiency.padding = 2;			keywordMap.put(efficiency, new String[]{"efficiency"});
 				
 				DefaultTableColumn gmsc = columnModel.addColumn("GmSc", "gmsc_efficiency");
-				gmsc.padding = 0;			keywordMap.put(gmsc, new String[]{"gmsc_efficiency"});
+				gmsc.padding = 2;			keywordMap.put(gmsc, new String[]{"gmsc_efficiency"});
 				
 				DefaultTableColumn foul_shoot_rate = columnModel.addColumn("罚球命中", "foul_shoot_rate");
-				foul_shoot_rate.padding = 0;			keywordMap.put(foul_shoot_rate, new String[]{"foul_shoot_rate"});
+				foul_shoot_rate.padding = 2;			keywordMap.put(foul_shoot_rate, new String[]{"foul_shoot_rate"});
 				
 				DefaultTableColumn shoot_rate = columnModel.addColumn("二分命中", "shoot_rate");
-				shoot_rate.padding = 0;			keywordMap.put(shoot_rate, new String[]{"shoot_rate"});
+				shoot_rate.padding = 2;			keywordMap.put(shoot_rate, new String[]{"shoot_rate"});
 				
 				DefaultTableColumn three_shoot_rate = columnModel.addColumn("三分命中", "three_shoot_rate");
-				three_shoot_rate.padding = 0;			keywordMap.put(three_shoot_rate, new String[]{"three_shoot_rate"});
+				three_shoot_rate.padding = 2;			keywordMap.put(three_shoot_rate, new String[]{"three_shoot_rate"});
 				
 				DefaultTableColumn true_shoot_rate = columnModel.addColumn("真实命中", "true_shoot_rate");
-				true_shoot_rate.padding = 0;			keywordMap.put(true_shoot_rate, new String[]{"true_shoot_rate"});
+				true_shoot_rate.padding = 2;			keywordMap.put(true_shoot_rate, new String[]{"true_shoot_rate"});
+				
+				DefaultTableColumn shoot_efficiency = columnModel.addColumn("投篮率", "shoot_efficiency");
+				shoot_efficiency.padding = 2;			keywordMap.put(shoot_efficiency, new String[]{"shoot_efficiency"});
+				
+				DefaultTableColumn assist_rate = columnModel.addColumn("助攻率", "assist_rate");
+				assist_rate.padding = 2;			keywordMap.put(assist_rate, new String[]{"assist_rate"});
+				
+				DefaultTableColumn steal_rate = columnModel.addColumn("抢断率", "steal_rate");
+				steal_rate.padding = 2;			keywordMap.put(steal_rate, new String[]{"steal_rate"});
+				
+				DefaultTableColumn cap_rate = columnModel.addColumn("盖帽率", "cap_rate");
+				cap_rate.padding = 2;			keywordMap.put(cap_rate, new String[]{"cap_rate"});
+				
+				DefaultTableColumn miss_rate = columnModel.addColumn("失误率", "miss_rate");
+				miss_rate.padding = 2;			keywordMap.put(miss_rate, new String[]{"miss_rate"});
+				
+				DefaultTableColumn usage = columnModel.addColumn("使用率", "usage");
+				usage.padding = 2;			keywordMap.put(usage, new String[]{"usage"});
 			}
 		};
 		
