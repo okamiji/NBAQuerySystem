@@ -8,7 +8,7 @@ public class Average implements TestFacadeToken
 	@Override
 	public String[] getTokens()
 	{
-		return new String[]{"-average"};
+		return new String[]{"-avg"};
 	}
 
 	@Override
@@ -20,6 +20,7 @@ public class Average implements TestFacadeToken
 	@Override
 	public void change(TestFacade facade, String[] parameters, int beginIndex)
 	{
+	
 		facade.queryMode &= Integer.MAX_VALUE ^ TestFacade.DATA_TYPE_BIT;
 		facade.queryMode |= TestFacade.AVERAGE;
 	}
