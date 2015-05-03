@@ -14,6 +14,7 @@ import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.DropList;
 import nbaquery.presentation3.DualTableColumn;
 import nbaquery.presentation3.GameTimeColumn;
+import nbaquery.presentation3.PageDisplayLabel;
 import nbaquery.presentation3.PresentationTableModel;
 import nbaquery.presentation3.table.ColumnSelectionListener;
 import nbaquery.presentation3.table.DefaultTableColumn;
@@ -237,7 +238,7 @@ public class ComparePlayerSubPanel extends JPanel
 				shouldRedoQuery = true;
 			}
 		};
-		matchArea.setBounds(width - 82, 2, 80, 20);
+		matchArea.setBounds(166, 2, 80, 20);
 		matchArea.setHorizontalAlignment(DropList.CENTER);
 		this.add(matchArea);
 		
@@ -253,9 +254,13 @@ public class ComparePlayerSubPanel extends JPanel
 				shouldRedoQuery = true;
 			}
 		};
-		position.setBounds(width - 164, 2, 80, 20);
+		position.setBounds(248, 2, 80, 20);
 		position.setHorizontalAlignment(DropList.CENTER);
 		this.add(position);
+		
+		final PageDisplayLabel page = new PageDisplayLabel(this.playerTable);
+		page.setBounds(width - 82, 2, 80, 20);
+		this.add(page);
 		
 		//XXX adding listeners.
 		playerTable.addColumnSelectionListener(new ColumnSelectionListener()
