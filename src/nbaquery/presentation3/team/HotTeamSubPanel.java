@@ -1,6 +1,7 @@
 package nbaquery.presentation3.team;
 
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Point;
 
 import javax.swing.JLabel;
@@ -63,7 +64,22 @@ public class HotTeamSubPanel extends JPanel
 		}
 	};
 	
-	public final JPanel imageDisplay = new JPanel();
+	public class JSVGDisplay extends Component
+	{
+		public Component jsvgComponent;
+		
+		public void paint(Graphics g)
+		{
+			g.clearRect(0, 0, this.getWidth(), this.getHeight());
+			if(jsvgComponent != null)
+			{
+				jsvgComponent.setBounds(0, 0, this.getWidth(), this.getHeight());
+				jsvgComponent.paint(g.create(0, 0, this.getWidth(), this.getHeight()));
+			}
+		}
+	};
+	
+	public final JSVGDisplay imageDisplay = new JSVGDisplay();
 	public final JLabel description = new JLabel();
 	public final JLabel teamName = new JLabel();
 	
@@ -71,7 +87,6 @@ public class HotTeamSubPanel extends JPanel
 	{
 		if(teamTable == null || teamTable.tableModel == null) return;
 		description.setText(this.currentSection.getDescriptionText());
-		imageDisplay.removeAll();
 		if(teamTable.tableModel.getRowCount() > 0)
 		{
 			Row row = (Row) teamTable.tableModel.getValueAt(teamTable, 0, 0);
@@ -79,10 +94,7 @@ public class HotTeamSubPanel extends JPanel
 			{
 				Image icon = (Image) row.getDeclaredTable().getColumn("team_logo").getAttribute(row);
 				Component displayComponent = JSVGComponentResource.createJSVGComponent(icon.toString());
-				displayComponent.setSize(imageDisplay.getSize());
-				displayComponent.setLocation(0, 0);
-				System.out.println(displayComponent);
-				imageDisplay.add(displayComponent);
+				imageDisplay.jsvgComponent = displayComponent;
 				teamName.setText((String) row.getDeclaredTable().getColumn("team_name").getAttribute(row));
 			}
 			return;
