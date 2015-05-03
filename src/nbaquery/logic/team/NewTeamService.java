@@ -4,6 +4,8 @@ import nbaquery.data.Table;
 
 public interface NewTeamService
 {
+	public boolean shouldRedoQuery(Object host);
+	
 	/**
 	 * 查询球队信息
 	 * @param isGross true为全局信息 false为场均信息

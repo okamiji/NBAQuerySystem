@@ -70,7 +70,7 @@ public class NewTeamServiceAdapter implements NewTeamService
 			}
 		}
 		tableHost.performQuery(new SortQuery(tableHost.getTable("season_hot_team_result"), head, 5, true), "season_hot_team_result_final");
-		return tableHost.getTable("season_hot_player_team_final");
+		return tableHost.getTable("season_hot_team_result_final");
 	}
 
 	@Override
@@ -86,5 +86,14 @@ public class NewTeamServiceAdapter implements NewTeamService
 		}
 		tableHost.performQuery(query, "team_query_result");
 		return tableHost.getTable("team_query_result");
+	}
+
+	@Override
+	public boolean shouldRedoQuery(Object host)
+	{
+		boolean shouldRedo = tableHost.getTable("team").hasTableChanged(host);
+		shouldRedo |= tableHost.getTable("match").hasTableChanged(host);
+		shouldRedo |= tableHost.getTable("match_natural_join_performance").hasTableChanged(host);
+		return shouldRedo;
 	}
 }
