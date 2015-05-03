@@ -42,7 +42,7 @@ public class NewTeamServiceAdapter implements NewTeamService
 		
 		for(int i = keywords.length - 1; i >= 0; i --)
 		{
-			SortQuery sort = new SortQuery(queryResult, keywords[i]);
+			SortQuery sort = new SortQuery(queryResult, keywords[i], descend);
 			tableHost.performQuery(sort, "team_query_result");
 			queryResult = tableHost.getTable("team_query_result");
 		}

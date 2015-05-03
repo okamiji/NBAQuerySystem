@@ -197,7 +197,7 @@ public class ComparePlayerSubPanel extends JPanel
 		};
 		
 		//XXX adding control panels.
-		final DropList dataScope = new DropList(new String[]{"总数据", "场均数据"})
+		final DropList dataScope = new DropList(new String[]{"赛季总数据", "场均数据"})
 		{
 			@Override
 			protected void onSelectionChanged(int index)

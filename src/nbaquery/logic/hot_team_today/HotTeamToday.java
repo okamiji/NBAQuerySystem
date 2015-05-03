@@ -6,7 +6,6 @@ import nbaquery.data.query.GroupQuery;
 import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.logic.LogicWatcher;
 import nbaquery.logic.SumColumnInfo;
-import nbaquery.logic.team.WinColumnInfo;
 
 public class HotTeamToday {
 
