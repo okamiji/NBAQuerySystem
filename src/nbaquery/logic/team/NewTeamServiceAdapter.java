@@ -8,22 +8,26 @@ import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.gross_team.GrossTeam;
+import nbaquery.logic.hot_team_today.HotTeamToday;
 
 public class NewTeamServiceAdapter implements NewTeamService
 {
 	protected GrossTeam gross;
 	protected AverageTeam average;
+	protected HotTeamToday hot;
 	public TableHost tableHost;
 	public String[] columnNames,oneTeamColumns;
 	
-	public NewTeamServiceAdapter(TableHost tableHost, GrossTeam gross, AverageTeam average)
+	public NewTeamServiceAdapter(TableHost tableHost, GrossTeam gross, AverageTeam average, HotTeamToday hot)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
 		this.average = average;
+		this.hot = hot;
 		
 		this.gross.getTable();
 		this.average.getTable();
+		this.hot.getTable();
 	}
 	
 	@Override
@@ -95,5 +99,14 @@ public class NewTeamServiceAdapter implements NewTeamService
 		shouldRedo |= tableHost.getTable("match").hasTableChanged(host);
 		shouldRedo |= tableHost.getTable("match_natural_join_performance").hasTableChanged(host);
 		return shouldRedo;
+	}
+
+	@Override
+	public Table searchTodayHotTeams(String head)
+	{
+		Table table = this.hot.getTable();
+		SortQuery sort = new SortQuery(table, head, 5, true);		//"5" stands for top 5 here.
+		tableHost.performQuery(sort, "today_hot_team_query_result");
+		return tableHost.getTable("today_hot_team_query_result");
 	}
 }

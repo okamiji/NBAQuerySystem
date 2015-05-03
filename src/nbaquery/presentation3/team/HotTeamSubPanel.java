@@ -32,8 +32,8 @@ public class HotTeamSubPanel extends JPanel
 	
 	boolean shouldRedoQuery = true;
 	
-	HotTeamSection seasonHotTeam = new HotTeamSection(new String[]{"µÃ·Ö", "Àº°å", "½ø¹¥", "·ÀÊØ", "Öú¹¥", "ÇÀ¶Ï", "¸ÇÃ±"}
-	, new String[]{"self_score", "total_board", "attack_board", "defence_board", "assist", "steal", "cap"})
+	HotTeamSection seasonHotTeam = new HotTeamSection(new String[]{"Ê¤³¡", "Ê¤ÂÊ", "µÃ·Ö", "Àº°å", "½ø¹¥", "·ÀÊØ", "Öú¹¥", "ÇÀ¶Ï", "¸ÇÃ±"}
+		, new String[]{"win", "win_rate", "self_score", "total_board", "attack_board", "defence_board", "assist", "steal", "cap"})
 	{
 		{
 			prefix = "Èü¼¾";
@@ -54,6 +54,39 @@ public class HotTeamSubPanel extends JPanel
 					{
 						Table resultTable = HotTeamSubPanel.this.teamService
 								.searchSeasonHotTeams(tableColumn[selectedIndex]);
+						
+						this.updateTable(resultTable);
+						shouldRedoQuery = false;
+						setHeadDisplay();
+					}
+				}
+			};
+		}
+	};
+	
+	
+	HotTeamSection todayHotTeam = new HotTeamSection(new String[]{"µÃ·Ö", "Àº°å", "½ø¹¥", "·ÀÊØ", "Öú¹¥", "ÇÀ¶Ï", "¸ÇÃ±"},
+			new String[]{"self_score", "total_board", "attack_board", "defence_board", "assist", "steal", "cap"})
+	{
+		{
+			prefix = "½ñÈÕ";
+			tableModel = new PresentationTableModel()
+			{
+				{
+					this.setPageIndex(0);
+					this.setSectionPerPage(5);
+					this.columnModel.addColumn("Çò¶ÓÃû³Æ", "team_name").padding = 80;
+					this.columnModel.addColumn(new RankingTableColumn(), 0);
+				}
+				
+				@Override
+				public void onRepaint(DisplayTable table)
+				{
+					if(shouldRedoQuery ||
+							HotTeamSubPanel.this.teamService.shouldRedoQuery(this))
+					{
+						Table resultTable = HotTeamSubPanel.this.teamService
+								.searchTodayHotTeams(tableColumn[selectedIndex]);
 						
 						this.updateTable(resultTable);
 						shouldRedoQuery = false;
@@ -156,8 +189,17 @@ public class HotTeamSubPanel extends JPanel
 			
 		});
 		
+		
+		//XXX adding sidebar buttons.
+		todayHotTeam.tableSwitch
+			.setBounds((int)(0.90 * width), (int)(1.0/4 * height), (int)(0.1 * width), (int)(0.1 * width));
+		seasonHotTeam.tableSwitch
+			.setBounds((int)(0.90 * width), (int)(3.0/4 * height), (int)(0.1 * width), (int)(0.1 * width));
+		super.add(todayHotTeam.tableSwitch);
+		super.add(seasonHotTeam.tableSwitch);
+		
 		//XXX initialize it to season hot team.
-		this.switchSection(seasonHotTeam);
+		this.switchSection(todayHotTeam);
 	}
 	
 	public void switchSection(HotTeamSection section)

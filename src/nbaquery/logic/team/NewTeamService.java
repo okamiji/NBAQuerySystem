@@ -20,6 +20,14 @@ public interface NewTeamService
 	 * @return 前五名热门球队信息
 	 */
 	public Table searchSeasonHotTeams(String keywords);
+	
+	/**
+	 * 查询赛季热门球队信息
+	 * @param index 排序在hotTeamColumnNames数组中的index
+	 * @return 前五名热门球队信息
+	 */
+	public Table searchTodayHotTeams(String keywords);
+	
 	/**
 	 * 查询特定球队的信息
 	 * @param teamNameOrAbbr 球队名字或缩写

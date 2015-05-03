@@ -9,15 +9,16 @@ import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.gross_team.GrossTeam;
+import nbaquery.logic.hot_team_today.HotTeamToday;
 
 public class TeamServiceAdapter extends NewTeamServiceAdapter implements TeamService, NewTeamService
 {
 	public String[] columnNames,oneTeamColumns;
 	
 	public TeamServiceAdapter(TableHost tableHost,
-			GrossTeam gross, AverageTeam average, String[] columnNames,String[] oneTeamColumns)
+			GrossTeam gross, AverageTeam average, HotTeamToday hot, String[] columnNames,String[] oneTeamColumns)
 	{
-		super(tableHost, gross, average);
+		super(tableHost, gross, average, hot);
 		this.columnNames = columnNames;
 		this.oneTeamColumns=oneTeamColumns;
 	}
