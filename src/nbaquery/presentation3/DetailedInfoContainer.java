@@ -4,9 +4,9 @@ import nbaquery.data.Row;
 
 public interface DetailedInfoContainer
 {
-	public void displayPlayerInfo(Row player);
+	public void displayPlayerInfo(Row player, boolean stacked);
 	
-	public void displayTeamInfo(Row team);
+	public void displayTeamInfo(Row team, boolean stacked);
 	
-	public void displayMatchInfo(int matchId);
+	public void displayMatchInfo(int matchId, boolean stacked);
 }

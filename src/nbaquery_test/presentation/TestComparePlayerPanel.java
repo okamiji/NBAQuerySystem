@@ -24,14 +24,14 @@ public class TestComparePlayerPanel extends Main
 		theFrame.add(new ComparePlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainer()
 		{
 			@Override
-			public void displayMatchInfo(int matchId)
+			public void displayMatchInfo(int matchId, boolean s)
 			{
 				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
-			public void displayPlayerInfo(Row player)
+			public void displayPlayerInfo(Row player, boolean s)
 			{
 				System.out.println("=================================================================");
 				System.out.println(player.getDeclaredTable().getColumn("player_name").getAttribute(player));
@@ -45,10 +45,12 @@ public class TestComparePlayerPanel extends Main
 			}
 
 			@Override
-			public void displayTeamInfo(Row team)
+			public void displayTeamInfo(Row team, boolean s)
 			{
-				// TODO Auto-generated method stub
-				
+				System.out.println("=================================================================");
+				System.out.println(team.getDeclaredTable().getColumn("team_name").getAttribute(team));
+				System.out.println(team.getDeclaredTable().getColumn("team_name_abbr").getAttribute(team));
+				System.out.println("=================================================================");
 			}
 			
 		}, 720, 400, 15));

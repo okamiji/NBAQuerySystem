@@ -212,7 +212,7 @@ public class HotPlayerSubPanel extends JPanel
 			{
 				if(value == null) return;
 				Row rowObject = (Row)value;
-				HotPlayerSubPanel.this.infoContainer.displayPlayerInfo(rowObject);
+				HotPlayerSubPanel.this.infoContainer.displayPlayerInfo(rowObject, false);
 			}
 			
 		});

@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.DetailedInfoContainer;
@@ -18,6 +19,7 @@ import nbaquery.presentation3.table.ColumnSelectionListener;
 import nbaquery.presentation3.table.DefaultTableColumn;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.DisplayTableColumn;
+import nbaquery.presentation3.table.TableSelectionListener;
 
 @SuppressWarnings("serial")
 public class ComparePlayerSubPanel extends JPanel
@@ -270,6 +272,18 @@ public class ComparePlayerSubPanel extends JPanel
 				legacyColumn = column;
 				
 				shouldRedoQuery = true;
+			}
+		});
+		
+		playerTable.addTableSelectionListener(new TableSelectionListener()
+		{
+
+			@Override
+			public void onSelect(DisplayTable table, int row, int column,
+					Object value, Point mousePoint)
+			{
+				if(column == 3 || column == 4) ComparePlayerSubPanel.this.detailedInfo.displayTeamInfo((Row)value, false);
+				else ComparePlayerSubPanel.this.detailedInfo.displayPlayerInfo((Row)value, false);
 			}
 		});
 		
