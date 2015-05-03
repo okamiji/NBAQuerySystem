@@ -16,7 +16,7 @@ public class TestComparePlayerPanel extends Main
 	public void loadPresentation()
 	{
 		theFrame = new JFrame();
-		theFrame.setSize(720, 400);
+		theFrame.setSize(720, 600);
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
@@ -53,7 +53,7 @@ public class TestComparePlayerPanel extends Main
 				System.out.println("=================================================================");
 			}
 			
-		}, 720, 400, 15));
+		}, 720, 600, 25));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}
