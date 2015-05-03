@@ -72,7 +72,7 @@ public class ComparePlayerSubPanel extends JPanel
 		this.setLayout(null);
 		
 		this.playerTable = new DisplayTable();
-		this.playerTable.setSize(width, height - 24);
+		this.playerTable.setSize(width, height - 20);
 		this.playerTable.setLocation(2, 20 + 2);
 		super.add(playerTable);
 		
@@ -89,6 +89,9 @@ public class ComparePlayerSubPanel extends JPanel
 				
 				DefaultTableColumn player_name = columnModel.addColumn("球员名称", "player_name");
 				player_name.padding = 70;	keywordMap.put(season, new String[]{"player_name"});
+				
+				DefaultTableColumn logo = columnModel.addColumn("", "team_logo");
+				logo.padding = playerTable.getHeight() / (sectionPerPage + 1);
 				
 				DefaultTableColumn team_name = columnModel.addColumn("球队", "team_name_abbr");
 				team_name.padding = 5;	keywordMap.put(team_name, new String[]{"team_name_abbr"});
@@ -147,8 +150,17 @@ public class ComparePlayerSubPanel extends JPanel
 				DefaultTableColumn player_name = columnModel.addColumn("球员名称", "player_name");
 				player_name.padding = 70;	keywordMap.put(season, new String[]{"player_name"});
 				
+				DefaultTableColumn logo = columnModel.addColumn("", "team_logo");
+				logo.padding = playerTable.getHeight() / (sectionPerPage + 1);
+				
 				DefaultTableColumn team_name = columnModel.addColumn("球队", "team_name_abbr");
 				team_name.padding = 5;	keywordMap.put(team_name, new String[]{"team_name_abbr"});
+				
+				DefaultTableColumn efficiency = columnModel.addColumn("效率", "efficiency");
+				efficiency.padding = 5;			keywordMap.put(efficiency, new String[]{"efficiency"});
+				
+				DefaultTableColumn gmsc = columnModel.addColumn("GmSc", "gmsc_efficiency");
+				gmsc.padding = 5;			keywordMap.put(gmsc, new String[]{"gmsc_efficiency"});
 			}
 		};
 		
@@ -233,14 +245,12 @@ public class ComparePlayerSubPanel extends JPanel
 		
 		playerTable.addMouseWheelListener(new MouseWheelListener()
 		{
-
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent arg0)
 			{
 				currentPlayerModel.setPageIndex(currentPlayerModel.getPageIndex() + 
 						arg0.getUnitsToScroll() / arg0.getScrollAmount());
 			}
-			
 		});
 	}
 }
