@@ -15,7 +15,7 @@ public class TestMatchDisplay extends Main
 	public void loadPresentation()
 	{
 		theFrame = new JFrame();
-		theFrame.setSize(300, 100);
+		theFrame.setSize(200, 70);
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
