@@ -56,7 +56,31 @@ public class ProgressPlayer {
 			SelectProjectQuery query2 = null;
 			try
 			{
-				query2 = new SelectProjectQuery("progress_player.self_score_rate <> +inf", intermediateTable);
+				query2 = new SelectProjectQuery("progress_player.self_score_rate < 100.0 ", intermediateTable);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			tableHost.performQuery(query2, "progress_player");
+			intermediateTable = tableHost.getTable("progress_player");
+			
+			 query2 = null;
+			try
+			{
+				query2 = new SelectProjectQuery("progress_player.total_board_rate < 100.0", intermediateTable);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			tableHost.performQuery(query2, "progress_player");
+			intermediateTable = tableHost.getTable("progress_player");
+			
+			query2 = null;
+			try
+			{
+				query2 = new SelectProjectQuery("progress_player.assist_rate < 100.0", intermediateTable);
 			}
 			catch(Exception e)
 			{
