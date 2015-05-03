@@ -1,5 +1,7 @@
 package nbaquery.logic.team;
 
+import nbaquery.data.Column;
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.SelectProjectQuery;
@@ -45,9 +47,30 @@ public class NewTeamServiceAdapter implements NewTeamService
 	}
 
 	@Override
-	public Table searchSeasonHotTeams(String keywords)
+	public Table searchSeasonHotTeams(String head)
 	{
+		/*
 		return this.searchForTeams(true, new String[]{keywords}, true);
+		*/
+		Table matchTable = tableHost.getTable("match");
+		if(matchTable.hasTableChanged("setchForSeasonHotTeams"))
+		{
+			Row[] rows = matchTable.getRows();
+			Column season = matchTable.getColumn("match_season");
+			String latestSeason = (String) season.getAttribute(rows[rows.length - 1]);
+			
+			Table grossTable = this.gross.getTable();
+			try
+			{
+				tableHost.performQuery(new SelectProjectQuery("gross_team.match_season==\"%season\"".replace("%season", latestSeason), grossTable), "season_hot_team_result");
+			}
+			catch(Exception e)
+			{
+
+			}
+		}
+		tableHost.performQuery(new SortQuery(tableHost.getTable("season_hot_team_result"), head, 5, true), "season_hot_team_result_final");
+		return tableHost.getTable("season_hot_player_team_final");
 	}
 
 	@Override
