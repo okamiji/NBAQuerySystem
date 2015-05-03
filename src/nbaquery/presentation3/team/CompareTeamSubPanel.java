@@ -13,6 +13,7 @@ import nbaquery.logic.team.NewTeamService;
 import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.DropList;
 import nbaquery.presentation3.DualTableColumn;
+import nbaquery.presentation3.PageDisplayLabel;
 import nbaquery.presentation3.PresentationTableModel;
 import nbaquery.presentation3.table.ColumnSelectionListener;
 import nbaquery.presentation3.table.DefaultTableColumn;
@@ -179,6 +180,10 @@ public class CompareTeamSubPanel extends JPanel
 		dataModel.setBounds(84, 2, 80, 20);
 		dataModel.setHorizontalAlignment(DropList.CENTER);
 		this.add(dataModel);
+		
+		final PageDisplayLabel page = new PageDisplayLabel(this.teamTable);
+		page.setBounds(width - 82, 2, 80, 20);
+		this.add(page);
 		
 		//XXX adding listeners.
 		teamTable.addColumnSelectionListener(new ColumnSelectionListener()
