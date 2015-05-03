@@ -45,6 +45,8 @@ public class DualTableColumn implements DisplayTableColumn
 		textLabel.setHorizontalAlignment(JLabel.CENTER);
 	}
 	
+	public int truncationLength = 3;
+	
 	@Override
 	public Component render(DisplayTable table, Object value, int row, int column)
 	{
@@ -57,13 +59,13 @@ public class DualTableColumn implements DisplayTableColumn
 		
 		String valueOneString = "";
 		if(valueOne != null) valueOneString = valueOne.toString();
-		if(valueOne instanceof Float) if(valueOneString.length() > 3) 
-			valueOneString = valueOneString.substring(0, 3);
+		if(valueOne instanceof Float) if(valueOneString.length() > truncationLength) 
+			valueOneString = valueOneString.substring(0, truncationLength);
 		
 		String valueTwoString = "";
 		if(valueTwo != null) valueTwoString = valueTwo.toString();
-		if(valueTwo instanceof Float) if(valueTwoString.length() > 3)
-			valueTwoString = valueTwoString.substring(0, 3);
+		if(valueTwo instanceof Float) if(valueTwoString.length() > truncationLength)
+			valueTwoString = valueTwoString.substring(0, truncationLength);
 		textLabel.setText(format.replace("%1", valueOneString).replace("%2", valueTwoString));
 		
 		return textLabel;

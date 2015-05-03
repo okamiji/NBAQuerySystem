@@ -148,6 +148,44 @@ public class CompareTeamSubPanel extends JPanel
 				
 				DefaultTableColumn team_name_abbr = columnModel.addColumn("缩写", "team_name_abbr");
 				team_name_abbr.padding = 10;	keywordMap.put(team_name_abbr, new String[]{"team_name_abbr"});
+				
+				DefaultTableColumn win_rate = columnModel.addColumn("胜率", "win_rate");
+				win_rate.padding = 5;	keywordMap.put(win_rate, new String[]{"win_rate"});
+				
+				DefaultTableColumn assist_efficiency = columnModel.addColumn("助攻效率", "assist_efficiency");
+				assist_efficiency.padding = 10;	keywordMap.put(assist_efficiency, new String[]{"assist_efficiency"});
+				
+				DefaultTableColumn attack_board_efficiency = columnModel.addColumn("进攻篮板率", "attack_board_efficiency");
+				attack_board_efficiency.padding = 5;	keywordMap.put(attack_board_efficiency, new String[]{"attack_board_efficiency"});
+				
+				DefaultTableColumn attack_efficiency = columnModel.addColumn("进攻效率", "attack_efficiency");
+				attack_efficiency.padding = 5;	keywordMap.put(attack_efficiency, new String[]{"attack_efficiency"});
+				
+				DefaultTableColumn attack_round = columnModel.addColumn("进攻回合", "attack_round");
+				attack_round.padding = 0;	keywordMap.put(attack_round, new String[]{"attack_round"});
+				
+				DefaultTableColumn defence_board_efficiency = columnModel.addColumn("防守篮板率", "defence_board_efficiency");
+				defence_board_efficiency.padding = 5;	keywordMap.put(defence_board_efficiency, new String[]{"defence_board_efficiency"});
+				
+				DefaultTableColumn defence_efficiency = columnModel.addColumn("防守效率", "defence_efficiency");
+				defence_efficiency.padding = 5;	keywordMap.put(defence_efficiency, new String[]{"defence_efficiency"});
+				
+				DefaultTableColumn defence_round = columnModel.addColumn("防守回合", "defence_round");
+				defence_round.padding = 0;	keywordMap.put(defence_round, new String[]{"defence_round"});
+				
+				DefaultTableColumn foul_shoot_rate = columnModel.addColumn("罚球命中", "foul_shoot_rate");
+				foul_shoot_rate.padding = 0;	keywordMap.put(foul_shoot_rate, new String[]{"foul_shoot_rate"});
+				
+				DefaultTableColumn steal_efficiency = columnModel.addColumn("抢断效率", "steal_efficiency");
+				steal_efficiency.padding = 0;	keywordMap.put(steal_efficiency, new String[]{"steal_efficiency"});
+				
+				DefaultTableColumn shoot_rate = columnModel.addColumn("二分命中", "shoot_rate");
+				shoot_rate.padding = 0;	keywordMap.put(shoot_rate, new String[]{"shoot_rate"});
+				
+				DefaultTableColumn three_shoot_rate = columnModel.addColumn("三分命中", "three_shoot_rate");
+				three_shoot_rate.padding = 0;	keywordMap.put(three_shoot_rate, new String[]{"three_shoot_rate"});
+				
+
 			}
 		};
 		

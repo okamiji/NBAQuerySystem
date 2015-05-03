@@ -9,6 +9,7 @@ import nbaquery.launcher.Main;
 import nbaquery.logic.team.NewTeamService;
 import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.team.CompareTeamSubPanel;
+import nbaquery_test.data.TestFileTableHost;
 
 public class TestCompareTeamPanel extends Main
 {
@@ -39,6 +40,7 @@ public class TestCompareTeamPanel extends Main
 			@Override
 			public void displayTeamInfo(Row team, boolean s)
 			{
+				System.out.println(TestFileTableHost.convertTableIntoString(team.getDeclaredTable()));
 				System.out.println("=================================================================");
 				System.out.println(team.getDeclaredTable().getColumn("team_name").getAttribute(team));
 				System.out.println(team.getDeclaredTable().getColumn("team_name_abbr").getAttribute(team));
