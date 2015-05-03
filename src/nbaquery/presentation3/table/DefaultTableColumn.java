@@ -61,9 +61,15 @@ public class DefaultTableColumn implements DisplayTableColumn
 			
 			if(object.getClass().equals(Float.class))
 			{
-				String theFloat = Float.toString((Float)object);
-				if(theFloat.length() > 4) theFloat = theFloat.substring(0, 4);
-				displayComponent.setText(theFloat);
+				float floatObject = (Float)object;
+				if(Float.isNaN(floatObject) || Float.isInfinite(floatObject))
+					displayComponent.setText("");
+				else
+				{
+					String theFloat = Float.toString(floatObject);
+					if(theFloat.length() > 4) theFloat = theFloat.substring(0, 4);
+					displayComponent.setText(theFloat);
+				}
 			}
 			
 			if(object.getClass().equals(Date.class))

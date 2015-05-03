@@ -160,7 +160,19 @@ public class ComparePlayerSubPanel extends JPanel
 				efficiency.padding = 5;			keywordMap.put(efficiency, new String[]{"efficiency"});
 				
 				DefaultTableColumn gmsc = columnModel.addColumn("GmSc", "gmsc_efficiency");
-				gmsc.padding = 5;			keywordMap.put(gmsc, new String[]{"gmsc_efficiency"});
+				gmsc.padding = 0;			keywordMap.put(gmsc, new String[]{"gmsc_efficiency"});
+				
+				DefaultTableColumn foul_shoot_rate = columnModel.addColumn("罚球命中", "foul_shoot_rate");
+				foul_shoot_rate.padding = 0;			keywordMap.put(foul_shoot_rate, new String[]{"foul_shoot_rate"});
+				
+				DefaultTableColumn shoot_rate = columnModel.addColumn("二分命中", "shoot_rate");
+				shoot_rate.padding = 0;			keywordMap.put(shoot_rate, new String[]{"shoot_rate"});
+				
+				DefaultTableColumn three_shoot_rate = columnModel.addColumn("三分命中", "three_shoot_rate");
+				three_shoot_rate.padding = 0;			keywordMap.put(three_shoot_rate, new String[]{"three_shoot_rate"});
+				
+				DefaultTableColumn true_shoot_rate = columnModel.addColumn("真实命中", "true_shoot_rate");
+				true_shoot_rate.padding = 0;			keywordMap.put(true_shoot_rate, new String[]{"true_shoot_rate"});
 			}
 		};
 		
