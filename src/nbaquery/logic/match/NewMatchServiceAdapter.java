@@ -202,4 +202,17 @@ public class NewMatchServiceAdapter implements NewMatchService
 	{
 		return tableHost.getTable("match").hasTableChanged(host);
 	}
+
+	@Override
+	public Table listTodayMatches()
+	{
+		Row[] rows = tableHost.getTable("match").getRows();
+		String season = null, date = null;
+		if(rows.length > 0)
+		{
+			season = (String) tableHost.getTable("match").getColumn("match_season").getAttribute(rows[rows.length - 1]);
+			date = (String) tableHost.getTable("match").getColumn("match_date").getAttribute(rows[rows.length - 1]);
+		}
+		return this.searchForMatchesTable(new String[]{"match_id"}, season, date, true);
+	}
 }

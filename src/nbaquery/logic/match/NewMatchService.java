@@ -10,6 +10,8 @@ public interface NewMatchService
 	
 	public Table searchForMatchesTable(String[] keyword, String date, String season, boolean[] descend);
 	
+	public Table listTodayMatches();
+	
 	public Table searchPerformanceByID(int matchID);
 	
 	public Table searchQuarterScoreByID(int matchID);
