@@ -100,6 +100,7 @@ public class MatchComponent extends Component
 		if(host_logo != null) synchronized(host_logo)
 		{
 			host_logo.setSize(height - padding * 2, height - padding * 2);
+			host_logo.repaint();
 			host_logo.paint(host_logo_area);
 		}
 		
@@ -110,6 +111,7 @@ public class MatchComponent extends Component
 		if(guest_logo != null) synchronized(guest_logo)
 		{
 			guest_logo.setSize(height - padding * 2, height - padding * 2);
+			guest_logo.repaint();
 			guest_logo.paint(guest_logo_area);
 		}
 		
