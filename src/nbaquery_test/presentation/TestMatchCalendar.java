@@ -26,7 +26,6 @@ public class TestMatchCalendar extends Main
 		CompareMatchSubPanel table = new CompareMatchSubPanel(service, theFrame.getWidth(), theFrame.getHeight(), 200)
 		{
 			{
-				
 				this.displayTable.oddBackground = this.displayTable.evenBackground = new Color(0, 0, 0, 0);
 			}
 
@@ -39,7 +38,9 @@ public class TestMatchCalendar extends Main
 			@Override
 			protected void reEnter()
 			{
-				this.matchTableModel.switchToDate(2014, 0);
+				this.year = 2014;
+				this.month = 0;
+				this.fireTableSwitch();
 			}
 		};
 		

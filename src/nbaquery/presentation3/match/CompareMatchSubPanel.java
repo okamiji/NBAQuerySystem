@@ -21,17 +21,19 @@ public abstract class CompareMatchSubPanel extends JPanel
 	public boolean shouldRedoQuery = true;
 	public boolean shouldReEnter = true;
 	
+	protected int year;
 	protected int month;
 	
 	public CompareMatchSubPanel(NewMatchService matchService, int width, int height, int componentWidth)
 	{
 		this.matchService = matchService;
 		this.setSize(width, height);
+		this.setLayout(null);
 		
 		matchTableModel = new MatchTableModel((width - componentWidth - 4) / 7 - 1);
 		
 		displayTable = new DisplayTable(matchTableModel, matchTableModel);
-		displayTable.setBounds(2, 20, width - componentWidth - 4, height - 24);
+		displayTable.setBounds(2, 22, width - componentWidth - 4, height - 26);
 		displayTable.setRowHeight(displayTable.getHeight() / 7);
 		this.add(displayTable);
 		
@@ -45,13 +47,20 @@ public abstract class CompareMatchSubPanel extends JPanel
 			{
 				month = index;
 				shouldRedoQuery = true;
+				fireTableSwitch();
 			}
 		};
+		this.monthSelector.setBounds(width - componentWidth - 6 - 100, 2, 100, 20);
+		this.add(monthSelector);
+	}
+	
+	protected void fireTableSwitch()
+	{
+		this.matchTableModel.switchToDate(year, month);
 	}
 	
 	public void paint(Graphics g)
 	{
-		super.paint(g);
 		if(shouldReEnter)
 		{
 			reEnter();
@@ -61,8 +70,10 @@ public abstract class CompareMatchSubPanel extends JPanel
 		if(matchService.shouldRedoQuery(this) || shouldRedoQuery)
 		{
 			this.matchTableModel.setTable(this.redoQuery());
+			fireTableSwitch();
 			shouldRedoQuery = false;
 		}
+		super.paint(g);
 	}
 	
 	protected abstract void reEnter();
