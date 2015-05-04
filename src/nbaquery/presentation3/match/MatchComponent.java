@@ -32,11 +32,12 @@ public class MatchComponent extends Component
 	String match_season;
 	String match_date;
 	
-	boolean host_win;
+	boolean host_win, shouldStack;
 	DetailedInfoContainer infoContainer;
 	
-	public MatchComponent(DetailedInfoContainer infoContainer, Row match)
+	public MatchComponent(DetailedInfoContainer infoContainer, Row match, boolean shouldStack)
 	{
+		this.shouldStack = shouldStack;
 		this.infoContainer = infoContainer;
 	
 		Table matchTable = match.getDeclaredTable();
@@ -70,7 +71,7 @@ public class MatchComponent extends Component
 	{
 		public void mouseClicked(MouseEvent me)
 		{
-			infoContainer.displayMatchInfo(match_id, false);
+			infoContainer.displayMatchInfo(match_id, shouldStack);
 		}
 	};
 	
@@ -96,7 +97,7 @@ public class MatchComponent extends Component
 		host_logo_area.setColor(Color.WHITE);
 		host_logo_area.fillRect(0, 0, height - padding * 2, height - padding * 2);
 		
-		if(host_logo_area != null)
+		if(host_logo != null) synchronized(host_logo)
 		{
 			host_logo.setSize(height - padding * 2, height - padding * 2);
 			host_logo.paint(host_logo_area);
@@ -105,7 +106,8 @@ public class MatchComponent extends Component
 		Graphics guest_logo_area = g.create(width - height + padding, padding, height - padding * 2, height - padding * 2);
 		guest_logo_area.setColor(Color.WHITE);
 		guest_logo_area.fillRect(0, 0, height - padding * 2, height - padding * 2);
-		if(guest_logo_area != null)
+		
+		if(guest_logo != null) synchronized(guest_logo)
 		{
 			guest_logo.setSize(height - padding * 2, height - padding * 2);
 			guest_logo.paint(guest_logo_area);

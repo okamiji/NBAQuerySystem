@@ -44,7 +44,7 @@ public class TestMatchDisplay extends Main
 			}
 			
 		}, ((NewMatchService)this.matchService)
-				.searchForMatchesTable(null, null, null, true).getRows()[0]);
+				.searchForMatchesTable(null, null, null, true).getRows()[0], false);
 		component.setSize(theFrame.getSize());
 		theFrame.add(component);
 		theFrame.setAlwaysOnTop(true);

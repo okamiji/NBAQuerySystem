@@ -1,6 +1,7 @@
 package nbaquery.presentation3.match;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseWheelEvent;
@@ -12,12 +13,15 @@ import javax.swing.JTextField;
 
 import nbaquery.data.Table;
 import nbaquery.logic.match.NewMatchService;
+import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.DropList;
 import nbaquery.presentation3.table.DisplayTable;
+import nbaquery.presentation3.table.TableSelectionListener;
 
 @SuppressWarnings("serial")
 public abstract class CompareMatchSubPanel extends JPanel
 {
+	protected DetailedInfoContainer container;
 	protected final NewMatchService matchService;
 	
 	protected DisplayTable displayTable;
@@ -34,9 +38,11 @@ public abstract class CompareMatchSubPanel extends JPanel
 	protected JLabel seasonText = new JLabel("Èü¼¾");
 	
 	protected JTextField fromSeason = new JTextField(), toSeason = new JTextField();
+	protected MatchEnumerator enumerator;
 	
-	public CompareMatchSubPanel(NewMatchService matchService, int width, int height, int componentWidth)
+	public CompareMatchSubPanel(DetailedInfoContainer container, NewMatchService matchService, int width, int height, int componentWidth, boolean shouldStack)
 	{
+		this.container = container;
 		this.matchService = matchService;
 		this.setSize(width, height);
 		this.setLayout(null);
@@ -47,6 +53,10 @@ public abstract class CompareMatchSubPanel extends JPanel
 		displayTable.setBounds(2, 22, width - componentWidth - 4, height - 26);
 		displayTable.setRowHeight(displayTable.getHeight() / 7);
 		this.add(displayTable);
+		
+		this.enumerator = new MatchEnumerator(container, componentWidth, height - 4, false, shouldStack);
+		this.enumerator.setLocation(width - componentWidth - 2, 1);
+		this.add(enumerator);
 		
 		this.monthSelector = new DropList(new String[]{
 				"January", "February", "March", "April", "May", "June", "July", "Auguest", 
@@ -136,7 +146,7 @@ public abstract class CompareMatchSubPanel extends JPanel
 		seasonText.setHorizontalAlignment(JLabel.CENTER);
 		this.add(seasonText);
 		
-		//XXX adding date scroll.
+		//XXX adding table listeners.
 		this.displayTable.addMouseWheelListener(new MouseWheelListener()
 		{
 			@Override
@@ -159,6 +169,19 @@ public abstract class CompareMatchSubPanel extends JPanel
 				}
 				fireTableSwitch();
 			}
+		});
+		
+		this.displayTable.addTableSelectionListener(new TableSelectionListener()
+		{
+
+			@Override
+			public void onSelect(DisplayTable table, int row, int column,
+					Object value, Point mousePoint)
+			{
+				MatchStrip strip = (MatchStrip)value;
+				enumerator.setMatchStrip(strip);
+			}
+			
 		});
 	}
 	

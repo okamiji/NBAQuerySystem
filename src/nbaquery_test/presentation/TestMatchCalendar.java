@@ -1,6 +1,7 @@
 package nbaquery_test.presentation;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 
@@ -8,6 +9,7 @@ import nbaquery.data.Table;
 import nbaquery.launcher.Main;
 import nbaquery.logic.match.NewMatchService;
 import nbaquery.presentation3.match.CompareMatchSubPanel;
+import nbaquery.presentation3.match.MatchComponent;
 
 public class TestMatchCalendar extends Main
 {
@@ -23,7 +25,7 @@ public class TestMatchCalendar extends Main
 		NewMatchService service = ((NewMatchService)this.matchService);
 		
 		@SuppressWarnings("serial")
-		CompareMatchSubPanel table = new CompareMatchSubPanel(service, theFrame.getWidth(), theFrame.getHeight(), 200)
+		CompareMatchSubPanel table = new CompareMatchSubPanel(null, service, theFrame.getWidth(), theFrame.getHeight(), 300, false)
 		{
 			{
 				this.displayTable.oddBackground = this.displayTable.evenBackground = new Color(0, 0, 0, 0);
@@ -43,7 +45,8 @@ public class TestMatchCalendar extends Main
 				this.fireTableSwitch();
 			}
 		};
-		
+		MatchComponent.scoreLabelFont = new Font(Font.MONOSPACED, Font.PLAIN, 0).deriveFont(20.0f);
+		MatchComponent.plainTextFont = new Font(Font.MONOSPACED, Font.PLAIN, 0).deriveFont(12.0f);
 		theFrame.add(table);
 		theFrame.setAlwaysOnTop(true);
 		//component.shouldDisplayTime = true;
