@@ -34,6 +34,7 @@ public class MatchEnumerator extends Component
 		this.setSize(width, height);
 		this.isHorizontal = isHorizontal;
 		this.shouldStack = shouldStack;
+		this.container = container;
 		
 		this.upArrow.setSize(width - 4, 20);
 		this.upArrow.setHorizontalAlignment(JLabel.CENTER);
@@ -41,7 +42,7 @@ public class MatchEnumerator extends Component
 		this.downArrow.setHorizontalAlignment(JLabel.CENTER);
 		this.leftArrow.setSize(20, height - 4);
 		this.rightArrow.setSize(20, height - 4);
-		this.addMouseListener(move);
+		this.addMouseListener(listener);
 		this.addMouseWheelListener(new MouseWheelListener()
 		{
 
@@ -54,13 +55,19 @@ public class MatchEnumerator extends Component
 		});
 	}
 	
-	MouseAdapter move = new MouseAdapter()
+	MouseAdapter listener = new MouseAdapter()
 	{
 		public void mousePressed(MouseEvent e)
 		{
 			int y = e.getPoint().y;
 			if(y <= 22) move(-1);
-			if(y >= getHeight() - 22) move(1);
+			else if(y >= getHeight() - 22) move(1);
+			else if(matchComponents != null)
+			{
+				int index = (int)(((float)(y - 22)) / (getHeight() - 22) * sectionPerEnumerator) + bias;
+				if(index >= 0 && index < matchComponents.length)
+					container.displayMatchInfo(matchComponents[index].match_id, shouldStack);
+			}
 		}
 	};
 	
