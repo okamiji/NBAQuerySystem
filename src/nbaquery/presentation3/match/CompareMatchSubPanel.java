@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -26,6 +27,9 @@ public abstract class CompareMatchSubPanel extends JPanel
 	
 	protected int year;
 	protected int month;
+
+	protected JLabel toSymbol = new JLabel(" ~ ");
+	protected JLabel seasonText = new JLabel("Èü¼¾");
 	
 	protected JTextField fromSeason = new JTextField(), toSeason = new JTextField();
 	
@@ -86,9 +90,14 @@ public abstract class CompareMatchSubPanel extends JPanel
 				fireTableSwitch();
 			}
 		});
+		fromSeason.setHorizontalAlignment(JTextField.CENTER);
 		this.add(fromSeason);
 		
-		toSeason.setBounds(104, 2, 100, 20);
+		toSymbol.setBounds(104, 2, 30, 20);
+		toSymbol.setHorizontalAlignment(JLabel.CENTER);
+		this.add(toSymbol);
+		
+		toSeason.setBounds(136, 2, 100, 20);
 		toSeason.addFocusListener(new FocusListener()
 		{
 			boolean shouldTest = false;
@@ -99,6 +108,7 @@ public abstract class CompareMatchSubPanel extends JPanel
 			}
 
 			@Override
+	
 			public void focusLost(FocusEvent arg0)
 			{
 				if(!shouldTest) return;
@@ -116,7 +126,12 @@ public abstract class CompareMatchSubPanel extends JPanel
 				fireTableSwitch();
 			}
 		});
+		toSeason.setHorizontalAlignment(JTextField.CENTER);
 		this.add(toSeason);
+		
+		seasonText.setBounds(238, 2, 40, 20);
+		seasonText.setHorizontalAlignment(JLabel.CENTER);
+		this.add(seasonText);
 	}
 	
 	protected void fireTableSwitch()
@@ -145,15 +160,10 @@ public abstract class CompareMatchSubPanel extends JPanel
 				this.toSeason.setText("" + toSeasonValue);
 			else this.toSeason.setText("0" + toSeasonValue);
 		}
-		try
-		{
+		
 		if(this.monthSelector != null) 
 			this.monthSelector.setText(this.monthSelector.selections[month]);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		
 		this.matchTableModel.switchToDate(year, month);
 	}
 	
