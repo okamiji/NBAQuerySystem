@@ -3,12 +3,12 @@ package nbaquery_test.auto.token;
 import nbaquery_test.auto.TestFacade;
 import nbaquery_test.auto.TestFacadeToken;
 
-public class Average implements TestFacadeToken
+public class NoNumber implements TestFacadeToken
 {
 	@Override
 	public String[] getTokens()
 	{
-		return new String[]{"-avg"};
+		return new String[]{"-nonumber"};
 	}
 
 	@Override
@@ -20,8 +20,8 @@ public class Average implements TestFacadeToken
 	@Override
 	public void change(TestFacade facade, String[] parameters, int beginIndex)
 	{
-	
-		facade.queryMode &= Integer.MAX_VALUE ^ TestFacade.DATA_TYPE_BIT;
-		facade.queryMode |= TestFacade.AVERAGE;
+		facade.queryMode &= Integer.MAX_VALUE ^ TestFacade.NUMBER_TYPE_BIT;
+		facade.queryMode |= TestFacade.NONUMBER;
+		facade.dataNumber = 50;
 	}
 }

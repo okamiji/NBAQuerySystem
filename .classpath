@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="batik-1.7/batik-svgpp.jar"/>
 	<classpathentry kind="lib" path="batik-1.7/batik-ttf2svg.jar"/>
 	<classpathentry kind="lib" path="batik-1.7/batik.jar"/>
+	<classpathentry kind="lib" path="C:/Users/小南/Desktop/测试/测试相关文档 (3)/docs/功能测试/testData.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
