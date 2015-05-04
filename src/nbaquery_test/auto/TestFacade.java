@@ -67,6 +67,8 @@ public class TestFacade
 	public int dataNumber = 0;
 	public int queryMode = 0;
 	public int hotMode   = 0;
+	boolean isGross=false;
+	
 	
 	public TestFacade(TestFacadeToken[] tokens)
 	{
@@ -95,6 +97,11 @@ public class TestFacade
 		{
 			int model = queryMode & MODEL_TYPE_BIT;
 			int data = queryMode & DATA_TYPE_BIT;
+			int hot = queryMode & HOT_TYPE_BIT;
+			int number = queryMode & NUMBER_TYPE_BIT;
+			int high = queryMode & HIGH_TYPE_BIT;
+			int filter = queryMode & FILTER_TYPE_BIT;
+			int sort = queryMode & SORT_TYPE_BIT;
 			
 			if(model == PLAYER) stdout.println("player");
 			else if(model == TEAM) stdout.println("team");
