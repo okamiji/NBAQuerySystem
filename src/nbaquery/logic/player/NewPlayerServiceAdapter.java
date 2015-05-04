@@ -44,12 +44,9 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		return shouldRedo;
 	}
 	
-	@Override
-	public Table searchForPlayers(boolean isGross, String[] head, boolean isUp,
+	public Table searchForPlayers(boolean isGross, String[] head, boolean[] isUp,
 			String position, String league)
 	{
-		if(head == null || head.length == 0) head = new String[]{"player_name"};	//Automatically sort by player name.
-		
 		Table table;
 		String tableName;
 		if(isGross)
@@ -67,7 +64,7 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		
 		for(int i = head.length - 1; i > 0; i --)
 		{
-			sort = new SortQuery(table, head[i], isUp);
+			sort = new SortQuery(table, head[i], isUp[i]);
 			tableHost.performQuery(sort, "player_query_result");
 			table = tableHost.getTable("player_query_result");
 			tableName = "player_query_result";
@@ -88,16 +85,36 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 			table = tableHost.getTable("player_query_result");
 			
 			//Filter top 50 in this case.
-			sort = new SortQuery(table, head[0], 50, isUp);
+			sort = new SortQuery(table, head[0], 50, isUp[0]);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		if(sort == null) sort = new SortQuery(table, head[0], isUp);
+		if(sort == null) sort = new SortQuery(table, head[0], isUp[0]);
 		
 		tableHost.performQuery(sort, "player_query_result");
 		return tableHost.getTable("player_query_result");
+
+	}
+	
+	@Override
+	public Table searchForPlayers(boolean isGross, String[] head, boolean isUp,
+			String position, String league)
+	{
+		boolean[] sortDescend;
+		if(head == null || head.length == 0)
+		{
+			head = new String[]{"player_name"};	//Automatically sort by player name.
+			sortDescend = new boolean[]{isUp};
+		}
+		else
+		{
+			sortDescend = new boolean[head.length];
+			for(int i = 0; i < head.length; i ++)
+				sortDescend[i] = isUp;
+		}
+		return this.searchForPlayers(isGross, head, sortDescend, position, league);
 	}
 
 	@Override

@@ -14,6 +14,8 @@ public interface NewTeamService
 	 * @return 所查询的球队信息数组
 	 */
 	public Table searchForTeams(boolean isGross, String[] keywords, boolean descend);
+	
+	public Table searchForTeams(boolean isGross, String[] keywords, boolean descend[]);
 	/**
 	 * 查询赛季热门球队信息
 	 * @param index 排序在hotTeamColumnNames数组中的index

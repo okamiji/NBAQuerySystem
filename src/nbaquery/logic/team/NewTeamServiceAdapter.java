@@ -32,22 +32,40 @@ public class NewTeamServiceAdapter implements NewTeamService
 	
 	@Override
 	public Table searchForTeams(boolean isGross, String[] keywords,
-			boolean descend)
+			boolean descend[])
 	{
 		Table queryResult;
 		if(isGross) queryResult = this.gross.getTable();
 		else queryResult = this.average.getTable();
-		
-		if(keywords == null || keywords.length == 0) keywords = new String[]{"team_name"};
-		
+
 		for(int i = keywords.length - 1; i >= 0; i --)
 		{
-			SortQuery sort = new SortQuery(queryResult, keywords[i], descend);
+			SortQuery sort = new SortQuery(queryResult, keywords[i], descend[i]);
 			tableHost.performQuery(sort, "team_query_result");
 			queryResult = tableHost.getTable("team_query_result");
 		}
 		
 		return queryResult;
+	}
+	
+	@Override
+	public Table searchForTeams(boolean isGross, String[] keywords,
+			boolean descend)
+	{
+		boolean[] sortDescend;
+		if(keywords == null || keywords.length == 0)
+		{
+			keywords = new String[]{"team_name"};
+			sortDescend = new boolean[]{descend};
+		}
+		else
+		{
+			sortDescend = new boolean[keywords.length];
+			for(int i = 0; i < keywords.length; i ++)
+				sortDescend[i] = descend;
+		}
+		
+		return this.searchForTeams(isGross, keywords, sortDescend);
 	}
 
 	@Override

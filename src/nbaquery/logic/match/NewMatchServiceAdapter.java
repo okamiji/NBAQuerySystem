@@ -95,7 +95,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 	}
 	
 	@Override
-	public Table searchForMatchesTable(String[] keyword, String season, String date, boolean descend)
+	public Table searchForMatchesTable(String[] keyword, String season, String date, boolean[] descend)
 	{
 		Table queryResult = this.searchMatchesByDateAndSeason(date, season);
 		
@@ -117,11 +117,24 @@ public class NewMatchServiceAdapter implements NewMatchService
 		
 		if(keyword != null) for(int i = keyword.length - 1; i >= 0; i --)
 		{
-			SortQuery sort = new SortQuery(queryResult, keyword[i], descend);
+			SortQuery sort = new SortQuery(queryResult, keyword[i], descend[i]);
 			tableHost.performQuery(sort, "match_query_result");
 			queryResult = tableHost.getTable("match_query_result");
 		}
 		return queryResult;
+	}
+	
+	@Override
+	public Table searchForMatchesTable(String[] keyword, String season, String date, boolean descend)
+	{
+		boolean[] sortDescend = null;
+		if(keyword != null)
+		{
+			sortDescend = new boolean[keyword.length];
+			for(int i = 0; i < sortDescend.length; i ++)
+				sortDescend[i] = true;
+		}
+		return this.searchForMatchesTable(keyword, season, date, sortDescend);
 	}
 	
 	class ImageJointer extends DeriveColumnInfo
