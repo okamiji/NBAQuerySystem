@@ -19,7 +19,7 @@ public class MatchEnumerator extends Component
 {
 	public int sectionPerEnumerator = 6;
 	int bias = 0;
-	boolean isHorizontal;
+	final boolean isHorizontal;
 	protected MatchComponent[] matchComponents;
 	protected DetailedInfoContainer container;
 	
@@ -41,21 +41,24 @@ public class MatchEnumerator extends Component
 		this.downArrow.setSize(width - 4, 20);
 		this.downArrow.setHorizontalAlignment(JLabel.CENTER);
 		this.leftArrow.setSize(20, height - 4);
+		this.upArrow.setVerticalAlignment(JLabel.CENTER);
 		this.rightArrow.setSize(20, height - 4);
-		this.addMouseListener(listener);
+		this.downArrow.setVerticalAlignment(JLabel.CENTER);
+		
+		if(isHorizontal) this.addMouseListener(horizontalListener);
+		else this.addMouseListener(verticalListener);
+		
 		this.addMouseWheelListener(new MouseWheelListener()
 		{
-
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent arg0)
 			{
 				move(arg0.getUnitsToScroll() / arg0.getScrollAmount());
 			}
-			
 		});
 	}
 	
-	MouseAdapter listener = new MouseAdapter()
+	MouseAdapter verticalListener = new MouseAdapter()
 	{
 		public void mousePressed(MouseEvent e)
 		{
@@ -65,6 +68,22 @@ public class MatchEnumerator extends Component
 			else if(matchComponents != null)
 			{
 				int index = (int)(((float)(y - 22)) / (getHeight() - 22) * sectionPerEnumerator) + bias;
+				if(index >= 0 && index < matchComponents.length)
+					container.displayMatchInfo(matchComponents[index].match_id, shouldStack);
+			}
+		}
+	};
+	
+	MouseAdapter horizontalListener = new MouseAdapter()
+	{
+		public void mousePressed(MouseEvent e)
+		{
+			int x = e.getPoint().x;
+			if(x <= 22) move(-1);
+			else if(x >= getWidth() - 22) move(1);
+			else if(matchComponents != null)
+			{
+				int index = (int)(((float)(x - 22)) / (getWidth() - 22) * sectionPerEnumerator) + bias;
 				if(index >= 0 && index < matchComponents.length)
 					container.displayMatchInfo(matchComponents[index].match_id, shouldStack);
 			}
@@ -103,19 +122,38 @@ public class MatchEnumerator extends Component
 		
 		if(matchComponents != null)
 		{
-			if(bias > 0) this.upArrow.paint(g.create(2, 2, getWidth() - 4, 20));
-			if(bias + sectionPerEnumerator < matchComponents.length)
-				this.downArrow.paint(g.create(2, getHeight() - 22, getWidth() - 4, 20));
-			
-			//XXX Actual size should be (width - 4, height - 40 - 4)
-			//XXX Size of every component should be (width - 4, (height - 44) / sectionPerEnumerator - 1).
-			int componentHeight = (getHeight() - 44) / sectionPerEnumerator - 1;
-			for(int i = 0; i < sectionPerEnumerator; i ++)
+			if(isHorizontal)
 			{
-				if(bias + i < matchComponents.length)
+				if(bias > 0) this.leftArrow.paint(g.create(2, 2, 20, getHeight() - 4));
+				if(bias + sectionPerEnumerator < matchComponents.length)
+					this.rightArrow.paint(g.create(getWidth() - 22, 2, 20, getHeight() - 4));
+				
+				int componentWidth = (getWidth() - 44) / sectionPerEnumerator - 1;
+				for(int i = 0; i < sectionPerEnumerator; i ++)
 				{
-					matchComponents[bias + i].setSize(getWidth() - 4, componentHeight);
-					matchComponents[bias + i].paint(g.create(2, 24 + (componentHeight) * i, getWidth() - 4, componentHeight));
+					if(bias + i < matchComponents.length)
+					{
+						matchComponents[bias + i].setSize(componentWidth, getHeight() - 4);
+						matchComponents[bias + i].paint(g.create(24 + (componentWidth) * i, 2, componentWidth, getHeight() - 4));
+					}
+				}
+			}
+			else
+			{
+				if(bias > 0) this.upArrow.paint(g.create(2, 2, getWidth() - 4, 20));
+				if(bias + sectionPerEnumerator < matchComponents.length)
+					this.downArrow.paint(g.create(2, getHeight() - 22, getWidth() - 4, 20));
+				
+				//XXX Actual size should be (width - 4, height - 40 - 4)
+				//XXX Size of every component should be (width - 4, (height - 44) / sectionPerEnumerator - 1).
+				int componentHeight = (getHeight() - 44) / sectionPerEnumerator - 1;
+				for(int i = 0; i < sectionPerEnumerator; i ++)
+				{
+					if(bias + i < matchComponents.length)
+					{
+						matchComponents[bias + i].setSize(getWidth() - 4, componentHeight);
+						matchComponents[bias + i].paint(g.create(2, 24 + (componentHeight) * i, getWidth() - 4, componentHeight));
+					}
 				}
 			}
 		}
