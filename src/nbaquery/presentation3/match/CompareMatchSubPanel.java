@@ -58,6 +58,7 @@ public abstract class CompareMatchSubPanel extends JPanel
 		this.monthSelector.setBounds(width - componentWidth - 6 - 100, 2, 100, 20);
 		this.add(monthSelector);
 		
+		fromSeason.setBounds(2, 2, 100, 20);
 		fromSeason.addFocusListener(new FocusListener()
 		{
 			boolean shouldTest = false;
@@ -85,8 +86,9 @@ public abstract class CompareMatchSubPanel extends JPanel
 				fireTableSwitch();
 			}
 		});
+		this.add(fromSeason);
 		
-		
+		toSeason.setBounds(104, 2, 100, 20);
 		toSeason.addFocusListener(new FocusListener()
 		{
 			boolean shouldTest = false;
@@ -114,6 +116,7 @@ public abstract class CompareMatchSubPanel extends JPanel
 				fireTableSwitch();
 			}
 		});
+		this.add(toSeason);
 	}
 	
 	protected void fireTableSwitch()
