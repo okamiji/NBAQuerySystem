@@ -4,6 +4,8 @@ import nbaquery.data.Table;
 
 public interface NewMatchService
 {
+	public boolean shouldRedoQuery(Object host);
+	
 	public Table searchForMatchesTable(String[] keyword, String date, String season, boolean descend);
 	
 	public Table searchPerformanceByID(int matchID);
