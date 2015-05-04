@@ -7,17 +7,20 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.DropList;
 import nbaquery.presentation3.DualTableColumn;
 import nbaquery.presentation3.GameTimeColumn;
+import nbaquery.presentation3.PageDisplayLabel;
 import nbaquery.presentation3.PresentationTableModel;
 import nbaquery.presentation3.table.ColumnSelectionListener;
 import nbaquery.presentation3.table.DefaultTableColumn;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.DisplayTableColumn;
+import nbaquery.presentation3.table.TableSelectionListener;
 
 @SuppressWarnings("serial")
 public class ComparePlayerSubPanel extends JPanel
@@ -72,7 +75,7 @@ public class ComparePlayerSubPanel extends JPanel
 		this.setLayout(null);
 		
 		this.playerTable = new DisplayTable();
-		this.playerTable.setSize(width, height - 24);
+		this.playerTable.setSize(width, height - 20);
 		this.playerTable.setLocation(2, 20 + 2);
 		super.add(playerTable);
 		
@@ -90,10 +93,13 @@ public class ComparePlayerSubPanel extends JPanel
 				DefaultTableColumn player_name = columnModel.addColumn("球员名称", "player_name");
 				player_name.padding = 70;	keywordMap.put(season, new String[]{"player_name"});
 				
+				DefaultTableColumn logo = columnModel.addColumn("", "team_logo");
+				logo.padding = playerTable.getHeight() / (sectionPerPage + 1);
+				
 				DefaultTableColumn team_name = columnModel.addColumn("球队", "team_name_abbr");
 				team_name.padding = 5;	keywordMap.put(team_name, new String[]{"team_name_abbr"});
 				
-				DualTableColumn attendance = new DualTableColumn("参赛", "first_count", "game_count", "%1-%2"); attendance.padding = 5;
+				DualTableColumn attendance = new DualTableColumn("参赛", "first_count", "game_count", "%1-%2"); attendance.padding = 3;
 				columnModel.addColumn(attendance);	keywordMap.put(attendance, new String[]{"game_count", "first_count"});
 				
 				GameTimeColumn game_time = new GameTimeColumn();
@@ -147,13 +153,52 @@ public class ComparePlayerSubPanel extends JPanel
 				DefaultTableColumn player_name = columnModel.addColumn("球员名称", "player_name");
 				player_name.padding = 70;	keywordMap.put(season, new String[]{"player_name"});
 				
+				DefaultTableColumn logo = columnModel.addColumn("", "team_logo");
+				logo.padding = playerTable.getHeight() / (sectionPerPage + 1);
+				
 				DefaultTableColumn team_name = columnModel.addColumn("球队", "team_name_abbr");
 				team_name.padding = 5;	keywordMap.put(team_name, new String[]{"team_name_abbr"});
+				
+				DefaultTableColumn efficiency = columnModel.addColumn("效率", "efficiency");
+				efficiency.padding = 2;			keywordMap.put(efficiency, new String[]{"efficiency"});
+				
+				DefaultTableColumn gmsc = columnModel.addColumn("GmSc", "gmsc_efficiency");
+				gmsc.padding = 2;			keywordMap.put(gmsc, new String[]{"gmsc_efficiency"});
+				
+				DefaultTableColumn foul_shoot_rate = columnModel.addColumn("罚球命中", "foul_shoot_rate");
+				foul_shoot_rate.padding = 2;			keywordMap.put(foul_shoot_rate, new String[]{"foul_shoot_rate"});
+				
+				DefaultTableColumn shoot_rate = columnModel.addColumn("二分命中", "shoot_rate");
+				shoot_rate.padding = 2;			keywordMap.put(shoot_rate, new String[]{"shoot_rate"});
+				
+				DefaultTableColumn three_shoot_rate = columnModel.addColumn("三分命中", "three_shoot_rate");
+				three_shoot_rate.padding = 2;			keywordMap.put(three_shoot_rate, new String[]{"three_shoot_rate"});
+				
+				DefaultTableColumn true_shoot_rate = columnModel.addColumn("真实命中", "true_shoot_rate");
+				true_shoot_rate.padding = 2;			keywordMap.put(true_shoot_rate, new String[]{"true_shoot_rate"});
+				
+				DefaultTableColumn shoot_efficiency = columnModel.addColumn("投篮率", "shoot_efficiency");
+				shoot_efficiency.padding = 2;			keywordMap.put(shoot_efficiency, new String[]{"shoot_efficiency"});
+				
+				DefaultTableColumn assist_rate = columnModel.addColumn("助攻率", "assist_rate");
+				assist_rate.padding = 2;			keywordMap.put(assist_rate, new String[]{"assist_rate"});
+				
+				DefaultTableColumn steal_rate = columnModel.addColumn("抢断率", "steal_rate");
+				steal_rate.padding = 2;			keywordMap.put(steal_rate, new String[]{"steal_rate"});
+				
+				DefaultTableColumn cap_rate = columnModel.addColumn("盖帽率", "cap_rate");
+				cap_rate.padding = 2;			keywordMap.put(cap_rate, new String[]{"cap_rate"});
+				
+				DefaultTableColumn miss_rate = columnModel.addColumn("失误率", "miss_rate");
+				miss_rate.padding = 2;			keywordMap.put(miss_rate, new String[]{"miss_rate"});
+				
+				DefaultTableColumn usage = columnModel.addColumn("使用率", "usage");
+				usage.padding = 2;			keywordMap.put(usage, new String[]{"usage"});
 			}
 		};
 		
 		//XXX adding control panels.
-		final DropList dataScope = new DropList(new String[]{"总数据", "场均数据"})
+		final DropList dataScope = new DropList(new String[]{"赛季总数据", "场均数据"})
 		{
 			@Override
 			protected void onSelectionChanged(int index)
@@ -193,7 +238,7 @@ public class ComparePlayerSubPanel extends JPanel
 				shouldRedoQuery = true;
 			}
 		};
-		matchArea.setBounds(width - 82, 2, 80, 20);
+		matchArea.setBounds(166, 2, 80, 20);
 		matchArea.setHorizontalAlignment(DropList.CENTER);
 		this.add(matchArea);
 		
@@ -209,9 +254,13 @@ public class ComparePlayerSubPanel extends JPanel
 				shouldRedoQuery = true;
 			}
 		};
-		position.setBounds(width - 164, 2, 80, 20);
+		position.setBounds(248, 2, 80, 20);
 		position.setHorizontalAlignment(DropList.CENTER);
 		this.add(position);
+		
+		final PageDisplayLabel page = new PageDisplayLabel(this.playerTable);
+		page.setBounds(width - 82, 2, 80, 20);
+		this.add(page);
 		
 		//XXX adding listeners.
 		playerTable.addColumnSelectionListener(new ColumnSelectionListener()
@@ -231,16 +280,26 @@ public class ComparePlayerSubPanel extends JPanel
 			}
 		});
 		
-		playerTable.addMouseWheelListener(new MouseWheelListener()
+		playerTable.addTableSelectionListener(new TableSelectionListener()
 		{
 
+			@Override
+			public void onSelect(DisplayTable table, int row, int column,
+					Object value, Point mousePoint)
+			{
+				if(column == 3 || column == 4) ComparePlayerSubPanel.this.detailedInfo.displayTeamInfo((Row)value, false);
+				else ComparePlayerSubPanel.this.detailedInfo.displayPlayerInfo((Row)value, false);
+			}
+		});
+		
+		playerTable.addMouseWheelListener(new MouseWheelListener()
+		{
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent arg0)
 			{
 				currentPlayerModel.setPageIndex(currentPlayerModel.getPageIndex() + 
 						arg0.getUnitsToScroll() / arg0.getScrollAmount());
 			}
-			
 		});
 	}
 }

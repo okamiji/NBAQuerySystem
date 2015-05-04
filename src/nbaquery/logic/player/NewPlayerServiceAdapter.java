@@ -4,6 +4,7 @@ import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.average_player.AveragePlayer;
@@ -105,6 +106,9 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		Table table = this.hot.getTable();
 		SortQuery sort = new SortQuery(table, head, 5, true);		//"5" stands for top 5 here.
 		tableHost.performQuery(sort, "today_hot_player_query_result");
+		NaturalJoinQuery nj = new NaturalJoinQuery(tableHost.getTable("today_hot_player_query_result"),
+				tableHost.getTable("team"), new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
+		tableHost.performQuery(nj, "today_hot_player_query_result");
 		return tableHost.getTable("today_hot_player_query_result");
 	}
 
@@ -114,6 +118,11 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		Table table = this.progress.getTable();
 		SortQuery sort = new SortQuery(table, head, 5, true);		//"5" stands for top 5 here. 
 		tableHost.performQuery(sort, "progress_player_query_result");
+		
+		NaturalJoinQuery nj = new NaturalJoinQuery(tableHost.getTable("progress_player_query_result"),
+				tableHost.getTable("team"), new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
+		tableHost.performQuery(nj, "progress_player_query_result");
+		
 		return tableHost.getTable("progress_player_query_result");
 	}
 

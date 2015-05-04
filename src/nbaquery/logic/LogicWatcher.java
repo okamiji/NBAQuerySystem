@@ -15,14 +15,20 @@ public class LogicWatcher
 	
 	public boolean checkDepenency()
 	{
-		Table table = dependency.getTable();
+		Table table;
+		do
+		{
+			table = dependency.getTable();
+			if(table == null) Thread.yield();
+		}
+		while(table == null);
+		
 		if(table != watchingTable)
 		{
 			watchingTable = table;
 			table.hasTableChanged(this);
 			return true;
 		}
-		else if(table == null) return true;
 		else return table.hasTableChanged(this);
 	}
 	

@@ -21,8 +21,11 @@ public abstract class DropList extends JLabel
 			@Override
 			protected void onSelectedItem(int itemIndex)
 			{
-				DropList.this.setText(DropList.this.selections[itemIndex]);
-				DropList.this.onSelectionChanged(itemIndex);
+				if(itemIndex >= 0)
+				{
+					DropList.this.setText(DropList.this.selections[itemIndex]);
+					DropList.this.onSelectionChanged(itemIndex);
+				}
 			}
 		};
 		

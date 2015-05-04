@@ -133,7 +133,9 @@ public class SortAlgorithm implements FileTableAlgorithm
 			@Override
 			public Long getKeyword(Object mapping)
 			{
-				return (long)(Float.floatToRawIntBits((float)mapping));
+				int rawBits = Float.floatToRawIntBits((float)mapping);
+				if(rawBits < 0) rawBits = - rawBits - Integer.MAX_VALUE;
+				return (long)rawBits;
 			}
 		});
 		

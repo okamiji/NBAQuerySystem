@@ -48,6 +48,8 @@ public class DefaultTableColumn implements DisplayTableColumn
 	protected JLabel displayComponent = new JLabel();
 	protected ImageDisplayLabel imageComponent = new ImageDisplayLabel();
 	
+	public int truncationLength = 4;
+	
 	@Override
 	public Component render(DisplayTable table, Object value, int row, int column)
 	{
@@ -61,9 +63,15 @@ public class DefaultTableColumn implements DisplayTableColumn
 			
 			if(object.getClass().equals(Float.class))
 			{
-				String theFloat = Float.toString((Float)object);
-				if(theFloat.length() > 4) theFloat = theFloat.substring(0, 4);
-				displayComponent.setText(theFloat);
+				float floatObject = (Float)object;
+				if(Float.isNaN(floatObject) || Float.isInfinite(floatObject))
+					displayComponent.setText("");
+				else
+				{
+					String theFloat = Float.toString(floatObject);
+					if(theFloat.length() > truncationLength) theFloat = theFloat.substring(0, truncationLength);
+					displayComponent.setText(theFloat);
+				}
 			}
 			
 			if(object.getClass().equals(Date.class))

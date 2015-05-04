@@ -117,21 +117,21 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	}
 
 	@Override
-	public void displayPlayerInfo(Row player)
+	public void displayPlayerInfo(Row player, boolean stacked)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void displayTeamInfo(Row team)
+	public void displayTeamInfo(Row team, boolean stacked)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void displayMatchInfo(int matchId)
+	public void displayMatchInfo(int matchId, boolean stacked)
 	{
 		// TODO Auto-generated method stub
 		

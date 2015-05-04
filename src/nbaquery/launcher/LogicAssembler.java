@@ -13,6 +13,8 @@ import nbaquery.logic.gross_team.GrossTeamNaturalJoin;
 import nbaquery.logic.gross_team.GrossTeamPerformance;
 import nbaquery.logic.hot_player_today.HotPlayerToday;
 import nbaquery.logic.hot_player_today.HotPlayerTodayPerformanceSelect;
+import nbaquery.logic.hot_team_today.HotTeamToday;
+import nbaquery.logic.hot_team_today.HotTeamTodayPerformanceSelect;
 import nbaquery.logic.infrustructure.DirectMatchNaturalJoinPerformance;
 import nbaquery.logic.infrustructure.MatchNaturalJoinPerformance;
 import nbaquery.logic.infrustructure.MatchTeamPerformance;
@@ -86,12 +88,20 @@ public class LogicAssembler implements ILogicAssembler
 		 */
 		
 		ProgressPlayerGroup progress_player_group = new ProgressPlayerGroup(tableHost,match_natural_join_performance);
-		ProgressPlayer progress_player=new ProgressPlayer(tableHost,progress_player_group);
+		ProgressPlayer progress_player = new ProgressPlayer(tableHost,progress_player_group);
 		
+		/**
+		 * hot_team
+		 */
+		HotTeamTodayPerformanceSelect hot_team_select = new HotTeamTodayPerformanceSelect(tableHost, match_natural_join_performance);
+		HotTeamToday hot_team_today = new HotTeamToday(tableHost, hot_team_select);
+		
+		try
+		{
 		/**
 		 * team
 		 */
-		team_service = new TeamServiceAdapter(tableHost, gross_team, average_team, new String[]
+		team_service = new TeamServiceAdapter(tableHost, gross_team, average_team, hot_team_today, new String[]
 		{
 				"match_season", //"Èü¼¾"
 				"team_name", //"Çò¶ÓÃû³Æ"
@@ -166,6 +176,11 @@ public class LogicAssembler implements ILogicAssembler
 
 							
 					});
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		
 		player_service = new PlayerServiceAdapter(tableHost, gross_player, average_player,hot_player_today,progress_player, new String[]
 		{

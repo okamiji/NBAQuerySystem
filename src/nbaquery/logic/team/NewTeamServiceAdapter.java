@@ -1,27 +1,33 @@
 package nbaquery.logic.team;
 
+import nbaquery.data.Column;
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.logic.average_team.AverageTeam;
 import nbaquery.logic.gross_team.GrossTeam;
+import nbaquery.logic.hot_team_today.HotTeamToday;
 
 public class NewTeamServiceAdapter implements NewTeamService
 {
 	protected GrossTeam gross;
 	protected AverageTeam average;
+	protected HotTeamToday hot;
 	public TableHost tableHost;
 	public String[] columnNames,oneTeamColumns;
 	
-	public NewTeamServiceAdapter(TableHost tableHost, GrossTeam gross, AverageTeam average)
+	public NewTeamServiceAdapter(TableHost tableHost, GrossTeam gross, AverageTeam average, HotTeamToday hot)
 	{
 		this.tableHost = tableHost;
 		this.gross = gross;
 		this.average = average;
+		this.hot = hot;
 		
 		this.gross.getTable();
 		this.average.getTable();
+		this.hot.getTable();
 	}
 	
 	@Override
@@ -36,7 +42,7 @@ public class NewTeamServiceAdapter implements NewTeamService
 		
 		for(int i = keywords.length - 1; i >= 0; i --)
 		{
-			SortQuery sort = new SortQuery(queryResult, keywords[i]);
+			SortQuery sort = new SortQuery(queryResult, keywords[i], descend);
 			tableHost.performQuery(sort, "team_query_result");
 			queryResult = tableHost.getTable("team_query_result");
 		}
@@ -45,9 +51,30 @@ public class NewTeamServiceAdapter implements NewTeamService
 	}
 
 	@Override
-	public Table searchSeasonHotTeams(String keywords)
+	public Table searchSeasonHotTeams(String head)
 	{
+		/*
 		return this.searchForTeams(true, new String[]{keywords}, true);
+		*/
+		Table matchTable = tableHost.getTable("match");
+		if(matchTable.hasTableChanged("setchForSeasonHotTeams"))
+		{
+			Row[] rows = matchTable.getRows();
+			Column season = matchTable.getColumn("match_season");
+			String latestSeason = (String) season.getAttribute(rows[rows.length - 1]);
+			
+			Table grossTable = this.gross.getTable();
+			try
+			{
+				tableHost.performQuery(new SelectProjectQuery("gross_team.match_season==\"%season\"".replace("%season", latestSeason), grossTable), "season_hot_team_result");
+			}
+			catch(Exception e)
+			{
+
+			}
+		}
+		tableHost.performQuery(new SortQuery(tableHost.getTable("season_hot_team_result"), head, 5, true), "season_hot_team_result_final");
+		return tableHost.getTable("season_hot_team_result_final");
 	}
 
 	@Override
@@ -63,5 +90,23 @@ public class NewTeamServiceAdapter implements NewTeamService
 		}
 		tableHost.performQuery(query, "team_query_result");
 		return tableHost.getTable("team_query_result");
+	}
+
+	@Override
+	public boolean shouldRedoQuery(Object host)
+	{
+		boolean shouldRedo = tableHost.getTable("team").hasTableChanged(host);
+		shouldRedo |= tableHost.getTable("match").hasTableChanged(host);
+		shouldRedo |= tableHost.getTable("match_natural_join_performance").hasTableChanged(host);
+		return shouldRedo;
+	}
+
+	@Override
+	public Table searchTodayHotTeams(String head)
+	{
+		Table table = this.hot.getTable();
+		SortQuery sort = new SortQuery(table, head, 5, true);		//"5" stands for top 5 here.
+		tableHost.performQuery(sort, "today_hot_team_query_result");
+		return tableHost.getTable("today_hot_team_query_result");
 	}
 }

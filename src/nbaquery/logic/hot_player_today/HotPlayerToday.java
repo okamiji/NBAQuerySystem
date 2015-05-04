@@ -23,7 +23,7 @@ public class HotPlayerToday {
 		
 		if(base.checkDepenency())
 		{
-			GroupQuery groupQuery = new GroupQuery(base.getTable(), new String[]{"player_name"},
+			GroupQuery groupQuery = new GroupQuery(base.getTable(), new String[]{"player_name", "team_name_abbr"},
 					new SumColumnInfo("self_score", "self_score"),
 					new SumColumnInfo("total_board", "total_board"),
 					new SumColumnInfo("assist", "assist"),

@@ -183,4 +183,10 @@ public class NewMatchServiceAdapter implements NewMatchService
 		Table queryResult = tableHost.getTable("quarter_query_result_id");
 		return queryResult;
 	}
+
+	@Override
+	public boolean shouldRedoQuery(Object host)
+	{
+		return tableHost.getTable("match").hasTableChanged(host);
+	}
 }
