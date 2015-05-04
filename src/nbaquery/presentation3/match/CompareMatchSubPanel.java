@@ -3,6 +3,8 @@ package nbaquery.presentation3.match;
 import java.awt.Graphics;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -59,7 +61,8 @@ public abstract class CompareMatchSubPanel extends JPanel
 				fireTableSwitch();
 			}
 		};
-		this.monthSelector.setBounds(width - componentWidth - 6 - 100, 2, 100, 20);
+		this.monthSelector.setBounds(width - componentWidth - 8 - 100, 2, 100, 20);
+		this.monthSelector.setHorizontalAlignment(DropList.CENTER);
 		this.add(monthSelector);
 		
 		fromSeason.setBounds(2, 2, 100, 20);
@@ -132,6 +135,31 @@ public abstract class CompareMatchSubPanel extends JPanel
 		seasonText.setBounds(238, 2, 40, 20);
 		seasonText.setHorizontalAlignment(JLabel.CENTER);
 		this.add(seasonText);
+		
+		//XXX adding date scroll.
+		this.displayTable.addMouseWheelListener(new MouseWheelListener()
+		{
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent arg0)
+			{
+				int delta = arg0.getUnitsToScroll() / arg0.getScrollAmount();
+				
+				month += delta;
+				if(month >= 12)
+				{
+					year += month / 12;
+					month %= 12;
+				}
+				else if(month < 0)
+				{
+					int monthRemainder = month % 12;
+					monthRemainder += 12;
+					year += (month - monthRemainder) / 12;
+					month = monthRemainder;
+				}
+				fireTableSwitch();
+			}
+		});
 	}
 	
 	protected void fireTableSwitch()
@@ -140,11 +168,11 @@ public abstract class CompareMatchSubPanel extends JPanel
 		{
 			int fromSeasonValue = year - 2001;
 			int toSeasonValue = year - 2000;
-			if(fromSeasonValue > 10)
+			if(fromSeasonValue >= 10)
 				this.fromSeason.setText("" + fromSeasonValue);
 			else this.fromSeason.setText("0" + fromSeasonValue);
 			
-			if(toSeasonValue > 10)
+			if(toSeasonValue >= 10)
 				this.toSeason.setText("" + toSeasonValue);
 			else this.toSeason.setText("0" + toSeasonValue);
 		}
@@ -152,11 +180,11 @@ public abstract class CompareMatchSubPanel extends JPanel
 		{
 			int fromSeasonValue = year - 2000;
 			int toSeasonValue = year - 1999;
-			if(fromSeasonValue > 10)
+			if(fromSeasonValue >= 10)
 				this.fromSeason.setText("" + fromSeasonValue);
 			else this.fromSeason.setText("0" + fromSeasonValue);
 			
-			if(toSeasonValue > 10)
+			if(toSeasonValue >= 10)
 				this.toSeason.setText("" + toSeasonValue);
 			else this.toSeason.setText("0" + toSeasonValue);
 		}
