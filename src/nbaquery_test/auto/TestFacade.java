@@ -3,14 +3,16 @@ package nbaquery_test.auto;
 import java.io.PrintStream;
 import java.util.TreeMap;
 
+import test.data.PlayerHighInfo;
+
 import nbaquery.data.TableHost;
 import nbaquery_test.auto.token.*;
+import nbaquery_test.auto.token.Number;
 
 /**
  * Facade design pattern is used in automized test.
  * @author luohaoran
  */
-
 public class TestFacade
 {
 	final TreeMap<String, TestFacadeToken> tokens = new TreeMap<String, TestFacadeToken>();
@@ -20,7 +22,9 @@ public class TestFacade
 	public TestFacade()
 	{
 		this(new TestFacadeToken[]{new TestInitializer(), new TestTerminator(),
-				new Player(), new Team(), new Average(), new Total()});
+				new Player(), new Team(), new Average(), new Total(),new All(),
+				new Filter(), new High(), new Hot(), new King(), new Low(),
+				new Nofilter(), new NoNumber(), new Number(),new Sort()});
 	}
 	
 	public static final int HAS_QUERY_BIT = 1;		//MASK 00000001
@@ -57,7 +61,10 @@ public class TestFacade
 	public static final int NOSORT = 0;				//00000000
 	public static final int SORT = 128;				//10000000
 	
+	public String[] fields = new String[2];
+	public String[] filterField = new String[]{null,null,null,null};
 	
+	public int dataNumber = 0;
 	public int queryMode = 0;
 	public int hotMode   = 0;
 	
@@ -81,6 +88,7 @@ public class TestFacade
 			if(token == null) break;
 			token.change(this, arguments, pointer);
 			pointer += (token.params() + 1);
+			System.out.println(pointer);
 		}
 		
 		if((queryMode & HAS_QUERY_BIT) != NO_QUERY)
@@ -100,11 +108,45 @@ public class TestFacade
 	{
 		TestFacade facade = new TestFacade();
 		facade.execute(System.out, new String[]{"--datasource", "D:\\迭代一数据"});
-		facade.execute(System.out, new String[]{"-player"});
+		facade.execute(System.out, new String[]{"-player","-hot","assist","-n","5"});
 		facade.execute(System.out, new String[]{"-player", "-total"});
 		facade.execute(System.out, new String[]{"-player", "-avg"});
 		facade.execute(System.out, new String[]{"-team"});
 		facade.execute(System.out, new String[]{"-team", "-total"});
 		facade.execute(System.out, new String[]{"--shutdown"});
+	}
+	
+	public final TreeMap<String, String> playerLookups = new TreeMap<String, String>();
+	{
+		playerLookups.put("score","self_score");
+		playerLookups.put("rebound","total_board");
+		playerLookups.put("assist","assist");
+		playerLookups.put("position","");
+		playerLookups.put("west","w");
+		playerLookups.put("east","e");
+		playerLookups.put("league","");
+		playerLookups.put("age","player_age");
+		playerLookups.put("point","self_score");
+		playerLookups.put("blockshot","cap");
+		playerLookups.put("steal","steal");
+		playerLookups.put("foul","foul");
+		playerLookups.put("fault","miss");
+		playerLookups.put("minute","game_time_minute");
+		playerLookups.put("efficent","efficiency");
+		playerLookups.put("shot","shoot_rate");
+		playerLookups.put("three","three_shoot_rate");
+		playerLookups.put("penalty","foul_shoot_rate");
+		playerLookups.put("doubleTwo",null);
+		playerLookups.put("realShot","true_shoot_rate");
+		playerLookups.put("GmSc","gmsc_efficiency");
+		playerLookups.put("shotEfficient","shoot_efficiency");
+		playerLookups.put("reboundEfficient","total_board_efficiency");
+		playerLookups.put("offendReboundEfficient","attack_board_efficiency");
+		playerLookups.put("defendReboundEfficient","defence_board_efficiency");
+		playerLookups.put("assistEfficient","assist_rate");
+		playerLookups.put("stealEfficient","steal_rate");
+		playerLookups.put("blockShotEfficient","cap_rate");
+		playerLookups.put("faultEfficient","miss_rate");
+		playerLookups.put("frequency","usage");
 	}
 }
