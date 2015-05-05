@@ -17,12 +17,12 @@ public class TestDetailedMatchPanel extends Main
 	public void loadPresentation()
 	{
 		theFrame = new JFrame();
-		theFrame.setSize(400, 600);
+		theFrame.setSize(500, 600);
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new DetailedMatchPanel(new DetailedInfoContainerStub(teamService), (NewMatchService)this.matchService, 400, 600)
+		theFrame.add(new DetailedMatchPanel(new DetailedInfoContainerStub(teamService), (NewMatchService)this.matchService, 500, 600)
 		{
 			{
 				this.setRow(this.matchService.searchForMatchesTable(null, null, null, true).getRows()[0]);

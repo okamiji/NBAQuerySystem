@@ -169,6 +169,78 @@ public class DetailedMatchPanel extends JPanel
 				DualTableColumn dual = new DualTableColumn("上场时间", "game_time_minute", "game_time_second", "%1'%2\"");
 				columnModel.addColumn(dual);
 				keywords.put(dual, new String[]{"game_time_minute", "game_time_second"});
+				
+				final int dualWidth = 32;
+				
+				dual = new DualTableColumn("罚球", "foul_shoot_score", "foul_shoot_count", "%1-%2")
+				{
+					public int getWidth(Graphics g)
+					{
+						return dualWidth;
+					}
+				};
+				columnModel.addColumn(dual);
+				keywords.put(dual, new String[]{"foul_shoot_score", "foul_shoot_count"});
+				
+				dual = new DualTableColumn("二分", "shoot_score", "shoot_count", "%1-%2")
+				{
+					public int getWidth(Graphics g)
+					{
+						return dualWidth;
+					}
+				};
+				columnModel.addColumn(dual);
+				keywords.put(dual, new String[]{"shoot_score", "shoot_count"});
+				
+				dual = new DualTableColumn("三分", "three_shoot_score", "three_shoot_count", "%1-%2")
+				{
+					public int getWidth(Graphics g)
+					{
+						return dualWidth;
+					}
+				};
+				dual.padding = 0;
+				columnModel.addColumn(dual);
+				keywords.put(dual, new String[]{"three_shoot_score", "three_shoot_count"});
+				
+				dual = new DualTableColumn("攻守", "attack_board", "defence_board", "%1-%2")
+				{
+					public int getWidth(Graphics g)
+					{
+						return dualWidth;
+					}
+				};
+				dual.padding = 0;
+				columnModel.addColumn(dual);
+				keywords.put(dual, new String[]{"attack_board", "defence_board"});
+				
+				column = columnModel.addColumn("篮板", "total_board");
+				column.padding = 0;
+				keywords.put(column, new String[]{"total_board"});
+				
+				column = columnModel.addColumn("助攻", "assist");
+				column.padding = 0;
+				keywords.put(column, new String[]{"assist"});
+				
+				column = columnModel.addColumn("盖帽", "cap");
+				column.padding = 0;
+				keywords.put(column, new String[]{"cap"});
+				
+				column = columnModel.addColumn("抢断", "steal");
+				column.padding = 0;
+				keywords.put(column, new String[]{"steal"});
+				
+				column = columnModel.addColumn("失误", "miss");
+				column.padding = 0;
+				keywords.put(column, new String[]{"miss"});
+				
+				column = columnModel.addColumn("犯规", "foul");
+				column.padding = 0;
+				keywords.put(column, new String[]{"foul"});
+				
+				column = columnModel.addColumn("得分", "self_score");
+				column.padding = 0;
+				keywords.put(column, new String[]{"self_score"});
 			}
 			
 			@Override
