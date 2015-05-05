@@ -2,10 +2,8 @@ package nbaquery.presentation.resource;
 
 import java.awt.Component;
 import java.io.File;
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.TreeMap;
-
-import org.apache.batik.swing.svg.JSVGComponent;
 
 public class JSVGComponentResource
 {
@@ -18,23 +16,16 @@ public class JSVGComponentResource
 		Component component;
 		if((component = svg.get(svgFile)) == null)
 		{
-			JSVGComponent jsvgcomponent = new JSVGComponent(null, false, false);
-			if(svgFile != null)
+			try
 			{
-				File f = new File(svgFile);
-				try
-				{
-		            jsvgcomponent.loadSVGDocument(f.toURL().toString());
-		        }
-				catch (IOException ex)
-				{
-		            ex.printStackTrace();
-		        }
+				svg.put(svgFile, component = new CompositeJSVGComponent(new File(svgFile).toURL()));
 			}
-			//svg.put(svgFile, (component = new PaintedJSVG(jsvgcomponent)));
-			svg.put(svgFile, component = jsvgcomponent);
+			catch(MalformedURLException e)
+			{
+				e.printStackTrace();
+			}
 		}
-		component.repaint();
+		
 		return component;
 	}
 }
