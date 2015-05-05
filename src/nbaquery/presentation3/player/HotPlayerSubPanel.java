@@ -1,5 +1,6 @@
 package nbaquery.presentation3.player;
 
+import java.awt.Component;
 import java.awt.Point;
 
 import javax.swing.ImageIcon;
@@ -16,6 +17,7 @@ import nbaquery.presentation3.DisplayButton;
 import nbaquery.presentation3.DropMenu;
 import nbaquery.presentation3.PresentationTableModel;
 import nbaquery.presentation3.table.ColumnSelectionListener;
+import nbaquery.presentation3.table.DefaultTableColumn;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.RankingTableColumn;
 import nbaquery.presentation3.table.TableSelectionListener;
@@ -31,20 +33,40 @@ public class HotPlayerSubPanel extends JPanel
 	
 	boolean shouldRedoQuery = true;
 	
+	abstract class HotPlayerTableModel extends PresentationTableModel
+	{
+		{
+			this.setPageIndex(0);
+			this.setSectionPerPage(5);
+			this.columnModel.addColumn("", "player_portrait").padding = 40;
+			this.columnModel.addColumn("球员名称", "player_name").padding = 80;
+			this.columnModel.addColumn("", "team_logo").padding = 40;
+			this.columnModel.addColumn("球队", "team_name_abbr").padding = 20;
+			this.columnModel.addColumn(new DefaultTableColumn("位置", "player_position")
+			{
+				public Component render(DisplayTable table, Object value, int row, int column)
+				{
+					super.render(table, value, row, column);
+					String text = super.displayComponent.getText();
+					if(text.equals("G")) text = "后卫";
+					if(text.equals("F")) text = "前锋";
+					if(text.equals("C")) text = "中锋";
+					super.displayComponent.setText(text);
+					return super.displayComponent;
+				}
+			});
+			
+			this.columnModel.addColumn(new RankingTableColumn(), 0);
+		}
+	};
+	
 	HotPlayerSection todayHotPlayer = new HotPlayerSection(new String[]{"得分", "篮板", "助攻", "抢断", "盖帽"}
 	, new String[]{"self_score", "total_board", "assist", "steal", "cap"})
 	{
 		{
 			prefix = "今日";
-			tableModel = new PresentationTableModel()
+			tableModel = new HotPlayerTableModel()
 			{
-				{
-					this.setPageIndex(0);
-					this.setSectionPerPage(5);
-					this.columnModel.addColumn("球员名称", "player_name").padding = 80;
-					this.columnModel.addColumn(new RankingTableColumn(), 0);
-				}
-				
 				@Override
 				public void onRepaint(DisplayTable table)
 				{
@@ -68,15 +90,8 @@ public class HotPlayerSubPanel extends JPanel
 	{
 		{
 			prefix = "赛季";
-			tableModel = new PresentationTableModel()
+			tableModel = new HotPlayerTableModel()
 			{
-				{
-					this.setPageIndex(0);
-					this.setSectionPerPage(5);
-					this.columnModel.addColumn("球员名称", "player_name").padding = 80;
-					this.columnModel.addColumn(new RankingTableColumn(), 0);
-				}
-				
 				@Override
 				public void onRepaint(DisplayTable table)
 				{
@@ -99,14 +114,8 @@ public class HotPlayerSubPanel extends JPanel
 	, new String[]{"self_score_rate", "total_board_rate", "assist_rate"})
 	{
 		{
-			tableModel = new PresentationTableModel()
+			tableModel = new HotPlayerTableModel()
 			{
-				{
-					this.setPageIndex(0);
-					this.setSectionPerPage(5);
-					this.columnModel.addColumn("球员名称", "player_name").padding = 80;
-					this.columnModel.addColumn(new RankingTableColumn(), 0);
-				}
 				
 				@Override
 				public void onRepaint(DisplayTable table)
@@ -162,8 +171,8 @@ public class HotPlayerSubPanel extends JPanel
 		
 		//XXX layout the table.
 		this.playerTable = new DisplayTable();
-		this.playerTable.setSize((int) (0.60 * width), height);
-		this.playerTable.setLocation((int) (0.30 * width), 0);
+		this.playerTable.setSize((int) (0.65 * width), height);
+		this.playerTable.setLocation((int) (0.25 * width), 0);
 		
 		this.playerTable.setRowHeight(height / 6);
 		
@@ -173,7 +182,6 @@ public class HotPlayerSubPanel extends JPanel
 			public void onSelect(DisplayTable table, int column,
 					Point mousePoint)
 			{
-				if(column > 1)
 					currentSection.theDropMenu.popupWindow(playerTable.getX() + mousePoint.x,
 							playerTable.getY() + mousePoint.y);
 			}
@@ -193,10 +201,10 @@ public class HotPlayerSubPanel extends JPanel
 		super.add(progressPlayer.tableSwitch);
 		
 		//XXX adding player showcase
-		imageDisplay.setBounds(5, (int)(0.1 * height + 5), (int)((0.3 * width) - 10), (int)(0.5 * height - 5));
-		description.setBounds(5, (int)(0.5 * height + 10), (int)((0.3 * width) - 10), (int)(0.25 * height));
+		imageDisplay.setBounds((int) (5 + 0.02 * width), (int)(0.1 * height + 5), (int)((0.23 * width) - 10), (int)(0.5 * height - 5));
+		description.setBounds(5, (int)(0.5 * height + 10), (int)((0.25 * width) - 10), (int)(0.25 * height));
 		description.setHorizontalAlignment(JLabel.CENTER);
-		playerName.setBounds(5, (int)(0.65 * height), (int)((0.3 * width) - 10), (int)(0.25 * height));
+		playerName.setBounds(5, (int)(0.65 * height), (int)((0.25 * width) - 10), (int)(0.25 * height));
 		playerName.setHorizontalAlignment(JLabel.CENTER);
 		super.add(imageDisplay);
 		super.add(description);

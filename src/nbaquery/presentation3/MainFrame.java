@@ -32,7 +32,7 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		
 		//XXX setting up basic parameters of the frame.
 		super.setLayout(null);
-		super.setSize(600, 720);
+		super.setSize(800, 720);
 		super.setUndecorated(true);
 		Dimension screenSize = super.getToolkit().getScreenSize();
 		super.setLocation((screenSize.width - super.getWidth()) / 2, (screenSize.height - super.getHeight()) / 2);

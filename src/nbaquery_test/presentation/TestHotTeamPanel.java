@@ -14,7 +14,7 @@ public class TestHotTeamPanel extends Main
 	public void loadPresentation()
 	{
 		theFrame = new JFrame();
-		theFrame.setSize(400, 240);
+		theFrame.setSize(600, 240);
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);

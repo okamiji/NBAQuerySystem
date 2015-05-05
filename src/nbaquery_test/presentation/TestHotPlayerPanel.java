@@ -14,12 +14,12 @@ public class TestHotPlayerPanel extends Main
 	public void loadPresentation()
 	{
 		theFrame = new JFrame();
-		theFrame.setSize(400, 240);
+		theFrame.setSize(600, 240);
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new HotPlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainerStub(teamService) , 400, 230));
+		theFrame.add(new HotPlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainerStub(teamService) , 600, 230));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}
