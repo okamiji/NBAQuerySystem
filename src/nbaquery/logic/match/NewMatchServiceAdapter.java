@@ -89,7 +89,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 	}
 
 	@Override
-	public Table searchPerformanceByID(int matchID, String header, boolean descend){
+	public Table searchPerformanceByID(int matchID, String[] header, boolean descend){
 		SelectProjectQuery query = null;
 		try
 		{
@@ -113,9 +113,12 @@ public class NewMatchServiceAdapter implements NewMatchService
 		tableHost.performQuery(naturalJoin, "match_query_result_id");
 		queryResult = tableHost.getTable("match_query_result_id");
 		
-		SortQuery sort = new SortQuery(queryResult, header, descend);
-		tableHost.performQuery(sort, "match_query_result_id");
-		queryResult = tableHost.getTable("match_query_result_id");
+		for(int i = header.length - 1; i >= 0; i --)
+		{
+			SortQuery sort = new SortQuery(queryResult, header[i], descend);
+			tableHost.performQuery(sort, "match_query_result_id");
+			queryResult = tableHost.getTable("match_query_result_id");
+		}
 		
 		return queryResult;
 	}

@@ -12,7 +12,7 @@ public interface NewMatchService
 	
 	public Table listTodayMatches();
 	
-	public Table searchPerformanceByID(int matchID, String header, boolean descend);
+	public Table searchPerformanceByID(int matchID, String[] header, boolean descend);
 	
 	public Table searchQuarterScoreByID(int matchID);
 	

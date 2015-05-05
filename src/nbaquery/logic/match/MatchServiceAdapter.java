@@ -128,7 +128,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 
 	@Override
 	public String[][] searchForOneMatchById(int matchID) {
-		Table queryResult = searchPerformanceByID(matchID, "team_name_abbr", true);
+		Table queryResult = searchPerformanceByID(matchID, new String[]{"team_name_abbr"}, true);
 		return convertTableToStrings(queryResult);
 	}
 	
@@ -173,7 +173,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 	
 	public String[][] searchOneMatchByPlayerAndID(String player_name,int matchID){
 		SelectProjectQuery query = null;
-		Table table = searchPerformanceByID(matchID, "team_name_abbr", true);
+		Table table = searchPerformanceByID(matchID, new String[]{"team_name_abbr"}, true);
 		try {
 			query = new SelectProjectQuery("match_query_result_id.PLAYER_NAME='" + player_name + "'", table);
 		}
@@ -189,7 +189,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 	
 	public String[][] searchOneMatchByTeamAndID(String team_name_abbr,int matchID){
 		SelectProjectQuery query = null;
-		Table table = searchPerformanceByID(matchID, "team_name_abbr", true);
+		Table table = searchPerformanceByID(matchID, new String[]{"team_name_abbr"}, true);
 		try {
 			query = new SelectProjectQuery("match_query_result_id.TEAM_NAME_ABBR='" + team_name_abbr + "'", table);
 		}
