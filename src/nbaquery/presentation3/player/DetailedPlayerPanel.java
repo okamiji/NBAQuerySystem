@@ -1,5 +1,8 @@
 package nbaquery.presentation3.player;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -28,7 +31,7 @@ public class DetailedPlayerPanel extends JPanel
 	
 	public final JLabel actionDisplay = new JLabel();
 	
-	public DetailedPlayerPanel(DetailedInfoContainer container, NewMatchService matchService, int width, int height)
+	public DetailedPlayerPanel(final DetailedInfoContainer container, NewMatchService matchService, int width, int height)
 	{
 		this.setSize(width, height);
 		this.setLayout(null);
@@ -40,6 +43,14 @@ public class DetailedPlayerPanel extends JPanel
 			configuration[i].setLocation(width - upperWidth - 2, 2 + (upperHeight / keyName.length) * i);
 			this.add(configuration[i]);
 		}
+		
+		configuration[1].addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent me)
+			{
+				container.displayTeamInfo(playerRow, true);
+			}
+		});
 		
 		this.actionDisplay.setBounds(2, 2, width - upperWidth - 6, upperHeight);
 		this.actionDisplay.setHorizontalAlignment(JLabel.CENTER);
