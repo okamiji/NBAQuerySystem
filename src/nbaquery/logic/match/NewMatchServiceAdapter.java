@@ -89,7 +89,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 	}
 
 	@Override
-	public Table searchPerformanceByID(int matchID){
+	public Table searchPerformanceByID(int matchID, String header, boolean descend){
 		SelectProjectQuery query = null;
 		try
 		{
@@ -111,6 +111,10 @@ public class NewMatchServiceAdapter implements NewMatchService
 		naturalJoin = new NaturalJoinQuery(this.tableHost.getTable("player"),
 				queryResult, new String[]{"player_name"}, new String[]{"player_name"});
 		tableHost.performQuery(naturalJoin, "match_query_result_id");
+		queryResult = tableHost.getTable("match_query_result_id");
+		
+		SortQuery sort = new SortQuery(queryResult, header, descend);
+		tableHost.performQuery(sort, "match_query_result_id");
 		queryResult = tableHost.getTable("match_query_result_id");
 		
 		return queryResult;
