@@ -45,22 +45,27 @@ public class KeyValueDisplay extends Component
 	}
 	
 	String value = "";
-	@SuppressWarnings("deprecation")
 	public void setRow(Row row)
 	{
 		if(row == null) return;
 		Column column = row.getDeclaredTable().getColumn(keyName);
 		if(column == null) return;
 		Object value = column.getAttribute(row);
-		if(value instanceof Date)
-		{
-			Date date = (Date) value;
-			this.value = String.format("%d - %d - %d", 1900 + date.getYear(), date.getMonth() + 1, date.getDate() + 1);
-		}
-		else this.value = value.toString();
+		this.value = this.convertValueToString(value);
 		this.valueLabel.setText(this.value);
 	}
 	
+	
+	@SuppressWarnings("deprecation")
+	protected String convertValueToString(Object value)
+	{
+		if(value instanceof Date)
+		{
+			Date date = (Date) value;
+			return String.format("%d - %d - %d", 1900 + date.getYear(), date.getMonth() + 1, date.getDate() + 1);
+		}
+		else return value.toString();
+	}
 	
 	public void paint(Graphics g)
 	{

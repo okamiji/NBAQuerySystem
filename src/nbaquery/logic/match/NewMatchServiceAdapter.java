@@ -49,7 +49,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 		Table table = this.searchForMatchesTable(new String[]{"match_id"}, null, null, true);
 		try
 		{
-			query = new SelectProjectQuery("match.host_name_abbr='%1' or match.guest_name_abbr='%1'"
+			query = new SelectProjectQuery("match_query_result.match_host_abbr='%1' or match_query_result.match_guest_abbr='%1'"
 					.replace("%1", team_name_abbr), table);
 		}
 		catch (Exception e)

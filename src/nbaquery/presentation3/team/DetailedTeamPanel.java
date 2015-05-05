@@ -1,87 +1,84 @@
-package nbaquery.presentation3.player;
+package nbaquery.presentation3.team;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Graphics;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import nbaquery.data.Image;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.match.NewMatchService;
-import nbaquery.presentation.resource.ImageIconResource;
+import nbaquery.presentation.resource.JSVGComponentResource;
 import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.KeyValueDisplay;
 import nbaquery.presentation3.match.CompareMatchSubPanel;
 
 @SuppressWarnings("serial")
-public class DetailedPlayerPanel extends JPanel
+public class DetailedTeamPanel extends JPanel
 {
-	static final String[] keyName = new String[]{"player_name", "team_name", "player_position", "player_birth", "player_age", "player_exp", "player_height", "player_weight", "player_school"};
-	static final String[] keyDisplayName = new String[]{"球员名称", "所属队伍", "位置", "出生日期", "年龄", "球龄", "身高", "体重", "毕业学校"};
+	static final String[] keyName = new String[]{"team_name", "team_location", "team_host", "team_match_area", "team_sector", "team_foundation"};
+	static final String[] keyDisplayName = new String[]{"所属队伍", "所属洲", "主赛场", "赛区", "联盟", "创建时间"};
 	
 	KeyValueDisplay[] configuration = new KeyValueDisplay[keyName.length];
 	
-	static int upperHeight = 300;
+	static int upperHeight = 250;
 	static int upperWidth = 250;
 	
 	public final CompareMatchSubPanel match;
-	Row playerRow;
+	Row teamRow;
 	
-	public final JLabel actionDisplay = new JLabel();
+	public final JPanel logoDisplay = new JPanel()
+	{
+		public void paint(Graphics g)
+		{
+			this.getComponent(0).setLocation(0, 0);
+			this.getComponent(0).setSize(this.getSize());
+			super.paint(g);
+		}
+	};
 	
-	public DetailedPlayerPanel(final DetailedInfoContainer container, NewMatchService matchService, int width, int height)
+	public DetailedTeamPanel(final DetailedInfoContainer container, NewMatchService matchService, int width, int height)
 	{
 		this.setSize(width, height);
 		this.setLayout(null);
 		
 		for(int i = 0; i < keyName.length; i ++) 
 		{
-			if(keyName[i].equals("player_position"))
+			if(keyName[i].equals("team_match_area"))
 			{
 				configuration[i] = new KeyValueDisplay(keyDisplayName[i], keyName[i])
 				{
 					public String convertValueToString(Object value)
 					{
 						if(value == null) return "";
-						String pos = value.toString();
-						if(pos.equals("C")) return "中锋";
-						if(pos.equals("G")) return "后卫";
-						return "前锋";
+						if(value.toString().equals("E")) return "东部";
+						else return "西部";
 					}
 				};
 			}
 			else configuration[i] = new KeyValueDisplay(keyDisplayName[i], keyName[i]);
+			
+			
 			configuration[i].setSize(upperWidth, upperHeight / keyName.length - 1);
 			configuration[i].setLocation(width - upperWidth - 2, 2 + (upperHeight / keyName.length) * i);
 			this.add(configuration[i]);
 		}
 		
-		configuration[1].addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent me)
-			{
-				container.displayTeamInfo(playerRow, true);
-			}
-		});
-		
-		this.actionDisplay.setBounds(2, 2, width - upperWidth - 6, upperHeight);
-		this.actionDisplay.setHorizontalAlignment(JLabel.CENTER);
-		this.add(this.actionDisplay);
+		int theWidth = width - upperWidth - 6;
+		this.logoDisplay.setBounds(2, 2 + (upperHeight - theWidth) / 2, theWidth, theWidth);
+		this.add(this.logoDisplay);
 		
 		match = new CompareMatchSubPanel(container, matchService, width - 4, height - upperHeight - 6, 170, true)
 		{
 			{
-				this.enumerator.sectionPerEnumerator = 5;
+				this.enumerator.sectionPerEnumerator = 6;
 			}
 			Table reEnteredTable = null;
 			@Override
 			protected void reEnter()
 			{
-				for(int i = 0; i < keyName.length; i ++) configuration[i].setRow(playerRow);
-				reEnteredTable = super.matchService.searchMatchesByPlayer(
-						(String) playerRow.getDeclaredTable().getColumn("player_name").getAttribute(playerRow));
+				for(int i = 0; i < keyName.length; i ++) configuration[i].setRow(teamRow);
+				reEnteredTable = super.matchService.searchMatchesByTeamNameAbbr(
+						(String) teamRow.getDeclaredTable().getColumn("team_name_abbr").getAttribute(teamRow));
 				Row[] rows = reEnteredTable.getRows();
 				Row firstRow = rows[0];
 				String season = (String) reEnteredTable.getColumn("match_season").getAttribute(firstRow);
@@ -109,8 +106,8 @@ public class DetailedPlayerPanel extends JPanel
 				}
 				else
 				{
-					return super.matchService.searchMatchesByPlayer(
-						(String) playerRow.getDeclaredTable().getColumn("player_name").getAttribute(playerRow));
+					return super.matchService.searchMatchesByTeamNameAbbr(
+						(String) teamRow.getDeclaredTable().getColumn("team_name_abbr").getAttribute(teamRow));
 				}
 			}
 		};
@@ -122,14 +119,13 @@ public class DetailedPlayerPanel extends JPanel
 	{
 		if(row != null)
 		{
-			this.playerRow = row;
+			this.teamRow = row;
 			match.shouldRedoQuery = true;
+			this.logoDisplay.removeAll();
 			
-			Object image = this.playerRow.getDeclaredTable().getColumn("player_action").getAttribute(playerRow);
+			Object image = this.teamRow.getDeclaredTable().getColumn("team_logo").getAttribute(teamRow);
 			if(image != null)
-				this.actionDisplay.setIcon(ImageIconResource.getImageIcon(((Image)image).toString()));
-			
-			else this.actionDisplay.setText("No Image");
+				this.logoDisplay.add(JSVGComponentResource.createJSVGComponent(image.toString()));
 		}
 	}
 }
