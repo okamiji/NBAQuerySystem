@@ -4,12 +4,9 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-import nbaquery.data.Row;
 import nbaquery.launcher.Main;
 import nbaquery.logic.team.NewTeamService;
-import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.team.CompareTeamSubPanel;
-import nbaquery_test.data.TestFileTableHost;
 
 public class TestCompareTeamPanel extends Main
 {
@@ -22,32 +19,7 @@ public class TestCompareTeamPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new CompareTeamSubPanel((NewTeamService) this.teamService, new DetailedInfoContainer()
-		{
-			@Override
-			public void displayMatchInfo(int matchId, boolean s)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void displayPlayerInfo(Row player, boolean s)
-			{
-			
-			}
-
-			@Override
-			public void displayTeamInfo(Row team, boolean s)
-			{
-				System.out.println(TestFileTableHost.convertTableIntoString(team.getDeclaredTable()));
-				System.out.println("=================================================================");
-				System.out.println(team.getDeclaredTable().getColumn("team_name").getAttribute(team));
-				System.out.println(team.getDeclaredTable().getColumn("team_name_abbr").getAttribute(team));
-				System.out.println("=================================================================");
-			}
-			
-		}, 720, 600, 25));
+		theFrame.add(new CompareTeamSubPanel((NewTeamService) this.teamService, new DetailedInfoContainerStub() , 720, 600, 25));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}

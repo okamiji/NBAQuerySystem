@@ -4,10 +4,8 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-import nbaquery.data.Row;
 import nbaquery.launcher.Main;
 import nbaquery.logic.team.NewTeamService;
-import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.team.HotTeamSubPanel;
 
 public class TestHotTeamPanel extends Main
@@ -21,28 +19,7 @@ public class TestHotTeamPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new HotTeamSubPanel((NewTeamService) this.teamService, new DetailedInfoContainer()
-		{
-			@Override
-			public void displayMatchInfo(int matchId, boolean s)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void displayPlayerInfo(Row player, boolean s)
-			{
-			
-			}
-
-			@Override
-			public void displayTeamInfo(Row team, boolean s)
-			{
-				System.out.println(team.getDeclaredTable().getColumn("team_name").getAttribute(team));
-			}
-			
-		}, 400, 230));
+		theFrame.add(new HotTeamSubPanel((NewTeamService) this.teamService, new DetailedInfoContainerStub() , 400, 230));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}

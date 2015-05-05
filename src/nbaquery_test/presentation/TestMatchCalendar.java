@@ -5,11 +5,9 @@ import java.awt.Font;
 
 import javax.swing.JFrame;
 
-import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.launcher.Main;
 import nbaquery.logic.match.NewMatchService;
-import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.match.CompareMatchSubPanel;
 import nbaquery.presentation3.match.MatchComponent;
 
@@ -27,30 +25,7 @@ public class TestMatchCalendar extends Main
 		NewMatchService service = ((NewMatchService)this.matchService);
 		
 		@SuppressWarnings("serial")
-		CompareMatchSubPanel table = new CompareMatchSubPanel(new DetailedInfoContainer()
-		{
-
-			@Override
-			public void displayPlayerInfo(Row player, boolean stacked)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void displayTeamInfo(Row team, boolean stacked)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void displayMatchInfo(int matchId, boolean stacked)
-			{
-				System.out.println(matchId);
-			}
-			
-		}, service, theFrame.getWidth(), theFrame.getHeight(), 300, false)
+		CompareMatchSubPanel table = new CompareMatchSubPanel(new DetailedInfoContainerStub(), service, theFrame.getWidth(), theFrame.getHeight(), 300, false)
 		{
 			{
 				this.displayTable.oddBackground = this.displayTable.evenBackground = new Color(0, 0, 0, 0);

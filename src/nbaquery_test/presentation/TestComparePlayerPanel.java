@@ -4,10 +4,8 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-import nbaquery.data.Row;
 import nbaquery.launcher.Main;
 import nbaquery.logic.player.NewPlayerService;
-import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.player.ComparePlayerSubPanel;
 
 public class TestComparePlayerPanel extends Main
@@ -21,39 +19,7 @@ public class TestComparePlayerPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new ComparePlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainer()
-		{
-			@Override
-			public void displayMatchInfo(int matchId, boolean s)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void displayPlayerInfo(Row player, boolean s)
-			{
-				System.out.println("=================================================================");
-				System.out.println(player.getDeclaredTable().getColumn("player_name").getAttribute(player));
-				System.out.println(player.getDeclaredTable().getColumn("player_age").getAttribute(player));
-				System.out.println(player.getDeclaredTable().getColumn("player_exp").getAttribute(player));
-				System.out.println(player.getDeclaredTable().getColumn("player_birth").getAttribute(player));
-				System.out.println(player.getDeclaredTable().getColumn("player_school").getAttribute(player));
-				System.out.println(player.getDeclaredTable().getColumn("player_height").getAttribute(player));
-				System.out.println(player.getDeclaredTable().getColumn("player_weight").getAttribute(player));
-				System.out.println("=================================================================");
-			}
-
-			@Override
-			public void displayTeamInfo(Row team, boolean s)
-			{
-				System.out.println("=================================================================");
-				System.out.println(team.getDeclaredTable().getColumn("team_name").getAttribute(team));
-				System.out.println(team.getDeclaredTable().getColumn("team_name_abbr").getAttribute(team));
-				System.out.println("=================================================================");
-			}
-			
-		}, 720, 600, 25));
+		theFrame.add(new ComparePlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainerStub(), 720, 600, 25));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}

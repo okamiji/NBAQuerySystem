@@ -34,11 +34,13 @@ public class MatchComponent extends Component
 	
 	boolean host_win, shouldStack;
 	DetailedInfoContainer infoContainer;
+	Row match;
 	
 	public MatchComponent(DetailedInfoContainer infoContainer, Row match, boolean shouldStack)
 	{
 		this.shouldStack = shouldStack;
 		this.infoContainer = infoContainer;
+		this.match = match;
 	
 		Table matchTable = match.getDeclaredTable();
 		match_id = (Integer)matchTable.getColumn("match_id").getAttribute(match);
@@ -71,7 +73,7 @@ public class MatchComponent extends Component
 	{
 		public void mouseClicked(MouseEvent me)
 		{
-			infoContainer.displayMatchInfo(match_id, shouldStack);
+			infoContainer.displayMatchInfo(match, shouldStack);
 		}
 	};
 	

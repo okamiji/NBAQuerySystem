@@ -8,5 +8,5 @@ public interface DetailedInfoContainer
 	
 	public void displayTeamInfo(Row team, boolean stacked);
 	
-	public void displayMatchInfo(int matchId, boolean stacked);
+	public void displayMatchInfo(Row match, boolean stacked);
 }

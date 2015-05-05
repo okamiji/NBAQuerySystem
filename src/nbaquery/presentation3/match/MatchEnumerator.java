@@ -69,7 +69,7 @@ public class MatchEnumerator extends Component
 			{
 				int index = (int)(((float)(y - 22)) / (getHeight() - 22) * sectionPerEnumerator) + bias;
 				if(index >= 0 && index < matchComponents.length)
-					container.displayMatchInfo(matchComponents[index].match_id, shouldStack);
+					container.displayMatchInfo(matchComponents[index].match, shouldStack);
 			}
 		}
 	};
@@ -85,7 +85,7 @@ public class MatchEnumerator extends Component
 			{
 				int index = (int)(((float)(x - 22)) / (getWidth() - 22) * sectionPerEnumerator) + bias;
 				if(index >= 0 && index < matchComponents.length)
-					container.displayMatchInfo(matchComponents[index].match_id, shouldStack);
+					container.displayMatchInfo(matchComponents[index].match, shouldStack);
 			}
 		}
 	};

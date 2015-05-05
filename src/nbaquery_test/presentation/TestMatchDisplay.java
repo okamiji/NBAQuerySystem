@@ -3,10 +3,8 @@ import java.awt.Font;
 
 import javax.swing.JFrame;
 
-import nbaquery.data.Row;
 import nbaquery.launcher.Main;
 import nbaquery.logic.match.NewMatchService;
-import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.match.MatchComponent;
 
 public class TestMatchDisplay extends Main
@@ -20,30 +18,7 @@ public class TestMatchDisplay extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		//theFrame.setBackground(new Color(0, 0, 0, 0));
-		MatchComponent component = new MatchComponent(new DetailedInfoContainer()
-		{
-
-			@Override
-			public void displayPlayerInfo(Row player, boolean stacked)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void displayTeamInfo(Row team, boolean stacked)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void displayMatchInfo(int matchId, boolean stacked)
-			{
-				System.out.println(matchId);
-			}
-			
-		}, ((NewMatchService)this.matchService)
+		MatchComponent component = new MatchComponent(new DetailedInfoContainerStub(), ((NewMatchService)this.matchService)
 				.searchForMatchesTable(null, null, null, true).getRows()[0], false);
 		component.setSize(theFrame.getSize());
 		theFrame.add(component);

@@ -131,7 +131,7 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	}
 
 	@Override
-	public void displayMatchInfo(int matchId, boolean stacked)
+	public void displayMatchInfo(Row match, boolean stacked)
 	{
 		// TODO Auto-generated method stub
 		
