@@ -17,6 +17,7 @@ import nbaquery.presentation3.DisplayButton;
 import nbaquery.presentation3.DropMenu;
 import nbaquery.presentation3.PresentationTableModel;
 import nbaquery.presentation3.table.ColumnSelectionListener;
+import nbaquery.presentation3.table.DefaultTableColumn;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.RankingTableColumn;
 import nbaquery.presentation3.table.TableSelectionListener;
@@ -42,7 +43,19 @@ public class HotTeamSubPanel extends JPanel
 				{
 					this.setPageIndex(0);
 					this.setSectionPerPage(5);
+					this.columnModel.addColumn("", "team_logo").padding = 40;
 					this.columnModel.addColumn("球队名称", "team_name").padding = 80;
+					this.columnModel.addColumn(new DefaultTableColumn("赛区", "team_match_area")
+					{
+						public Component render(DisplayTable table, Object value, int row, int column)
+						{
+							super.render(table, value, row, column);
+							if(super.displayComponent.getText().equals("W")) super.displayComponent.setText("西部");
+							if(super.displayComponent.getText().equals("E")) super.displayComponent.setText("东部");
+							return super.displayComponent;
+						}
+					});
+					this.columnModel.addColumn("联盟", "team_sector").padding = 40;
 					this.columnModel.addColumn(new RankingTableColumn(), 0);
 				}
 				
@@ -75,7 +88,19 @@ public class HotTeamSubPanel extends JPanel
 				{
 					this.setPageIndex(0);
 					this.setSectionPerPage(5);
+					this.columnModel.addColumn("", "team_logo").padding = 40;
 					this.columnModel.addColumn("球队名称", "team_name").padding = 80;
+					this.columnModel.addColumn(new DefaultTableColumn("赛区", "team_match_area")
+					{
+						public Component render(DisplayTable table, Object value, int row, int column)
+						{
+							super.render(table, value, row, column);
+							if(super.displayComponent.getText().equals("W")) super.displayComponent.setText("西部");
+							if(super.displayComponent.getText().equals("E")) super.displayComponent.setText("东部");
+							return super.displayComponent;
+						}
+					});
+					this.columnModel.addColumn("联盟", "team_sector").padding = 40;
 					this.columnModel.addColumn(new RankingTableColumn(), 0);
 				}
 				
@@ -145,8 +170,8 @@ public class HotTeamSubPanel extends JPanel
 		
 		//XXX layout the table.
 		this.teamTable = new DisplayTable();
-		this.teamTable.setSize((int) (0.60 * width), height);
-		this.teamTable.setLocation((int) (0.30 * width), 0);
+		this.teamTable.setSize((int) (0.65 * width), height);
+		this.teamTable.setLocation((int) (0.25 * width), 0);
 		
 		this.teamTable.setRowHeight(height / 6);
 		
@@ -165,10 +190,11 @@ public class HotTeamSubPanel extends JPanel
 		super.add(this.teamTable);
 		
 		//XXX adding player showcase
-		imageDisplay.setBounds(5, (int)(0.1 * height + 5), (int)((0.3 * width) - 10), (int)(0.5 * height - 5));
-		description.setBounds(5, (int)(0.5 * height + 10), (int)((0.3 * width) - 10), (int)(0.25 * height));
+		imageDisplay.setBounds((5 + (int)((0.25 * width) - 10) - (int)(0.5 * height - 5)) / 2, (int)(0.1 * height + 5),
+				(int)(0.5 * height - 5), (int)(0.5 * height - 5));
+		description.setBounds(5, (int)(0.5 * height + 10), (int)((0.25 * width) - 10), (int)(0.25 * height));
 		description.setHorizontalAlignment(JLabel.CENTER);
-		teamName.setBounds(5, (int)(0.65 * height), (int)((0.3 * width) - 10), (int)(0.25 * height));
+		teamName.setBounds(5, (int)(0.65 * height), (int)((0.25 * width) - 10), (int)(0.25 * height));
 		teamName.setHorizontalAlignment(JLabel.CENTER);
 		super.add(imageDisplay);
 		super.add(description);
@@ -248,7 +274,7 @@ public class HotTeamSubPanel extends JPanel
 			{
 				if(legacy >= 0) tableModel.columnModel.removeColumn(tableColumn[legacy]);
 				legacy = selectedIndex;
-				tableModel.columnModel.addColumn(tableHeader[legacy], tableColumn[legacy]);
+				tableModel.columnModel.addColumn(tableHeader[legacy], tableColumn[legacy]).padding = 30;
 			}
 		}
 		

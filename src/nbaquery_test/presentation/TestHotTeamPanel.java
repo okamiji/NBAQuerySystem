@@ -19,7 +19,7 @@ public class TestHotTeamPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new HotTeamSubPanel((NewTeamService) this.teamService, new DetailedInfoContainerStub(teamService) , 400, 230));
+		theFrame.add(new HotTeamSubPanel((NewTeamService) this.teamService, new DetailedInfoContainerStub(teamService) , 600, 230));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}
