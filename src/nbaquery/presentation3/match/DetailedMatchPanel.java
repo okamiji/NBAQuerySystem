@@ -19,6 +19,7 @@ import nbaquery.presentation3.table.ColumnSelectionListener;
 import nbaquery.presentation3.table.DefaultTableColumn;
 import nbaquery.presentation3.table.DisplayTable;
 import nbaquery.presentation3.table.DisplayTableColumn;
+import nbaquery.presentation3.table.TableSelectionListener;
 
 @SuppressWarnings("serial")
 public class DetailedMatchPanel extends JPanel
@@ -72,6 +73,19 @@ public class DetailedMatchPanel extends JPanel
 				shouldRedoQuery = true;
 			}
 		});
+		performance.addTableSelectionListener(new TableSelectionListener()
+		{
+
+			@Override
+			public void onSelect(DisplayTable table, int row, int column, Object value, Point mousePoint)
+			{
+				if(column == 0 || column == 1)		//Team Logo / Team Name
+					DetailedMatchPanel.this.container.displayTeamInfo((Row)value, true);
+				else DetailedMatchPanel.this.container.displayPlayerInfo((Row)value, true);
+			}
+			
+		});
+		
 		performance.setRowHeight(18);
 		this.add(performance);
 	}
