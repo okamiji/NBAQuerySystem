@@ -102,6 +102,17 @@ public class NewMatchServiceAdapter implements NewMatchService
 		}
 		tableHost.performQuery(query, "match_query_result_id");
 		Table queryResult = tableHost.getTable("match_query_result_id");
+		
+		NaturalJoinQuery naturalJoin = new NaturalJoinQuery(this.tableHost.getTable("team"),
+				queryResult, new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
+		tableHost.performQuery(naturalJoin, "match_query_result_id");
+		queryResult = tableHost.getTable("match_query_result_id");
+		
+		naturalJoin = new NaturalJoinQuery(this.tableHost.getTable("player"),
+				queryResult, new String[]{"player_name"}, new String[]{"player_name"});
+		tableHost.performQuery(naturalJoin, "match_query_result_id");
+		queryResult = tableHost.getTable("match_query_result_id");
+		
 		return queryResult;
 	}
 	
