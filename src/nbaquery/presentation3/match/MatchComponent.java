@@ -144,7 +144,6 @@ public class MatchComponent extends Component
 		
 		if(shouldDisplayTime)
 		{
-			System.out.println(timeLabel.getText());
 			this.timeLabel.setSize(width, height / 4);
 			this.timeLabel.setFont(plainTextFont);
 			this.timeLabel.setHorizontalAlignment(JLabel.CENTER);

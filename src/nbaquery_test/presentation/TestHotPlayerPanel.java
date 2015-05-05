@@ -19,7 +19,7 @@ public class TestHotPlayerPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new HotPlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainerStub() , 400, 230));
+		theFrame.add(new HotPlayerSubPanel((NewPlayerService) this.playerService, new DetailedInfoContainerStub(teamService) , 400, 230));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}

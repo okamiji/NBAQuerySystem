@@ -25,7 +25,7 @@ public class TestDetailedPlayerPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new DetailedPlayerPanel(new DetailedInfoContainerStub(), (NewMatchService) this.matchService, 400, 600)
+		theFrame.add(new DetailedPlayerPanel(new DetailedInfoContainerStub(teamService), (NewMatchService) this.matchService, 400, 600)
 		{
 			{
 				Row[] rows = ((NewPlayerService)playerService).searchForTodayHotPlayers("self_score").getRows();

@@ -21,7 +21,7 @@ public class TestTodayMatchesPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new TodayMatchSubPanel(new DetailedInfoContainerStub(), (NewMatchService)this.matchService, 600, 100));
+		theFrame.add(new TodayMatchSubPanel(new DetailedInfoContainerStub(teamService), (NewMatchService)this.matchService, 600, 100));
 		theFrame.setAlwaysOnTop(true);
 		MatchComponent.scoreLabelFont = new Font(Font.MONOSPACED, Font.PLAIN, 0).deriveFont(20.0f);
 		MatchComponent.plainTextFont = new Font(Font.MONOSPACED, Font.PLAIN, 0).deriveFont(12.0f);

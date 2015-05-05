@@ -19,7 +19,7 @@ public class TestCompareTeamPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new CompareTeamSubPanel((NewTeamService) this.teamService, new DetailedInfoContainerStub() , 720, 600, 25));
+		theFrame.add(new CompareTeamSubPanel((NewTeamService) this.teamService, new DetailedInfoContainerStub(teamService) , 720, 600, 25));
 		theFrame.setAlwaysOnTop(true);
 		refresh.start();
 	}

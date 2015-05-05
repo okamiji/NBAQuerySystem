@@ -25,7 +25,7 @@ public class TestDetailedTeamPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new DetailedTeamPanel(new DetailedInfoContainerStub() , (NewMatchService) this.matchService, 400, 600)
+		theFrame.add(new DetailedTeamPanel(new DetailedInfoContainerStub(teamService) , (NewMatchService) this.matchService, 400, 600)
 		{
 			{
 				Row[] rows = ((NewTeamService)teamService).searchTodayHotTeams("self_score").getRows();

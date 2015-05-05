@@ -101,10 +101,9 @@ public class NewTeamServiceAdapter implements NewTeamService
 		Table queryResult = tableHost.getTable("team");
 		SelectProjectQuery query = null;
 		try {
-			if(isAbbr) query = new SelectProjectQuery("team_query_result.TEAM_NAME_ABBR=='%1'".replace("%1", teamNameAbbr), queryResult);
-			else query = new SelectProjectQuery("team_query_result.TEAM_NAME=='%1'".replace("%1", teamNameAbbr), queryResult);
+			if(isAbbr) query = new SelectProjectQuery("team.TEAM_NAME_ABBR=='%1'".replace("%1", teamNameAbbr), queryResult);
+			else query = new SelectProjectQuery("team.TEAM_NAME=='%1'".replace("%1", teamNameAbbr), queryResult);
 		} catch (Exception e) {	
-
 		}
 		tableHost.performQuery(query, "team_query_result");
 		return tableHost.getTable("team_query_result");

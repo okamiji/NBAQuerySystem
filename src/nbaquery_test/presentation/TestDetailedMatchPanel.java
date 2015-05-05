@@ -22,7 +22,7 @@ public class TestDetailedMatchPanel extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		theFrame.setBackground(new Color(0, 0, 0, 0));
-		theFrame.add(new DetailedMatchPanel(new DetailedInfoContainerStub(), (NewMatchService)this.matchService, 400, 600)
+		theFrame.add(new DetailedMatchPanel(new DetailedInfoContainerStub(teamService), (NewMatchService)this.matchService, 400, 600)
 		{
 			{
 				this.setRow(this.matchService.searchForMatchesTable(null, null, null, true).getRows()[0]);

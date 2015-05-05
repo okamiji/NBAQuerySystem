@@ -136,4 +136,13 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		// TODO Auto-generated method stub
 		
 	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void displayTeamInfo(String teamNameOrAbbr, boolean isAbbr,
+			boolean stacked)
+	{
+		Row[] rows = newTeamService.searchInfoByName(teamNameOrAbbr, isAbbr).getRows();
+		if(rows.length > 0) this.displayTeamInfo(rows[0], stacked);
+	}
 }

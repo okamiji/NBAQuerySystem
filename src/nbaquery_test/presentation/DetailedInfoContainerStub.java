@@ -1,11 +1,18 @@
 package nbaquery_test.presentation;
 
 import nbaquery.data.Row;
+import nbaquery.logic.team.NewTeamService;
+import nbaquery.logic.team.TeamService;
 import nbaquery.presentation3.DetailedInfoContainer;
 
 public class DetailedInfoContainerStub implements DetailedInfoContainer
 {
-
+	NewTeamService newTeamService;
+	public DetailedInfoContainerStub(TeamService teamService)
+	{
+		this.newTeamService = (NewTeamService) teamService;
+	}
+	
 	@Override
 	public void displayPlayerInfo(Row player, boolean s)
 	{
@@ -39,6 +46,15 @@ public class DetailedInfoContainerStub implements DetailedInfoContainer
 		System.out.println(match.getDeclaredTable().getColumn("match_host_abbr").getAttribute(match));
 		System.out.println(match.getDeclaredTable().getColumn("match_guest_abbr").getAttribute(match));
 		System.out.println("=================================================================");
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void displayTeamInfo(String teamNameOrAbbr, boolean isDescend,
+			boolean stacked)
+	{
+		Row[] rows = newTeamService.searchInfoByName(teamNameOrAbbr, isDescend).getRows();
+		if(rows.length > 0) this.displayTeamInfo(rows[0], stacked);
 	}
 	
 }

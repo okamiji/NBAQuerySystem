@@ -25,7 +25,7 @@ public class TestMatchCalendar extends Main
 		NewMatchService service = ((NewMatchService)this.matchService);
 		
 		@SuppressWarnings("serial")
-		CompareMatchSubPanel table = new CompareMatchSubPanel(new DetailedInfoContainerStub(), service, theFrame.getWidth(), theFrame.getHeight(), 300, false)
+		CompareMatchSubPanel table = new CompareMatchSubPanel(new DetailedInfoContainerStub(teamService), service, theFrame.getWidth(), theFrame.getHeight(), 300, false)
 		{
 			{
 				this.displayTable.oddBackground = this.displayTable.evenBackground = new Color(0, 0, 0, 0);

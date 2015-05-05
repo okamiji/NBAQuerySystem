@@ -2,11 +2,15 @@ package nbaquery.presentation3.match;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
 
 import nbaquery.data.Row;
+import nbaquery.data.Table;
 import nbaquery.logic.match.NewMatchService;
 import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.DualTableColumn;
@@ -65,8 +69,10 @@ public class DetailedMatchPanel extends JPanel
 					header = newHeader;
 					legacyIndex = column;
 				}
+				shouldRedoQuery = true;
 			}
 		});
+		performance.setRowHeight(18);
 		this.add(performance);
 	}
 	
@@ -74,8 +80,27 @@ public class DetailedMatchPanel extends JPanel
 	{
 		if(this.matchComponent != null) this.remove(matchComponent);
 		this.matchComponent = new MatchComponent(container, row, false);
+		this.matchComponent.shouldDisplayTime = true;
 		this.matchComponent.setSize(this.getWidth() - 2, logoArea);
 		this.matchComponent.setLocation(2, 2);
+		MouseListener[] listeners = this.matchComponent.getListeners(MouseListener.class);
+		if(listeners.length > 0) this.matchComponent.removeMouseListener(listeners[0]);
+		this.matchComponent.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent me)
+			{
+				if(me.getPoint().x < matchComponent.getWidth() / 2)
+				{
+					String hostName = (String) row.getDeclaredTable().getColumn("match_host_abbr").getAttribute(row);
+					container.displayTeamInfo(hostName, true, true);
+				}
+				else
+				{
+					String guestName = (String) row.getDeclaredTable().getColumn("match_guest_abbr").getAttribute(row);
+					container.displayTeamInfo(guestName, true, true);
+				}
+			}
+		});
 		this.add(matchComponent);
 		
 		PresentationTableModel quarterModel = new PresentationTableModel()
@@ -131,17 +156,19 @@ public class DetailedMatchPanel extends JPanel
 				
 				columnModel.addColumn("", "team_logo").padding = 20;
 				
-				DefaultTableColumn column = columnModel.addColumn("", "team_name_abbr");
-				column.padding = 20;
+				
+				DefaultTableColumn column = columnModel.addColumn("球队", "team_name_abbr");
+				column.padding = 5;
 				keywords.put(column, new String[]{"team_name_abbr"});
 				
 				columnModel.addColumn("", "player_portrait").padding = 20;
 				column = columnModel.addColumn("球员名称", "player_name");
-				column.padding = 20;
+				column.padding = 40;
 				keywords.put(column, new String[]{"player_name"});
 				
-				columnModel.addColumn(new DualTableColumn("上场时间", "game_time_minute", "game_time_second", "%1'%2\""));
-				keywords.put(column, new String[]{"game_time_minute", "game_time_second"});
+				DualTableColumn dual = new DualTableColumn("上场时间", "game_time_minute", "game_time_second", "%1'%2\"");
+				columnModel.addColumn(dual);
+				keywords.put(dual, new String[]{"game_time_minute", "game_time_second"});
 			}
 			
 			@Override
@@ -149,7 +176,9 @@ public class DetailedMatchPanel extends JPanel
 			{
 				if(shouldRedoQuery)
 				{
-					this.updateTable(matchService.searchPerformanceByID(matchId, header, descend));
+					Table result = matchService.searchPerformanceByID(matchId, header, descend);
+					this.updateTable(result);
+					sectionPerPage = result.getRows().length;
 					shouldRedoQuery = false;
 				}
 			}
