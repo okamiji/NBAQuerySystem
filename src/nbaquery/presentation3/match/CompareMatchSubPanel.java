@@ -34,11 +34,11 @@ public abstract class CompareMatchSubPanel extends JPanel
 	protected int year;
 	protected int month;
 
-	protected JLabel toSymbol = new JLabel(" ~ ");
-	protected JLabel seasonText = new JLabel("Èü¼¾");
+	public final JLabel toSymbol = new JLabel("~");
+	public final JLabel seasonText = new JLabel("Èü¼¾");
 	
-	protected JTextField fromSeason = new JTextField(), toSeason = new JTextField();
-	protected MatchEnumerator enumerator;
+	public final JTextField fromSeason = new JTextField(), toSeason = new JTextField();
+	public final MatchEnumerator enumerator;
 	
 	public CompareMatchSubPanel(DetailedInfoContainer container, NewMatchService matchService, int width, int height, int componentWidth, boolean shouldStack)
 	{
@@ -71,11 +71,11 @@ public abstract class CompareMatchSubPanel extends JPanel
 				fireTableSwitch();
 			}
 		};
-		this.monthSelector.setBounds(width - componentWidth - 8 - 100, 2, 100, 20);
+		this.monthSelector.setBounds(width - componentWidth - 8 - 80, 2, 80, 20);
 		this.monthSelector.setHorizontalAlignment(DropList.CENTER);
 		this.add(monthSelector);
 		
-		fromSeason.setBounds(2, 2, 100, 20);
+		fromSeason.setBounds(2, 2, 30, 20);
 		fromSeason.addFocusListener(new FocusListener()
 		{
 			boolean shouldTest = false;
@@ -106,11 +106,11 @@ public abstract class CompareMatchSubPanel extends JPanel
 		fromSeason.setHorizontalAlignment(JTextField.CENTER);
 		this.add(fromSeason);
 		
-		toSymbol.setBounds(104, 2, 30, 20);
+		toSymbol.setBounds(34, 2, 20, 20);
 		toSymbol.setHorizontalAlignment(JLabel.CENTER);
 		this.add(toSymbol);
 		
-		toSeason.setBounds(136, 2, 100, 20);
+		toSeason.setBounds(56, 2, 30, 20);
 		toSeason.addFocusListener(new FocusListener()
 		{
 			boolean shouldTest = false;
@@ -142,7 +142,7 @@ public abstract class CompareMatchSubPanel extends JPanel
 		toSeason.setHorizontalAlignment(JTextField.CENTER);
 		this.add(toSeason);
 		
-		seasonText.setBounds(238, 2, 40, 20);
+		seasonText.setBounds(88, 2, 30, 20);
 		seasonText.setHorizontalAlignment(JLabel.CENTER);
 		this.add(seasonText);
 		

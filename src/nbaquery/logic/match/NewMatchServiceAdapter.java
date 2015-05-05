@@ -81,6 +81,10 @@ public class NewMatchServiceAdapter implements NewMatchService
 		tableHost.performQuery(naturalJoin, "match_query_result_player");
 		queryResult = tableHost.getTable("match_query_result_player");
 
+		SortQuery sort = new SortQuery(queryResult, "match_id", true);
+		tableHost.performQuery(sort, "match_query_result_player");
+		queryResult = tableHost.getTable("match_query_result_player");
+		
 		return queryResult;
 	}
 
