@@ -7,6 +7,7 @@ import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.DeriveColumnInfo;
 import nbaquery.data.query.DeriveQuery;
+import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 
@@ -61,12 +62,12 @@ public class NewMatchServiceAdapter implements NewMatchService
 	}
 	
 	@Override
-	public Table searchPerformanceByPlayer(String player_name){
+	public Table searchMatchesByPlayer(String player_name){
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try
 		{
-			query = new SelectProjectQuery("match_natural_join_performance.PLAYER_NAME='%1'".replace("%1", player_name), table);
+			query = new SelectProjectQuery("match_natural_join_performance.PLAYER_NAME='%1'".replace("%1", player_name), table, "match_id");
 		}
 		catch (Exception e)
 		{
@@ -74,6 +75,12 @@ public class NewMatchServiceAdapter implements NewMatchService
 		}
 		tableHost.performQuery(query, "match_query_result_player");
 		Table queryResult = tableHost.getTable("match_query_result_player");
+
+		Table matches = this.searchForMatchesTable(new String[]{"match_id"}, null, null, true);
+		NaturalJoinQuery naturalJoin = new NaturalJoinQuery(matches, queryResult, new String[]{"match_id"}, new String[]{"match_id"});
+		tableHost.performQuery(naturalJoin, "match_query_result_player");
+		queryResult = tableHost.getTable("match_query_result_player");
+
 		return queryResult;
 	}
 

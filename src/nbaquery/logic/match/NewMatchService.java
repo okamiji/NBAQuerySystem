@@ -16,7 +16,7 @@ public interface NewMatchService
 	
 	public Table searchQuarterScoreByID(int matchID);
 	
-	public Table searchPerformanceByPlayer(String player_name);
-	
 	public Table searchMatchesByTeamNameAbbr(String team_name_abbr);
+
+	public Table searchMatchesByPlayer(String player_name);
 }
