@@ -34,8 +34,9 @@ public class TeamPanel extends JPanel
 		this.hotspotTeam.setBackground(MainFrame.transparent);
 		super.add(hotspotTeam);
 		
-		this.teamSubPanel = new CompareTeamSubPanel(teamService, infoContainer, 720, 600, 25);
-		this.teamSubPanel.setLocation(60, 120);
+		this.teamSubPanel = new CompareTeamSubPanel(teamService, infoContainer, 700, 600, 25);
+		this.teamSubPanel.teamTable.setRowHeight(20);
+		this.teamSubPanel.setLocation(60, 60);
 		this.teamSubPanel.setBackground(MainFrame.transparent);
 		super.add(teamSubPanel);
 		
@@ -57,11 +58,15 @@ public class TeamPanel extends JPanel
 		{
 			this.hotspotTeam.setVisible(false);
 			this.teamSubPanel.setVisible(true);
+			g.fillRect(30, 40, 740, 600);
+			g.fillRect(30, 650, 740, 60);
+			this.teamButton.setLocation(710 - this.teamButton.getWidth() / 2, 680 - this.teamButton.getHeight() / 2);
 		}
 		else
 		{
 			this.hotspotTeam.setVisible(false);
 			this.teamSubPanel.setVisible(false);
+			this.teamButton.setLocation(710 - this.teamButton.getWidth() / 2, 680 - this.teamButton.getHeight() / 2);
 		}
 		super.paint(g);
 	}

@@ -82,6 +82,8 @@ public class MatchPanel extends JPanel
 			}
 			
 		};
+		this.matchSubPanel.setLocation(45, 40);
+		this.add(matchSubPanel);
 		
 		this.matchButton = matchButton;
 		this.add(matchButton);
@@ -101,11 +103,15 @@ public class MatchPanel extends JPanel
 		{
 			this.todayMatch.setVisible(false);
 			this.matchSubPanel.setVisible(true);
+			g.fillRect(30, 40, 740, 600);
+			g.fillRect(30, 650, 740, 60);
+			this.matchButton.setLocation(60, 680 - this.matchButton.getHeight() / 2);
 		}
 		else
 		{
 			this.todayMatch.setVisible(false);
 			this.matchSubPanel.setVisible(false);
+			this.matchButton.setLocation(60, 680 - this.matchButton.getHeight() / 2);
 		}
 		super.paint(g);
 	}
