@@ -1,5 +1,6 @@
 package nbaquery.presentation3.team;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -70,6 +71,7 @@ public class DetailedTeamPanel extends JPanel
 		match = new CompareMatchSubPanel(container, matchService, width - 4, height - upperHeight - 6, 170, true)
 		{
 			{
+				this.displayTable.oddBackground = this.displayTable.evenBackground = new Color(0, 0, 0, 0);
 				this.enumerator.sectionPerEnumerator = 6;
 			}
 			Table reEnteredTable = null;

@@ -10,15 +10,23 @@ import nbaquery.data.Row;
 import nbaquery.logic.match.NewMatchService;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.logic.team.NewTeamService;
+import nbaquery.presentation3.match.MatchPanel;
+import nbaquery.presentation3.player.PlayerPanel;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame implements DetailedInfoContainer
 {
+	public static final int width = 800;
+	public static final int height = 720;
+	
 	NewPlayerService newPlayerService;
 	NewTeamService newTeamService;
 	NewMatchService newMatchService;
 	
 	public DisplayButton closeButton, minimizeButton;
+	
+	PlayerPanel playerPanel;
+	MatchPanel matchPanel;
 	
 	public MainFrame(NewPlayerService newPlayerService,
 			NewTeamService newTeamService, NewMatchService newMatchService)
@@ -32,7 +40,7 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		
 		//XXX setting up basic parameters of the frame.
 		super.setLayout(null);
-		super.setSize(800, 720);
+		super.setSize(width, height);
 		super.setUndecorated(true);
 		Dimension screenSize = super.getToolkit().getScreenSize();
 		super.setLocation((screenSize.width - super.getWidth()) / 2, (screenSize.height - super.getHeight()) / 2);
@@ -60,6 +68,13 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		};
 		minimizeButton.setLocation(super.getWidth() - closeButton.getWidth() - minimizeButton.getWidth() - 6, 3);
 		super.add(minimizeButton);
+		
+		//XXX adding functional panels.
+		this.playerPanel = new PlayerPanel(this, newPlayerService);
+		super.add(playerPanel);
+		
+		this.matchPanel = new MatchPanel(this, this.newMatchService);
+		this.add(matchPanel);
 		
 		//XXX start refresh thread.
 		this.refresh.start();
@@ -109,11 +124,6 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	};
 	{
 		this.addMouseListener(windowMove);
-	}
-	
-	public static void main(String[] arguments)
-	{
-		new MainFrame(null, null, null).setVisible(true);
 	}
 
 	@Override

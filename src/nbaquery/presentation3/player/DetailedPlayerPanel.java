@@ -1,5 +1,6 @@
 package nbaquery.presentation3.player;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -73,6 +74,7 @@ public class DetailedPlayerPanel extends JPanel
 		match = new CompareMatchSubPanel(container, matchService, width - 4, height - upperHeight - 6, 170, true)
 		{
 			{
+				this.displayTable.oddBackground = this.displayTable.evenBackground = new Color(0, 0, 0, 0);
 				this.enumerator.sectionPerEnumerator = 5;
 			}
 			Table reEnteredTable = null;
