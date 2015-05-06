@@ -46,14 +46,14 @@ public class MatchPanel extends JPanel
 			
 			Table reEnteredTable;
 			
-			
 			@Override
 			protected void reEnter()
 			{
 				reEnteredTable = this.matchService.searchForMatchesTable(null, null, null, true);
-				Row firstRow = reEnteredTable.getRows()[0];
-				String season = (String) firstRow.getDeclaredTable().getColumn("match_season").getAttribute(firstRow);
-				String date = (String) firstRow.getDeclaredTable().getColumn("match_date").getAttribute(firstRow);
+				Row[] rows = reEnteredTable.getRows();
+				Row lastRow = rows[rows.length - 1];
+				String season = (String) lastRow.getDeclaredTable().getColumn("match_season").getAttribute(lastRow);
+				String date = (String) lastRow.getDeclaredTable().getColumn("match_date").getAttribute(lastRow);
 				
 				String[] fromAndTo = season.split("-");
 				int from = Integer.parseInt(fromAndTo[0]) + 2000;

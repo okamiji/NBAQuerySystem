@@ -241,7 +241,7 @@ public abstract class CompareMatchSubPanel extends JPanel
 	
 	public void setVisible(boolean v)
 	{
+		if(v && !this.isVisible()) shouldReEnter = true;
 		super.setVisible(v);
-		if(v) shouldReEnter = true;
 	}
 }
