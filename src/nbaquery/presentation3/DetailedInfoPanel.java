@@ -80,20 +80,14 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 	protected int currentDisplayType = NONE;
 	protected boolean isClosed = true;
 	
-	public Row lastRow = null;
-	public int type = NONE;
-	
 	protected void pushStack(Row row, Integer type, boolean stacked)
 	{
 		if(!stacked)
 		{
 			rowStack.clear();
 			typeStack.clear();
-			this.lastRow = null;
-			this.type = NONE;
 		}
-		rowStack.push(this.lastRow);	typeStack.push(this.type);
-		this.lastRow = row;				this.type = type;
+		rowStack.push(row);	typeStack.push(type);
 	}
 	
 	@Override
@@ -176,11 +170,21 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 	{
 		if(!rowStack.isEmpty())
 		{
+			rowStack.pop();
+			typeStack.pop();
+			
+			if(rowStack.isEmpty())
+			{
+				this.currentDisplayType = NONE;
+				this.isClosed = true;
+				return;
+			}
+			
 			Row currentRow = rowStack.pop();
 			this.currentDisplayType = typeStack.pop();
-			if(this.currentDisplayType == PLAYER) this.playerDisplay.setRow(currentRow);
-			if(this.currentDisplayType == TEAM) this.teamDisplay.setRow(currentRow);
-			if(this.currentDisplayType == MATCH) this.matchDisplay.setRow(currentRow);
+			if(this.currentDisplayType == PLAYER) this.displayPlayerInfo(currentRow, true);
+			if(this.currentDisplayType == TEAM) this.displayTeamInfo(currentRow, true);
+			if(this.currentDisplayType == MATCH) this.displayMatchInfo(currentRow, true);
 		}
 		else
 		{
