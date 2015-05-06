@@ -271,5 +271,6 @@ public class DetailedMatchPanel extends JPanel
 		};
 		this.performance.tableModel = performanceModel;
 		this.performance.columnModel = performanceModel;
+		this.shouldRedoQuery = true;
 	}
 }

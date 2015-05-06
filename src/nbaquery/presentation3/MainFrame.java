@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import nbaquery.data.Row;
 import nbaquery.logic.match.NewMatchService;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.logic.team.NewTeamService;

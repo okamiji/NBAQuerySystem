@@ -78,7 +78,6 @@ public class DetailedTeamPanel extends JPanel
 			@Override
 			protected void reEnter()
 			{
-				for(int i = 0; i < keyName.length; i ++) configuration[i].setRow(teamRow);
 				reEnteredTable = super.matchService.searchMatchesByTeamNameAbbr(
 						(String) teamRow.getDeclaredTable().getColumn("team_name_abbr").getAttribute(teamRow));
 				Row[] rows = reEnteredTable.getRows();
@@ -125,6 +124,7 @@ public class DetailedTeamPanel extends JPanel
 			match.shouldRedoQuery = true;
 			this.logoDisplay.removeAll();
 			
+			for(int i = 0; i < keyName.length; i ++) configuration[i].setRow(teamRow);
 			Object image = this.teamRow.getDeclaredTable().getColumn("team_logo").getAttribute(teamRow);
 			if(image != null)
 				this.logoDisplay.add(JSVGComponentResource.createJSVGComponent(image.toString()));

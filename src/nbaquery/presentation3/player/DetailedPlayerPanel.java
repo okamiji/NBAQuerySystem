@@ -81,7 +81,6 @@ public class DetailedPlayerPanel extends JPanel
 			@Override
 			protected void reEnter()
 			{
-				for(int i = 0; i < keyName.length; i ++) configuration[i].setRow(playerRow);
 				reEnteredTable = super.matchService.searchMatchesByPlayer(
 						(String) playerRow.getDeclaredTable().getColumn("player_name").getAttribute(playerRow));
 				Row[] rows = reEnteredTable.getRows();
@@ -127,10 +126,11 @@ public class DetailedPlayerPanel extends JPanel
 			this.playerRow = row;
 			match.shouldRedoQuery = true;
 			
+			for(int i = 0; i < keyName.length; i ++) configuration[i].setRow(playerRow);
+			
 			Object image = this.playerRow.getDeclaredTable().getColumn("player_action").getAttribute(playerRow);
 			if(image != null)
 				this.actionDisplay.setIcon(ImageIconResource.getImageIcon(((Image)image).toString()));
-			
 			else this.actionDisplay.setText("No Image");
 		}
 	}

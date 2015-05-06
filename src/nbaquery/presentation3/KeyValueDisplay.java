@@ -59,6 +59,7 @@ public class KeyValueDisplay extends Component
 	@SuppressWarnings("deprecation")
 	protected String convertValueToString(Object value)
 	{
+		if(value == null) return "";
 		if(value instanceof Date)
 		{
 			Date date = (Date) value;
