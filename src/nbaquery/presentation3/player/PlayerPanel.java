@@ -26,23 +26,27 @@ public class PlayerPanel extends JPanel
 	{
 		this.setLayout(null);
 		this.setBounds(0, 0, MainFrame.width - 1, MainFrame.height - 1);
-		this.setBackground(new Color(0, 0, 0, 0));
+		this.setBackground(MainFrame.transparent);
 		
 		this.hotspotPlayer = new HotPlayerSubPanel(playerService, infoContainer, 600, 240);
-		this.hotspotPlayer.setLocation(160, 180);
+		this.hotspotPlayer.setLocation(160, 200);
+		this.hotspotPlayer.setBackground(MainFrame.transparent);
 		super.add(hotspotPlayer);
 		
 		this.playerSubPanel = new ComparePlayerSubPanel(playerService, infoContainer, 720, 600, 25);
 		this.playerSubPanel.setLocation(60, 60);
+		this.playerSubPanel.setBackground(MainFrame.transparent);
 		super.add(playerSubPanel);
 	}
 	
 	public void paint(Graphics g)
 	{
+		g.setColor(MainFrame.backgroundColor);
 		if(mode == HOT_SPOT)
 		{
 			this.hotspotPlayer.setVisible(true);
 			this.playerSubPanel.setVisible(false);
+			g.fillRect(30, 190, 740, 260);
 		}
 		else if(mode == SHOW)
 		{

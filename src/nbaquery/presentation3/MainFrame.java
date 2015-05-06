@@ -40,7 +40,7 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	JPanel framePanel = new JPanel()
 	{
 		{
-			setBackground(new Color(0, 0, 0, 0));
+			setBackground(transparent);
 		}
 		public void paint(Graphics g)
 		{
@@ -49,7 +49,8 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		}
 	};
 	
-	public static Color backgroundColor = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+	public static final Color backgroundColor = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+	public static final Color transparent = new Color(0, 0, 0, 0);
 	
 	public MainFrame(NewPlayerService newPlayerService,
 			NewTeamService newTeamService, NewMatchService newMatchService)

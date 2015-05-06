@@ -29,18 +29,18 @@ public class MatchPanel extends JPanel
 	{
 		this.setLayout(null);
 		this.setBounds(0, 0, MainFrame.width - 1, MainFrame.height - 1);
-		this.setBackground(new Color(0, 0, 0, 0));
+		this.setBackground(MainFrame.transparent);
 		
 		this.todayMatch = new TodayMatchSubPanel(infoContainer, playerService, 600, 100);
-		this.todayMatch.setBackground(new Color(0, 0, 0, 0));
+		this.todayMatch.setBackground(MainFrame.transparent);
 		this.todayMatch.setLocation(160, 60);
 		this.add(todayMatch);
 		
 		this.matchSubPanel = new CompareMatchSubPanel(infoContainer, playerService, 720, 600, 300, false)
 		{
 			{
-				this.displayTable.oddBackground = this.displayTable.evenBackground = new Color(0, 0, 0, 0);
-				this.setBackground(new Color(0, 0, 0, 0));
+				this.displayTable.oddBackground = this.displayTable.evenBackground = MainFrame.transparent;
+				this.setBackground(MainFrame.transparent);
 			}
 			
 			Table reEnteredTable;
