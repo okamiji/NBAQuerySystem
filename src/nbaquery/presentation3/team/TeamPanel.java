@@ -1,6 +1,5 @@
 package nbaquery.presentation3.team;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;

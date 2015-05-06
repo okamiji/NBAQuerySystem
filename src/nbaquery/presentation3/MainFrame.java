@@ -32,9 +32,9 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	
 	public DisplayButton closeButton, minimizeButton;
 	
-	PlayerPanel playerPanel;
-	MatchPanel matchPanel;
-	TeamPanel teamPanel;
+	PlayerPanel playerPanel;	DisplayButton playerButton;
+	MatchPanel matchPanel;		DisplayButton matchButton;
+	TeamPanel teamPanel;		DisplayButton teamButton;
 	
 	Image background;
 	JPanel framePanel = new JPanel()
@@ -102,14 +102,42 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		this.add(minimizeButton);
 		
 		//XXX adding functional panels.
-		this.matchPanel = new MatchPanel(this, newMatchService);
+
+		this.matchButton = new DisplayButton("img3/match_idle.png", "img3/match_idle.png")	//XXX TODO TEMPORARILY THE SAME
+		{
+			@Override
+			protected void activate()
+			{
+				
+			}
+		};
+		this.matchPanel = new MatchPanel(this, newMatchService, matchButton);
 		this.add(matchPanel);
 		
-		this.playerPanel = new PlayerPanel(this, newPlayerService);
+
+		this.playerButton = new DisplayButton("img3/player_idle.png", "img3/player_idle.png")	//XXX TODO TEMPORARILY THE SAME
+		{
+			@Override
+			protected void activate()
+			{
+				
+			}
+		};
+		
+		this.playerPanel = new PlayerPanel(this, newPlayerService, this.playerButton);
 		this.add(playerPanel);
 		
 		this.teamPanel = new TeamPanel(this, newTeamService);
 		this.add(teamPanel);
+		
+		this.teamButton = new DisplayButton("img3/team_idle.png", "img3/team_idle.png")	//XXX TODO TEMPORARILY THE SAME
+		{
+			@Override
+			protected void activate()
+			{
+				
+			}
+		};
 		
 		//XXX start refresh thread.
 		this.refresh.start();

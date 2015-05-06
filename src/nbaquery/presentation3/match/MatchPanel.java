@@ -1,6 +1,5 @@
 package nbaquery.presentation3.match;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -9,6 +8,7 @@ import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.match.NewMatchService;
 import nbaquery.presentation3.DetailedInfoContainer;
+import nbaquery.presentation3.DisplayButton;
 import nbaquery.presentation3.MainFrame;
 
 
@@ -24,8 +24,9 @@ public class MatchPanel extends JPanel
 	
 	public final TodayMatchSubPanel todayMatch;
 	public final CompareMatchSubPanel matchSubPanel;
+	public final DisplayButton matchButton;
 	
-	public MatchPanel(DetailedInfoContainer infoContainer, NewMatchService playerService)
+	public MatchPanel(DetailedInfoContainer infoContainer, NewMatchService playerService, DisplayButton matchButton)
 	{
 		this.setLayout(null);
 		this.setBounds(0, 0, MainFrame.width - 1, MainFrame.height - 1);
@@ -81,6 +82,9 @@ public class MatchPanel extends JPanel
 			}
 			
 		};
+		
+		this.matchButton = matchButton;
+		this.add(matchButton);
 	}
 	
 	public void paint(Graphics g)
@@ -90,6 +94,7 @@ public class MatchPanel extends JPanel
 		{
 			this.todayMatch.setVisible(true);
 			this.matchSubPanel.setVisible(false);
+			this.matchButton.setLocation(60, 110 - this.matchButton.getHeight()/2);
 			g.fillRect(30, 50, 740, 120);
 		}
 		else if(mode == SHOW)

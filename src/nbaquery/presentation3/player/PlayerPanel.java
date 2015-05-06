@@ -1,12 +1,12 @@
 package nbaquery.presentation3.player;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.DetailedInfoContainer;
+import nbaquery.presentation3.DisplayButton;
 import nbaquery.presentation3.MainFrame;
 
 @SuppressWarnings("serial")
@@ -21,8 +21,9 @@ public class PlayerPanel extends JPanel
 	
 	public final HotPlayerSubPanel hotspotPlayer;
 	public final ComparePlayerSubPanel playerSubPanel;
+	public final DisplayButton playerButton;
 	
-	public PlayerPanel(DetailedInfoContainer infoContainer, NewPlayerService playerService)
+	public PlayerPanel(DetailedInfoContainer infoContainer, NewPlayerService playerService, DisplayButton playerButton)
 	{
 		this.setLayout(null);
 		this.setBounds(0, 0, MainFrame.width - 1, MainFrame.height - 1);
@@ -37,6 +38,9 @@ public class PlayerPanel extends JPanel
 		this.playerSubPanel.setLocation(60, 60);
 		this.playerSubPanel.setBackground(MainFrame.transparent);
 		super.add(playerSubPanel);
+		
+		this.playerButton = playerButton;
+		super.add(playerButton);
 	}
 	
 	public void paint(Graphics g)
@@ -46,6 +50,7 @@ public class PlayerPanel extends JPanel
 		{
 			this.hotspotPlayer.setVisible(true);
 			this.playerSubPanel.setVisible(false);
+			this.playerButton.setLocation(60, 320 - this.playerButton.getHeight()/2);
 			g.fillRect(30, 190, 740, 260);
 		}
 		else if(mode == SHOW)
