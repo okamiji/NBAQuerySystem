@@ -22,6 +22,9 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 	public final DetailedTeamPanel teamDisplay;			public static final int TEAM = 3;
 	public final NewTeamService teamService;
 	
+	public final DisplayButton close;
+	public final DisplayButton backward;
+	
 	public DetailedInfoPanel(NewMatchService service, NewTeamService teamService)
 	{
 		this.setSize(550, 640);
@@ -46,12 +49,39 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 		this.add(teamDisplay);
 		
 		this.teamService = teamService;
+		
+		this.close = new DisplayButton("img3/exit_idle.png", "img3/exit_over.png")
+		{
+			@Override
+			protected void activate()
+			{
+				isClosed = true;
+				currentDisplayType = NONE;
+				rowStack.clear();
+				typeStack.clear();
+			}
+		};
+		this.add(this.close);
+		
+		this.backward = new DisplayButton("img3/back_idle.png", "img3/back_over.png")
+		{
+			@Override
+			protected void activate()
+			{
+				popStack();
+			}
+		};
+		this.add(backward);
 	}
 
 	protected Stack<Row> rowStack = new Stack<Row>();
 	protected Stack<Integer> typeStack = new Stack<Integer>();
 	
 	protected int currentDisplayType = NONE;
+	protected boolean isClosed = true;
+	
+	public Row lastRow = null;
+	public int type = NONE;
 	
 	protected void pushStack(Row row, Integer type, boolean stacked)
 	{
@@ -59,8 +89,11 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 		{
 			rowStack.clear();
 			typeStack.clear();
+			this.lastRow = null;
+			this.type = NONE;
 		}
-		rowStack.push(row);	typeStack.push(type);
+		rowStack.push(this.lastRow);	typeStack.push(this.type);
+		this.lastRow = row;				this.type = type;
 	}
 	
 	@Override
@@ -69,6 +102,7 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 		this.pushStack(player, PLAYER, stacked);
 		this.playerDisplay.setRow(player);
 		this.currentDisplayType = PLAYER;
+		this.isClosed = false;
 	}
 	
 	@Override
@@ -77,6 +111,7 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 		this.pushStack(team, TEAM, stacked);
 		this.teamDisplay.setRow(team);
 		this.currentDisplayType = TEAM;
+		this.isClosed = false;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -93,22 +128,47 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 		this.pushStack(match, MATCH, stacked);
 		this.matchDisplay.setRow(match);
 		this.currentDisplayType = MATCH;
+		this.isClosed = false;
 	}
 	
-	public static final Color background = new Color(1.0f, 1.0f, 1.0f, 0.7f);
+	public static final Color background = new Color(1.0f, 1.0f, 1.0f, 0.9f);
 	public void paint(Graphics g)
 	{
-		this.playerDisplay.setVisible(currentDisplayType == PLAYER);
-		this.teamDisplay.setVisible(currentDisplayType == TEAM);
-		this.matchDisplay.setVisible(currentDisplayType == MATCH);
-		
-		if(this.currentDisplayType != NONE)
+		if(this.isClosed)
 		{
-			g.setColor(background);
-			if(this.currentDisplayType != MATCH) g.fillRect(130, 0, 420, 640);
-			else g.fillRect(30, 0, 520, 640);
+			this.playerDisplay.setVisible(false);
+			this.teamDisplay.setVisible(false);
+			this.matchDisplay.setVisible(false);
+			this.close.setVisible(false);
+			this.backward.setVisible(false);
 		}
-		
+		else
+		{
+			this.playerDisplay.setVisible(currentDisplayType == PLAYER);
+			this.teamDisplay.setVisible(currentDisplayType == TEAM);
+			this.matchDisplay.setVisible(currentDisplayType == MATCH);
+			this.close.setVisible(currentDisplayType != NONE);
+			this.backward.setVisible(currentDisplayType != NONE);
+			
+			if(this.currentDisplayType != NONE)
+			{
+				g.setColor(background);
+				if(this.currentDisplayType != MATCH)
+				{
+					g.fillRect(135, 0, 420, 640);
+					g.fillRect(100, 0, 30, 75);
+					this.close.setLocation(100, 5);
+					this.backward.setLocation(100, 35);
+				}
+				else
+				{
+					g.fillRect(35, 0, 520, 640);
+					g.fillRect(0, 0, 30, 75);
+					this.close.setLocation(0, 5);
+					this.backward.setLocation(0, 35);
+				}
+			}
+		}
 		super.paint(g);
 	}
 	
@@ -121,6 +181,11 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 			if(this.currentDisplayType == PLAYER) this.playerDisplay.setRow(currentRow);
 			if(this.currentDisplayType == TEAM) this.teamDisplay.setRow(currentRow);
 			if(this.currentDisplayType == MATCH) this.matchDisplay.setRow(currentRow);
+		}
+		else
+		{
+			this.currentDisplayType = NONE;
+			this.isClosed = true;
 		}
 	}
 }
