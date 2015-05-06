@@ -21,7 +21,7 @@ import nbaquery.presentation3.player.PlayerPanel;
 import nbaquery.presentation3.team.TeamPanel;
 
 @SuppressWarnings("serial")
-public class MainFrame extends JFrame implements DetailedInfoContainer
+public class MainFrame extends JFrame
 {
 	public static final int width = 800;
 	public static final int height = 720;
@@ -31,6 +31,8 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	NewMatchService newMatchService;
 	
 	public DisplayButton closeButton, minimizeButton;
+	
+	public final DetailedInfoPanel detailedDisplay;
 	
 	PlayerPanel playerPanel;	DisplayButton playerButton;		public static final int PLAYER_VIEW = 1;
 	MatchPanel matchPanel;		DisplayButton matchButton;		public static final int TEAM_VIEW = 2;
@@ -133,6 +135,11 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		minimizeButton.setLocation(super.getWidth() - closeButton.getWidth() - minimizeButton.getWidth() - 6, 3);
 		this.add(minimizeButton);
 		
+		//XXX adding detailed info container.
+		this.detailedDisplay = new DetailedInfoPanel(newMatchService, newTeamService);
+		this.detailedDisplay.setLocation(this.getWidth() - this.detailedDisplay.getWidth(), (this.getHeight() - this.detailedDisplay.getHeight()) / 2);
+		this.add(this.detailedDisplay);
+		
 		//XXX adding functional panels.
 
 		this.matchButton = new DisplayButton("img3/match_idle.png", "img3/match_idle.png")	//XXX TODO TEMPORARILY THE SAME
@@ -144,7 +151,7 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 				else swapView(MATCH_VIEW);
 			}
 		};
-		this.matchPanel = new MatchPanel(this, newMatchService, matchButton);
+		this.matchPanel = new MatchPanel(this.detailedDisplay, newMatchService, matchButton);
 		this.add(matchPanel);
 		
 
@@ -158,7 +165,7 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 			}
 		};
 		
-		this.playerPanel = new PlayerPanel(this, newPlayerService, this.playerButton);
+		this.playerPanel = new PlayerPanel(this.detailedDisplay, newPlayerService, this.playerButton);
 		this.add(playerPanel);
 		
 		
@@ -172,7 +179,7 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 			}
 		};
 		
-		this.teamPanel = new TeamPanel(this, newTeamService, teamButton);
+		this.teamPanel = new TeamPanel(this.detailedDisplay, newTeamService, teamButton);
 		this.add(teamPanel);
 		
 		//XXX start refresh thread.
@@ -228,35 +235,5 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	};
 	{
 		this.addMouseListener(windowMove);
-	}
-
-	@Override
-	public void displayPlayerInfo(Row player, boolean stacked)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void displayTeamInfo(Row team, boolean stacked)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void displayMatchInfo(Row match, boolean stacked)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public void displayTeamInfo(String teamNameOrAbbr, boolean isAbbr,
-			boolean stacked)
-	{
-		Row[] rows = newTeamService.searchInfoByName(teamNameOrAbbr, isAbbr).getRows();
-		if(rows.length > 0) this.displayTeamInfo(rows[0], stacked);
 	}
 }
