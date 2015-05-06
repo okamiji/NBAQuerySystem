@@ -5,14 +5,12 @@ import nbaquery.data.TableHost;
 import nbaquery.data.query.DeriveColumnInfo;
 import nbaquery.data.query.DeriveQuery;
 import nbaquery.data.query.ExpressionDeriveColumnInfo;
-import nbaquery.data.query.NaturalJoinQuery;
-import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.logic.LogicWatcher;
 import nbaquery.logic.NativeTablePipeline;
 
 public class ProgressPlayer {
 	
-	LogicWatcher base, player;
+	LogicWatcher base, match;
 	Table table;
 	TableHost tableHost;
 	DeriveQuery derive;
@@ -21,13 +19,13 @@ public class ProgressPlayer {
 	{
 		this.tableHost = tableHost;
 		this.base = new LogicWatcher(base);
-		this.player = new LogicWatcher(new NativeTablePipeline(tableHost, "player"));
+		this.match = new LogicWatcher(new NativeTablePipeline(tableHost, "match"));
 	}
 	
 	public Table getTable(){
 		boolean baseChanged = base.checkDepenency();
-		boolean playerChanged = player.checkDepenency();
-		if(baseChanged || playerChanged){
+		boolean matchChanged = match.checkDepenency();
+		if(baseChanged || matchChanged){
 			if(derive == null) try
 			{
 				derive = new DeriveQuery(base.getTable(), new DeriveColumnInfo[]{
@@ -51,47 +49,6 @@ public class ProgressPlayer {
 			}
 			
 			tableHost.performQuery(derive, "progress_player");
-			Table intermediateTable = tableHost.getTable("progress_player");
-			
-			SelectProjectQuery query2 = null;
-			try
-			{
-				query2 = new SelectProjectQuery("progress_player.self_score_rate < 100.0 ", intermediateTable);
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			tableHost.performQuery(query2, "progress_player");
-			intermediateTable = tableHost.getTable("progress_player");
-			
-			 query2 = null;
-			try
-			{
-				query2 = new SelectProjectQuery("progress_player.total_board_rate < 100.0", intermediateTable);
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			tableHost.performQuery(query2, "progress_player");
-			intermediateTable = tableHost.getTable("progress_player");
-			
-			query2 = null;
-			try
-			{
-				query2 = new SelectProjectQuery("progress_player.assist_rate < 100.0", intermediateTable);
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			tableHost.performQuery(query2, "progress_player");
-			intermediateTable = tableHost.getTable("progress_player");
-			
-			NaturalJoinQuery joinQuery = new NaturalJoinQuery(intermediateTable, player.getTable(), new String[]{"player_name"}, new String[]{"player_name"});
-			tableHost.performQuery(joinQuery, "progress_player");
-			
 			table = tableHost.getTable("progress_player");
 		}
 		return table;

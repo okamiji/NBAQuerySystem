@@ -62,8 +62,8 @@ public class Main
 	
 	public void launch() throws Exception
 	{
-		this.loadDataLayer("D:\\迭代一数据");
-		//main.loadDataLayer("D:\\dynamics");
+		//this.loadDataLayer("D:\\迭代一数据");
+		this.loadDataLayer("D:\\dynamics");
 		while(true) try
 		{
 			this.loadLogicLayer();

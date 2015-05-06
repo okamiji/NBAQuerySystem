@@ -46,9 +46,11 @@ public class ProgressPlayerGroup implements LogicPipeline{
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
-							Float sum = 0.f;
+							Float sum = -1.f;
 							Integer items = 0;
-							if(rows.length>5){
+							if(rows.length>5)
+							{
+								sum = 0.f;
 								for(int i=0;i<rows.length-5;i++)
 								{
 									Integer value = (Integer) self_score.getAttribute(rows[i]);
@@ -59,7 +61,7 @@ public class ProgressPlayerGroup implements LogicPipeline{
 									}
 								}
 								if(items > 0) sum = sum / items;
-								
+								else sum = -1.f;
 							}
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}
@@ -78,9 +80,10 @@ public class ProgressPlayerGroup implements LogicPipeline{
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
-							Float sum = 0.f;
+							Float sum = -1.f;
 							Integer items = 0;
 							if(rows.length>5){
+								sum = 0.f;
 								for(int i=rows.length-5;i<rows.length;i++)
 								{
 									Integer value = (Integer) self_score.getAttribute(rows[i]);
@@ -91,6 +94,7 @@ public class ProgressPlayerGroup implements LogicPipeline{
 									}
 								}
 								if(items > 0) sum = sum / items;
+								else sum = -1.f;
 							}
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}
@@ -109,9 +113,10 @@ public class ProgressPlayerGroup implements LogicPipeline{
 						@Override
 						public void collapse(Row[] rows, Row resultRow)
 						{
-							Float sum = 0.f;
+							Float sum = -1.f;
 							Integer items = 0;
 							if(rows.length>5){
+								sum = 0.f;
 								for(int i=0;i<rows.length-5;i++)
 								{
 									Integer value = (Integer) total_board.getAttribute(rows[i]);
@@ -122,6 +127,7 @@ public class ProgressPlayerGroup implements LogicPipeline{
 									}
 								}
 								if(items > 0) sum = sum / items;
+								else sum = -1.f;
 							}
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}

@@ -55,12 +55,12 @@ public class CalendarColumn implements DisplayTableColumn
 			int column)
 	{
 		calendarDisplay.setText("");
+		calendarDisplay.setForeground(noRecordLabel);
 		if(value != null)
 		{
 			MatchStrip strip = (MatchStrip)value;
 			calendarDisplay.setText(Integer.toString(strip.day));
-			if(strip.matches == null) calendarDisplay.setForeground(noRecordLabel);
-			else calendarDisplay.setForeground(hasRecordLabel);
+			if(strip.matches != null) calendarDisplay.setForeground(hasRecordLabel);
 		}
 		return calendarDisplay;
 	}
