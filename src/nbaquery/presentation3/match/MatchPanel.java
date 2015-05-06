@@ -32,13 +32,15 @@ public class MatchPanel extends JPanel
 		this.setBackground(new Color(0, 0, 0, 0));
 		
 		this.todayMatch = new TodayMatchSubPanel(infoContainer, playerService, 600, 100);
-		this.todayMatch.setLocation(160, 40);
+		this.todayMatch.setBackground(new Color(0, 0, 0, 0));
+		this.todayMatch.setLocation(160, 60);
 		this.add(todayMatch);
 		
 		this.matchSubPanel = new CompareMatchSubPanel(infoContainer, playerService, 720, 600, 300, false)
 		{
 			{
 				this.displayTable.oddBackground = this.displayTable.evenBackground = new Color(0, 0, 0, 0);
+				this.setBackground(new Color(0, 0, 0, 0));
 			}
 			
 			Table reEnteredTable;
@@ -83,10 +85,12 @@ public class MatchPanel extends JPanel
 	
 	public void paint(Graphics g)
 	{
+		g.setColor(MainFrame.backgroundColor);
 		if(mode == HOT_SPOT)
 		{
 			this.todayMatch.setVisible(true);
 			this.matchSubPanel.setVisible(false);
+			g.fillRect(30, 50, 740, 120);
 		}
 		else if(mode == SHOW)
 		{

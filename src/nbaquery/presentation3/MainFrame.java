@@ -1,15 +1,21 @@
 package nbaquery.presentation3;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import nbaquery.data.Row;
 import nbaquery.logic.match.NewMatchService;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.logic.team.NewTeamService;
+import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation3.match.MatchPanel;
 import nbaquery.presentation3.player.PlayerPanel;
 import nbaquery.presentation3.team.TeamPanel;
@@ -30,6 +36,21 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	MatchPanel matchPanel;
 	TeamPanel teamPanel;
 	
+	Image background;
+	JPanel framePanel = new JPanel()
+	{
+		{
+			setBackground(new Color(0, 0, 0, 0));
+		}
+		public void paint(Graphics g)
+		{
+			g.drawImage(background, 0, 0, width, height, null);
+			super.paint(g);
+		}
+	};
+	
+	public static Color backgroundColor = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+	
 	public MainFrame(NewPlayerService newPlayerService,
 			NewTeamService newTeamService, NewMatchService newMatchService)
 	{
@@ -48,6 +69,14 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		super.setLocation((screenSize.width - super.getWidth()) / 2, (screenSize.height - super.getHeight()) / 2);
 		super.setAlwaysOnTop(true);
 		
+		//XXX adding frame panel.
+		framePanel.setLayout(null);
+		framePanel.setSize(width, height);
+		super.add(framePanel);
+		
+		//XXX adding background to the frame.
+		background = ImageIconResource.getImageIcon("img3/background.jpg").getImage();
+		
 		//XXX adding extended state button to the screen.
 		closeButton = new DisplayButton("img3/exit_idle.png", "img3/exit_over.png")
 		{
@@ -58,7 +87,7 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 			}
 		};
 		closeButton.setLocation(super.getWidth() - closeButton.getWidth() - 3, 3);
-		super.add(closeButton);
+		this.add(closeButton);
 		
 		minimizeButton = new DisplayButton("img3/minimize_idle.png", "img3/minimize_over.png")
 		{
@@ -69,20 +98,25 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 			}
 		};
 		minimizeButton.setLocation(super.getWidth() - closeButton.getWidth() - minimizeButton.getWidth() - 6, 3);
-		super.add(minimizeButton);
+		this.add(minimizeButton);
 		
 		//XXX adding functional panels.
 		this.matchPanel = new MatchPanel(this, newMatchService);
 		this.add(matchPanel);
 		
 		this.playerPanel = new PlayerPanel(this, newPlayerService);
-		super.add(playerPanel);
+		this.add(playerPanel);
 		
 		this.teamPanel = new TeamPanel(this, newTeamService);
 		this.add(teamPanel);
 		
 		//XXX start refresh thread.
 		this.refresh.start();
+	}
+	
+	public Component add(Component c)
+	{
+		return this.framePanel.add(c);
 	}
 	
 	Thread refresh = new Thread()
