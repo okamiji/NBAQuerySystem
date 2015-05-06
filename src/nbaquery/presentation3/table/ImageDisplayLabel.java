@@ -27,7 +27,7 @@ public class ImageDisplayLabel extends JLabel
 		g.fillRect(0, 0, this.getHeight(), this.getHeight());
 		java.awt.Image img = this.getImage();
 		if(img == null) return;
-		g.drawImage(img , 0, 0, null);
+		g.drawImage(img , 0, 0, this.getHeight(), this.getHeight(), null);
 	}
 	
 	protected java.awt.Image getImage()
@@ -46,7 +46,6 @@ public class ImageDisplayLabel extends JLabel
 			{
 			
 			}
-			if(img != null) img = img.getScaledInstance(getHeight(), getHeight(), java.awt.Image.SCALE_SMOOTH);
 			buffers.put(image, img);
 		}
 		return img;
