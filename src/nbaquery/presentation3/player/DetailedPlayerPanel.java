@@ -1,9 +1,11 @@
 package nbaquery.presentation3.player;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -30,7 +32,15 @@ public class DetailedPlayerPanel extends JPanel
 	public final CompareMatchSubPanel match;
 	Row playerRow;
 	
-	public final JLabel actionDisplay = new JLabel();
+	public final JLabel actionDisplay = new JLabel()
+	{
+		public void paint(Graphics g)
+		{
+			ImageIcon icon = (ImageIcon) this.getIcon();
+			if(icon == null) super.paint(g);
+			else g.drawImage(icon.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+		}
+	};
 	
 	public DetailedPlayerPanel(final DetailedInfoContainer container, NewMatchService matchService, int width, int height)
 	{
