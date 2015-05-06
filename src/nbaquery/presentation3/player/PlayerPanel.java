@@ -35,7 +35,8 @@ public class PlayerPanel extends JPanel
 		super.add(hotspotPlayer);
 		
 		this.playerSubPanel = new ComparePlayerSubPanel(playerService, infoContainer, 720, 600, 25);
-		this.playerSubPanel.setLocation(60, 60);
+		this.playerSubPanel.playerTable.setRowHeight(20);
+		this.playerSubPanel.setLocation(40, 60);
 		this.playerSubPanel.setBackground(MainFrame.transparent);
 		super.add(playerSubPanel);
 		
@@ -57,11 +58,15 @@ public class PlayerPanel extends JPanel
 		{
 			this.hotspotPlayer.setVisible(false);
 			this.playerSubPanel.setVisible(true);
+			g.fillRect(30, 40, 740, 600);
+			g.fillRect(30, 650, 740, 60);
+			this.playerButton.setLocation(400 - this.playerButton.getWidth() / 2, 680 - this.playerButton.getHeight() / 2);
 		}
 		else
 		{
 			this.hotspotPlayer.setVisible(false);
 			this.playerSubPanel.setVisible(false);
+			this.playerButton.setLocation(400 - this.playerButton.getWidth() / 2, 680 - this.playerButton.getHeight() / 2);
 		}
 		super.paint(g);
 	}
