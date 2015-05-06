@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import nbaquery.logic.team.NewTeamService;
 import nbaquery.presentation3.DetailedInfoContainer;
+import nbaquery.presentation3.DisplayButton;
 import nbaquery.presentation3.MainFrame;
 
 @SuppressWarnings("serial")
@@ -20,8 +21,9 @@ public class TeamPanel extends JPanel
 	
 	public final HotTeamSubPanel hotspotTeam;
 	public final CompareTeamSubPanel teamSubPanel;
+	public final DisplayButton teamButton;
 	
-	public TeamPanel(DetailedInfoContainer infoContainer, NewTeamService teamService)
+	public TeamPanel(DetailedInfoContainer infoContainer, NewTeamService teamService, DisplayButton teamButton)
 	{
 		this.setLayout(null);
 		this.setBounds(0, 0, MainFrame.width - 1, MainFrame.height - 1);
@@ -36,6 +38,9 @@ public class TeamPanel extends JPanel
 		this.teamSubPanel.setLocation(60, 120);
 		this.teamSubPanel.setBackground(MainFrame.transparent);
 		super.add(teamSubPanel);
+		
+		this.teamButton = teamButton;
+		super.add(this.teamButton);
 	}
 	
 	public void paint(Graphics g)
@@ -45,6 +50,7 @@ public class TeamPanel extends JPanel
 		{
 			this.hotspotTeam.setVisible(true);
 			this.teamSubPanel.setVisible(false);
+			this.teamButton.setLocation(60, 590 - this.teamButton.getHeight()/2);
 			g.fillRect(30, 470, 740, 240);
 		}
 		else if(mode == SHOW)

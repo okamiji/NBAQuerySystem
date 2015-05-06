@@ -127,8 +127,6 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		this.playerPanel = new PlayerPanel(this, newPlayerService, this.playerButton);
 		this.add(playerPanel);
 		
-		this.teamPanel = new TeamPanel(this, newTeamService);
-		this.add(teamPanel);
 		
 		this.teamButton = new DisplayButton("img3/team_idle.png", "img3/team_idle.png")	//XXX TODO TEMPORARILY THE SAME
 		{
@@ -138,6 +136,9 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 				
 			}
 		};
+		
+		this.teamPanel = new TeamPanel(this, newTeamService, teamButton);
+		this.add(teamPanel);
 		
 		//XXX start refresh thread.
 		this.refresh.start();
