@@ -26,23 +26,27 @@ public class TeamPanel extends JPanel
 	{
 		this.setLayout(null);
 		this.setBounds(0, 0, MainFrame.width - 1, MainFrame.height - 1);
-		this.setBackground(new Color(0, 0, 0, 0));
+		this.setBackground(MainFrame.transparent);
 		
 		this.hotspotTeam = new HotTeamSubPanel(teamService, infoContainer, 600, 240);
 		this.hotspotTeam.setLocation(160, 480);
+		this.hotspotTeam.setBackground(MainFrame.transparent);
 		super.add(hotspotTeam);
 		
 		this.teamSubPanel = new CompareTeamSubPanel(teamService, infoContainer, 720, 600, 25);
 		this.teamSubPanel.setLocation(60, 120);
+		this.teamSubPanel.setBackground(MainFrame.transparent);
 		super.add(teamSubPanel);
 	}
 	
 	public void paint(Graphics g)
 	{
+		g.setColor(MainFrame.backgroundColor);
 		if(mode == HOT_SPOT)
 		{
 			this.hotspotTeam.setVisible(true);
 			this.teamSubPanel.setVisible(false);
+			g.fillRect(30, 470, 740, 240);
 		}
 		else if(mode == SHOW)
 		{
