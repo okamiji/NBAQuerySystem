@@ -182,8 +182,9 @@ public class HotPlayerSubPanel extends JPanel
 			public void onSelect(DisplayTable table, int column,
 					Point mousePoint)
 			{
-					currentSection.theDropMenu.popupWindow(playerTable.getX() + mousePoint.x,
-							playerTable.getY() + mousePoint.y);
+				Point screenLocation = playerTable.getLocationOnScreen();
+					currentSection.theDropMenu.popupWindow(screenLocation.x + mousePoint.x,
+							screenLocation.y + mousePoint.y);
 			}
 		});
 		

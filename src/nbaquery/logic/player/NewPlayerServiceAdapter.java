@@ -121,11 +121,14 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	public Table searchForTodayHotPlayers(String head)
 	{
 		Table table = this.hot.getTable();
-		SortQuery sort = new SortQuery(table, head, 5, true);		//"5" stands for top 5 here.
-		tableHost.performQuery(sort, "today_hot_player_query_result");
-		NaturalJoinQuery nj = new NaturalJoinQuery(tableHost.getTable("today_hot_player_query_result"),
+		
+		NaturalJoinQuery nj = new NaturalJoinQuery(table,
 				tableHost.getTable("team"), new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
 		tableHost.performQuery(nj, "today_hot_player_query_result");
+		
+		SortQuery sort = new SortQuery(tableHost.getTable("today_hot_player_query_result"), head, 5, true);		//"5" stands for top 5 here.
+		tableHost.performQuery(sort, "today_hot_player_query_result");
+		
 		return tableHost.getTable("today_hot_player_query_result");
 	}
 
@@ -133,12 +136,13 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	public Table searchForProgressPlayers(String head)
 	{
 		Table table = this.progress.getTable();
-		SortQuery sort = new SortQuery(table, head, 5, true);		//"5" stands for top 5 here. 
-		tableHost.performQuery(sort, "progress_player_query_result");
-		
-		NaturalJoinQuery nj = new NaturalJoinQuery(tableHost.getTable("progress_player_query_result"),
+
+		NaturalJoinQuery nj = new NaturalJoinQuery(table,
 				tableHost.getTable("team"), new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
 		tableHost.performQuery(nj, "progress_player_query_result");
+		
+		SortQuery sort = new SortQuery(tableHost.getTable("progress_player_query_result"), head, 5, true);		//"5" stands for top 5 here. 
+		tableHost.performQuery(sort, "progress_player_query_result");
 		
 		return tableHost.getTable("progress_player_query_result");
 	}

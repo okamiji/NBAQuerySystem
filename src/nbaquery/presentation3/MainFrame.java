@@ -72,11 +72,11 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		super.add(minimizeButton);
 		
 		//XXX adding functional panels.
-		this.playerPanel = new PlayerPanel(this, newPlayerService);
-		super.add(playerPanel);
-		
 		this.matchPanel = new MatchPanel(this, newMatchService);
 		this.add(matchPanel);
+		
+		this.playerPanel = new PlayerPanel(this, newPlayerService);
+		super.add(playerPanel);
 		
 		this.teamPanel = new TeamPanel(this, newTeamService);
 		this.add(teamPanel);

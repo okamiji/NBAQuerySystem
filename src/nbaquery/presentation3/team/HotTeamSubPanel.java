@@ -181,9 +181,9 @@ public class HotTeamSubPanel extends JPanel
 			public void onSelect(DisplayTable table, int column,
 					Point mousePoint)
 			{
-				if(column > 1)
-					currentSection.theDropMenu.popupWindow(teamTable.getX() + mousePoint.x,
-							teamTable.getY() + mousePoint.y);
+				Point screenLocation = teamTable.getLocationOnScreen();
+				currentSection.theDropMenu.popupWindow(screenLocation.x + mousePoint.x,
+							screenLocation.y + mousePoint.y);
 			}
 		});
 		
