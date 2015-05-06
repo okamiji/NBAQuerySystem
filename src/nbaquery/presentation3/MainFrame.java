@@ -32,9 +32,41 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	
 	public DisplayButton closeButton, minimizeButton;
 	
-	PlayerPanel playerPanel;	DisplayButton playerButton;
-	MatchPanel matchPanel;		DisplayButton matchButton;
-	TeamPanel teamPanel;		DisplayButton teamButton;
+	PlayerPanel playerPanel;	DisplayButton playerButton;		public static final int PLAYER_VIEW = 1;
+	MatchPanel matchPanel;		DisplayButton matchButton;		public static final int TEAM_VIEW = 2;
+	TeamPanel teamPanel;		DisplayButton teamButton;		public static final int MATCH_VIEW = 3;
+	public static final int HOTSPOT = 0;
+	
+	int currentView = HOTSPOT;
+	
+	public void swapView(int target)
+	{
+		if(target == HOTSPOT)
+		{
+			playerPanel.mode = PlayerPanel.HOT_SPOT;
+			teamPanel.mode = TeamPanel.HOT_SPOT;
+			matchPanel.mode = MatchPanel.HOT_SPOT;
+		}
+		else if(target == PLAYER_VIEW)
+		{
+			playerPanel.mode = PlayerPanel.SHOW;
+			teamPanel.mode = TeamPanel.MINIMIZE;
+			matchPanel.mode = MatchPanel.MINIMIZE;
+		}
+		else if(target == TEAM_VIEW)
+		{
+			playerPanel.mode = PlayerPanel.MINIMIZE;
+			teamPanel.mode = TeamPanel.SHOW;
+			matchPanel.mode = MatchPanel.MINIMIZE;
+		}
+		else if(target == MATCH_VIEW)
+		{
+			playerPanel.mode = PlayerPanel.MINIMIZE;
+			teamPanel.mode = TeamPanel.MINIMIZE;
+			matchPanel.mode = MatchPanel.SHOW;
+		}
+		currentView = target;
+	}
 	
 	Image background;
 	JPanel framePanel = new JPanel()
@@ -108,7 +140,8 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 			@Override
 			protected void activate()
 			{
-				
+				if(currentView == MATCH_VIEW) swapView(HOTSPOT);
+				else swapView(MATCH_VIEW);
 			}
 		};
 		this.matchPanel = new MatchPanel(this, newMatchService, matchButton);
@@ -120,7 +153,8 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 			@Override
 			protected void activate()
 			{
-				
+				if(currentView == PLAYER_VIEW) swapView(HOTSPOT);
+				else swapView(PLAYER_VIEW);				
 			}
 		};
 		
@@ -133,7 +167,8 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 			@Override
 			protected void activate()
 			{
-				
+				if(currentView == TEAM_VIEW) swapView(HOTSPOT);
+				else swapView(TEAM_VIEW);
 			}
 		};
 		
