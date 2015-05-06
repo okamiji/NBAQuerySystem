@@ -12,6 +12,7 @@ import nbaquery.logic.player.NewPlayerService;
 import nbaquery.logic.team.NewTeamService;
 import nbaquery.presentation3.match.MatchPanel;
 import nbaquery.presentation3.player.PlayerPanel;
+import nbaquery.presentation3.team.TeamPanel;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame implements DetailedInfoContainer
@@ -27,6 +28,7 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 	
 	PlayerPanel playerPanel;
 	MatchPanel matchPanel;
+	TeamPanel teamPanel;
 	
 	public MainFrame(NewPlayerService newPlayerService,
 			NewTeamService newTeamService, NewMatchService newMatchService)
@@ -73,8 +75,11 @@ public class MainFrame extends JFrame implements DetailedInfoContainer
 		this.playerPanel = new PlayerPanel(this, newPlayerService);
 		super.add(playerPanel);
 		
-		this.matchPanel = new MatchPanel(this, this.newMatchService);
+		this.matchPanel = new MatchPanel(this, newMatchService);
 		this.add(matchPanel);
+		
+		this.teamPanel = new TeamPanel(this, newTeamService);
+		this.add(teamPanel);
 		
 		//XXX start refresh thread.
 		this.refresh.start();
