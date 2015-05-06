@@ -82,7 +82,7 @@ public class MainFrame extends JFrame
 		}
 	};
 	
-	public static final Color backgroundColor = new Color(1.0f, 1.0f, 1.0f, 0.6f);
+	public static final Color backgroundColor = new Color(1.0f, 1.0f, 1.0f, 0.7f);
 	public static final Color transparent = new Color(0, 0, 0, 0);
 	public static final Color selectedShadow = new Color(224.0f/256, 92.0f/256, 17.0f/256);
 	
@@ -142,7 +142,7 @@ public class MainFrame extends JFrame
 		
 		//XXX adding functional panels.
 
-		this.matchButton = new DisplayButton("img3/match_idle.png", "img3/match_idle.png")	//XXX TODO TEMPORARILY THE SAME
+		this.matchButton = new DisplayButton("img3/match_idle.png", "img3/match_over.png")	//XXX TODO TEMPORARILY THE SAME
 		{
 			@Override
 			protected void activate()
@@ -155,7 +155,7 @@ public class MainFrame extends JFrame
 		this.add(matchPanel);
 		
 
-		this.playerButton = new DisplayButton("img3/player_idle.png", "img3/player_idle.png")	//XXX TODO TEMPORARILY THE SAME
+		this.playerButton = new DisplayButton("img3/player_idle.png", "img3/player_over.png")	//XXX TODO TEMPORARILY THE SAME
 		{
 			@Override
 			protected void activate()
@@ -169,7 +169,7 @@ public class MainFrame extends JFrame
 		this.add(playerPanel);
 		
 		
-		this.teamButton = new DisplayButton("img3/team_idle.png", "img3/team_idle.png")	//XXX TODO TEMPORARILY THE SAME
+		this.teamButton = new DisplayButton("img3/team_idle.png", "img3/team_over.png")	//XXX TODO TEMPORARILY THE SAME
 		{
 			@Override
 			protected void activate()
