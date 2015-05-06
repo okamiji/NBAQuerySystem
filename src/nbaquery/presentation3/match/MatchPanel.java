@@ -106,6 +106,8 @@ public class MatchPanel extends JPanel
 			g.fillRect(30, 40, 740, 600);
 			g.fillRect(30, 650, 740, 60);
 			this.matchButton.setLocation(60, 680 - this.matchButton.getHeight() / 2);
+			g.setColor(MainFrame.selectedShadow);
+			g.fillRect(55, 710, 60, 5);
 		}
 		else
 		{

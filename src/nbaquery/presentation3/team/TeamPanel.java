@@ -61,6 +61,8 @@ public class TeamPanel extends JPanel
 			g.fillRect(30, 40, 740, 600);
 			g.fillRect(30, 650, 740, 60);
 			this.teamButton.setLocation(710 - this.teamButton.getWidth() / 2, 680 - this.teamButton.getHeight() / 2);
+			g.setColor(MainFrame.selectedShadow);
+			g.fillRect(710 - this.teamButton.getWidth() / 2, 710, 60, 5);
 		}
 		else
 		{

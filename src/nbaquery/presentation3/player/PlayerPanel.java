@@ -61,6 +61,8 @@ public class PlayerPanel extends JPanel
 			g.fillRect(30, 40, 740, 600);
 			g.fillRect(30, 650, 740, 60);
 			this.playerButton.setLocation(400 - this.playerButton.getWidth() / 2, 680 - this.playerButton.getHeight() / 2);
+			g.setColor(MainFrame.selectedShadow);
+			g.fillRect(370, 710, 60, 5);
 		}
 		else
 		{

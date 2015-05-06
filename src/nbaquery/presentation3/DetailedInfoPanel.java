@@ -64,7 +64,7 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 		this.playerDisplay.setRow(player);
 		this.currentDisplayType = PLAYER;
 	}
-
+	
 	@Override
 	public void displayTeamInfo(Row team, boolean stacked)
 	{
@@ -95,5 +95,17 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 		this.teamDisplay.setVisible(currentDisplayType == TEAM);
 		this.matchDisplay.setVisible(currentDisplayType == MATCH);
 		super.paint(g);
+	}
+	
+	public void popStack()
+	{
+		if(!rowStack.isEmpty())
+		{
+			Row currentRow = rowStack.pop();
+			this.currentDisplayType = typeStack.pop();
+			if(this.currentDisplayType == PLAYER) this.playerDisplay.setRow(currentRow);
+			if(this.currentDisplayType == TEAM) this.teamDisplay.setRow(currentRow);
+			if(this.currentDisplayType == MATCH) this.matchDisplay.setRow(currentRow);
+		}
 	}
 }
