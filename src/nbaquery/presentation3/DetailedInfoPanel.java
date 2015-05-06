@@ -1,5 +1,6 @@
 package nbaquery.presentation3;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Stack;
 
@@ -28,15 +29,20 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 		this.setBackground(MainFrame.transparent);
 		
 		this.matchDisplay = new DetailedMatchPanel(this, service, 500, 600);
+		this.matchDisplay.setBackground(MainFrame.transparent);
 		this.matchDisplay.setBounds(50, 20, 500, 600);
 		this.add(matchDisplay);
 		
 		this.playerDisplay = new DetailedPlayerPanel(this, service, 400, 600);
+		this.playerDisplay.setBackground(MainFrame.transparent);
 		this.playerDisplay.setBounds(150, 20, 400, 600);
+		this.playerDisplay.match.setBackground(MainFrame.transparent);
 		this.add(playerDisplay);
 		
 		this.teamDisplay = new DetailedTeamPanel(this, service, 400, 600);
+		this.teamDisplay.setBackground(MainFrame.transparent);
 		this.teamDisplay.setBounds(150, 20, 400, 600);
+		this.teamDisplay.match.setBackground(MainFrame.transparent);
 		this.add(teamDisplay);
 		
 		this.teamService = teamService;
@@ -89,11 +95,20 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 		this.currentDisplayType = MATCH;
 	}
 	
+	public static final Color background = new Color(1.0f, 1.0f, 1.0f, 0.7f);
 	public void paint(Graphics g)
 	{
 		this.playerDisplay.setVisible(currentDisplayType == PLAYER);
 		this.teamDisplay.setVisible(currentDisplayType == TEAM);
 		this.matchDisplay.setVisible(currentDisplayType == MATCH);
+		
+		if(this.currentDisplayType != NONE)
+		{
+			g.setColor(background);
+			if(this.currentDisplayType != MATCH) g.fillRect(130, 0, 420, 640);
+			else g.fillRect(30, 0, 520, 640);
+		}
+		
 		super.paint(g);
 	}
 	
