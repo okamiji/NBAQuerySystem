@@ -13,7 +13,6 @@ public class ProgressPlayer {
 	LogicWatcher base, match;
 	Table table;
 	TableHost tableHost;
-	DeriveQuery derive;
 	
 	public ProgressPlayer(TableHost tableHost,ProgressPlayerGroup base)
 	{
@@ -26,7 +25,8 @@ public class ProgressPlayer {
 		boolean baseChanged = base.checkDepenency();
 		boolean matchChanged = match.checkDepenency();
 		if(baseChanged || matchChanged){
-			if(derive == null) try
+			DeriveQuery derive = null;
+			try
 			{
 				derive = new DeriveQuery(base.getTable(), new DeriveColumnInfo[]{
 					new ExpressionDeriveColumnInfo("self_score_rate", Float.class,
@@ -47,7 +47,6 @@ public class ProgressPlayer {
 			{
 				e.printStackTrace();
 			}
-			
 			tableHost.performQuery(derive, "progress_player");
 			table = tableHost.getTable("progress_player");
 		}
