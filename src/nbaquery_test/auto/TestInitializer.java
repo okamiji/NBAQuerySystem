@@ -25,7 +25,7 @@ public class TestInitializer implements TestFacadeToken
 	}
 
 	@Override
-	public void change(TestFacade facade, String[] parameters, int beginIndex)
+	public void change(Console facade, String[] parameters, int beginIndex)
 	{
 		String dataSourcePath = parameters[beginIndex + 1];
 		facade.tableHost = new FileTableHost(new File(dataSourcePath), 

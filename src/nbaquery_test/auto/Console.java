@@ -28,7 +28,7 @@ import nbaquery_test.auto.token.Number;
  * Facade design pattern is used in automized test.
  * @author luohaoran
  */
-public class TestFacade
+public class Console
 {
 	final TreeMap<String, TestFacadeToken> tokens = new TreeMap<String, TestFacadeToken>();
 	
@@ -36,7 +36,7 @@ public class TestFacade
 	NewTeamService teamService;
 	NewPlayerService playerService;
 	
-	public TestFacade()
+	public Console()
 	{
 		this(new TestFacadeToken[]{new TestInitializer(), new TestTerminator(),
 				new Player(), new Team(), new Average(), new Total(),new All(),
@@ -87,7 +87,7 @@ public class TestFacade
 	public int hotMode   = 0;
 	boolean isGross=false;
 	
-	public TestFacade(TestFacadeToken[] tokens)
+	public Console(TestFacadeToken[] tokens)
 	{
 		for(TestFacadeToken token : tokens)
 		{
@@ -438,8 +438,8 @@ public class TestFacade
 	
 	public static void main(String[] arguments) throws Exception
 	{
-		TestFacade facade = new TestFacade();
-		facade.execute(System.out, new String[]{"--datasource", "D:\\迭代一数据"});
+		Console facade = new Console();
+		facade.execute(System.out, new String[]{"--datasource", "D:/迭代一数据"});
 //		facade.execute(System.out, new String[]{"-player","-filter","age.<=22","-n","10"});
 //		facade.execute(System.out, new String[]{"-player", "-total"});
 //		facade.execute(System.out, new String[]{"-player", "-avg",});
@@ -447,35 +447,6 @@ public class TestFacade
 		facade.execute(System.out, new String[]{"-team", "-avg","-all","-n","10","-sort","shot.desc"});
 		facade.execute(System.out, new String[]{"--shutdown"});
 	}
-	
-	public static String convertTableIntoString(Table table)
-	{
-		StringBuilder builder = new StringBuilder();
-		Column[] columns = table.getColumns().toArray(new Column[0]);
-		
-		for(int i = 0; i < columns.length; i ++)
-		{
-			if(i > 0) builder.append(' ');
-			builder.append(columns[i].getColumnName());
-		}
-		int rec = 0;
-		for(Row row : table.getRows())
-		{
-			rec ++;
-			builder.append('\n');
-			for(int i = 0; i < columns.length; i ++)
-			{
-				if(i > 0) builder.append(' ');
-				builder.append(columns[i].getAttribute(row));
-			}
-		}
-		builder.append('\n');
-		builder.append(rec);
-		builder.append(" record(s) generated in total.");
-		
-		return new String(builder);
-	}
-	
 	
 	public final TreeMap<String, String> ageLookups = new TreeMap<String, String>();{
 		ageLookups.put("<=22","player_query_result.PLAYER_AGE<=22");

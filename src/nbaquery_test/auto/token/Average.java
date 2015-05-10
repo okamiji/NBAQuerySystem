@@ -1,6 +1,6 @@
 package nbaquery_test.auto.token;
 
-import nbaquery_test.auto.TestFacade;
+import nbaquery_test.auto.Console;
 import nbaquery_test.auto.TestFacadeToken;
 
 public class Average implements TestFacadeToken
@@ -18,10 +18,10 @@ public class Average implements TestFacadeToken
 	}
 
 	@Override
-	public void change(TestFacade facade, String[] parameters, int beginIndex)
+	public void change(Console facade, String[] parameters, int beginIndex)
 	{
 	
-		facade.queryMode &= Integer.MAX_VALUE ^ TestFacade.DATA_TYPE_BIT;
-		facade.queryMode |= TestFacade.AVERAGE;
+		facade.queryMode &= Integer.MAX_VALUE ^ Console.DATA_TYPE_BIT;
+		facade.queryMode |= Console.AVERAGE;
 	}
 }

@@ -6,5 +6,5 @@ public interface TestFacadeToken
 	
 	public int params();
 	
-	public void change(TestFacade facade, String[] parameters, int beginIndex);
+	public void change(Console facade, String[] parameters, int beginIndex);
 }

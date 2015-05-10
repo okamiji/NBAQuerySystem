@@ -1,6 +1,6 @@
 package nbaquery_test.auto.token;
 
-import nbaquery_test.auto.TestFacade;
+import nbaquery_test.auto.Console;
 import nbaquery_test.auto.TestFacadeToken;
 
 public class Sort implements TestFacadeToken
@@ -18,10 +18,10 @@ public class Sort implements TestFacadeToken
 	}
 
 	@Override
-	public void change(TestFacade facade, String[] parameters, int beginIndex)
+	public void change(Console facade, String[] parameters, int beginIndex)
 	{
-		facade.queryMode &= Integer.MAX_VALUE ^ TestFacade.SORT_TYPE_BIT;
-		facade.queryMode |= TestFacade.SORT;
+		facade.queryMode &= Integer.MAX_VALUE ^ Console.SORT_TYPE_BIT;
+		facade.queryMode |= Console.SORT;
 		
 		facade.sortField = parameters[beginIndex+1];
 	}

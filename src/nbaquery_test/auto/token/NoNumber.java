@@ -1,6 +1,6 @@
 package nbaquery_test.auto.token;
 
-import nbaquery_test.auto.TestFacade;
+import nbaquery_test.auto.Console;
 import nbaquery_test.auto.TestFacadeToken;
 
 public class NoNumber implements TestFacadeToken
@@ -18,10 +18,10 @@ public class NoNumber implements TestFacadeToken
 	}
 
 	@Override
-	public void change(TestFacade facade, String[] parameters, int beginIndex)
+	public void change(Console facade, String[] parameters, int beginIndex)
 	{
-		facade.queryMode &= Integer.MAX_VALUE ^ TestFacade.NUMBER_TYPE_BIT;
-		facade.queryMode |= TestFacade.NONUMBER;
+		facade.queryMode &= Integer.MAX_VALUE ^ Console.NUMBER_TYPE_BIT;
+		facade.queryMode |= Console.NONUMBER;
 		facade.dataNumber = 50;
 	}
 }

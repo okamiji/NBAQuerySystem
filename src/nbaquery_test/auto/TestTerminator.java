@@ -18,7 +18,7 @@ public class TestTerminator implements TestFacadeToken
 	}
 
 	@Override
-	public void change(TestFacade facade, String[] parameters, int beginIndex)
+	public void change(Console facade, String[] parameters, int beginIndex)
 	{
 		FileMonitor.isSystemRunning = false;
 	}
