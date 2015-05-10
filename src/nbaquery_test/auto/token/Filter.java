@@ -23,9 +23,6 @@ public class Filter implements TestFacadeToken
 		facade.queryMode &= Integer.MAX_VALUE ^ TestFacade.FILTER_TYPE_BIT;
 		facade.queryMode |= TestFacade.FILTER;
 		
-		String[] filter = parameters[beginIndex+1].split(",");
-		for(int i = 0;i<filter.length;i++){
-			facade.filterField[i]=filter[i];
-		}
+		facade.filterField = parameters[beginIndex+1];
 	}
 }

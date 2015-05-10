@@ -23,10 +23,14 @@ import nbaquery.logic.infrustructure.RivalTeamNaturalJoin;
 import nbaquery.logic.infrustructure.RivalTeamPerformance;
 import nbaquery.logic.match.MatchService;
 import nbaquery.logic.match.MatchServiceAdapter;
+import nbaquery.logic.player.NewPlayerService;
+import nbaquery.logic.player.NewPlayerServiceAdapter;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.player.PlayerServiceAdapter;
 import nbaquery.logic.progress_player.ProgressPlayer;
 import nbaquery.logic.progress_player.ProgressPlayerGroup;
+import nbaquery.logic.team.NewTeamService;
+import nbaquery.logic.team.NewTeamServiceAdapter;
 import nbaquery.logic.team.TeamService;
 import nbaquery.logic.team.TeamServiceAdapter;
 
@@ -36,6 +40,9 @@ public class LogicAssembler implements ILogicAssembler
 	TeamService team_service;
 	PlayerService player_service;
 	MatchService match_service;
+	
+	NewTeamService new_team_service;
+	NewPlayerService new_player_service;
 	
 	@Override
 	public void assemble(TableHost tableHost)
@@ -101,6 +108,7 @@ public class LogicAssembler implements ILogicAssembler
 		/**
 		 * team
 		 */
+		new_team_service = new NewTeamServiceAdapter(tableHost, gross_team, average_team, hot_team_today);
 		team_service = new TeamServiceAdapter(tableHost, gross_team, average_team, hot_team_today, new String[]
 		{
 				"match_season", //"Èü¼¾"
@@ -181,7 +189,7 @@ public class LogicAssembler implements ILogicAssembler
 		{
 			e.printStackTrace();
 		}
-		
+		new_player_service = new NewPlayerServiceAdapter(tableHost, gross_player, average_player,hot_player_today,progress_player);
 		player_service = new PlayerServiceAdapter(tableHost, gross_player, average_player,hot_player_today,progress_player, new String[]
 		{
 				"match_season",//"Èü¼¾"
@@ -325,6 +333,13 @@ public class LogicAssembler implements ILogicAssembler
 	public MatchService getMatchService() {
 		// TODO Auto-generated method stub
 		return match_service;
+	}
+	
+	public NewTeamService getNTS(){
+		return new_team_service;
+	}
+	public NewPlayerService getNPS(){
+		return new_player_service;
 	}
 	
 }

@@ -23,6 +23,6 @@ public class Sort implements TestFacadeToken
 		facade.queryMode &= Integer.MAX_VALUE ^ TestFacade.SORT_TYPE_BIT;
 		facade.queryMode |= TestFacade.SORT;
 		
-		facade.filterField[4] = parameters[beginIndex+1];
+		facade.sortField = parameters[beginIndex+1];
 	}
 }

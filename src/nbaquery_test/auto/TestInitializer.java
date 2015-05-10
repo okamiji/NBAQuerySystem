@@ -46,6 +46,7 @@ public class TestInitializer implements TestFacadeToken
 		
 		ILogicAssembler assembler = new LogicAssembler();
 		assembler.assemble(facade.tableHost);
-		assembler.getPlayerService();
+		facade.playerService = assembler.getNPS();
+		facade.teamService = assembler.getNTS();
 	}
 }
