@@ -438,14 +438,14 @@ public class Console
 	
 	public static void main(String[] arguments) throws Exception
 	{
-		Console facade = new Console();
-		facade.execute(System.out, new String[]{"--datasource", "D:/迭代一数据"});
+//		Console facade = new Console();
+//		facade.execute(System.out, new String[]{"--datasource", "D:/迭代一数据"});
 //		facade.execute(System.out, new String[]{"-player","-filter","age.<=22","-n","10"});
-//		facade.execute(System.out, new String[]{"-player", "-total"});
+//		facade.execute(System.out, new String[]{"-player", "-all","-n","5","-filter","position.f"});
 //		facade.execute(System.out, new String[]{"-player", "-avg",});
 //		facade.execute(System.out, new String[]{"-team"});
-		facade.execute(System.out, new String[]{"-team", "-avg","-all","-n","10","-sort","shot.desc"});
-		facade.execute(System.out, new String[]{"--shutdown"});
+//		facade.execute(System.out, new String[]{"-team", "-avg","-all","-n","10","-sort","shot.desc"});
+//		facade.execute(System.out, new String[]{"--shutdown"});
 	}
 	
 	public final TreeMap<String, String> ageLookups = new TreeMap<String, String>();{
@@ -507,7 +507,7 @@ public class Console
 		playerLookups.put("shot","shoot_rate");
 		playerLookups.put("three","three_shoot_rate");
 		playerLookups.put("penalty","foul_shoot_rate");
-		playerLookups.put("doubleTwo",null);
+		playerLookups.put("doubleTwo","score_board_assist");
 		playerLookups.put("realShot","true_shoot_rate");
 		playerLookups.put("GmSc","gmsc_efficiency");
 		playerLookups.put("shotEfficient","shoot_efficiency");
