@@ -70,10 +70,12 @@ public class PlayerLoader implements FileLoader
 		Tuple player = playerTable.createTuple();
 		while((readLine = reader.readLine()) != null)
 		{
-			if(readLine.charAt(0) == '¨U' && readLine.charAt(readLine.length() - 1) == '¨U')
+			//if(readLine.charAt(0) == 'ï¿½U' && readLine.charAt(readLine.length() - 1) == 'ï¿½U')
+			if(readLine.charAt(0) == '\u2551' && readLine.charAt(readLine.length() - 1) == '\u2551')
 			{
 				String sq = readLine.substring(1, readLine.length() - 1);
-				int splitter = sq.indexOf('©¦');
+				//int splitter = sq.indexOf('ï¿½ï¿½');
+				int splitter = sq.indexOf('\u2502');
 				if(splitter < 0) continue;
 				String key = sq.substring(0, splitter - 1).toLowerCase().trim();
 				String value = sq.substring(splitter + 1, sq.length() - 1).trim();

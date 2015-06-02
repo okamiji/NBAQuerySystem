@@ -37,19 +37,20 @@ public class PlayerofMatchCard extends RectCard {
 		label_name.setBackground(new Color(90, 225, 149));
 		label_name.setOpaque(true);
 		label_name.setForeground(Color.white);
-		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
+		label_name.setFont(new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½",Font.PLAIN, 12));	
 		label_name.setBounds(14, 11, 232, 30);
 		shadow_label.add(label_name);
 
 		set_text();
 		label_info = new JLabel(player_text);
 		label_info.setForeground(new Color(191, 211, 200));
-		label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
+		label_info.setFont(new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½",Font.PLAIN, 12));	
 		label_info.setBounds(5, 48, 255, 137);
 		label_info.setHorizontalAlignment(JLabel.CENTER);
 		shadow_label.add(label_info);
 		
 		this.addMouseListener(new MouseAdapter(){
+			@SuppressWarnings("unused")
 			public void mouseClicked(MouseEvent e) {
 				PanelSet.set_concise_invisible();
 				String[] str = PanelSet.get_player_service().searchForOnePlayer(player_info[8]);
@@ -63,15 +64,15 @@ public class PlayerofMatchCard extends RectCard {
 
 	private void set_text(){
 		player_text = "<html><center>";
-		player_text += "Î»ÖÃ£º " + player_info[9] + " ";
-		player_text += "ÉÏ³¡Ê±¼ä£º " + player_info[10] + "·Ö " + player_info[11] + "Ãë<br/>";
-		player_text += "¶þ·Ö½øÇò/³öÊÖÊý£º " + player_info[12] + " /  " + player_info[13] + "<br/>";
-		player_text += "Èý·Ö½øÇò/³öÊÖÊý£º " + player_info[14] + " / " + player_info[15] + "<br/>";
-		player_text += "·£Çò½øÇò/³öÊÖÊý£º " + player_info[16] + " /  " + player_info[17] + "<br/>";
-		player_text += "½ø¹¥/·ÀÊØ/×ÜÀº°å£º " + player_info[18] + " / " + player_info[19] + " / " + player_info[20] + "<br/>";
-		player_text += "Öú¹¥£º " + player_info[21] + " ÇÀ¶Ï£º " + player_info[22] + " ¸ÇÃ±£º" + player_info[23] + "<br/>";
-		player_text += "Ê§Îó£º" + player_info[24] + " ·¸¹æ£º" + player_info[25] + "<br/>";
-		player_text += "¸öÈËµÃ·Ö£º" + player_info[26] + "<br/>";
+		player_text += "Î»ï¿½Ã£ï¿½ " + player_info[9] + " ";
+		player_text += "ï¿½Ï³ï¿½Ê±ï¿½ä£º " + player_info[10] + "ï¿½ï¿½ " + player_info[11] + "ï¿½ï¿½<br/>";
+		player_text += "ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ " + player_info[12] + " /  " + player_info[13] + "<br/>";
+		player_text += "ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ " + player_info[14] + " / " + player_info[15] + "<br/>";
+		player_text += "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ " + player_info[16] + " /  " + player_info[17] + "<br/>";
+		player_text += "ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½å£º " + player_info[18] + " / " + player_info[19] + " / " + player_info[20] + "<br/>";
+		player_text += "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ " + player_info[21] + " ï¿½ï¿½ï¿½Ï£ï¿½ " + player_info[22] + " ï¿½ï¿½Ã±ï¿½ï¿½" + player_info[23] + "<br/>";
+		player_text += "Ê§ï¿½ï¿½" + player_info[24] + " ï¿½ï¿½ï¿½æ£º" + player_info[25] + "<br/>";
+		player_text += "ï¿½ï¿½ï¿½ËµÃ·Ö£ï¿½" + player_info[26] + "<br/>";
 		player_text += "</center></html>";
 	}
 

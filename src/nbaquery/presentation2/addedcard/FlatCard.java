@@ -2,7 +2,6 @@ package nbaquery.presentation2.addedcard;
 
 import java.awt.Color;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import nbaquery.presentation.resource.ImageIconResource;

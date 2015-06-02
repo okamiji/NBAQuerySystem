@@ -11,17 +11,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.ImageIcon;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
 import javax.swing.JPanel;
-import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
 import nbaquery.logic.match.MatchService;
@@ -30,19 +25,18 @@ import nbaquery.logic.team.TeamService;
 import nbaquery.presentation.resource.ImageIconResource;
 
 import javax.swing.JTextField;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.plaf.FontUIResource;
 
 
 
 
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+
+
+
 import java.util.Enumeration;
 
 
+@SuppressWarnings("serial")
 public class MainFrame extends JFrame{
 
 	JPanel mainPanel,containPanel,shadowPanel,systemPanel,sPanel;
@@ -50,6 +44,7 @@ public class MainFrame extends JFrame{
 	JTextField searchField ;
 	
 	//LogicService lcs;
+	@SuppressWarnings("unused")
 	private JTextField textField;
 	boolean isTeam=false;
 	int LocationX;
@@ -62,12 +57,12 @@ public class MainFrame extends JFrame{
 	Color white = new Color(245,245,245);
 	Color gray = new Color(41,48,62);
 	Color blue = new Color(16,133,253);
-	Font font=new Font("·½ÕýÕýÏËºÚ¼òÌå", Font.BOLD, 16);
+	Font font=new Font("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ËºÚ¼ï¿½ï¿½ï¿½", Font.BOLD, 16);
 	Toolkit toolkit=Toolkit.getDefaultToolkit();
     Dimension screen=toolkit.getScreenSize();
 	
 	/*
-	 * ÉèÖÃ×ÖÌåµÄ·½·¨
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	 */
 	public static void setFon(Font fnt){
 		FontUIResource fontRes = new FontUIResource(fnt);
@@ -86,6 +81,7 @@ public class MainFrame extends JFrame{
 	*/
 	
 
+	@SuppressWarnings({ "unused" })
 	public MainFrame(PlayerService playerService, TeamService teamService, MatchService matchService){
 		UIManager.put("ComboBox.background", new Color(0,0,0,0));
 		this.player_service = playerService;
@@ -100,14 +96,14 @@ public class MainFrame extends JFrame{
 		this.setResizable(false);
 		this.setTitle("NBAQuery");
 		
-		//ÏÂÃæÎª¾ÓÖÐ
+		//ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
         this.LocationX=(screen.width -this.getWidth())/2;
         this.LocationY=(screen.height -this.getHeight())/2;       
         this.setLocation(this.LocationX,this.LocationY);
-	    //¾ÓÖÐÍê±Ï
+	    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         this.setLayout(null);
         this.setUndecorated(true);
-        this.setOpacity(0.92f);//Í¸Ã÷¶È
+        this.setOpacity(0.92f);//Í¸ï¿½ï¿½ï¿½ï¿½
         this.setBackground(back);
         
         mainPanel = new JPanel();
@@ -149,7 +145,7 @@ public class MainFrame extends JFrame{
         systemPanel.setLayout(null);
         systemPanel.setBackground(gray);
         
-		teamButton = new JButton("\u7403\u961F\u6570\u636E",new ImageIcon("IMGS/Çò¶ÓÎ´Ñ¡ÖÐ.png"));
+		teamButton = new JButton("\u7403\u961F\u6570\u636E",new ImageIcon("IMGS/ï¿½ï¿½ï¿½Î´Ñ¡ï¿½ï¿½.png"));
 		teamButton.setBounds(0, 130, 202, 150);
 		teamButton.setFocusPainted(false);
 		teamButton.setBorderPainted(false);
@@ -158,7 +154,7 @@ public class MainFrame extends JFrame{
 		teamButton.addActionListener(new TeamListener());
 		mainPanel.add(teamButton);
 		
-		playerButton= new JButton("\u7403\u5458\u6570\u636E",new ImageIcon("IMGS/ÇòÔ±Î´Ñ¡ÖÐ.png"));
+		playerButton= new JButton("\u7403\u5458\u6570\u636E",new ImageIcon("IMGS/ï¿½ï¿½Ô±Î´Ñ¡ï¿½ï¿½.png"));
 		playerButton.setBounds(0, 280, 202, 150);
 		playerButton.addActionListener(new PlayerListener());
 		playerButton.setFocusPainted(false);
@@ -198,7 +194,7 @@ public class MainFrame extends JFrame{
 		vanishButton.addMouseListener(new vanishListener());
 		systemPanel.add(vanishButton);	
 		
-		/*JButton button_1 = new JButton("\u5176\u4ED6\u529F\u80FD",new ImageIcon("IMGS/ÈÈµãÆÕÍ¨.png"));
+		/*JButton button_1 = new JButton("\u5176\u4ED6\u529F\u80FD",new ImageIcon("IMGS/ï¿½Èµï¿½ï¿½ï¿½Í¨.png"));
 		button_1.setBounds(0, 430, 202, 150);
 		button_1.setFocusPainted(false);
 		button_1.setBorderPainted(false);
@@ -211,7 +207,7 @@ public class MainFrame extends JFrame{
 		this.add(systemPanel);
 		this.add(sPanel);
 		this.setVisible(true);
-		//-------------¿ÉÍÏ¶¯-------------
+		//-------------ï¿½ï¿½ï¿½Ï¶ï¿½-------------
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 			xOld = e.getX();
@@ -266,7 +262,7 @@ public class MainFrame extends JFrame{
 			shadowPanel.add(d);
 			shadowPanel.repaint();
 			shadowPanel.revalidate();
-			//teamButton.setIcon(new ImageIcon("IMGS/Çò¶ÓÑ¡ÖÐ.png"));
+			//teamButton.setIcon(new ImageIcon("IMGS/ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½.png"));
 			//teamButton.repaint();
 			isTeam=true;
 		}
@@ -278,13 +274,13 @@ public class MainFrame extends JFrame{
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			teamButton.setIcon(new ImageIcon("IMGS/Çò¶ÓÎ´Ñ¡ÖÐ.png"));
+			teamButton.setIcon(new ImageIcon("IMGS/ï¿½ï¿½ï¿½Î´Ñ¡ï¿½ï¿½.png"));
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			playerButton.setIcon(new ImageIcon("IMGS/ÇòÔ±Ñ¡ÖÐ.png"));
+			playerButton.setIcon(new ImageIcon("IMGS/ï¿½ï¿½Ô±Ñ¡ï¿½ï¿½.png"));
 			playerButton.repaint();
 		}
 
@@ -293,7 +289,7 @@ public class MainFrame extends JFrame{
 			// TODO Auto-generated method stub
 			if(!isTeam)
 				return;
-			playerButton.setIcon(new ImageIcon("IMGS/ÇòÔ±Î´Ñ¡ÖÐ.png"));
+			playerButton.setIcon(new ImageIcon("IMGS/ï¿½ï¿½Ô±Î´Ñ¡ï¿½ï¿½.png"));
 			playerButton.repaint();
 		}
 	}
@@ -350,13 +346,13 @@ public class MainFrame extends JFrame{
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			playerButton.setIcon(new ImageIcon("IMGS/ÇòÔ±Î´Ñ¡ÖÐ.png"));
+			playerButton.setIcon(new ImageIcon("IMGS/ï¿½ï¿½Ô±Î´Ñ¡ï¿½ï¿½.png"));
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-			teamButton.setIcon(new ImageIcon("IMGS/Çò¶ÓÑ¡ÖÐ.png"));
+			teamButton.setIcon(new ImageIcon("IMGS/ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½.png"));
 			teamButton.repaint();
 		}
 
@@ -365,7 +361,7 @@ public class MainFrame extends JFrame{
 			// TODO Auto-generated method stub
 			if(isTeam)
 				return;
-			teamButton.setIcon(new ImageIcon("IMGS/Çò¶ÓÎ´Ñ¡ÖÐ.png"));
+			teamButton.setIcon(new ImageIcon("IMGS/ï¿½ï¿½ï¿½Î´Ñ¡ï¿½ï¿½.png"));
 			teamButton.repaint();
 		}
 

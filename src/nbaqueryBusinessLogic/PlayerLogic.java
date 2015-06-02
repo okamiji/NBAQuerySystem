@@ -324,6 +324,7 @@ public class PlayerLogic implements PlayerService{
 				rival_game_sum = resultTable.getColumn("rival_game_sum");
 			}
 
+			@SuppressWarnings("unused")
 			@Override
 			public void collapse(Row[] rows, Row resultRow){
 				
@@ -501,6 +502,7 @@ public class PlayerLogic implements PlayerService{
 	
 	Table resultAverage;
 	
+	@SuppressWarnings("unused")
 	@Override
 	public String[][] searchForPlayers(boolean type, String head, boolean upOrDown,String position, String league) {
 		// TODO Auto-generated method stub

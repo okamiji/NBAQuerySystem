@@ -52,11 +52,13 @@ public class TeamLoader implements FileLoader
 		String readLine = null;
 		while((readLine = reader.readLine()) != null)
 		{
-			if(readLine.charAt(0) == '¨U' && readLine.charAt(readLine.length() - 1) == '¨U')
+			//if(readLine.charAt(0) == 'ï¿½U' && readLine.charAt(readLine.length() - 1) == 'ï¿½U')
+			if(readLine.charAt(0) == '\u2551' && readLine.charAt(readLine.length() - 1) == '\u2551')
 			{
 				Tuple team = teamTable.createTuple();
 				String sq = readLine.substring(1, readLine.length() - 1);
-				String[] splitted = sq.split("[©¦]");
+				//String[] splitted = sq.split("[ï¿½ï¿½]");
+				String[] splitted = sq.split("[\u2502]");
 				for(int i = 0; i < splitted.length; i ++)
 					columnCorrespondance[i].setAttribute(team, splitted[i].trim());
 				String team_abbr_name = (String) team_name_abbr.getAttribute(team);

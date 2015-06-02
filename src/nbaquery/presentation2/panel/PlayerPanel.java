@@ -1,14 +1,12 @@
 package nbaquery.presentation2.panel;
 
 import java.awt.Color;
-import java.awt.event.ContainerAdapter;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import nbaquery.logic.player.PlayerService;
@@ -18,7 +16,6 @@ import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
 import nbaquery.presentation2.util.CardType;
-import nbaquery.presentation2.util.Button;
 
 @SuppressWarnings("serial")
 public class PlayerPanel extends ConcisePanel {
@@ -42,49 +39,49 @@ public class PlayerPanel extends ConcisePanel {
 		search_panel.setBounds(40, 25, 570, 60);
 		
 		positionBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 80, 24, 
-				new String[]{"È«²¿Î»ÖÃ", "Ç°·æ", "ÖÐ·æ", "ºóÎÀ"});
+				new String[]{"È«ï¿½ï¿½Î»ï¿½ï¿½", "Ç°ï¿½ï¿½", "ï¿½Ð·ï¿½", "ï¿½ï¿½ï¿½ï¿½"});
 	    search_panel.add(positionBox);
 	    
 		leagueBox = ComboBoxFactory.getInstance().createComboBox(115, 15, 80, 24, 
-				new String[]{"È«²¿ÁªÃË", "¶«²¿", "Î÷²¿"});
+				new String[]{"È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½"});
 		search_panel.add(leagueBox);
 					
 		typeBox = ComboBoxFactory.getInstance().createComboBox(210, 15, 80, 24, 
-				new String[]{"È«¾ÖÊý¾Ý", "³¡¾ùÊý¾Ý"});
+				new String[]{"È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"});
 		search_panel.add(typeBox);
 		
 		valueBox = ComboBoxFactory.getInstance().createComboBox(305, 15, 100, 24, 
-				new String[]{"°´Ãû³ÆÅÅÐò",
-				"²ÎÈü³¡Êý",
-				"ÏÈ·¢³¡Êý",
-				"Àº°å",
-				"Öú¹¥",
-				"ÔÚ³¡Ê±¼ä",
-				"Í¶ÀºÃüÖÐÂÊ",
-				"Èý·ÖÃüÖÐÂÊ",
-				"·£ÇòÃüÖÐÂÊ",
-				"½ø¹¥",
-				"·ÀÊØ",
-				"ÇÀ¶Ï",
-				"¸ÇÃ±",
-				"Ê§Îó",
-				"·¸¹æ",
-				"µÃ·Ö",
-				"Ð§ÂÊ",
+				new String[]{"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½Ú³ï¿½Ê±ï¿½ï¿½",
+				"Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½Ã±",
+				"Ê§ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½Ã·ï¿½",
+				"Ð§ï¿½ï¿½",
 				"GmSc",
-				"ÕæÊµÃüÖÐÂÊ",
-				"Í¶ÀºÐ§ÂÊ",
-				"Àº°åÂÊ",
-				"½ø¹¥Àº°åÂÊ",
-				"·ÀÊØÀº°åÂÊ",
-				"Öú¹¥ÂÊ",
-				"ÇÀ¶ÏÂÊ",
-				"¸ÇÃ±ÂÊ",
-				"Ê§ÎóÂÊ",
-				"Ê¹ÓÃÂÊ",
-				"ÇòÔ±Î»ÖÃ",
-				"ÁªÃË",
-				"·Ö/°å/Öú",
+				"ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"Í¶ï¿½ï¿½Ð§ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½Ã±ï¿½ï¿½",
+				"Ê§ï¿½ï¿½ï¿½ï¿½",
+				"Ê¹ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½Ô±Î»ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½/ï¿½ï¿½/ï¿½ï¿½",
 				});
 		search_panel.add(valueBox);
 		
@@ -157,7 +154,7 @@ public class PlayerPanel extends ConcisePanel {
 			ConcisePara.player_index = index + 1;
 		}
 		
-		if(((String)typeBox.getSelectedItem()).equals("È«¾ÖÊý¾Ý")){
+		if(((String)typeBox.getSelectedItem()).equals("È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")){
 			ConcisePara.player_isGross = true;
 		}
 		else{

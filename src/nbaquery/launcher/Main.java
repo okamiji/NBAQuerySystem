@@ -47,9 +47,9 @@ public class Main
 		
 		try
 		{
-			GoodLookingScrollBar.scrollSlide = ImageIO.read(new File("Img2\\scrollslide.png"));
-			GoodLookingScrollBar.upArrow = ImageIO.read(new File("Img2\\upArrow.png"));
-			GoodLookingScrollBar.downArrow = ImageIO.read(new File("Img2\\downArrow.png"));
+			GoodLookingScrollBar.scrollSlide = ImageIO.read(new File("Img2/scrollslide.png".replace('/', File.separatorChar)));
+			GoodLookingScrollBar.upArrow = ImageIO.read(new File("Img2/upArrow.png".replace('/', File.separatorChar)));
+			GoodLookingScrollBar.downArrow = ImageIO.read(new File("Img2/downArrow.png".replace('/', File.separatorChar)));
 		}
 		catch(IOException e)
 		{
@@ -62,8 +62,9 @@ public class Main
 	
 	public void launch() throws Exception
 	{
-		//this.loadDataLayer("D:\\µü´úÒ»Êý¾Ý");
-		this.loadDataLayer("D:\\dynamics");
+		//this.loadDataLayer("D:\\ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½");
+		//this.loadDataLayer("D:\\dynamics");
+		this.loadDataLayer("/home/luohaoran/\u8FED\u4EE3\u4E00\u6570\u636E");
 		while(true) try
 		{
 			this.loadLogicLayer();

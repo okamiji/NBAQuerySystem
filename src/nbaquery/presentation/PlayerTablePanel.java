@@ -1,54 +1,30 @@
 package nbaquery.presentation;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import javax.imageio.ImageIO;
-import javax.swing.GroupLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.plaf.basic.BasicComboBoxUI;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-import nbaquery.data.Column;
-import nbaquery.data.Table;
-import nbaquery.presentation.MainFrame.PlayerListener;
-import nbaquery.presentation.MainFrame.TeamListener;
 import nbaquery.logic.player.PlayerService;
 
 import javax.swing.JTextField;
@@ -101,18 +77,18 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
         table.setColumnSelectionAllowed (false);  
         table.setRowSelectionAllowed (true);  
         final JTableHeader header = table.getTableHeader();  
-        //±íÍ·Ôö¼Ó¼àÌý 
+        //ï¿½ï¿½Í·ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ 
         header.addMouseListener (new MouseAdapter() {  
                 public void mouseReleased (MouseEvent e) {  
                     if (! e.isShiftDown())  
                         table.clearSelection();  
-                    //»ñÈ¡µã»÷µÄÁÐË÷Òý  
+                    //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
                     head = header.columnAtPoint(e.getPoint());  
                     SearchListener s = new SearchListener();
             		s.actionPerformed((ActionEvent)searchButton.getAction());
                     upDown=!upDown;
                     //System.out.println(upDown);
-                    //ÉèÖÃÑ¡ÔñÄ£ÐÍ  
+                    //ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Ä£ï¿½ï¿½  
                     //table.addColumnSelectionInterval(pick, pick);
                 }
             });  
@@ -149,7 +125,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		
 		JLabel positionLabel = new JLabel(" ");
 		positionLabel.setBounds(168, 0, 700, 30);
-		positionLabel.setIcon(new ImageIcon("IMGS/ËÑË÷.png"));
+		positionLabel.setIcon(new ImageIcon("IMGS/ï¿½ï¿½ï¿½ï¿½.png"));
 		
 		positionBox = new JComboBox<String>();
 		positionBox.setBounds(231, 3, 113, 24);
@@ -174,7 +150,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		searchButton.setContentAreaFilled(false);
 		searchPanel.add(searchButton);
 		
-		searchField = new JTextField("ÊäÈëÒª²éÑ¯µÄÐÅÏ¢");
+		searchField = new JTextField("ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ï¢");
 		searchField.setBounds(2, 2, 160, 30);
 		JLabel searchLabel=new JLabel("");
 		searchLabel.setIcon(new ImageIcon("IMGS/searchfield.png"));
@@ -193,7 +169,7 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 		
 		playerLabel = new JLabel("");
 		playerLabel.setBounds(0, 0, 240, 470);
-		playerLabel.setIcon(new ImageIcon("IMGS/ÇòÔ±ÐÅÏ¢.png"));
+		playerLabel.setIcon(new ImageIcon("IMGS/ï¿½ï¿½Ô±ï¿½ï¿½Ï¢.png"));
 		playerPanel.add(playerLabel);
 		
 		playerImageLabel = new JLabel("");
@@ -257,31 +233,31 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
 	/*public void resizeTable(boolean bool) { 
         Dimension containerwidth = null; 
         if (!bool) { 
-            //³õÊ¼»¯Ê±£¬¸¸ÈÝÆ÷´óÐ¡ÎªÊ×Ñ¡´óÐ¡£¬Êµ¼Ê´óÐ¡Îª0 
+            //ï¿½ï¿½Ê¼ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡Îªï¿½ï¿½Ñ¡ï¿½ï¿½Ð¡ï¿½ï¿½Êµï¿½Ê´ï¿½Ð¡Îª0 
             containerwidth = scrollPane.getPreferredSize(); 
         } else { 
-            //½çÃæÏÔÊ¾ºó£¬Èç¹û¸¸ÈÝÆ÷´óÐ¡¸Ä±ä£¬Ê¹ÓÃÊµ¼Ê´óÐ¡¶ø²»ÊÇÊ×Ñ¡´óÐ¡ 
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½Ä±ä£¬Ê¹ï¿½ï¿½Êµï¿½Ê´ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Ð¡ 
             containerwidth = scrollPane.getSize(); 
         } 
-        //¼ÆËã±í¸ñ×ÜÌå¿í¶È 
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
         int allwidth = table.getIntercellSpacing().width; 
         for (int j = 0; j < table.getColumnCount(); j++) { 
            
-            //¼ÆËã±íÍ·µÄ¿í¶È 
+            //ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ä¿ï¿½ï¿½ 
             int headerwidth = table. 
               getTableHeader(). 
               getDefaultRenderer().getTableCellRendererComponent( 
               table, table.getColumnModel(). 
               getColumn(j).getIdentifier(), false, false, 
               -1, j).getPreferredSize().width; 
-            //ÉèÖÃÁÐ¿í 
+            //ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿ï¿½ 
             table.getColumnModel(). 
               getColumn(j).setPreferredWidth(headerwidth); 
-            //¸ø±í¸ñµÄÕûÌå¿í¶È¸³Öµ£¬¼ÇµÃÒª¼ÓÉÏµ¥Ôª¸ñÖ®¼äµÄÏßÌõ¿í¶È1¸öÏñËØ 
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸ï¿½Öµï¿½ï¿½ï¿½Çµï¿½Òªï¿½ï¿½ï¿½Ïµï¿½Ôªï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
             allwidth += table.getIntercellSpacing().width; 
         } 
         allwidth += table.getIntercellSpacing().width; 
-        //Èç¹û±í¸ñÊµ¼Ê¿í¶È´óÐ¡¸¸ÈÝÆ÷µÄ¿í¶È£¬ÔòÐèÒªÎÒÃÇÊÖ¶¯ÊÊÓ¦£»·ñÔòÈÃ±í¸ñ×ÔÊÊÓ¦ 
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Ê¿ï¿½È´ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ 
         if (allwidth > containerwidth.width) { 
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 
         } else { 
@@ -289,12 +265,13 @@ public class PlayerTablePanel  extends JPanel implements TableModelListener {
               setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS); 
         } 
 }*/
+	@SuppressWarnings("unused")
 	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
 		int row = e.getFirstRow();  
         int column = e.getColumn();  
         TableModel model = (TableModel)e.getSource();  
-        String columnName = model.getColumnName(column);  
+		String columnName = model.getColumnName(column);  
         Object data = model.getValueAt(row, column); 
 	}
 
@@ -324,7 +301,7 @@ class ClickAdapter implements FocusListener {
 	@Override
 	public void focusGained(FocusEvent arg0) {
 		// TODO Auto-generated method stub
-		if (searchField.getText().equals("ÊäÈëÒª²éÑ¯µÄÐÅÏ¢"))
+		if (searchField.getText().equals("ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ï¢"))
 			searchField.setText("");
 	}
 
@@ -332,7 +309,7 @@ class ClickAdapter implements FocusListener {
 	public void focusLost(FocusEvent arg0) {
 		// TODO Auto-generated method stub
 		if (searchField.getText().equals(""))
-				searchField.setText("ÊäÈëÒª²éÑ¯µÄÐÅÏ¢");
+				searchField.setText("ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ï¢");
 	}
 }
 
@@ -353,7 +330,7 @@ class SearchListener implements ActionListener{
 		position=lookups.get((String) positionBox.getSelectedItem());
 		league=lookups.get((String) leagueBox.getSelectedItem());
 		
-		if(((String)typeBox.getSelectedItem()).equals("È«¾ÖÊý¾Ý"))
+		if(((String)typeBox.getSelectedItem()).equals("È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"))
 			isGlobal=true;
 		else
 			isGlobal=false;	
@@ -365,31 +342,31 @@ class SearchListener implements ActionListener{
 
 public final TreeMap<String, String> lookups = new TreeMap<String, String>();
 {
-	lookups.put("È«²¿", null);
-	lookups.put("Ç°·æ", "F");
-	lookups.put("ÖÐ·æ", "C");
-	lookups.put("ºóÎÀ", "G");
+	lookups.put("È«ï¿½ï¿½", null);
+	lookups.put("Ç°ï¿½ï¿½", "F");
+	lookups.put("ï¿½Ð·ï¿½", "C");
+	lookups.put("ï¿½ï¿½ï¿½ï¿½", "G");
 	
 	lookups.put("F", "Forward");
 	lookups.put("C", "Center");
 	lookups.put("G", "Guard");
 	
-	lookups.put("¶«²¿", "E");
-	lookups.put("Î÷²¿", "W");
+	lookups.put("ï¿½ï¿½ï¿½ï¿½", "E");
+	lookups.put("ï¿½ï¿½ï¿½ï¿½", "W");
 }
 
 public void boxInitialization(){
-	typeBox.addItem("È«¾ÖÊý¾Ý");
-	typeBox.addItem("³¡¾ùÊý¾Ý");
+	typeBox.addItem("È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+	typeBox.addItem("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	
-	positionBox.addItem("È«²¿");
-	positionBox.addItem("Ç°·æ");
-	positionBox.addItem("ÖÐ·æ");
-	positionBox.addItem("ºóÎÀ");
+	positionBox.addItem("È«ï¿½ï¿½");
+	positionBox.addItem("Ç°ï¿½ï¿½");
+	positionBox.addItem("ï¿½Ð·ï¿½");
+	positionBox.addItem("ï¿½ï¿½ï¿½ï¿½");
 	
-	leagueBox.addItem("È«²¿");
-	leagueBox.addItem("¶«²¿");
-	leagueBox.addItem("Î÷²¿");
+	leagueBox.addItem("È«ï¿½ï¿½");
+	leagueBox.addItem("ï¿½ï¿½ï¿½ï¿½");
+	leagueBox.addItem("ï¿½ï¿½ï¿½ï¿½");
 }
 }
 

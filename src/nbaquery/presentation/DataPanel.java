@@ -2,7 +2,6 @@ package nbaquery.presentation;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -10,17 +9,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.JTableHeader;
-
 import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
-import nbaquery.presentation.PlayerTablePanel.SearchListener;
 
 @SuppressWarnings("serial")
 public class DataPanel extends JPanel implements TableModelListener {

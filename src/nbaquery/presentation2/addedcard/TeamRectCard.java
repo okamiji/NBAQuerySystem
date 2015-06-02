@@ -5,12 +5,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-
 import javax.swing.JLabel;
-
-import org.apache.batik.swing.svg.JSVGComponent;
 
 import nbaquery.presentation.resource.JSVGComponentResource;
 import nbaquery.presentation2.info.Team;
@@ -25,7 +20,6 @@ class TeamRectCard extends RectCard {
 	JLabel label_name, label_info;
 	String team_text;
 	
-	@SuppressWarnings("deprecation")
 	public void create_card(Object obj) {
 		super.create_card(obj);
 		
@@ -36,7 +30,7 @@ class TeamRectCard extends RectCard {
 		label_name.setBackground(new Color(90, 225, 149));
 		label_name.setOpaque(true);
 		label_name.setForeground(Color.white);
-		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));	
+		label_name.setFont(new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½",Font.BOLD, 12));	
 		label_name.setBounds(112, 6, 139, 30);
 		shadow_label.add(label_name);
 
@@ -51,7 +45,7 @@ class TeamRectCard extends RectCard {
 		set_team_text(team);
 		label_info.setForeground(new Color(191, 211, 200));
 		label_info.setText(team_text);
-		label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
+		label_info.setFont(new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½",Font.PLAIN, 12));	
 		shadow_label.add(label_info);
 		label_info.setBounds(115, 32, 150, 60);
 		
@@ -69,7 +63,7 @@ class TeamRectCard extends RectCard {
 			int item_index = ConcisePara.team_index;
 			String item_name = ConcisePara.team_item_name;
 			team_text = "<html>";
-			team_text += item_name + "£º" + team_info[item_index];
+			team_text += item_name + "ï¿½ï¿½" + team_info[item_index];
 			team_text += "</html>";
 		}
 		else{

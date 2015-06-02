@@ -3,8 +3,6 @@ package nbaquery_test.auto;
 import java.io.PrintStream;
 import java.util.TreeMap;
 
-import test.data.PlayerHighInfo;
-
 import nbaquery.data.TableHost;
 import nbaquery_test.auto.token.*;
 import nbaquery_test.auto.token.Number;
@@ -79,6 +77,7 @@ public class TestFacade
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	public void execute(PrintStream stdout, String[] arguments)
 	{
 		queryMode = NO_QUERY;
@@ -114,7 +113,7 @@ public class TestFacade
 	public static void main(String[] arguments) throws Exception
 	{
 		TestFacade facade = new TestFacade();
-		facade.execute(System.out, new String[]{"--datasource", "D:\\µü´úÒ»Êý¾Ý"});
+		facade.execute(System.out, new String[]{"--datasource", "D:\\ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½"});
 		facade.execute(System.out, new String[]{"-player","-hot","assist","-n","5"});
 		facade.execute(System.out, new String[]{"-player", "-total"});
 		facade.execute(System.out, new String[]{"-player", "-avg"});

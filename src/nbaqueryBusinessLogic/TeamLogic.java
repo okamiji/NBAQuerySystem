@@ -161,6 +161,7 @@ public class TeamLogic implements TeamService{
 				rival_score = resultTable.getColumn("rival_score");
 			}
 
+			@SuppressWarnings("unused")
 			@Override
 			public void collapse(Row[] rows, Row resultRow){
 				

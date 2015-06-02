@@ -6,26 +6,29 @@ import javax.swing.table.AbstractTableModel;
 
 @SuppressWarnings("serial")
 public class DataTableModel extends AbstractTableModel {
+		@SuppressWarnings("rawtypes")
 		Vector columnNames, rows;
 		
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public DataTableModel(){
 		columnNames=new Vector();
-		columnNames.add("ÅÅÃû");
-		columnNames.add("ÇòÔ±");
-		columnNames.add("Çò¶Ó");
-		columnNames.add("µÃ·Ö");
-		columnNames.add("ÃüÖÐ-³öÊÖ");
-		columnNames.add("ÃüÖÐÂÊ");
-		columnNames.add("ÃüÖÐ-Èý·Ö");
-		columnNames.add("Èý·ÖÃüÖÐÂÊ");
-		columnNames.add("ÃüÖÐ-·£Çò");
-		columnNames.add("·£ÇòÃüÖÐÂÊ");
-		columnNames.add("³¡´Î");
-		columnNames.add("ÉÏ³¡Ê±¼ä");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½Ô±");
+		columnNames.add("ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½Ã·ï¿½");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½Ï³ï¿½Ê±ï¿½ï¿½");
 		
 		rows=new Vector();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void addRow(Vector<String> v){
 		 rows.add(v); 
 	 }
@@ -50,17 +53,20 @@ public class DataTableModel extends AbstractTableModel {
 		return (String)this.columnNames.get(column);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Class getColumnClass(int c) {  
 		//return getValueAt(0, c).getClass();  
 		return String.class;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Object getValueAt(int row, int column) {
 		// TODO Auto-generated method stub
 		return ((Vector)this.rows.get(row)).get(column);
 	}
 	
-	 public void setValueAt(Object value, int row, int column) {  
+	 @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void setValueAt(Object value, int row, int column) {  
 		 ((Vector)this.rows.get(row)).set(column, value);
 		 fireTableCellUpdated(row, column);  
 		 

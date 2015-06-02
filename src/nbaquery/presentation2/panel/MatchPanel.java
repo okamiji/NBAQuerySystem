@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import nbaquery.presentation.combobox.ComboBoxFactory;
@@ -17,7 +16,6 @@ import nbaquery.presentation2.addedcard.Card;
 import nbaquery.presentation2.addon.DateComboBox;
 import nbaquery.presentation2.card.CardCreator;
 import nbaquery.presentation2.card.CardLocation;
-import nbaquery.presentation2.util.Button;
 import nbaquery.presentation2.util.CardType;
 
 @SuppressWarnings("serial")
@@ -53,12 +51,12 @@ public class MatchPanel extends ConcisePanel {
 		
 		valueBox = ComboBoxFactory.getInstance().createComboBox(20, 15, 100, 24, 
 				new String[]{
-				"Èü¼¾",
-				"±ÈÈüÈÕÆÚ",
-				"Ö÷³¡¶ÓÎéËõÐ´",
-				"¿Í³¡¶ÓÎéËõÐ´",
-				"Ö÷³¡¶ÓÎéµÃ·Ö",
-				"¿Í³¡¶ÓÎéµÃ·Ö",
+				"ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´",
+				"ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´",
+				"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½",
+				"ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½",
 				});
 		search_panel.add(valueBox);
 		

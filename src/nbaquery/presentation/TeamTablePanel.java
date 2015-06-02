@@ -1,6 +1,5 @@
 package nbaquery.presentation;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -10,27 +9,19 @@ import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-import nbaquery.data.Table;
-import nbaquery.presentation.PlayerTablePanel.ClickAdapter;
-import nbaquery.presentation.PlayerTablePanel.ClickListener;
-import nbaquery.presentation.PlayerTablePanel.SearchListener;
 import nbaquery.logic.team.TeamService;
 
 @SuppressWarnings("serial")
@@ -74,18 +65,18 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
         table.setColumnSelectionAllowed (true);  
         table.setRowSelectionAllowed (true);  
         final JTableHeader header = table.getTableHeader();  
-        //±íÍ·Ôö¼Ó¼àÌý 
+        //ï¿½ï¿½Í·ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ 
         header.addMouseListener (new MouseAdapter() {  
                 public void mouseReleased (MouseEvent e) {  
                     if (! e.isShiftDown())  
                         table.clearSelection();  
-                    //»ñÈ¡µã»÷µÄÁÐË÷Òý  
+                    //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
                     head= header.columnAtPoint(e.getPoint());  
                     strs=ts.searchForTeams(type,head,upDown);
                     updateTable(strs);
                     upDown=!upDown;
                     //System.out.println(upDown);
-                    //ÉèÖÃÑ¡ÔñÄ£ÐÍ  
+                    //ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Ä£ï¿½ï¿½  
                     table.addColumnSelectionInterval (head, head);  
                 }  
             });  
@@ -93,15 +84,15 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		
 		JPanel searchPanel = new JPanel();
 		searchPanel.setBounds(14, 13, 786, 40);
-		searchPanel.setOpaque(false);//Í¸Ã÷
+		searchPanel.setOpaque(false);//Í¸ï¿½ï¿½
 		add(searchPanel);
 		searchPanel.setLayout(null);
 		
 		JLabel positionLabel = new JLabel(" ");
 		positionLabel.setBounds(168, 0, 700, 30);
-		positionLabel.setIcon(new ImageIcon("IMGS/ËÑË÷2.png"));
+		positionLabel.setIcon(new ImageIcon("IMGS/ï¿½ï¿½ï¿½ï¿½2.png"));
 		
-		searchField = new JTextField("ÊäÈëÒª²éÑ¯µÄÐÅÏ¢");
+		searchField = new JTextField("ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ï¢");
 		searchField.setBounds(2, 2, 160, 30);
 		JLabel searchLabel=new JLabel("");
 		searchLabel.setIcon(new ImageIcon("IMGS/searchfield.png"));
@@ -136,12 +127,13 @@ public class TeamTablePanel  extends JPanel implements TableModelListener {
 		searchPanel.add(positionLabel);
 	}
 
+	@SuppressWarnings("unused")
 	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
 		int row = e.getFirstRow();  
         int column = e.getColumn();  
         TableModel model = (TableModel)e.getSource();  
-        String columnName = model.getColumnName(column);  
+		String columnName = model.getColumnName(column);  
         Object data = model.getValueAt(row, column); 
         
 	}
@@ -166,7 +158,7 @@ class ClickAdapter implements FocusListener {
 	@Override
 	public void focusGained(FocusEvent arg0) {
 		// TODO Auto-generated method stub
-		if (searchField.getText().equals("ÊäÈëÒª²éÑ¯µÄÐÅÏ¢"))
+		if (searchField.getText().equals("ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ï¢"))
 			searchField.setText("");
 	}
 
@@ -174,7 +166,7 @@ class ClickAdapter implements FocusListener {
 	public void focusLost(FocusEvent arg0) {
 		// TODO Auto-generated method stub
 		if (searchField.getText().equals(""))
-				searchField.setText("ÊäÈëÒª²éÑ¯µÄÐÅÏ¢");
+				searchField.setText("ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ï¢");
 	}
 }
 
@@ -192,7 +184,7 @@ class SearchListener implements ActionListener{
 
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		if(((String)typeBox.getSelectedItem()).equals("È«¾ÖÊý¾Ý"))
+		if(((String)typeBox.getSelectedItem()).equals("È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"))
 			type=true;
 		else
 			type=false;
@@ -202,8 +194,8 @@ class SearchListener implements ActionListener{
 }
 	
 public void boxInitialization(){
-	typeBox.addItem("È«¾ÖÊý¾Ý");
-	typeBox.addItem("³¡¾ùÊý¾Ý");
+	typeBox.addItem("È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+	typeBox.addItem("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 }
 }
 

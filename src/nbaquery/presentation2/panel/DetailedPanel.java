@@ -7,9 +7,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -19,10 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import org.apache.batik.swing.svg.JSVGComponent;
-
 import nbaquery.logic.match.MatchService;
-import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation.resource.JSVGComponentResource;
@@ -116,8 +110,8 @@ public class DetailedPanel extends JPanel{
 		data_button.setBounds(370, 3, 195, 30);
 		
 		direction_label = new JLabel();
-		direction_label.setText("ÇòÔ± < " + player.get_name());
-		direction_label.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));
+		direction_label.setText("ï¿½ï¿½Ô± < " + player.get_name());
+		direction_label.setFont(new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½",Font.BOLD, 12));
 		direction_label.setForeground(new Color(191, 211, 200));
 		direction_label.setBounds(0, 0, 160, 30);
 		this.add(direction_label);
@@ -170,7 +164,7 @@ public class DetailedPanel extends JPanel{
 			System.out.println(i + " " + player_detailed_info[i]);
 		}
 		team_label = new JLabel();
-		String player_team_name = "ËùÊôÇò¶Ó£º " + player.get_team();
+		String player_team_name = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½ " + player.get_team();
 		team_label.setText(player_team_name);
 		
 		JLabel background_label=new JLabel(ImageIconResource.getImageIcon("Img2/detail_background1.png"));
@@ -256,11 +250,10 @@ public class DetailedPanel extends JPanel{
 	
 	
 	
-	@SuppressWarnings("deprecation")
 	private void set_team_info(){
 		direction_label = new JLabel();
-		direction_label.setText("Çò¶Ó < " + team.get_name());
-		direction_label.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));
+		direction_label.setText("ï¿½ï¿½ï¿½ < " + team.get_name());
+		direction_label.setFont(new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½",Font.BOLD, 12));
 		direction_label.setForeground(new Color(191, 211, 200));
 		direction_label.setBounds(0, 0, 160, 30);
 		this.add(direction_label);
@@ -333,8 +326,8 @@ public class DetailedPanel extends JPanel{
 		
 		
 		direction_label = new JLabel();
-		direction_label.setText("±ÈÈü < " + match.get_season() + " " + match.get_team()[0] + " : " + match.get_team()[1]);
-		direction_label.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD, 12));
+		direction_label.setText("ï¿½ï¿½ï¿½ï¿½ < " + match.get_season() + " " + match.get_team()[0] + " : " + match.get_team()[1]);
+		direction_label.setFont(new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½",Font.BOLD, 12));
 		direction_label.setForeground(new Color(191, 211, 200));
 		direction_label.setBounds(0, 0, 160, 30);
 		this.add(direction_label);
@@ -457,114 +450,115 @@ public class DetailedPanel extends JPanel{
 	
 	private String get_player_text(String[] info){
 		String player_string = "<html>";
-		player_string += "<b>ÇòÔ±ÐÕÃû£º</b> " + info[0];
+		player_string += "<b>ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</b> " + info[0];
 		player_string += "<br/>";
-		player_string += "<b>ÇòÒÂ±àºÅ£º </b>" + info[1];
+		player_string += "<b>ï¿½ï¿½ï¿½Â±ï¿½Å£ï¿½ </b>" + info[1];
 		player_string += "<br/>";
-		player_string += "<b>ÇòÔ±Î»ÖÃ£º</b> " + info[2];
+		player_string += "<b>ï¿½ï¿½Ô±Î»ï¿½Ã£ï¿½</b> " + info[2];
 		player_string += "<br/>";
-		player_string += "<b>ÇòÔ±Éí¸ß£º </b>" + info[3];
+		player_string += "<b>ï¿½ï¿½Ô±ï¿½ï¿½ß£ï¿½ </b>" + info[3];
 		player_string += "<br/>";
-		player_string += "<b>ÇòÔ±ÌåÖØ£º </b>" + info[4];
+		player_string += "<b>ï¿½ï¿½Ô±ï¿½ï¿½ï¿½Ø£ï¿½ </b>" + info[4];
 		player_string += "<br/>";
-		player_string += "<b>³öÉúÈÕÆÚ£º </b>" + info[5];
+		player_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ </b>" + info[5];
 		player_string += "<br/>";
-		player_string += "<b>ÄêÁä£º </b>" + info[6];
+		player_string += "<b>ï¿½ï¿½ï¿½ä£º </b>" + info[6];
 		player_string += "<br/>";
-		player_string += "<b>ÇòÁä£º</b> " + info[7];
+		player_string += "<b>ï¿½ï¿½ï¿½ä£º</b> " + info[7];
 		player_string += "<br/>";
-		player_string += "<b>±ÏÒµÑ§Ð££º </b>" + info[8];
+		player_string += "<b>ï¿½ï¿½ÒµÑ§Ð£ï¿½ï¿½ </b>" + info[8];
 		player_string += "</html>";
 		return player_string;
 	}
 	private String get_team_text(){
 		System.out.println(" ");
 		String team_string = "<html>";
-		team_string += "<b>Èü¼¾£º</b> " + team_detailed_info[0];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</b> " + team_detailed_info[0];
 		team_string += "<br/>";
-		team_string += "<b>±ÈÈü³¡Êý£º</b> " + team_detailed_info[2];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</b> " + team_detailed_info[2];
 		team_string += "<br/>";
-		team_string += "<b>Í¶ÀºÃüÖÐÊý£º </b>" + team_detailed_info[3];
+		team_string += "<b>Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[3];
 		team_string += "<br/>";
-		team_string += "<b>Í¶Àº³öÊÖ´ÎÊý£º </b>" + team_detailed_info[4];
+		team_string += "<b>Í¶ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[4];
 		team_string += "<br/>";
-		team_string += "<b>Èý·ÖÃüÖÐÊý£º </b>" + team_detailed_info[5] + " ";
-		team_string += "<b>Èý·Ö³öÊÖÊý£º </b>" + team_detailed_info[6];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[5] + " ";
+		team_string += "<b>ï¿½ï¿½ï¿½Ö³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[6];
 		team_string += "<br/>";
-		team_string += "<b>·£ÇòÃüÖÐÊý£º </b>" + team_detailed_info[7] + " ";
-		team_string += "<b>·£Çò³öÊÖÊý£º </b>" + team_detailed_info[8];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[7] + " ";
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[8];
 		team_string += "<br/>";
-		team_string += "<b>½ø¹¥Àº°åÊý£º</b> " + team_detailed_info[9] + " ";
-		team_string += "<b>·ÀÊØÀº°åÊý£º </b>" + team_detailed_info[10] + " ";
-		team_string += "<b>Àº°åÊý£º </b>" + team_detailed_info[11];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</b> " + team_detailed_info[9] + " ";
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[10] + " ";
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[11];
 		team_string += "<br/>";
-		team_string += "<b>Öú¹¥Êý£º </b>" + team_detailed_info[12];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[12];
 		team_string += "<br/>";
-		team_string += "<b>ÇÀ¶ÏÊý£º </b>" + team_detailed_info[13];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[13];
 		team_string += "<br/>";
-		team_string += "<b>¸ÇÃ±Êý£º </b>" + team_detailed_info[14];
+		team_string += "<b>ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[14];
 		team_string += "<br/>";
-		team_string += "<b>Ê§ÎóÊý£º </b>" + team_detailed_info[15];
+		team_string += "<b>Ê§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[15];
 		team_string += "<br/>";
-		team_string += "<b>·¸¹æÊý£º </b>" + team_detailed_info[16];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[16];
 		team_string += "<br/>";
-		team_string += "<b>±ÈÈüµÃ·Ö£º </b>" + team_detailed_info[17];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½Ã·Ö£ï¿½ </b>" + team_detailed_info[17];
 		team_string += "<br/>";
-		team_string += "<b>Í¶ÀºÃüÖÐÂÊ£º </b>" + team_detailed_info[18];
+		team_string += "<b>Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ </b>" + team_detailed_info[18];
 		team_string += "<br/>";
-		team_string += "<b>Èý·ÖÃüÖÐÂÊ£º </b>" + team_detailed_info[19];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ </b>" + team_detailed_info[19];
 		team_string += "<br/>";
-		team_string += "<b>·£ÇòÃüÖÐÂÊ£º </b>" + team_detailed_info[20];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ </b>" + team_detailed_info[20];
 		team_string += "<br/>";
-		team_string += "<b>Ê¤ÂÊ£º </b>" + team_detailed_info[21];
+		team_string += "<b>Ê¤ï¿½Ê£ï¿½ </b>" + team_detailed_info[21];
 		team_string += "<br/>";
-		team_string += "<b>½ø¹¥»ØºÏ£º </b>" + team_detailed_info[22];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ØºÏ£ï¿½ </b>" + team_detailed_info[22];
 		team_string += "<br/>";
-		team_string += "<b>½ø¹¥Ð§ÂÊ£º </b>" + team_detailed_info[23] + " ";
-		team_string += "<b>·ÀÊØÐ§ÂÊ£º </b>" + team_detailed_info[24];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ê£ï¿½ </b>" + team_detailed_info[23] + " ";
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ê£ï¿½ </b>" + team_detailed_info[24];
 		team_string += "<br/>";
-		team_string += "<b>½ø¹¥Àº°åÐ§ÂÊ£º </b>" + team_detailed_info[25] + " ";
-		team_string += "<b>·ÀÊØÀº°åÐ§ÂÊ£º </b>" + team_detailed_info[26];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ê£ï¿½ </b>" + team_detailed_info[25] + " ";
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ê£ï¿½ </b>" + team_detailed_info[26];
 		team_string += "<br/>";
-		team_string += "<b>ÇÀ¶ÏÐ§ÂÊ£º </b>" + team_detailed_info[27];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ê£ï¿½ </b>" + team_detailed_info[27];
 		team_string += "<br/>";
-		team_string += "<b>Öú¹¥Ð§ÂÊ£º </b>" + team_detailed_info[28];
+		team_string += "<b>ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ê£ï¿½ </b>" + team_detailed_info[28];
 		team_string += "</html>";
 		return team_string;
 	}
 	private String get_team_primary_text(){
 		String text = "<html>";
-		text += "<b>¶ÓÎéËùÔÚµØ£º </b>" + team_detailed_info[31];
+		text += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÚµØ£ï¿½ </b>" + team_detailed_info[31];
 		text += "<br/>";
-		text += "<b>ÈüÇø£º </b>" + team_detailed_info[32];
+		text += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[32];
 		text += "<br/>";
-		text += "<b>·ÖÇø£º </b>" + team_detailed_info[33];
+		text += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[33];
 		text += "<br/>";
-		text += "<b>Ö÷³¡£º </b>" + team_detailed_info[34];
+		text += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ </b>" + team_detailed_info[34];
 		text += "<br/>";
-		text += "<b>´´½¨Ê±¼ä£º </b>" + team_detailed_info[35];
+		text += "<b>ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£º </b>" + team_detailed_info[35];
 		text += "</html>";
 		return text;
 	}
+	@SuppressWarnings("unused")
 	private String get_match_text(){
 		String match_string = "<html>";
-		match_string += "<b>ÇòÔ±ÐÕÃû£º</b> " + player_detailed_info[0];
+		match_string += "<b>ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</b> " + player_detailed_info[0];
 		match_string += "<br/>";
-		match_string += "<b>ÇòÒÂ±àºÅ£º </b>" + player_detailed_info[1];
+		match_string += "<b>ï¿½ï¿½ï¿½Â±ï¿½Å£ï¿½ </b>" + player_detailed_info[1];
 		match_string += "<br/>";
-		match_string += "<b>ÇòÔ±Î»ÖÃ£º</b> " + player_detailed_info[2];
+		match_string += "<b>ï¿½ï¿½Ô±Î»ï¿½Ã£ï¿½</b> " + player_detailed_info[2];
 		match_string += "<br/>";
-		match_string += "<b>ÇòÔ±Éí¸ß£º </b>" + player_detailed_info[3];
+		match_string += "<b>ï¿½ï¿½Ô±ï¿½ï¿½ß£ï¿½ </b>" + player_detailed_info[3];
 		match_string += "<br/>";
-		match_string += "<b>ÇòÔ±ÌåÖØ£º </b>" + player_detailed_info[4];
+		match_string += "<b>ï¿½ï¿½Ô±ï¿½ï¿½ï¿½Ø£ï¿½ </b>" + player_detailed_info[4];
 		match_string += "<br/>";
-		match_string += "<b>³öÉúÈÕÆÚ£º </b>" + player_detailed_info[5];
+		match_string += "<b>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ </b>" + player_detailed_info[5];
 		match_string += "<br/>";
-		match_string += "<b>ÄêÁä£º </b>" + player_detailed_info[6];
+		match_string += "<b>ï¿½ï¿½ï¿½ä£º </b>" + player_detailed_info[6];
 		match_string += "<br/>";
-		match_string += "<b>ÇòÁä£º</b> " + player_detailed_info[7];
+		match_string += "<b>ï¿½ï¿½ï¿½ä£º</b> " + player_detailed_info[7];
 		match_string += "<br/>";
-		match_string += "<b>±ÏÒµÑ§Ð££º </b>" + player_detailed_info[8];
+		match_string += "<b>ï¿½ï¿½ÒµÑ§Ð£ï¿½ï¿½ </b>" + player_detailed_info[8];
 		match_string += "</html>";
 		return match_string;
 	}

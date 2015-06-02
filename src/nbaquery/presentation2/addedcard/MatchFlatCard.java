@@ -4,12 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-
 import javax.swing.JLabel;
-
-import org.apache.batik.swing.svg.JSVGComponent;
 
 import nbaquery.presentation2.info.Match;
 import nbaquery.presentation2.panel.PanelSet;
@@ -32,7 +27,7 @@ class MatchFlatCard extends FlatCard {
 		label_name.setBackground(new Color(90, 225, 149));
 		label_name.setOpaque(true);
 		label_name.setForeground(Color.WHITE);
-		label_name.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
+		label_name.setFont(new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½",Font.PLAIN, 12));	
 		label_name.setBounds(50, 1, 120, 30);
 		shadow_label.add(label_name);
 		/*
@@ -69,7 +64,7 @@ class MatchFlatCard extends FlatCard {
 		label_info = new JLabel();
 		set_match_text(match);
 		label_info.setText(match_text);
-		label_info.setFont(new Font("Î¢ÈíÑÅºÚ",Font.PLAIN, 12));	
+		label_info.setFont(new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½",Font.PLAIN, 12));	
 		label_info.setBounds(180, -10, 340, 60);
 		shadow_label.add(label_info);
 		
