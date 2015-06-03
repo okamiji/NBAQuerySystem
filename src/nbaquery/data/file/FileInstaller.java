@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import nbaquery.launcher.Installer;
+import nbaquery.launcher.XmlEventListener;
+import nbaquery.launcher.XmlEventNotifier;
 
 public class FileInstaller implements Installer<FileTableHost>
 {
@@ -17,53 +17,57 @@ public class FileInstaller implements Installer<FileTableHost>
 	@Override
 	public FileTableHost install(Node documentNode, Object... params) throws Exception
 	{
-		NodeList nodelist = documentNode.getChildNodes();
-		for(int i = 0; i < nodelist.getLength(); i ++)
+		XmlEventNotifier notifier = new XmlEventNotifier();
+		notifier.registerListener("source", new XmlEventListener()
 		{
-			Node node = nodelist.item(i);
-			if(node.getNodeType() == Node.TEXT_NODE) continue;
-			if(node.getNodeType() == Node.COMMENT_NODE) continue;
-			switch(node.getNodeName())
-			{
-				case "loaders":
-					this.parseLoaders(node);
-				break;
-				case "algorithms":
-					this.parseAlgorithms(node);
-				break;
-				case "source":
-					source = node.getTextContent();
-				break;
-				default:
-					throw new Exception("Unrecognized node \"" + node.getNodeName() + "\" under data!");
+			@Override
+			public void onEncounter(Node node) throws Exception {
+				source = node.getTextContent();
 			}
-		}
+		});
+		notifier.registerListener("loaders", new XmlEventListener()
+		{
+			@Override
+			public void onEncounter(Node node) throws Exception {
+				parseLoaders(node);
+			}
+		});
+		notifier.registerListener("algorithms", new XmlEventListener()
+		{
+
+			@Override
+			public void onEncounter(Node node) throws Exception {
+				parseAlgorithms(node);
+			}
+		});
+		notifier.parse(documentNode);
+		
 		return new FileTableHost(new File(source), loaders.toArray(new Class<?>[0]), algorithms.toArray(new Class<?>[0]));
 	}
 
 	protected void parseLoaders(Node loaders) throws Exception
 	{
-		NodeList nodelist = loaders.getChildNodes();
-		for(int i = 0; i < nodelist.getLength(); i ++)
+		XmlEventNotifier loaderNotifier = new XmlEventNotifier();
+		loaderNotifier.registerListener("loader", new XmlEventListener()
 		{
-			Node node = nodelist.item(i);
-			if(node.getNodeType() == Node.TEXT_NODE) continue;
-			if(node.getNodeType() == Node.COMMENT_NODE) continue;
-			if(!node.getNodeName().equals("loader")) throw new Exception("Not allowed node \"" + node.getNodeName() + "\" under loaders.");
-			this.loaders.add(Class.forName(node.getTextContent()));
-		}
+			@Override
+			public void onEncounter(Node node) throws Exception {
+				FileInstaller.this.loaders.add(Class.forName(node.getTextContent()));
+			}
+		});
+		loaderNotifier.parse(loaders);
 	}
 	
 	protected void parseAlgorithms(Node algorithms) throws Exception
 	{
-		NodeList nodelist = algorithms.getChildNodes();
-		for(int i = 0; i < nodelist.getLength(); i ++)
+		XmlEventNotifier algorithmNotifier = new XmlEventNotifier();
+		algorithmNotifier.registerListener("algorithm", new XmlEventListener()
 		{
-			Node node = nodelist.item(i);
-			if(node.getNodeType() == Node.TEXT_NODE) continue;
-			if(node.getNodeType() == Node.COMMENT_NODE) continue;
-			if(!node.getNodeName().equals("algorithm")) throw new Exception("Not allowed node \"" + node.getNodeName() + "\" under algorithms.");
-			this.algorithms.add(Class.forName(node.getTextContent()));
-		}
+			@Override
+			public void onEncounter(Node node) throws Exception {
+				FileInstaller.this.algorithms.add(Class.forName(node.getTextContent()));
+			}
+		});
+		algorithmNotifier.parse(algorithms);
 	}
 }

@@ -32,40 +32,48 @@ public class Main
 		Document dom = config.getDocument();
 		NodeList nodelist = dom.getChildNodes();
 		
+		XmlEventNotifier notifier = new XmlEventNotifier();
+
+		notifier.registerListener("data", new XmlEventListener()
+		{
+			@Override
+			public void onEncounter(Node node) throws Exception {
+				@SuppressWarnings("unchecked")
+				Class<? extends Installer<TableHost>> dataInstallerClazz = (Class<? extends Installer<TableHost>>) 
+					Class.forName(node.getAttributes().getNamedItem("installer").getTextContent());
+				dataInstaller = dataInstallerClazz.newInstance();
+				dataNode = node;
+			}
+		});
+		
+		notifier.registerListener("logic", new XmlEventListener()
+		{
+			@Override
+			public void onEncounter(Node node) throws Exception
+			{
+				@SuppressWarnings("unchecked")
+				Class<? extends Installer<?>> logicInstallerClazz = (Class<? extends Installer<?>>)
+					Class.forName(node.getAttributes().getNamedItem("installer").getTextContent());
+				logicInstaller = logicInstallerClazz.newInstance();
+				logicNode = node;
+			}
+		});
+		
+		notifier.registerListener("interface", new XmlEventListener()
+		{
+			@Override
+			public void onEncounter(Node node) throws Exception
+			{
+			
+			}
+		});
+		
 		for(int i = 0; i < nodelist.getLength(); i ++)
 			if(nodelist.item(i).getNodeType() == Node.ELEMENT_NODE)
 			{
-				nodelist = nodelist.item(i).getChildNodes();
+				notifier.parse(nodelist.item(i));
 				break;
 			}
-		
-		for(int i = 0; i < nodelist.getLength(); i ++)
-		{
-			Node node = nodelist.item(i);
-			if(node.getNodeType() == Node.TEXT_NODE) continue;
-			if(node.getNodeType() == Node.COMMENT_NODE) continue;
-			switch(node.getNodeName())
-			{
-				case "data":
-					@SuppressWarnings("unchecked")
-					Class<? extends Installer<TableHost>> dataInstallerClazz = (Class<? extends Installer<TableHost>>) 
-						Class.forName(node.getAttributes().getNamedItem("installer").getTextContent());
-					dataInstaller = dataInstallerClazz.newInstance();
-					dataNode = node;
-				break;
-				case "logic":
-					@SuppressWarnings("unchecked")
-					Class<? extends Installer<?>> logicInstallerClazz = (Class<? extends Installer<?>>)
-						Class.forName(node.getAttributes().getNamedItem("installer").getTextContent());
-					logicInstaller = logicInstallerClazz.newInstance();
-					logicNode = node;
-				break;
-				case "interface":
-				break;
-				default:
-					throw new Exception("Unrecognized entry under nbaquerysystem/");
-			}
-		}
 	}
 	
 	public TableHost host;
