@@ -57,21 +57,6 @@ public class TestDetailedPlayerPanel extends Main
 		}
 	};
 	
-	public void launch() throws Exception
-	{
-		//this.loadDataLayer("D:\\迭代一数据");
-		this.loadDataLayer("D:\\dynamics");
-		this.loadLogicLayer();
-		try
-		{
-		this.loadPresentation();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
 	public static void main(String[] arguments) throws Exception
 	{
 		try

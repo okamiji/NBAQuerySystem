@@ -18,7 +18,7 @@ public class TestKeyValueDisplay extends Main
 		theFrame.setUndecorated(true);
 		theFrame.setVisible(true);
 		
-		KeyValueDisplay component = new KeyValueDisplay("出生日期", "player_birth");
+		KeyValueDisplay component = new KeyValueDisplay("锟斤拷锟斤拷锟斤拷锟斤拷", "player_birth");
 		component.setSize(theFrame.getSize());
 		Table table = ((NewPlayerService)this.playerService).searchForTodayHotPlayers("self_score");
 		component.setRow(table.getRows()[0]);
@@ -45,14 +45,6 @@ public class TestKeyValueDisplay extends Main
 			}
 		}
 	};
-	
-	public void launch() throws Exception
-	{
-		//this.loadDataLayer("D:\\迭代一数据");
-		this.loadDataLayer("D:\\dynamics");
-		this.loadLogicLayer();
-		this.loadPresentation();
-	}
 	
 	public static void main(String[] arguments) throws Exception
 	{

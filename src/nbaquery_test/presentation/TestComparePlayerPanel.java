@@ -41,14 +41,6 @@ public class TestComparePlayerPanel extends Main
 		}
 	};
 	
-	public void launch() throws Exception
-	{
-		//this.loadDataLayer("D:\\迭代一数据");
-		this.loadDataLayer("D:\\dynamics");
-		this.loadLogicLayer();
-		this.loadPresentation();
-	}
-	
 	public static void main(String[] arguments) throws Exception
 	{
 		try

@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import nbaquery.data.TableHost;
-import nbaquery.data.file.FileTableHost;
-import nbaquery.data.file.loader.MatchNaturalJoinPerformanceLoader;
-import nbaquery.data.file.loader.PlayerLoader;
-import nbaquery.data.file.loader.TeamLoader;
 import nbaquery.logic.match.MatchService;
 import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.TeamService;
@@ -19,12 +19,51 @@ import nbaquery.presentation2.main.MainFrame;
 
 public class Main
 {
-	public TableHost host;
-	public void loadDataLayer(String root) throws Exception
+	
+	Installer<? extends TableHost> dataInstaller = null;
+	Node dataNode = null;
+	
+	public void loadConfiguration() throws Exception
 	{
-		//host = new FileTableHost(new File(root));
-		host = new FileTableHost(new File(root), new Class<?>[]{TeamLoader.class, 
-			PlayerLoader.class, MatchNaturalJoinPerformanceLoader.class});
+		Configuration config = new Configuration(new File("config.xml"));
+		Document dom = config.getDocument();
+		NodeList nodelist = dom.getChildNodes();
+		
+		for(int i = 0; i < nodelist.getLength(); i ++)
+			if(nodelist.item(i).getNodeType() == Node.ELEMENT_NODE)
+			{
+				nodelist = nodelist.item(i).getChildNodes();
+				break;
+			}
+		
+		for(int i = 0; i < nodelist.getLength(); i ++)
+		{
+			Node node = nodelist.item(i);
+			if(node.getNodeType() == Node.TEXT_NODE) continue;
+			if(node.getNodeType() == Node.COMMENT_NODE) continue;
+			switch(node.getNodeName())
+			{
+				case "data":
+					@SuppressWarnings("unchecked")
+					Class<? extends Installer<TableHost>> dataInstallerClazz = (Class<? extends Installer<TableHost>>) 
+						Class.forName(node.getAttributes().getNamedItem("installer").getTextContent());
+					dataInstaller = dataInstallerClazz.newInstance();
+					dataNode = node;
+				break;
+				case "logic":
+				break;
+				case "interface":
+				break;
+				default:
+					throw new Exception("Unrecognized entry under nbaquerysystem/");
+			}
+		}
+	}
+	
+	public TableHost host;
+	public void loadDataLayer() throws Exception
+	{
+		host = this.dataInstaller.install(dataNode);
 	}
 	
 	public TeamService teamService;
@@ -62,9 +101,10 @@ public class Main
 	
 	public void launch() throws Exception
 	{
-		//this.loadDataLayer("D:\\����һ����");
-		//this.loadDataLayer("D:\\dynamics");
-		this.loadDataLayer("/home/luohaoran/\u8FED\u4EE3\u4E00\u6570\u636E");
+		
+		this.loadConfiguration();
+		this.loadDataLayer();
+		
 		while(true) try
 		{
 			this.loadLogicLayer();

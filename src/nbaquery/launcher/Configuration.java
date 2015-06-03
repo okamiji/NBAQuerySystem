@@ -24,17 +24,28 @@ import org.w3c.dom.Node;
 
 public class Configuration
 {
-	private final DocumentBuilder domBuilder;
+	private final Document document;
 	public Configuration(File config) throws Exception
 	{
 		DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 		domFactory.setIgnoringElementContentWhitespace(true);
-		domBuilder = domFactory.newDocumentBuilder();
+		DocumentBuilder domBuilder = domFactory.newDocumentBuilder();
 		
-		if(!config.exists()) this.generateDefaultConfig(config);
+		if(!config.exists())
+		{
+			this.generateDefaultConfig(domBuilder, config);
+			domBuilder = domFactory.newDocumentBuilder();
+		}
+		
+		document = domBuilder.parse(config);
 	}
 	
-	protected void generateDefaultConfig(File config) throws Exception
+	public Document getDocument()
+	{
+		return this.document;
+	}
+	
+	protected void generateDefaultConfig(DocumentBuilder domBuilder, File config) throws Exception
 	{
 		Document dom = domBuilder.newDocument();
 		Node root = dom.createElement("nbaquerysystem");
@@ -70,7 +81,7 @@ public class Configuration
 		dataConfig.setAttribute("installer", "nbaquery.data.file.FileInstaller");
 		
 		Node dataSource = dom.createElement("source");
-		dataSource.setTextContent("/usr/luohaoran/\u8FED\u4EE3\u4E00\u6570\u636E");
+		dataSource.setTextContent("/home/luohaoran/\u8FED\u4EE3\u4E00\u6570\u636E");
 		dataConfig.appendChild(dataSource);
 		
 		Node dataLoaders = dom.createElement("loaders");
