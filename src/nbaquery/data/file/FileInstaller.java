@@ -15,7 +15,7 @@ public class FileInstaller implements Installer<FileTableHost>
 	ArrayList<Class<?>> algorithms = new ArrayList<Class<?>>();
 	
 	@Override
-	public FileTableHost install(Node documentNode) throws Exception
+	public FileTableHost install(Node documentNode, Object... params) throws Exception
 	{
 		NodeList nodelist = documentNode.getChildNodes();
 		for(int i = 0; i < nodelist.getLength(); i ++)

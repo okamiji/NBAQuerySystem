@@ -4,5 +4,5 @@ import org.w3c.dom.Node;
 
 public interface Installer<Installation>
 {
-	Installation install(Node documentNode) throws Exception;
+	Installation install(Node documentNode, Object... params) throws Exception;
 }

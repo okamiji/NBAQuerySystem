@@ -6,8 +6,8 @@ import nbaquery.data.file.FileTableHost;
 import nbaquery.data.file.loader.MatchNaturalJoinPerformanceLoader;
 import nbaquery.data.file.loader.PlayerLoader;
 import nbaquery.data.file.loader.TeamLoader;
-import nbaquery.launcher.ILogicAssembler;
-import nbaquery.launcher.LogicAssembler;
+import nbaquery.launcher.Main;
+import nbaquery.logic.LogicInstaller;
 
 public class TestInitializer implements TestFacadeToken
 {
@@ -30,6 +30,8 @@ public class TestInitializer implements TestFacadeToken
 		String dataSourcePath = parameters[beginIndex + 1];
 		facade.tableHost = new FileTableHost(new File(dataSourcePath), 
 				new Class<?>[]{TeamLoader.class, PlayerLoader.class, MatchNaturalJoinPerformanceLoader.class});
+		Main main = new Main();
+		main.host = facade.tableHost;
 		boolean isLoading = true;
 		while(isLoading) try
 		{
@@ -44,8 +46,12 @@ public class TestInitializer implements TestFacadeToken
 			break;
 		}
 		
-		ILogicAssembler assembler = new LogicAssembler();
-		assembler.assemble(facade.tableHost);
-		assembler.getPlayerService();
+		LogicInstaller logicInstaller = new LogicInstaller();
+		try {
+			logicInstaller.install(null, main);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

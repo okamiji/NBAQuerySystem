@@ -55,6 +55,10 @@ public class Configuration
 		this.setupDataConfig(dom, data);
 		root.appendChild(data);
 		
+		Element logic = dom.createElement("logic");
+		this.setupLogicConfig(dom, logic);
+		root.appendChild(logic);
+		
 		Element uinterface = dom.createElement("interface");
 		this.setupInterfaceConfig(dom, uinterface);
 		root.appendChild(uinterface);
@@ -74,6 +78,11 @@ public class Configuration
 	protected void setupInterfaceConfig(Document dom, Element interfaceConfig)
 	{
 		interfaceConfig.setAttribute("installer", "nbaquery.presentation3.InterfaceInstaller");
+	}
+	
+	protected void setupLogicConfig(Document dom, Element logicConfig)
+	{
+		logicConfig.setAttribute("installer", "nbaquery.logic.LogicInstaller");
 	}
 	
 	protected void setupDataConfig(Document dom, Element dataConfig)

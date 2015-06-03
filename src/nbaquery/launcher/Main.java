@@ -23,6 +23,9 @@ public class Main
 	Installer<? extends TableHost> dataInstaller = null;
 	Node dataNode = null;
 	
+	Installer<?> logicInstaller = null;
+	Node logicNode = null;
+	
 	public void loadConfiguration() throws Exception
 	{
 		Configuration config = new Configuration(new File("config.xml"));
@@ -51,6 +54,11 @@ public class Main
 					dataNode = node;
 				break;
 				case "logic":
+					@SuppressWarnings("unchecked")
+					Class<? extends Installer<?>> logicInstallerClazz = (Class<? extends Installer<?>>)
+						Class.forName(node.getAttributes().getNamedItem("installer").getTextContent());
+					logicInstaller = logicInstallerClazz.newInstance();
+					logicNode = node;
 				break;
 				case "interface":
 				break;
@@ -69,13 +77,9 @@ public class Main
 	public TeamService teamService;
 	public PlayerService playerService;
 	public MatchService matchService;
-	public void loadLogicLayer()
+	public void loadLogicLayer() throws Exception
 	{
-		ILogicAssembler assembler = new LogicAssembler();
-		assembler.assemble(host);
-		this.teamService = assembler.getTeamService();
-		this.playerService = assembler.getPlayerService();
-		this.matchService = assembler.getMatchService();
+		this.logicInstaller.install(logicNode, this);
 	}
 	
 	MainFrame mainFrame;
@@ -112,7 +116,8 @@ public class Main
 		}
 		catch(Exception e)
 		{
-			System.out.println("Error detected while loading, retrying.");
+			e.printStackTrace();
+			break;//System.out.println("Error detected while loading, retrying.");
 		}
 		this.loadPresentation();
 	}
