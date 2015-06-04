@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nbaquerysystem>
+  <data installer="nbaquery.data.file.FileInstaller">
+    <source>D:\迭代一数据</source>
+    <loaders>
+      <loader>nbaquery.data.file.loader.MatchNaturalJoinPerformanceLoader</loader>
+      <loader>nbaquery.data.file.loader.PlayerLoader</loader>
+      <loader>nbaquery.data.file.loader.TeamLoader</loader>
+    </loaders>
+    <algorithms>
+      <algorithm>nbaquery.data.file.query.DeriveAlgorithm</algorithm>
+      <algorithm>nbaquery.data.file.query.GroupAlgorithm</algorithm>
+      <algorithm>nbaquery.data.file.query.NaturalJoinAlgorithm</algorithm>
+      <algorithm>nbaquery.data.file.query.SelectProjectAlgorithm</algorithm>
+      <algorithm>nbaquery.data.file.query.SortAlgorithm</algorithm>
+    </algorithms>
+  </data>
+  <logic installer="nbaquery.logic.LogicInstaller"/>
+  <interface installer="nbaquery.presentation.PresentationInstaller"/>
+</nbaquerysystem>
