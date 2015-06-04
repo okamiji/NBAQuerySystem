@@ -117,10 +117,10 @@ public class Main
 	{
 		
 		this.loadConfiguration();
-		this.loadDataLayer();
 		
 		while(true) try
 		{
+			this.loadDataLayer();
 			this.loadLogicLayer();
 			break;
 		}
@@ -128,6 +128,11 @@ public class Main
 		{
 			System.out.println("Error detected while loading, retrying.");
 			e.printStackTrace();
+			this.host = null;
+			this.playerService = null;
+			this.matchService = null;
+			this.teamService = null;
+			System.gc();
 		}
 		this.loadPresentation();
 	}
