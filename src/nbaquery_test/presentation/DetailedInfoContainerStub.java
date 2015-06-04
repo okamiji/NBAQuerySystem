@@ -2,15 +2,14 @@ package nbaquery_test.presentation;
 
 import nbaquery.data.Row;
 import nbaquery.logic.team.NewTeamService;
-import nbaquery.logic.team.TeamService;
 import nbaquery.presentation3.DetailedInfoContainer;
 
 public class DetailedInfoContainerStub implements DetailedInfoContainer
 {
 	NewTeamService newTeamService;
-	public DetailedInfoContainerStub(TeamService teamService)
+	public DetailedInfoContainerStub(NewTeamService teamService)
 	{
-		this.newTeamService = (NewTeamService) teamService;
+		this.newTeamService = teamService;
 	}
 	
 	@Override

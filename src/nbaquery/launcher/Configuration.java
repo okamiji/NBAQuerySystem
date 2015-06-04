@@ -82,7 +82,7 @@ public class Configuration
 	
 	protected void setupLogicConfig(Document dom, Element logicConfig)
 	{
-		logicConfig.setAttribute("installer", "nbaquery.logic.LogicInstaller");
+		logicConfig.setAttribute("installer", "nbaquery.logic.PipelineInstaller");
 		
 		
 		logicConfig.appendChild(dom.createComment("infrustructure"));
@@ -94,7 +94,7 @@ public class Configuration
 		);
 		logicConfig.appendChild(makePipelineNode(dom,
 				"match_team_performance",
-				"nbaquery.logic.infrustruture.MatchTeamPerformance",
+				"nbaquery.logic.infrustructure.MatchTeamPerformance",
 				new String[]{"match_natural_join_performance"})
 		);
 		logicConfig.appendChild(makePipelineNode(dom,
@@ -252,7 +252,6 @@ public class Configuration
 		Element element = dom.createElement("pipeline");
 		element.setAttribute("name", pipelineName);
 		element.setAttribute("class", pipelineClazz);
-		
 		
 		this.createDependenciesUnder(dom, element, dependencies);
 		return element;

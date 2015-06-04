@@ -11,7 +11,10 @@ import org.w3c.dom.NodeList;
 
 import nbaquery.data.TableHost;
 import nbaquery.logic.match.MatchService;
+import nbaquery.logic.match.NewMatchService;
+import nbaquery.logic.player.NewPlayerService;
 import nbaquery.logic.player.PlayerService;
+import nbaquery.logic.team.NewTeamService;
 import nbaquery.logic.team.TeamService;
 import nbaquery.presentation2.addon.GoodLookingScrollBar;
 import nbaquery.presentation2.main.MainFrame;
@@ -82,9 +85,9 @@ public class Main
 		host = this.dataInstaller.install(dataNode);
 	}
 	
-	public TeamService teamService;
-	public PlayerService playerService;
-	public MatchService matchService;
+	public NewTeamService teamService;
+	public NewPlayerService playerService;
+	public NewMatchService matchService;
 	public void loadLogicLayer() throws Exception
 	{
 		this.logicInstaller.install(logicNode, this);
@@ -93,7 +96,7 @@ public class Main
 	MainFrame mainFrame;
 	public void loadPresentation()
 	{
-		mainFrame = new MainFrame(this.playerService, this.teamService, this.matchService);
+		mainFrame = new MainFrame((PlayerService)this.playerService, (TeamService)this.teamService, (MatchService)this.matchService);
 		mainFrame.run();
 		
 		try
@@ -124,8 +127,7 @@ public class Main
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
-			break;//System.out.println("Error detected while loading, retrying.");
+			System.out.println("Error detected while loading, retrying.");
 		}
 		this.loadPresentation();
 	}
