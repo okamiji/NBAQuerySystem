@@ -77,7 +77,7 @@ public class Configuration
 	
 	protected void setupInterfaceConfig(Document dom, Element interfaceConfig)
 	{
-		interfaceConfig.setAttribute("installer", "nbaquery.presentation3.InterfaceInstaller");
+		interfaceConfig.setAttribute("installer", "nbaquery.presentation3.PresentationInstaller");
 	}
 	
 	protected void setupLogicConfig(Document dom, Element logicConfig)

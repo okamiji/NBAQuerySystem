@@ -1,4 +1,4 @@
-package nbaquery.presentation2.main;
+package nbaquery.presentation2;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -119,7 +119,7 @@ public class MainFrame {
 		initialize_buttons();
 		
 
-		//-------------¿ÉÍÏ¶¯-------------
+		//-------------ï¿½ï¿½ï¿½Ï¶ï¿½-------------
 		frame.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 			xOld = e.getX();
@@ -136,7 +136,7 @@ public class MainFrame {
 		}
 		});
 		
-		Font font=new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 12);
+		Font font=new Font("Î¢ï¿½ï¿½ï¿½Åºï¿½", Font.BOLD, 12);
 		set_font(font);
 		
 		PanelSet.get_instance(frame);

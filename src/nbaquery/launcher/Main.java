@@ -1,25 +1,14 @@
 package nbaquery.launcher;
 
 import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import nbaquery.data.TableHost;
-import nbaquery.logic.match.MatchService;
 import nbaquery.logic.match.NewMatchService;
 import nbaquery.logic.player.NewPlayerService;
-import nbaquery.logic.player.PlayerService;
 import nbaquery.logic.team.NewTeamService;
-import nbaquery.logic.team.TeamService;
-import nbaquery.presentation2.addon.GoodLookingScrollBar;
-import nbaquery.presentation2.main.MainFrame;
-//import nbaquery.presentation.MainFrame;
-
 public class Main
 {
 	
@@ -28,6 +17,9 @@ public class Main
 	
 	Installer<?> logicInstaller = null;
 	Node logicNode = null;
+	
+	Installer<?> interfaceInstaller = null;
+	Node interfaceNode = null;
 	
 	public void loadConfiguration() throws Exception
 	{
@@ -67,7 +59,11 @@ public class Main
 			@Override
 			public void onEncounter(Node node) throws Exception
 			{
-			
+				@SuppressWarnings("unchecked")
+				Class<? extends Installer<?>> interfaceInstallerClazz = (Class<? extends Installer<?>>)
+					Class.forName(node.getAttributes().getNamedItem("installer").getTextContent());
+				interfaceInstaller = interfaceInstallerClazz.newInstance();
+				interfaceNode = node;
 			}
 		});
 		
@@ -92,10 +88,10 @@ public class Main
 	{
 		this.logicInstaller.install(logicNode, this);
 	}
-	
-	MainFrame mainFrame;
-	public void loadPresentation()
+
+	public void loadPresentation() throws Exception
 	{
+		/*
 		mainFrame = new MainFrame((PlayerService)this.playerService, (TeamService)this.teamService, (MatchService)this.matchService);
 		mainFrame.run();
 		
@@ -112,6 +108,9 @@ public class Main
 		}
 		
 		//mainFrame.setVisible(true);
+		 * 
+		 */
+		this.interfaceInstaller.install(interfaceNode, this);
 	}
 	
 	public void launch() throws Exception
@@ -128,6 +127,7 @@ public class Main
 		catch(Exception e)
 		{
 			System.out.println("Error detected while loading, retrying.");
+			e.printStackTrace();
 		}
 		this.loadPresentation();
 	}
