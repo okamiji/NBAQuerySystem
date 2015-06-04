@@ -220,6 +220,31 @@ public class Configuration
 				"nbaquery.logic.hot_team_today.HotTeamToday",
 				new String[]{"hot_team_select"})
 		);
+		
+		Element player_service = dom.createElement("player_service");
+		player_service.setAttribute("class", "nbaquery.logic.player.NewPlayerServiceAdapter");
+		this.createDependenciesUnder(dom, player_service, new String[]{"gross_player", "average_player", "hot_player_today", "progress_player"});
+		logicConfig.appendChild(player_service);
+		
+		Element team_service = dom.createElement("team_service");
+		team_service.setAttribute("class", "nbaquery.logic.team.NewTeamServiceAdapter");
+		this.createDependenciesUnder(dom, team_service, new String[]{"gross_team", "average_team", "hot_team_today"});
+		logicConfig.appendChild(team_service);
+	
+		Element match_service = dom.createElement("match_service");
+		match_service.setAttribute("class", "nbaquery.logic.match.NewMatchServiceAdapter");
+		logicConfig.appendChild(match_service);
+	}
+	
+	protected void createDependenciesUnder(Document dom, Node parent, String[] dependencies)
+	{
+		if(dependencies != null && dependencies.length > 0)
+			for(String dependency : dependencies)
+			{
+				Element dependencyNode = dom.createElement("dependency");
+				dependencyNode.setTextContent(dependency);
+				parent.appendChild(dependencyNode);
+			}
 	}
 	
 	protected Node makePipelineNode(Document dom, String pipelineName, String pipelineClazz, String[] dependencies)
@@ -228,15 +253,8 @@ public class Configuration
 		element.setAttribute("name", pipelineName);
 		element.setAttribute("class", pipelineClazz);
 		
-		if(dependencies != null && dependencies.length > 0)
-		{
-			for(String dependency : dependencies)
-			{
-				Element dependencyNode = dom.createElement("dependency");
-				dependencyNode.setTextContent(dependency);
-				element.appendChild(dependencyNode);
-			}
-		}
+		
+		this.createDependenciesUnder(dom, element, dependencies);
 		return element;
 	}
 	

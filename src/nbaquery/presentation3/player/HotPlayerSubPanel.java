@@ -39,18 +39,18 @@ public class HotPlayerSubPanel extends JPanel
 			this.setPageIndex(0);
 			this.setSectionPerPage(5);
 			this.columnModel.addColumn("", "player_portrait").padding = 40;
-			this.columnModel.addColumn("球员名称", "player_name").padding = 80;
+			this.columnModel.addColumn("\u7403\u5458\u540D\u79F0", "player_name").padding = 80;
 			this.columnModel.addColumn("", "team_logo").padding = 40;
-			this.columnModel.addColumn("球队", "team_name_abbr").padding = 20;
-			this.columnModel.addColumn(new DefaultTableColumn("位置", "player_position")
+			this.columnModel.addColumn("\u7403\u961F", "team_name_abbr").padding = 20;
+			this.columnModel.addColumn(new DefaultTableColumn("\u4F4D\u7F6E", "player_position")
 			{
 				public Component render(DisplayTable table, Object value, int row, int column)
 				{
 					super.render(table, value, row, column);
 					String text = super.displayComponent.getText();
-					if(text.equals("G")) text = "后卫";
-					if(text.equals("F")) text = "前锋";
-					if(text.equals("C")) text = "中锋";
+					if(text.equals("G")) text = "\u540E\u536B";
+					if(text.equals("F")) text = "\u524D\u950B";
+					if(text.equals("C")) text = "\u4E2D\u950B";
 					super.displayComponent.setText(text);
 					return super.displayComponent;
 				}
@@ -60,11 +60,11 @@ public class HotPlayerSubPanel extends JPanel
 		}
 	};
 	
-	HotPlayerSection todayHotPlayer = new HotPlayerSection(new String[]{"得分", "篮板", "助攻", "抢断", "盖帽"}
+	HotPlayerSection todayHotPlayer = new HotPlayerSection(new String[]{"\u5f97\u5206", "\u7bee\u677f", "\u52a9\u653b", "\u62a2\u65ad", "\u76d6\u5e3d"}
 	, new String[]{"self_score", "total_board", "assist", "steal", "cap"})
 	{
 		{
-			prefix = "今日";
+			prefix = "\u4eca\u65e5";
 			tableModel = new HotPlayerTableModel()
 			{
 				@Override
@@ -85,11 +85,11 @@ public class HotPlayerSubPanel extends JPanel
 		}
 	};
 	
-	HotPlayerSection seasonHotPlayer = new HotPlayerSection(new String[]{"得分", "篮板", "助攻", "抢断", "盖帽"}
+	HotPlayerSection seasonHotPlayer = new HotPlayerSection(new String[]{"\u5f97\u5206", "\u7bee\u677f", "\u52a9\u653b", "\u62a2\u65ad", "\u76d6\u5e3d"}
 	, new String[]{"self_score", "total_board", "assist", "steal", "cap"})
 	{
 		{
-			prefix = "赛季";
+			prefix = "\u8d5b\u5b63";
 			tableModel = new HotPlayerTableModel()
 			{
 				@Override
@@ -110,7 +110,7 @@ public class HotPlayerSubPanel extends JPanel
 		}
 	};
 	
-	HotPlayerSection progressPlayer = new HotPlayerSection(new String[]{"得分提升", "篮板提升", "助攻提升"}
+	HotPlayerSection progressPlayer = new HotPlayerSection(new String[]{"\u5F97\u5206\u63D0\u5347", "\u7BEE\u677F\u63D0\u5347", "\u52A9\u653B\u63D0\u5347"}
 	, new String[]{"self_score_rate", "total_board_rate", "assist_rate"})
 	{
 		{
@@ -298,7 +298,7 @@ public class HotPlayerSubPanel extends JPanel
 		protected String prefix = "";
 		public String getDescriptionText()
 		{
-			return prefix.concat(tableHeader[selectedIndex]).concat("王");
+			return prefix.concat(tableHeader[selectedIndex]).concat("\u738B");
 		}
 	}
 }

@@ -33,29 +33,29 @@ public class HotTeamSubPanel extends JPanel
 	
 	boolean shouldRedoQuery = true;
 	
-	HotTeamSection seasonHotTeam = new HotTeamSection(new String[]{"胜场", "胜率", "得分", "篮板", "进攻", "防守", "助攻", "抢断", "盖帽"}
+	HotTeamSection seasonHotTeam = new HotTeamSection(new String[]{"\u80DC\u573A", "\u80DC\u7387", "\u5F97\u5206", "\u7BEE\u677F", "\u8FDB\u653B", "\u9632\u5B88", "\u52A9\u653B", "\u62A2\u65AD", "\u76D6\u5E3D"}
 		, new String[]{"win", "win_rate", "self_score", "total_board", "attack_board", "defence_board", "assist", "steal", "cap"})
 	{
 		{
-			prefix = "赛季";
+			prefix = "\u8D5B\u5B63";
 			tableModel = new PresentationTableModel()
 			{
 				{
 					this.setPageIndex(0);
 					this.setSectionPerPage(5);
 					this.columnModel.addColumn("", "team_logo").padding = 40;
-					this.columnModel.addColumn("球队名称", "team_name").padding = 80;
-					this.columnModel.addColumn(new DefaultTableColumn("赛区", "team_match_area")
+					this.columnModel.addColumn("\u7403\u961F\u540D\u79F0", "team_name").padding = 80;
+					this.columnModel.addColumn(new DefaultTableColumn("\u8D5B\u533A", "team_match_area")
 					{
 						public Component render(DisplayTable table, Object value, int row, int column)
 						{
 							super.render(table, value, row, column);
-							if(super.displayComponent.getText().equals("W")) super.displayComponent.setText("西部");
-							if(super.displayComponent.getText().equals("E")) super.displayComponent.setText("东部");
+							if(super.displayComponent.getText().equals("W")) super.displayComponent.setText("\u897F\u90E8");
+							if(super.displayComponent.getText().equals("E")) super.displayComponent.setText("\u4E1C\u90E8");
 							return super.displayComponent;
 						}
 					});
-					this.columnModel.addColumn("联盟", "team_sector").padding = 40;
+					this.columnModel.addColumn("\u8054\u76DF", "team_sector").padding = 40;
 					this.columnModel.addColumn(new RankingTableColumn(), 0);
 				}
 				
@@ -78,29 +78,29 @@ public class HotTeamSubPanel extends JPanel
 	};
 	
 	
-	HotTeamSection todayHotTeam = new HotTeamSection(new String[]{"得分", "篮板", "进攻", "防守", "助攻", "抢断", "盖帽"},
+	HotTeamSection todayHotTeam = new HotTeamSection(new String[]{"\u5F97\u5206", "\u7BEE\u677F", "\u8FDB\u653B", "\u9632\u5B88", "\u52A9\u653B", "\u62A2\u65AD", "\u76D6\u5E3D"},
 			new String[]{"self_score", "total_board", "attack_board", "defence_board", "assist", "steal", "cap"})
 	{
 		{
-			prefix = "今日";
+			prefix = "\u4eca\u65e5";
 			tableModel = new PresentationTableModel()
 			{
 				{
 					this.setPageIndex(0);
 					this.setSectionPerPage(5);
 					this.columnModel.addColumn("", "team_logo").padding = 40;
-					this.columnModel.addColumn("球队名称", "team_name").padding = 80;
-					this.columnModel.addColumn(new DefaultTableColumn("赛区", "team_match_area")
+					this.columnModel.addColumn("\u7403\u961F\u540D\u79F0", "team_name").padding = 80;
+					this.columnModel.addColumn(new DefaultTableColumn("\u8D5B\u533A", "team_match_area")
 					{
 						public Component render(DisplayTable table, Object value, int row, int column)
 						{
 							super.render(table, value, row, column);
-							if(super.displayComponent.getText().equals("W")) super.displayComponent.setText("西部");
-							if(super.displayComponent.getText().equals("E")) super.displayComponent.setText("东部");
+							if(super.displayComponent.getText().equals("W")) super.displayComponent.setText("\u897F\u90E8");
+							if(super.displayComponent.getText().equals("E")) super.displayComponent.setText("\u4E1C\u90E8");
 							return super.displayComponent;
 						}
 					});
-					this.columnModel.addColumn("联盟", "team_sector").padding = 40;
+					this.columnModel.addColumn("\u8054\u76DF", "team_sector").padding = 40;
 					this.columnModel.addColumn(new RankingTableColumn(), 0);
 				}
 				
@@ -296,7 +296,7 @@ public class HotTeamSubPanel extends JPanel
 		protected String prefix = "";
 		public String getDescriptionText()
 		{
-			return prefix.concat(tableHeader[selectedIndex]).concat("王");
+			return prefix.concat(tableHeader[selectedIndex]).concat("\u738B");
 		}
 	}
 }
