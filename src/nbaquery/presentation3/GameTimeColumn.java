@@ -15,7 +15,7 @@ public class GameTimeColumn implements DisplayTableColumn
 	@Override
 	public String getColumnName()
 	{
-		return "上场时间";
+		return "\u6BD4\u8D5B\u65F6\u95F4";
 	}
 
 	@Override
