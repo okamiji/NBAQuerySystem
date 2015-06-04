@@ -27,6 +27,8 @@ public class PipelineInstaller implements Installer<Object>
 	{
 		Main main = (Main) params[0];
 		this.tableHost = main.host;
+		pipelines.clear();
+		pipelineObjects.clear();
 		
 		XmlEventNotifier notifier = new XmlEventNotifier();
 		notifier.registerListener("pipeline", new XmlEventListener()
