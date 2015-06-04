@@ -7,7 +7,6 @@ import nbaquery.data.file.loader.MatchNaturalJoinPerformanceLoader;
 import nbaquery.data.file.loader.PlayerLoader;
 import nbaquery.data.file.loader.TeamLoader;
 import nbaquery.launcher.Main;
-import nbaquery.logic.LogicInstaller;
 
 public class TestInitializer implements TestFacadeToken
 {
@@ -44,14 +43,6 @@ public class TestInitializer implements TestFacadeToken
 		catch(Exception e)
 		{
 			break;
-		}
-		
-		LogicInstaller logicInstaller = new LogicInstaller();
-		try {
-			logicInstaller.install(null, main);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 }

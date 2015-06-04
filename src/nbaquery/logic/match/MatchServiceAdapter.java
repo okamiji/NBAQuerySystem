@@ -10,7 +10,42 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 
 	public String[] columnNames;
 	
-	public MatchServiceAdapter(TableHost tableHost,String[] columnNames){
+	public MatchServiceAdapter(TableHost tableHost)
+	{
+		this(tableHost,new String[]{
+				"match_id",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"match_season",//ï¿½ï¿½ï¿½ï¿½
+				"match_date",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"match_host_abbr",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´
+				"match_guest_abbr",//ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´
+				"match_host_score",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½
+				"match_guest_score",//ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½
+				"team_name_abbr",//ï¿½ï¿½ï¿½ï¿½ï¿½Ð´
+				"player_name",//ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
+				"player_position",//ï¿½ï¿½Ô±Î»ï¿½ï¿½
+				"game_time_minute",//ï¿½Ï³ï¿½Ê±ï¿½ä£¨ï¿½ï¿½ï¿½Ó²ï¿½ï¿½Ö£ï¿½
+				"game_time_second",//ï¿½Ï³ï¿½Ê±ï¿½ä£¨ï¿½ï¿½ï¿½Ó²ï¿½ï¿½Ö£ï¿½
+				"shoot_score",//ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"shoot_count",//ï¿½ï¿½ï¿½Ö³ï¿½ï¿½ï¿½ï¿½ï¿½
+				"three_shoot_score",//ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"three_shoot_count",//ï¿½ï¿½ï¿½Ö³ï¿½ï¿½ï¿½ï¿½ï¿½
+				"foul_shoot_score",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"foul_shoot_count",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"attack_board",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"defence_board",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"total_board",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"assist",//ï¿½ï¿½ï¿½ï¿½
+				"steal",//ï¿½ï¿½ï¿½ï¿½
+				"cap",//ï¿½ï¿½Ã±
+				"miss",//Ê§ï¿½ï¿½
+				"foul",//ï¿½ï¿½ï¿½ï¿½
+				"self_score",//ï¿½ï¿½ï¿½ËµÃ·ï¿½
+				"match_host_image",//
+				"match_guest_image"//
+		});
+	}
+	
+	private MatchServiceAdapter(TableHost tableHost,String[] columnNames){
 		super(tableHost);
 		this.columnNames=columnNames;
 	}
@@ -29,13 +64,13 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 		queryResult = tableHost.getTable("match_query_result");
 		
 		GroupQuery group2 = new GroupQuery(queryResult,new String[]{
-				"match_id",//±ÈÈü±àºÅ
-				"match_season",//Èü¼¾
-				"match_date",//±ÈÈüÈÕÆÚ
-				"match_host_abbr",//Ö÷³¡¶ÓÎéËõÐ´
-				"match_guest_abbr",//¿Í³¡¶ÓÎéËõÐ´
-				"match_host_score",//Ö÷³¡¶ÓÎéµÃ·Ö
-				"match_guest_score",//¿Í³¡¶ÓÎéµÃ·Ö
+				"match_id",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"match_season",//ï¿½ï¿½ï¿½ï¿½
+				"match_date",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"match_host_abbr",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´
+				"match_guest_abbr",//ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´
+				"match_host_score",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½
+				"match_guest_score",//ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½
 				},
 		new GroupColumnInfo("match_host_image", String.class)
 		{
@@ -63,14 +98,14 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 		tableHost.performQuery(joinQuery, "match_query_result");
 		queryResult = tableHost.getTable("match_query_result");
 		
-		group2 = new GroupQuery(queryResult,new String[]{"match_id",//±ÈÈü±àºÅ
-				"match_season",//Èü¼¾
-				"match_date",//±ÈÈüÈÕÆÚ
-				"match_host_abbr",//Ö÷³¡¶ÓÎéËõÐ´
-				"match_guest_abbr",//¿Í³¡¶ÓÎéËõÐ´
-				"match_host_score",//Ö÷³¡¶ÓÎéµÃ·Ö
-				"match_guest_score",//¿Í³¡¶ÓÎéµÃ·Ö
-				"match_host_image"//Ö÷¶Ólogo
+		group2 = new GroupQuery(queryResult,new String[]{"match_id",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"match_season",//ï¿½ï¿½ï¿½ï¿½
+				"match_date",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				"match_host_abbr",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´
+				"match_guest_abbr",//ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´
+				"match_host_score",//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½
+				"match_guest_score",//ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½
+				"match_host_image"//ï¿½ï¿½ï¿½ï¿½logo
 				},
 		new GroupColumnInfo("match_guest_image", String.class)
 		{

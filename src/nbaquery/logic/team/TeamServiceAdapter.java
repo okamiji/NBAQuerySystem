@@ -16,6 +16,84 @@ public class TeamServiceAdapter extends NewTeamServiceAdapter implements TeamSer
 	public String[] columnNames,oneTeamColumns;
 	
 	public TeamServiceAdapter(TableHost tableHost,
+			GrossTeam gross, AverageTeam average, HotTeamToday hot)
+	{
+		this(tableHost, gross, average, hot, new String[]
+		{
+				"match_season", //"����"
+				"team_name", //"�������"
+				"game",//"��������"
+				"shoot_score",//"Ͷ��������"
+				"shoot",//"Ͷ�����ִ���"
+				"three_shoot_score",//"����������"
+				"three_shoot",//"���ֳ�����"
+				"foul_shoot_score",//"����������"
+				"foul_shoot",//"���������"
+				"attack_board",//"����������"
+				"defence_board",//"����������"
+				"total_board",//"������"
+				"assist",//"������"
+				"steal",//"������"
+				"cap",//"��ñ��"
+				"miss",//"ʧ����"
+				"foul",//"������"
+				"self_score",//"�����÷�"
+				"shoot_rate",//"Ͷ��������"
+				"three_shoot_rate",//"����������"
+				"foul_shoot_rate",//"����������"
+				"win_rate",//"ʤ��"
+				"attack_round",//"�����غ�"
+				"attack_efficiency",//"����Ч��"
+				"defence_efficiency",//"����Ч��"
+				"attack_board_efficiency",//"��������Ч��"
+				"defence_board_efficiency",//"��������Ч��"
+				"steal_efficiency",//"����Ч��"
+				"assist_efficiency",//"����Ч��"
+				"team_logo"	//"�����־"
+		},
+		 new String[]
+		{
+				"match_season", //"����"
+				"team_name", //"�������"
+				"game",//"��������"
+				"shoot_score",//"Ͷ��������"
+				"shoot",//"Ͷ�����ִ���"
+				"three_shoot_score",//"����������"
+				"three_shoot",//"���ֳ�����"
+				"foul_shoot_score",//"����������"
+				"foul_shoot",//"���������"
+				"attack_board",//"����������"
+				"defence_board",//"����������"
+				"total_board",//"������"
+				"assist",//"������"
+				"steal",//"������"
+				"cap",//"��ñ��"
+				"miss",//"ʧ����"
+				"foul",//"������"
+				"self_score",//"�����÷�"
+				"shoot_rate",//"Ͷ��������"
+				"three_shoot_rate",//"����������"
+				"foul_shoot_rate",//"����������"
+				"win_rate",//"ʤ��"
+				"attack_round",//"�����غ�"
+				"attack_efficiency",//"����Ч��"
+				"defence_efficiency",//"����Ч��"
+				"attack_board_efficiency",//"��������Ч��"
+				"defence_board_efficiency",//"��������Ч��"
+				"steal_efficiency",//"����Ч��"
+				"assist_efficiency",//"����Ч��"
+				"team_logo"	,//"�����־"
+				
+				"team_name_abbr",//������д 
+				"team_location",//�������ڵ� 
+				"team_match_area",//���� 
+				"team_sector",//���� 
+				"team_host",//���� 
+				"team_foundation",//����ʱ��(���)	
+		});
+	}
+	
+	private TeamServiceAdapter(TableHost tableHost,
 			GrossTeam gross, AverageTeam average, HotTeamToday hot, String[] columnNames,String[] oneTeamColumns)
 	{
 		super(tableHost, gross, average, hot);
