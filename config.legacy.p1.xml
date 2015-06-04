@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <nbaquerysystem>
   <data installer="nbaquery.data.file.FileInstaller">
-    <source>D:\迭代一数据</source>
+    <source>/home/luohaoran/迭代一数据</source>
     <loaders>
       <loader>nbaquery.data.file.loader.MatchNaturalJoinPerformanceLoader</loader>
       <loader>nbaquery.data.file.loader.PlayerLoader</loader>
@@ -15,6 +15,92 @@
       <algorithm>nbaquery.data.file.query.SortAlgorithm</algorithm>
     </algorithms>
   </data>
-  <logic installer="nbaquery.logic.LogicInstaller"/>
+  <logic installer="nbaquery.logic.PipelineInstaller">
+    <!--infrustructure-->
+    <pipeline class="nbaquery.logic.infrustructure.DirectMatchNaturalJoinPerformance" name="match_natural_join_performance"/>
+    <pipeline class="nbaquery.logic.infrustructure.MatchTeamPerformance" name="match_team_performance">
+      <dependency>match_natural_join_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.infrustructure.RivalTeamPerformance" name="rival_team_performance">
+      <dependency>match_team_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.infrustructure.RivalTeamNaturalJoin" name="rival_team_natural_join">
+      <dependency>rival_team_performance</dependency>
+      <dependency>match_team_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.infrustructure.PlayerPerformance" name="player_performance">
+      <dependency>match_natural_join_performance</dependency>
+      <dependency>match_team_performance</dependency>
+      <dependency>rival_team_performance</dependency>
+    </pipeline>
+    <!--gross_team-->
+    <pipeline class="nbaquery.logic.gross_team.GrossTeamPerformance" name="gross_team_performance">
+      <dependency>match_team_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.gross_team.GrossRivalPerformance" name="gross_rival_performance">
+      <dependency>rival_team_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.gross_team.GrossTeamNaturalJoin" name="gross_team_natural_join">
+      <dependency>gross_rival_performance</dependency>
+      <dependency>gross_team_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.gross_team.GrossTeam" name="gross_team">
+      <dependency>gross_team_natural_join</dependency>
+    </pipeline>
+    <!--gross_player-->
+    <pipeline class="nbaquery.logic.gross_player.GrossPlayerPerformance" name="gross_player_performance">
+      <dependency>player_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.gross_player.GrossPlayer" name="gross_player">
+      <dependency>gross_player_performance</dependency>
+    </pipeline>
+    <!--average_team-->
+    <pipeline class="nbaquery.logic.average_team.DerivedTeamPerformance" name="derived_team_performance">
+      <dependency>rival_team_natural_join</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.average_team.AverageTeam" name="average_team">
+      <dependency>derived_team_performance</dependency>
+    </pipeline>
+    <!--average_player-->
+    <pipeline class="nbaquery.logic.average_player.DerivedPlayerPerformance" name="derive_player_performance">
+      <dependency>player_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.average_player.AveragePlayer" name="average_player">
+      <dependency>derive_player_performance</dependency>
+    </pipeline>
+    <!--hot_player-->
+    <pipeline class="nbaquery.logic.hot_player_today.HotPlayerTodayPerformanceSelect" name="hot_player_today_p_s">
+      <dependency>match_natural_join_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.hot_player_today.HotPlayerToday" name="hot_player_today">
+      <dependency>hot_player_today_p_s</dependency>
+    </pipeline>
+    <!--progress_player-->
+    <pipeline class="nbaquery.logic.progress_player.ProgressPlayerGroup" name="progress_player_group">
+      <dependency>match_natural_join_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.progress_player.ProgressPlayer" name="progress_player">
+      <dependency>progress_player_group</dependency>
+    </pipeline>
+    <!--hot_team-->
+    <pipeline class="nbaquery.logic.hot_team_today.HotTeamTodayPerformanceSelect" name="hot_team_select">
+      <dependency>match_natural_join_performance</dependency>
+    </pipeline>
+    <pipeline class="nbaquery.logic.hot_team_today.HotTeamToday" name="hot_team_today">
+      <dependency>hot_team_select</dependency>
+    </pipeline>
+    <player_service class="nbaquery.logic.player.PlayerServiceAdapter">
+      <dependency>gross_player</dependency>
+      <dependency>average_player</dependency>
+      <dependency>hot_player_today</dependency>
+      <dependency>progress_player</dependency>
+    </player_service>
+    <team_service class="nbaquery.logic.team.TeamServiceAdapter">
+      <dependency>gross_team</dependency>
+      <dependency>average_team</dependency>
+      <dependency>hot_team_today</dependency>
+    </team_service>
+    <match_service class="nbaquery.logic.match.MatchServiceAdapter"/>
+  </logic>
   <interface installer="nbaquery.presentation.PresentationInstaller"/>
 </nbaquerysystem>
