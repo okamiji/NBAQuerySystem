@@ -1,9 +1,12 @@
 package nbaquery.logic.infrustructure;
 
+import java.util.ArrayList;
+
 import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.query.AliasingQuery;
 import nbaquery.data.query.DeriveColumnInfo;
 import nbaquery.data.query.DeriveQuery;
 import nbaquery.logic.LogicPipeline;
@@ -19,7 +22,6 @@ import nbaquery.logic.LogicWatcher;
 public class RivalTeamPerformance implements LogicPipeline
 {
 	public TableHost tableHost;
-	protected boolean shouldDoQuery = true;
 	protected Table table;
 	public LogicWatcher base;
 	
@@ -60,20 +62,26 @@ public class RivalTeamPerformance implements LogicPipeline
 					}
 				}
 			});
-			tableHost.performQuery(groupQuery, "rival_team_performance");
-			table = tableHost.getTable("rival_team_performance");
-			if(table != null)
+			tableHost.performQuery(groupQuery, "rival_team_performance_derived");
+			table = tableHost.getTable("rival_team_performance_derived");
+			
+			
+			Column[] columns = table.getColumns().toArray(new Column[0]);
+			ArrayList<String> columnNames = new ArrayList<String>();
+			ArrayList<String> aliases = new ArrayList<String>();
+			
+			for(Column column : columns)
 			{
-				Column[] columns = table.getColumns().toArray(new Column[0]);
-				for(Column column : columns)
-				{
-					if(column.getColumnName().equalsIgnoreCase("match_id")) continue;
-					if(column.getColumnName().equalsIgnoreCase("match_season")) continue;
-					if(column.getColumnName().equalsIgnoreCase("current_name_abbr")) continue;
-					table.renameColumn(column.getColumnName(), "rival_".concat(column.getColumnName()));
-				}
+				columnNames.add(column.getColumnName());
+				if(column.getColumnName().equalsIgnoreCase("match_id")) aliases.add("match_id");
+				else if(column.getColumnName().equalsIgnoreCase("match_season")) aliases.add("match_season");
+				else if(column.getColumnName().equalsIgnoreCase("current_name_abbr")) aliases.add("current_name_abbr");
+				else aliases.add("rival_".concat(column.getColumnName()));
 			}
-			shouldDoQuery = false;
+			
+			tableHost.performQuery(new AliasingQuery(table, columnNames.toArray(new String[0]), aliases.toArray(new String[0])),
+					"rival_team_performance");
+			table = tableHost.getTable("rival_team_performance");
 		}
 		return table;
 	}

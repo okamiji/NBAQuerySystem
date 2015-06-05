@@ -23,14 +23,14 @@ import java.util.Collection;
  * @see nbaquery.data.Column
  */
 
-/* <p><i><b>ÖÐÎÄ°æ</b></i></p>
- * <p>Ìá¹©¶Ô±í¸ñÖÐµÄÐÐÓëÁÐµÄ·ÃÎÊ·þÎñ¡£</p>
+/* <p><i><b>ï¿½ï¿½ï¿½Ä°ï¿½</b></i></p>
+ * <p>ï¿½á¹©ï¿½Ô±ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄ·ï¿½ï¿½Ê·ï¿½ï¿½ï¿½</p>
  * 
- * <p>Ò»¸ö±í¸ñÊÇ¶ÔÒ»¸ö²éÑ¯½á¹ûµÄ³éÏó£¬ÀàËÆÓÚ¹ØÏµÐÍÊý¾Ý¿âÖÐµÄ±í¸ñ¡£Ò»¸ö±í¸ñÓÉÁÐÓëÐÐµÄ¼¯ºÏ×é³É£¬Ò»¸öÁÐ´ú±íÒ»¸ö±íÍ·£¬¶øÒ»ÐÐ´ú±í
- * ±í¸ñÖÐµÄÒ»Ôò¼ÇÂ¼¡£ÔÚÕâ¸öÄ£ÐÍÖÐ£¬±í¸ñÒ²³ÖÓÐ¶ÔÆä±í¸ñËÞÖ÷µÄÒýÓÃ¡£</p>
+ * <p>Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ÐµÄ±ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄ¼ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½Ò»ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Ð´ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ò»ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½</p>
  * 
- * <p>Ò»¸ö±í¸ñ¿ÉÒÔÍ¨¹ýÆä±í¸ñËÞÖ÷»ñµÃ¡£±í¸ñËÞÖ÷ÊÇ±í¸ñµÄ³éÏó¹¤³§¡£Ò»¸ö±í¸ñÊÇÊôÓÚÄ³Ò»¡°·ç¸ñ¡±µÄÒâË¼ÊÇ£¬Ò»¸ö±í¸ñÔÚÎÄ¼þÏµÍ³ÒÖ»òÊý¾Ý¿â
- * ÏµÍ³ÉÏ¹¤×÷¡£¾ßÌåµÄÊµÏÖ¿ÉÄÜ»á²»Í¬£¬µ«ÊÇËûÃÇµÄ½Ó¿Ú×ÜÊÇÏàÍ¬µÄ¡£ÓÃ»§Ó¦¸ÃÓÃ±í¸ñµÄ³éÏó½Ó¿Ú·ÃÎÊ±í¸ñ¡£</p>
+ * <p>Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½Ä³ï¿½ï¿½ó¹¤³ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³Ò»ï¿½ï¿½ï¿½ï¿½ñ¡±µï¿½ï¿½ï¿½Ë¼ï¿½Ç£ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ÏµÍ³ï¿½Ö»ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½
+ * ÏµÍ³ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Ö¿ï¿½ï¿½Ü»á²»Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÇµÄ½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Ä¡ï¿½ï¿½Ã»ï¿½Ó¦ï¿½ï¿½ï¿½Ã±ï¿½ï¿½Ä³ï¿½ï¿½ï¿½Ó¿Ú·ï¿½ï¿½Ê±ï¿½ï¿½</p>
  */
 
 public interface Table
@@ -62,7 +62,7 @@ public interface Table
 	 * @param columnName the original name of the column
 	 * @param newColumnName the new name for the column
 	 */
-	public void renameColumn(String columnName, String newColumnName);
+	//public void renameColumn(String columnName, String newColumnName);
 	
 	/**
 	 * Retrieve get the table host of the table.

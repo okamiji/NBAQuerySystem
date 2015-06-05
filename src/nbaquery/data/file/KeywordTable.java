@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.TreeMap;
 
-import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
@@ -158,19 +157,6 @@ public class KeywordTable implements Table
 		{
 			if(notify.contains(accessor)) return false;
 			notify.add(accessor); return true;
-		}
-	}
-
-	@Override
-	public void renameColumn(String columnName, String newColumnName)
-	{
-		Column originalColumn = this.index.get(columnName.toUpperCase());
-		if(originalColumn != null)
-		{
-			FileTableColumn oldColumn = ((FileTableColumn)originalColumn);
-			FileTableColumn newColumn = new FileTableColumn(this, oldColumn.dataClass, oldColumn.columnIndex, newColumnName);
-			this.index.remove(columnName.toUpperCase());
-			this.index.put(newColumnName.toUpperCase(), newColumn);
 		}
 	}
 }

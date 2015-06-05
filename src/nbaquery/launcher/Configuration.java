@@ -285,7 +285,8 @@ public class Configuration
 				"nbaquery.data.file.query.GroupAlgorithm",
 				"nbaquery.data.file.query.NaturalJoinAlgorithm",
 				"nbaquery.data.file.query.SelectProjectAlgorithm",
-				"nbaquery.data.file.query.SortAlgorithm"
+				"nbaquery.data.file.query.SortAlgorithm",
+				"nbaquery.data.file.query.AliasAlgorithm"
 		};
 		for(String current : defaultAlgorithms)
 		{
