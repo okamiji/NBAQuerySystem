@@ -21,7 +21,7 @@ public class SelectProjectQuery implements Query
 	public SelectProjectQuery(String statement, Table table, String... projectColumns) throws Exception
 	{
 		this.table = table;
-		this.expression = ExpressionFactory.getInstance().parse(table.getTableHost(), statement);
+		this.expression = ExpressionFactory.getInstance().parse(table.getTableHost(), new Table[]{table}, statement);
 		this.projectColumns = projectColumns;
 	}
 }

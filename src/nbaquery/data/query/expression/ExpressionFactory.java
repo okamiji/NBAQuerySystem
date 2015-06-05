@@ -5,6 +5,7 @@ import java.util.Stack;
 import java.util.TreeMap;
 
 import nbaquery.data.Column;
+import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 
 public class ExpressionFactory
@@ -33,7 +34,7 @@ public class ExpressionFactory
 	
 	protected ExpressionFactory()	{	}
 	
-	public Operator parse(TableHost host, String expression) throws Exception
+	public Operator parse(TableHost tableHost, Table[] enrolledTables, String expression) throws Exception
 	{
 		String[] analysis = this.lexicalAnalyse(expression);
 		ArrayList<String> preprocessed = new ArrayList<String>();
@@ -65,7 +66,7 @@ public class ExpressionFactory
 			}
 				
 		}
-		Operator[] reverse = toReversePolishForm(host, preprocessed.toArray(new String[0]));
+		Operator[] reverse = toReversePolishForm(tableHost, enrolledTables, preprocessed.toArray(new String[0]));
 		
 		Stack<Operator> workingStack = new Stack<Operator>();
 		for(int i = 0; i < reverse.length; i ++)
@@ -180,7 +181,7 @@ public class ExpressionFactory
 		}
 	}
 	
-	public Operator[] toReversePolishForm(TableHost host, String[] units) throws Exception
+	public Operator[] toReversePolishForm(TableHost tableHost, Table[] enrolledTables, String[] units) throws Exception
 	{
 		ArrayList<Operator> reversedPolishForm = new ArrayList<Operator>();
 		String[] stack = new String[units.length];
@@ -267,7 +268,17 @@ public class ExpressionFactory
 				}
 				else
 				{
-					Column column = host.getColumn(currentPointerLowered);
+					Column column = null;
+					if(currentPointerLowered.matches(".+[.].+"))
+						column = tableHost.getColumn(currentPointerLowered);
+					else 
+					{
+						for(Table table : enrolledTables)
+						{
+							column = table.getColumn(currentPointerLowered);
+							if(column != null) break;
+						}
+					}
 					if(column == null) throw new Exception("Unknown symbol " + currentPointerLowered);
 					ColumnOperator columnOperator = new ColumnOperator();
 					columnOperator.column = column;

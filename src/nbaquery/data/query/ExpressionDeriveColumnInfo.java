@@ -1,10 +1,7 @@
 package nbaquery.data.query;
 
-import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
-import nbaquery.data.query.expression.BinaryOperator;
-import nbaquery.data.query.expression.ColumnOperator;
 import nbaquery.data.query.expression.ExpressionFactory;
 import nbaquery.data.query.expression.Operator;
 
@@ -26,28 +23,11 @@ public class ExpressionDeriveColumnInfo extends DeriveColumnInfo
 		try
 		{
 			operatorStatement = ExpressionFactory.getInstance().parse(
-					resultTable.getTableHost(), statement);
-			replaceTraversal(resultTable, operatorStatement);
+					resultTable.getTableHost(), new Table[]{resultTable}, statement);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-		}
-	}
-
-	public void replaceTraversal(Table table, Operator op)
-	{
-		if(op == null) return;
-		else if(op instanceof BinaryOperator)
-		{
-			replaceTraversal(table, ((BinaryOperator) op).leftHand);
-			replaceTraversal(table, ((BinaryOperator) op).rightHand);
-		}
-		else if(op instanceof ColumnOperator)
-		{
-			String columnName = ((ColumnOperator)op).column.getColumnName();
-			Column column = table.getColumn(columnName);
-			if(column != null) ((ColumnOperator) op).column = column;
 		}
 	}
 	

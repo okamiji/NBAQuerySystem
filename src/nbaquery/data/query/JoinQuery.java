@@ -22,6 +22,6 @@ public class JoinQuery implements Query
 	public JoinQuery(String statement, Table leftTable, Table rightTable, String... projectColumns) throws Exception
 	{
 		this(leftTable, rightTable, projectColumns);
-		this.expression = ExpressionFactory.getInstance().parse(leftTable.getTableHost(), statement);
+		this.expression = ExpressionFactory.getInstance().parse(leftTable.getTableHost(), new Table[]{leftTable, rightTable}, statement);
 	}
 }
