@@ -1,15 +1,15 @@
 package nbaquery.presentation3.table;
 
-import nbaquery.data.Row;
+import nbaquery.data.Cursor;
 
 public class PagedDisplayTableModel implements DisplayTableModel
 {
 	protected int pageIndex = 0;
 	protected int sectionPerPage = 5;
 	
-	protected Row[] rows;
+	protected Cursor rows;
 	
-	public void setRow(Row[] rows)
+	public void setRow(Cursor rows)
 	{
 		this.rows = rows;
 		this.setPageIndex(pageIndex);
@@ -41,7 +41,8 @@ public class PagedDisplayTableModel implements DisplayTableModel
 	@Override
 	public Object getValueAt(DisplayTable table, int row, int column)
 	{
-		return this.rows[pageIndex * sectionPerPage + row];
+		this.rows.absolute(pageIndex * sectionPerPage + row);
+		return this.rows.next();
 	}
 
 	@Override
@@ -49,13 +50,13 @@ public class PagedDisplayTableModel implements DisplayTableModel
 	{
 		if(getPageCount() == 0) return 0;
 		if(this.pageIndex < getPageCount() - 1) return sectionPerPage;
-		return rows.length - sectionPerPage * (getPageCount() - 1);
+		return rows.getLength() - sectionPerPage * (getPageCount() - 1);
 	}
 	
 	public int getPageCount()
 	{
 		if(rows == null) return 0;
-		return (rows.length + sectionPerPage - 1) / sectionPerPage;
+		return (rows.getLength() + sectionPerPage - 1) / sectionPerPage;
 	}
 
 	@Override

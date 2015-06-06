@@ -19,7 +19,7 @@ public class TestMatchDisplay extends Main
 		theFrame.setVisible(true);
 		//theFrame.setBackground(new Color(0, 0, 0, 0));
 		MatchComponent component = new MatchComponent(new DetailedInfoContainerStub(teamService), ((NewMatchService)this.matchService)
-				.searchForMatchesTable(null, null, null, true).getRows()[0], false);
+				.searchForMatchesTable(null, null, null, true).getRows().next(), false);
 		component.setSize(theFrame.getSize());
 		theFrame.add(component);
 		theFrame.setAlwaysOnTop(true);

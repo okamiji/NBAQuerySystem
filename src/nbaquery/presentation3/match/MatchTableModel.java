@@ -58,8 +58,7 @@ public class MatchTableModel implements DisplayTableModel, DisplayTableColumnMod
 		sortedMatch.clear();
 		Column season = theTable.getColumn("match_season");
 		Column date = theTable.getColumn("match_date");
-		Row[] rows = theTable.getRows();
-		for(Row row : rows)
+		for(Row row : theTable)
 		{
 			String key = String.format("%s %s", (String) season.getAttribute(row), (String) date.getAttribute(row));
 			ArrayList<Row> currentRows;

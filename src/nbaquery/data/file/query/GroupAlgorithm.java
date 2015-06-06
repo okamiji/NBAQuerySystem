@@ -43,9 +43,8 @@ public class GroupAlgorithm implements FileTableAlgorithm
 		group.retrieve(resultTable);
 		
 		Column[] referColumns = referColumnsArrayList.toArray(new Column[0]);
-		Row[] rows = group.table.getRows();
 		HashMap<GroupKey, ArrayList<Row>> mapper = new HashMap<GroupKey, ArrayList<Row>>();
-		for(Row row : rows)
+		for(Row row : group.table)
 		{
 			Object[] selectedField = new Object[referColumns.length];
 			for(int i = 0; i < referColumns.length; i ++) selectedField[i] = referColumns[i].getAttribute(row);

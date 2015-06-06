@@ -1,5 +1,6 @@
 package nbaquery_test.presentation;
 
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.logic.team.NewTeamService;
 import nbaquery.presentation3.DetailedInfoContainer;
@@ -52,8 +53,8 @@ public class DetailedInfoContainerStub implements DetailedInfoContainer
 	public void displayTeamInfo(String teamNameOrAbbr, boolean isDescend,
 			boolean stacked)
 	{
-		Row[] rows = newTeamService.searchInfoByName(teamNameOrAbbr, isDescend).getRows();
-		if(rows.length > 0) this.displayTeamInfo(rows[0], stacked);
+		Cursor rows = newTeamService.searchInfoByName(teamNameOrAbbr, isDescend).getRows();
+		if(rows.getLength() > 0) this.displayTeamInfo(rows.next(), stacked);
 	}
 	
 }

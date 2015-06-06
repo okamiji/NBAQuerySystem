@@ -1,8 +1,10 @@
 package nbaquery.data.sql;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import nbaquery.data.Column;
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
@@ -25,7 +27,7 @@ public class MutableSqlTable implements Table
 	}
 
 	@Override
-	public Row[] getRows() {
+	public Cursor getRows() {
 		return null;
 	}
 
@@ -45,6 +47,12 @@ public class MutableSqlTable implements Table
 	public boolean hasTableChanged(Object accessor) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Iterator<Row> iterator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

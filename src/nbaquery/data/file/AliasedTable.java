@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.TreeMap;
 
 import nbaquery.data.Column;
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
@@ -36,7 +37,7 @@ public class AliasedTable extends KeywordTable
 	}
 
 	@Override
-	public Row[] getRows() {
+	public Cursor getRows() {
 		return this.sourceTable.getRows();
 	}
 

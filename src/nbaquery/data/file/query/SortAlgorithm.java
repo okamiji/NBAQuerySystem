@@ -50,16 +50,14 @@ public class SortAlgorithm implements FileTableAlgorithm
 		KeywordMapper mapper = keywordMappers.get(keyword.getDataClass());
 		if(mapper != null)
 		{
-			Row[] row = sort.table.getRows();
-		
 			final RowLinkedListNode dummyHead = new RowLinkedListNode();
 			RowLinkedListNode current = dummyHead;
-			for(int i = 0; i < row.length; i ++)
+			for(Row row : sort.table)
 			{
 				RowLinkedListNode node = new RowLinkedListNode();
-				node.row = row[i];
+				node.row = row;
 				
-				Object keywordObject = keyword.getAttribute(row[i]);
+				Object keywordObject = keyword.getAttribute(row);
 				if(keywordObject != null) node.keyword = mapper.getKeyword(keywordObject);
 				else node.keyword = -1;
 				if(sort.descend) node.keyword = -node.keyword;

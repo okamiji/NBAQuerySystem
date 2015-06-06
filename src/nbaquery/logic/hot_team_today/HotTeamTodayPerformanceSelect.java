@@ -1,6 +1,7 @@
 package nbaquery.logic.hot_team_today;
 
 import nbaquery.data.Column;
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
@@ -36,9 +37,10 @@ public class HotTeamTodayPerformanceSelect implements LogicPipeline {
 		{
 			if(hasMatchChanged)
 			{
-				Row[] rows = match.getRows();
-				if(rows.length <= 0) return null;
-				Row lastMatch = rows[rows.length - 1];
+				Cursor rows = match.getRows();
+				if(rows.getLength() <= 0) return null;
+				rows.absolute(rows.getLength() - 1);
+				Row lastMatch = rows.next();
 				season = (String) match_season.getAttribute(lastMatch);
 				date = (String) match_date.getAttribute(lastMatch);
 			}

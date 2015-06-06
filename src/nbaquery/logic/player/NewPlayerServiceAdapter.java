@@ -1,7 +1,7 @@
 package nbaquery.logic.player;
 
 import nbaquery.data.Column;
-import nbaquery.data.Row;
+import nbaquery.data.Cursor;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.NaturalJoinQuery;
@@ -168,9 +168,10 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		Table matchTable = tableHost.getTable("match");
 		if(matchTable.hasTableChanged("setchForSeasonHotPlayers"))
 		{
-			Row[] rows = matchTable.getRows();
+			Cursor rows = matchTable.getRows();
 			Column season = matchTable.getColumn("match_season");
-			String latestSeason = (String) season.getAttribute(rows[rows.length - 1]);
+			rows.absolute(rows.getLength() - 1);
+			String latestSeason = (String) season.getAttribute(rows.next());
 			
 			Table grossTable = this.gross.getTable();
 			try

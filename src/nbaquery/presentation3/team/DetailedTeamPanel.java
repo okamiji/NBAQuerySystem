@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.match.NewMatchService;
@@ -17,7 +18,7 @@ import nbaquery.presentation3.match.CompareMatchSubPanel;
 public class DetailedTeamPanel extends JPanel
 {
 	static final String[] keyName = new String[]{"team_name", "team_location", "team_host", "team_match_area", "team_sector", "team_foundation"};
-	static final String[] keyDisplayName = new String[]{"ËùÊô¶ÓÎé", "ËùÊôÖÞ", "Ö÷Èü³¡", "ÈüÇø", "ÁªÃË", "´´½¨Ê±¼ä"};
+	static final String[] keyDisplayName = new String[]{"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½"};
 	
 	KeyValueDisplay[] configuration = new KeyValueDisplay[keyName.length];
 	
@@ -51,8 +52,8 @@ public class DetailedTeamPanel extends JPanel
 					public String convertValueToString(Object value)
 					{
 						if(value == null) return "";
-						if(value.toString().equals("E")) return "¶«²¿";
-						else return "Î÷²¿";
+						if(value.toString().equals("E")) return "ï¿½ï¿½ï¿½ï¿½";
+						else return "ï¿½ï¿½ï¿½ï¿½";
 					}
 				};
 			}
@@ -80,8 +81,8 @@ public class DetailedTeamPanel extends JPanel
 			{
 				reEnteredTable = super.matchService.searchMatchesByTeamNameAbbr(
 						(String) teamRow.getDeclaredTable().getColumn("team_name_abbr").getAttribute(teamRow));
-				Row[] rows = reEnteredTable.getRows();
-				Row firstRow = rows[0];
+				Cursor rows = reEnteredTable.getRows();
+				Row firstRow = rows.next();
 				String season = (String) reEnteredTable.getColumn("match_season").getAttribute(firstRow);
 				String date = (String) reEnteredTable.getColumn("match_date").getAttribute(firstRow);
 				

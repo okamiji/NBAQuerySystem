@@ -5,6 +5,7 @@ import java.awt.Font;
 
 import javax.swing.JFrame;
 
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.launcher.Main;
 import nbaquery.logic.match.NewMatchService;
@@ -28,9 +29,10 @@ public class TestDetailedTeamPanel extends Main
 		theFrame.add(new DetailedTeamPanel(new DetailedInfoContainerStub(teamService) , (NewMatchService) this.matchService, 400, 600)
 		{
 			{
-				Row[] rows = ((NewTeamService)teamService).searchTodayHotTeams("self_score").getRows();
-				this.setRow(rows[0]);
-				System.out.println(TestFileTableHost.convertTableIntoString(rows[0].getDeclaredTable()));
+				Cursor rows = ((NewTeamService)teamService).searchTodayHotTeams("self_score").getRows();
+				Row rowZero = rows.next();
+				this.setRow(rowZero);
+				System.out.println(TestFileTableHost.convertTableIntoString(rowZero.getDeclaredTable()));
 			}
 		});
 		

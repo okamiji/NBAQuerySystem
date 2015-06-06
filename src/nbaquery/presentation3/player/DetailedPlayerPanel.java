@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import nbaquery.data.Cursor;
 import nbaquery.data.Image;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
@@ -22,7 +23,7 @@ import nbaquery.presentation3.match.CompareMatchSubPanel;
 public class DetailedPlayerPanel extends JPanel
 {
 	static final String[] keyName = new String[]{"player_name", "team_name", "player_position", "player_birth", "player_age", "player_exp", "player_height", "player_weight", "player_school"};
-	static final String[] keyDisplayName = new String[]{"ÇòÔ±Ãû³Æ", "ËùÊô¶ÓÎé", "Î»ÖÃ", "³öÉúÈÕÆÚ", "ÄêÁä", "ÇòÁä", "Éí¸ß", "ÌåÖØ", "±ÏÒµÑ§Ð£"};
+	static final String[] keyDisplayName = new String[]{"ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "Î»ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ÒµÑ§Ð£"};
 	
 	KeyValueDisplay[] configuration = new KeyValueDisplay[keyName.length];
 	
@@ -57,9 +58,9 @@ public class DetailedPlayerPanel extends JPanel
 					{
 						if(value == null) return "";
 						String pos = value.toString();
-						if(pos.equals("C")) return "ÖÐ·æ";
-						if(pos.equals("G")) return "ºóÎÀ";
-						return "Ç°·æ";
+						if(pos.equals("C")) return "ï¿½Ð·ï¿½";
+						if(pos.equals("G")) return "ï¿½ï¿½ï¿½ï¿½";
+						return "Ç°ï¿½ï¿½";
 					}
 				};
 			}
@@ -93,8 +94,8 @@ public class DetailedPlayerPanel extends JPanel
 			{
 				reEnteredTable = super.matchService.searchMatchesByPlayer(
 						(String) playerRow.getDeclaredTable().getColumn("player_name").getAttribute(playerRow));
-				Row[] rows = reEnteredTable.getRows();
-				Row firstRow = rows[0];
+				Cursor rows = reEnteredTable.getRows();
+				Row firstRow = rows.next();
 				String season = (String) reEnteredTable.getColumn("match_season").getAttribute(firstRow);
 				String date = (String) reEnteredTable.getColumn("match_date").getAttribute(firstRow);
 				

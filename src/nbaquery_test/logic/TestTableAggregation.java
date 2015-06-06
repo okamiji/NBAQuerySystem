@@ -51,7 +51,7 @@ public class TestTableAggregation
 	public static void setup() throws Exception
 	{
 		System.out.println("Initializing...");
-		theHost = new FileTableHost(new File("D:\\µü´úÒ»Êý¾Ý"));
+		theHost = new FileTableHost(new File("D:\\ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½"));
 		joined = new MatchNaturalJoinPerformance(theHost);
 		aggregated = new MatchTeamPerformance(theHost, joined);
 		rival = new RivalTeamPerformance(theHost, aggregated);
@@ -176,14 +176,14 @@ public class TestTableAggregation
 		for(Column column : columns) System.out.print(column.getColumnName() + " ");
 		System.out.println();
 		
-		Row[] rows = table.getRows();
-		
-		for(int i = 0; i < rows.length && i < 50; i ++)
+		int length = 0;
+		for(Row row : table)
 		{
 			for(Column column : columns)
-				System.out.print(column.getAttribute(rows[i]) + " ");
+				System.out.print(column.getAttribute(row) + " ");
 			System.out.println();
+			length ++;
 		}
-		System.out.println("Generated " + rows.length + " row(s) in total.");
+		System.out.println("Generated " + length + " row(s) in total.");
 	}
 }

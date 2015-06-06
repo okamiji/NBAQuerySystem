@@ -35,7 +35,7 @@ public class TestFileTableHost
 	@BeforeClass
 	public static void loadingHostFromFileSystem() throws Exception
 	{
-		host = new FileTableHost(new File("D:\\µü´úÒ»Êý¾Ý"));
+		host = new FileTableHost(new File("D:\\ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½"));
 		
 		match = host.getTable("match");
 		quarter_score = host.getTable("quarter_score");
@@ -55,7 +55,7 @@ public class TestFileTableHost
 			builder.append(columns[i].getColumnName());
 		}
 		int rec = 0;
-		for(Row row : table.getRows())
+		for(Row row : table)
 		{
 			rec ++;
 			builder.append('\n');

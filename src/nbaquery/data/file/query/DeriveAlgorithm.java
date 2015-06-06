@@ -70,7 +70,7 @@ public class DeriveAlgorithm implements FileTableAlgorithm
 		
 		derive.retrieve(resultTable);
 		
-		for(Row row : originTable.getRows())
+		for(Row row : originTable)
 		{
 			Tuple tuple = resultTable.createTuple();
 			for(int i = 0; i < resultColumn.length; i ++)

@@ -33,7 +33,7 @@ import java.util.Collection;
  * ϵͳ�Ϲ����������ʵ�ֿ��ܻ᲻ͬ���������ǵĽӿ�������ͬ�ġ��û�Ӧ���ñ��ĳ���ӿڷ��ʱ��</p>
  */
 
-public interface Table
+public interface Table extends Iterable<Row>
 {
 	/**
 	 * Retrieve all columns from the tale.
@@ -43,9 +43,10 @@ public interface Table
 	
 	/**
 	 * Retrieve all rows from the table.
+	 * <b>Warning: </b>the method iterator() should call this method.
 	 * @return rows in the table.
 	 */
-	public Row[] getRows();
+	public Cursor getRows();
 	
 	/**
 	 * Retrieve specific column from the table.<br>

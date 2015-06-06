@@ -1,7 +1,7 @@
 package nbaquery.logic.team;
 
 import nbaquery.data.Column;
-import nbaquery.data.Row;
+import nbaquery.data.Cursor;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.SelectProjectQuery;
@@ -77,9 +77,10 @@ public class NewTeamServiceAdapter implements NewTeamService
 		Table matchTable = tableHost.getTable("match");
 		if(matchTable.hasTableChanged("setchForSeasonHotTeams"))
 		{
-			Row[] rows = matchTable.getRows();
+			Cursor rows = matchTable.getRows();
+			rows.absolute(rows.getLength() - 1);
 			Column season = matchTable.getColumn("match_season");
-			String latestSeason = (String) season.getAttribute(rows[rows.length - 1]);
+			String latestSeason = (String) season.getAttribute(rows.next());
 			
 			Table grossTable = this.gross.getTable();
 			try

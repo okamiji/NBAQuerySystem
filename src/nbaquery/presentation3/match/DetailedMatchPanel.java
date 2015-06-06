@@ -120,7 +120,7 @@ public class DetailedMatchPanel extends JPanel
 		PresentationTableModel quarterModel = new PresentationTableModel()
 		{
 			{
-				this.columnModel.addColumn(new DefaultTableColumn("³¡´Î", "quarter_number")
+				this.columnModel.addColumn(new DefaultTableColumn("ï¿½ï¿½ï¿½ï¿½", "quarter_number")
 				{
 					public int getWidth(Graphics g)
 					{
@@ -128,7 +128,7 @@ public class DetailedMatchPanel extends JPanel
 					}
 				});
 				
-				this.columnModel.addColumn(new DefaultTableColumn("Ö÷³¡¶ÓÎéµÃ·Ö", "quarter_host_score")
+				this.columnModel.addColumn(new DefaultTableColumn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½", "quarter_host_score")
 				{
 					public int getWidth(Graphics g)
 					{
@@ -136,7 +136,7 @@ public class DetailedMatchPanel extends JPanel
 					}
 				});
 				
-				this.columnModel.addColumn(new DefaultTableColumn("¿Í³¡¶ÓÎéµÃ·Ö", "quarter_guest_score")
+				this.columnModel.addColumn(new DefaultTableColumn("ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½", "quarter_guest_score")
 				{
 					public int getWidth(Graphics g)
 					{
@@ -171,22 +171,22 @@ public class DetailedMatchPanel extends JPanel
 				columnModel.addColumn("", "team_logo").padding = 20;
 				
 				
-				DefaultTableColumn column = columnModel.addColumn("Çò¶Ó", "team_name_abbr");
+				DefaultTableColumn column = columnModel.addColumn("ï¿½ï¿½ï¿½", "team_name_abbr");
 				column.padding = 5;
 				keywords.put(column, new String[]{"team_name_abbr"});
 				
 				columnModel.addColumn("", "player_portrait").padding = 20;
-				column = columnModel.addColumn("ÇòÔ±Ãû³Æ", "player_name");
+				column = columnModel.addColumn("ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½", "player_name");
 				column.padding = 40;
 				keywords.put(column, new String[]{"player_name"});
 				
-				DualTableColumn dual = new DualTableColumn("ÉÏ³¡Ê±¼ä", "game_time_minute", "game_time_second", "%1'%2\"");
+				DualTableColumn dual = new DualTableColumn("ï¿½Ï³ï¿½Ê±ï¿½ï¿½", "game_time_minute", "game_time_second", "%1'%2\"");
 				columnModel.addColumn(dual);
 				keywords.put(dual, new String[]{"game_time_minute", "game_time_second"});
 				
 				final int dualWidth = 32;
 				
-				dual = new DualTableColumn("·£Çò", "foul_shoot_score", "foul_shoot_count", "%1-%2")
+				dual = new DualTableColumn("ï¿½ï¿½ï¿½ï¿½", "foul_shoot_score", "foul_shoot_count", "%1-%2")
 				{
 					public int getWidth(Graphics g)
 					{
@@ -196,7 +196,7 @@ public class DetailedMatchPanel extends JPanel
 				columnModel.addColumn(dual);
 				keywords.put(dual, new String[]{"foul_shoot_score", "foul_shoot_count"});
 				
-				dual = new DualTableColumn("¶þ·Ö", "shoot_score", "shoot_count", "%1-%2")
+				dual = new DualTableColumn("ï¿½ï¿½ï¿½ï¿½", "shoot_score", "shoot_count", "%1-%2")
 				{
 					public int getWidth(Graphics g)
 					{
@@ -206,7 +206,7 @@ public class DetailedMatchPanel extends JPanel
 				columnModel.addColumn(dual);
 				keywords.put(dual, new String[]{"shoot_score", "shoot_count"});
 				
-				dual = new DualTableColumn("Èý·Ö", "three_shoot_score", "three_shoot_count", "%1-%2")
+				dual = new DualTableColumn("ï¿½ï¿½ï¿½ï¿½", "three_shoot_score", "three_shoot_count", "%1-%2")
 				{
 					public int getWidth(Graphics g)
 					{
@@ -217,7 +217,7 @@ public class DetailedMatchPanel extends JPanel
 				columnModel.addColumn(dual);
 				keywords.put(dual, new String[]{"three_shoot_score", "three_shoot_count"});
 				
-				dual = new DualTableColumn("¹¥ÊØ", "attack_board", "defence_board", "%1-%2")
+				dual = new DualTableColumn("ï¿½ï¿½ï¿½ï¿½", "attack_board", "defence_board", "%1-%2")
 				{
 					public int getWidth(Graphics g)
 					{
@@ -228,31 +228,31 @@ public class DetailedMatchPanel extends JPanel
 				columnModel.addColumn(dual);
 				keywords.put(dual, new String[]{"attack_board", "defence_board"});
 				
-				column = columnModel.addColumn("Àº°å", "total_board");
+				column = columnModel.addColumn("ï¿½ï¿½ï¿½ï¿½", "total_board");
 				column.padding = 0;
 				keywords.put(column, new String[]{"total_board"});
 				
-				column = columnModel.addColumn("Öú¹¥", "assist");
+				column = columnModel.addColumn("ï¿½ï¿½ï¿½ï¿½", "assist");
 				column.padding = 0;
 				keywords.put(column, new String[]{"assist"});
 				
-				column = columnModel.addColumn("¸ÇÃ±", "cap");
+				column = columnModel.addColumn("ï¿½ï¿½Ã±", "cap");
 				column.padding = 0;
 				keywords.put(column, new String[]{"cap"});
 				
-				column = columnModel.addColumn("ÇÀ¶Ï", "steal");
+				column = columnModel.addColumn("ï¿½ï¿½ï¿½ï¿½", "steal");
 				column.padding = 0;
 				keywords.put(column, new String[]{"steal"});
 				
-				column = columnModel.addColumn("Ê§Îó", "miss");
+				column = columnModel.addColumn("Ê§ï¿½ï¿½", "miss");
 				column.padding = 0;
 				keywords.put(column, new String[]{"miss"});
 				
-				column = columnModel.addColumn("·¸¹æ", "foul");
+				column = columnModel.addColumn("ï¿½ï¿½ï¿½ï¿½", "foul");
 				column.padding = 0;
 				keywords.put(column, new String[]{"foul"});
 				
-				column = columnModel.addColumn("µÃ·Ö", "self_score");
+				column = columnModel.addColumn("ï¿½Ã·ï¿½", "self_score");
 				column.padding = 0;
 				keywords.put(column, new String[]{"self_score"});
 			}
@@ -264,7 +264,7 @@ public class DetailedMatchPanel extends JPanel
 				{
 					Table result = matchService.searchPerformanceByID(matchId, header, descend);
 					this.updateTable(result);
-					sectionPerPage = result.getRows().length;
+					sectionPerPage = result.getRows().getLength();
 					shouldRedoQuery = false;
 				}
 			}

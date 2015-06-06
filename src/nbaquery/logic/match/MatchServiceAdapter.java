@@ -1,6 +1,7 @@
 package nbaquery.logic.match;
 
 import nbaquery.data.Column;
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
@@ -136,24 +137,27 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 		
 		Table queryResult = this.searchForMatchesTable(new String[]{columnNames[head]}, null, null, isUp);
 		
-		Row[] rows = queryResult.getRows();
-		String[][] returnValue = new String[rows.length][9];
+		Cursor rows = queryResult.getRows();
+		String[][] returnValue = new String[rows.getLength()][9];
 		Column[] columns = new Column[columnNames.length];
 		for(int i = 0; i < columnNames.length; i ++){
 			if(queryResult.getColumn(columnNames[i])!=null)
 				columns[i] = queryResult.getColumn(columnNames[i]);
 			}
-		for(int row = 0; row < rows.length; row ++){
+		for(int row = 0; row < rows.getLength(); row ++){
+			rows.absolute(row);
+			Row current = rows.next();
 			for(int column = 0; column < 7; column ++)
 				if(columns[column]!=null)
 			{
-				Object value = columns[column].getAttribute(rows[row]);
+				
+				Object value = columns[column].getAttribute(current);
 				if(value != null) returnValue[row][column] = value.toString();
 			}
 			for(int column = 27; column < 29; column ++)
 				if(columns[column]!=null)
 			{
-				Object value = columns[column].getAttribute(rows[row]);
+				Object value = columns[column].getAttribute(current);
 				if(value != null) returnValue[row][column-20] = value.toString();
 			}
 		}
@@ -253,19 +257,21 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 	}
 	
 	public String[][] convertTableToStrings(Table queryResult){
-		Row[] rows = queryResult.getRows();
+		Cursor rows = queryResult.getRows();
 		int columnNumber=columnNames.length;
-		String[][] returnValue = new String[rows.length][columnNumber];
+		String[][] returnValue = new String[rows.getLength()][columnNumber];
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++){
 			columns[i] = queryResult.getColumn(columnNames[i]);
 		}
 	//	System.out.println("length1___"+rows.length);
-		for(int row = 0; row < rows.length; row ++){
+		for(int row = 0; row < rows.getLength(); row ++){
+			rows.absolute(row);
+			Row current = rows.next();
 			for(int column = 0; column < columns.length; column ++)
 			{
 				if(columns[column]!=null){
-				Object value = columns[column].getAttribute(rows[row]);
+				Object value = columns[column].getAttribute(current);
 				if(value != null) 
 					returnValue[row][column] = value.toString();
 		//		System.out.print(columns[column].getColumnName()+"___"+value.getClass()+"______");

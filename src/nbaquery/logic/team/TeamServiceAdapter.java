@@ -1,6 +1,7 @@
 package nbaquery.logic.team;
 
 import nbaquery.data.Column;
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
@@ -117,18 +118,21 @@ public class TeamServiceAdapter extends NewTeamServiceAdapter implements TeamSer
 		*/
 		Table queryResult = this.searchForTeams(isGross, new String[]{columnNames[head]}, isUp);
 		
-		Row[] rows = queryResult.getRows();
-		String[][] returnValue = new String[rows.length][columnNames.length];
+		Cursor rows = queryResult.getRows();
+		String[][] returnValue = new String[rows.getLength()][columnNames.length];
 		Column[] columns = new Column[columnNames.length];
 		for(int i = 0; i < columnNames.length; i ++)
 			columns[i] = queryResult.getColumn(columnNames[i]);
 		
-		for(int row = 0; row < rows.length; row ++)
+		for(int row = 0; row < rows.getLength(); row ++)
+		{
+			Row current = rows.next();
 			for(int column = 0; column < columns.length; column ++)
 			{
-				Object value = columns[column].getAttribute(rows[row]);
+				Object value = columns[column].getAttribute(current);
 				if(value != null) returnValue[row][column] = value.toString();
 			}
+		}
 		tableHost.deleteTable("team_query_result");
 		return returnValue;
 	}
@@ -168,16 +172,17 @@ public class TeamServiceAdapter extends NewTeamServiceAdapter implements TeamSer
 		tableHost.performQuery(joinQuery, "team_query_result");
 		queryResult = tableHost.getTable("team_query_result");
 		
-		Row[] rows = queryResult.getRows();
+		Cursor rows = queryResult.getRows();
 		String[] returnValue=new String[oneTeamColumns.length];
-		if(rows.length == 0) return returnValue;
+		if(rows.getLength() == 0) return returnValue;
 		
+		Row zeroth = rows.next();
 		Column[] columns = new Column[oneTeamColumns.length];
 		for(int i = 0; i < oneTeamColumns.length; i ++)
 			columns[i] = queryResult.getColumn(oneTeamColumns[i]);
 		for(int column = 0; column < columns.length; column ++)
 		{
-			Object value = columns[column].getAttribute(rows[0]);
+			Object value = columns[column].getAttribute(zeroth);
 			if(value != null) returnValue[column] = value.toString();
 		}
 		

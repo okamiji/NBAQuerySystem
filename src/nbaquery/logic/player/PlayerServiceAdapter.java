@@ -1,6 +1,7 @@
 package nbaquery.logic.player;
 
 import nbaquery.data.Column;
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
@@ -128,18 +129,21 @@ public class PlayerServiceAdapter extends NewPlayerServiceAdapter implements Pla
 		if(head > columnNames.length) return null;
 		
 		Table queryResult = this.searchForPlayers(isGross, new String[]{columnNames[head]}, isUp, position, league);
-		Row[] rows = queryResult.getRows();
+		Cursor rows = queryResult.getRows();
 		
-		String[][] returnValue = new String[rows.length][columnNames.length];
+		String[][] returnValue = new String[rows.getLength()][columnNames.length];
 		Column[] columns = new Column[columnNames.length];
 		for(int i = 0; i < columnNames.length; i ++)
 			columns[i] = queryResult.getColumn(columnNames[i]);
-		for(int row = 0; row < rows.length; row ++)
+		for(int row = 0; row < rows.getLength(); row ++)
+		{
+			Row current = rows.next();
 			for(int column = 0; column < columns.length; column ++)
 			{
-				Object value = columns[column].getAttribute(rows[row]);
+				Object value = columns[column].getAttribute(current);
 				if(value != null) returnValue[row][column] = value.toString();
 			}
+		}
 		
 		//tableHost.deleteTable("player_query_result");
 		return returnValue;
@@ -153,21 +157,25 @@ public class PlayerServiceAdapter extends NewPlayerServiceAdapter implements Pla
 		
 		Table queryResult = this.searchForTodayHotPlayers(hotColumnNames[head]);
 		
-		Row[] rows = queryResult.getRows();
+		Cursor rows = queryResult.getRows();
 		int columnNumber=hotColumnNames.length;
-		String[][] returnValue = new String[rows.length][columnNumber];
+		String[][] returnValue = new String[rows.getLength()][columnNumber];
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++){
 			columns[i] = queryResult.getColumn(hotColumnNames[i]);
 		}
-		for(int row = 0; row < rows.length; row ++)
+		for(int row = 0; row < rows.getLength(); row ++)
+		{
+			rows.absolute(row);
+			Row current = rows.next();
 			for(int column = 0; column < columns.length; column ++)
 			{
 				if(columns[column]!=null){
-				Object value = columns[column].getAttribute(rows[row]);
+				Object value = columns[column].getAttribute(current);
 				if(value != null) returnValue[row][column] = value.toString();
 				}
 			}
+		}
 		
 		//tableHost.deleteTable("hot_player_query_result");
 		return returnValue;
@@ -181,23 +189,22 @@ public class PlayerServiceAdapter extends NewPlayerServiceAdapter implements Pla
 		
 		Table queryResult = this.searchForProgressPlayers(progressColumnNames[head]);
 		
-		Row[] rows = queryResult.getRows();
+		Cursor rows = queryResult.getRows();
 		int columnNumber=progressColumnNames.length;
-		String[][] returnValue = new String[rows.length][columnNumber];
+		String[][] returnValue = new String[rows.getLength()][columnNumber];
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++){
 			columns[i] = queryResult.getColumn(progressColumnNames[i]);
 		}
-		for(int row = 0; row < rows.length; row ++){
+		for(int row = 0; row < rows.getLength(); row ++){
+			Row currentRow = rows.next();
 			for(int column = 0; column < columns.length; column ++)
 			{
 				if(columns[column]!=null){
-				Object value = columns[column].getAttribute(rows[row]);
-				if(value != null) {
+				Object value = columns[column].getAttribute(currentRow);
+				if(value != null)
 					returnValue[row][column] = value.toString();
 				}
-				}
-				
 			}
 		}
 		//tableHost.deleteTable("progress_player_query_result");
@@ -217,17 +224,17 @@ public class PlayerServiceAdapter extends NewPlayerServiceAdapter implements Pla
 	public String[] searchForOnePlayer(String playerName)
 	{
 		Table queryResult = this.searchForOnePlayerTable(playerName);
-		Row[] rows = queryResult.getRows();
+		Cursor rows = queryResult.getRows();
 		int columnNumber=playerInfoColumnNames.length;
 		Column[] columns = new Column[columnNumber];
 		for(int i = 0; i < columnNumber; i ++)
 			columns[i] = queryResult.getColumn(playerInfoColumnNames[i]);
-		if(rows.length == 1)
+		if(rows.getLength() == 1)
 		{
 			String[] returnValue = new String[columnNumber];
 			for(int column = 0; column < columns.length; column ++)
 			{
-				Object value = columns[column].getAttribute(rows[0]);
+				Object value = columns[column].getAttribute(rows.next());
 				if(value != null) returnValue[column] = value.toString();
 			}
 			return returnValue;

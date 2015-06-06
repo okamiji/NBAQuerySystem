@@ -58,7 +58,7 @@ public class SelectProjectAlgorithm implements FileTableAlgorithm
 			resultColumn[i] = resultTable.getColumn(selproj.projectColumns[i]);
 		}
 		
-		for(Row row : originTable.getRows())
+		for(Row row : originTable)
 		{
 			boolean shouldAccept = false;
 			try

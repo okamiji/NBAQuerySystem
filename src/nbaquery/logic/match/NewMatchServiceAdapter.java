@@ -1,6 +1,7 @@
 package nbaquery.logic.match;
 
 import nbaquery.data.Column;
+import nbaquery.data.Cursor;
 import nbaquery.data.Image;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
@@ -204,7 +205,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 			{
 				
 			}
-			getDeriveColumn().setAttribute(resultRow, team_info.getColumn("team_logo").getAttribute(team_info.getRows()[0]));
+			getDeriveColumn().setAttribute(resultRow, team_info.getColumn("team_logo").getAttribute(team_info.getRows().next()));
 		}
 	}
 
@@ -235,12 +236,14 @@ public class NewMatchServiceAdapter implements NewMatchService
 	@Override
 	public Table listTodayMatches()
 	{
-		Row[] rows = tableHost.getTable("match").getRows();
+		Cursor rows = tableHost.getTable("match").getRows();
 		String season = null, date = null;
-		if(rows.length > 0)
+		if(rows.getLength() > 0)
 		{
-			season = (String) tableHost.getTable("match").getColumn("match_season").getAttribute(rows[rows.length - 1]);
-			date = (String) tableHost.getTable("match").getColumn("match_date").getAttribute(rows[rows.length - 1]);
+			rows.absolute(rows.getLength() - 1);
+			Row current = rows.next();
+			season = (String) tableHost.getTable("match").getColumn("match_season").getAttribute(current);
+			date = (String) tableHost.getTable("match").getColumn("match_date").getAttribute(current);
 		}
 		return this.searchForMatchesTable(new String[]{"match_id"}, season, date, true);
 	}

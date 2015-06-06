@@ -25,7 +25,7 @@ public class TestDetailedMatchPanel extends Main
 		theFrame.add(new DetailedMatchPanel(new DetailedInfoContainerStub(teamService), (NewMatchService)this.matchService, 500, 700)
 		{
 			{
-				this.setRow(this.matchService.searchForMatchesTable(null, null, null, true).getRows()[0]);
+				this.setRow(this.matchService.searchForMatchesTable(null, null, null, true).getRows().next());
 			}
 		});
 		theFrame.setAlwaysOnTop(true);

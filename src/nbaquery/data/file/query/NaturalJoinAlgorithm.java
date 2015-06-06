@@ -73,9 +73,8 @@ public class NaturalJoinAlgorithm implements FileTableAlgorithm
 		
 		//Put intersections in map.
 		
-		Row[] rows = join.leftTable.getRows();
 		Map<NaturalJoinKey, List<Row>> leftMap = new HashMap<NaturalJoinKey, List<Row>>();
-		for(Row row : rows)
+		for(Row row : join.leftTable)
 		{
 			Object[] leftKey = new Object[jointColumnLeft.length];
 			for(int i = 0; i < jointColumnLeft.length; i ++) leftKey[i] = jointColumnLeft[i].getAttribute(row);
@@ -85,9 +84,8 @@ public class NaturalJoinAlgorithm implements FileTableAlgorithm
 			leftList.add(row);
 		}
 		
-		rows = join.rightTable.getRows();
 		Map<NaturalJoinKey, List<Row>> rightMap = new HashMap<NaturalJoinKey, List<Row>>();
-		for(Row row : rows)
+		for(Row row : join.rightTable)
 		{
 			Object[] rightKey = new Object[jointColumnRight.length];
 			for(int i = 0; i < jointColumnRight.length; i ++) rightKey[i] = jointColumnRight[i].getAttribute(row);

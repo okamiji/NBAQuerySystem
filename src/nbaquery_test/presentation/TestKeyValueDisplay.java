@@ -21,7 +21,7 @@ public class TestKeyValueDisplay extends Main
 		KeyValueDisplay component = new KeyValueDisplay("��������", "player_birth");
 		component.setSize(theFrame.getSize());
 		Table table = ((NewPlayerService)this.playerService).searchForTodayHotPlayers("self_score");
-		component.setRow(table.getRows()[0]);
+		component.setRow(table.getRows().next());
 		
 		theFrame.add(component);
 		theFrame.setAlwaysOnTop(true);

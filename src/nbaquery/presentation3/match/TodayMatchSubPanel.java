@@ -34,9 +34,8 @@ public class TodayMatchSubPanel extends JPanel
 	{
 		if(this.matchService.shouldRedoQuery(this))
 		{
-			Row[] rows = this.matchService.listTodayMatches().getRows();
 			ArrayList<Row> wrapped = new ArrayList<Row>();
-			for(Row row : rows) wrapped.add(row);
+			for(Row row : this.matchService.listTodayMatches()) wrapped.add(row);
 			this.enumerator.setMatchStrip(new MatchStrip(0, wrapped));
 		}
 		super.paint(g);

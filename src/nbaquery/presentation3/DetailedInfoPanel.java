@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import javax.swing.JPanel;
 
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.logic.match.NewMatchService;
 import nbaquery.logic.team.NewTeamService;
@@ -112,8 +113,12 @@ public class DetailedInfoPanel extends JPanel implements DetailedInfoContainer
 	@Override
 	public void displayTeamInfo(String teamNameOrAbbr, boolean isAbbr, boolean stacked)
 	{
-		Row[] rows = teamService.searchInfoByName(teamNameOrAbbr, isAbbr).getRows();
-		if(rows.length > 0) this.displayTeamInfo(rows[0], stacked);
+		Cursor rows = teamService.searchInfoByName(teamNameOrAbbr, isAbbr).getRows();
+		if(rows.getLength() > 0)
+		{
+			rows.absolute(0);
+			this.displayTeamInfo(rows.next(), stacked);
+		}
 	}
 
 	@Override

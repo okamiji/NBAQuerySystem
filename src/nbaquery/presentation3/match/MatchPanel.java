@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.logic.match.NewMatchService;
@@ -50,8 +51,9 @@ public class MatchPanel extends JPanel
 			protected void reEnter()
 			{
 				reEnteredTable = this.matchService.searchForMatchesTable(null, null, null, true);
-				Row[] rows = reEnteredTable.getRows();
-				Row lastRow = rows[rows.length - 1];
+				Cursor rows = reEnteredTable.getRows();
+				rows.absolute(rows.getLength() - 1);
+				Row lastRow = rows.next();
 				String season = (String) lastRow.getDeclaredTable().getColumn("match_season").getAttribute(lastRow);
 				String date = (String) lastRow.getDeclaredTable().getColumn("match_date").getAttribute(lastRow);
 				

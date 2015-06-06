@@ -60,10 +60,7 @@ public class JoinAlgorithm implements FileTableAlgorithm
 		for(int i = 0; i < resultColumn.length; i ++) if(originalColumn[i] != null)
 			resultColumn[i] = resultTable.getColumn(originalColumn[i].getColumnName());
 		
-		Row[] leftRows = join.leftTable.getRows();
-		Row[] rightRows = join.rightTable.getRows();
-		
-		for(Row left : leftRows) for(Row right : rightRows) try
+		for(Row left : join.leftTable) for(Row right : join.rightTable) try
 		{
 			boolean shouldJoin = (boolean) join.expression.calculate(left, right);
 			if(shouldJoin)

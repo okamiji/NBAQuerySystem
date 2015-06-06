@@ -2,8 +2,10 @@ package nbaquery.data.file;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.TreeMap;
 
+import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
@@ -135,12 +137,12 @@ public class KeywordTable implements Table
 	}
 	
 	@Override
-	public Row[] getRows()
+	public Cursor getRows()
 	{
 		gainLock();
 		Row[] rows = this.keyToTupleMap.values().toArray(new Row[0]);
 		releaseLock();
-		return rows;
+		return new FileTableCursor(rows);
 	}
 
 	@Override
@@ -158,5 +160,9 @@ public class KeywordTable implements Table
 			if(notify.contains(accessor)) return false;
 			notify.add(accessor); return true;
 		}
+	}
+	@Override
+	public final Iterator<Row> iterator() {
+		return this.getRows();
 	}
 }

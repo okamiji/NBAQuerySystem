@@ -37,7 +37,7 @@ public class TestSetOperations
 		a.setAttribute(tup, "Z");	b.setAttribute(tup, "W");
 		
 		System.out.println("mvt");
-		for(Row row : mvt.getRows()) System.out.println(a.getAttribute(row) + " " + b.getAttribute(row));
+		for(Row row : mvt) System.out.println(a.getAttribute(row) + " " + b.getAttribute(row));
 		
 		//-----------------------------------------------------------------------
 		
@@ -48,7 +48,7 @@ public class TestSetOperations
 		a2.setAttribute(tup, "M"); b2.setAttribute(tup, "N");
 		
 		System.out.println("mvt2");
-		for(Row row : mvt2.getRows()) System.out.println(a2.getAttribute(row) + " " + b2.getAttribute(row));
+		for(Row row : mvt2) System.out.println(a2.getAttribute(row) + " " + b2.getAttribute(row));
 		
 		//-----------------------------------------------------------------------
 		
@@ -84,19 +84,19 @@ public class TestSetOperations
 		Column a_res = table.getColumn("A"); Column b_res = table.getColumn("B");
 		
 		System.out.println("result(intersection)");
-		for(Row row : table.getRows()) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
+		for(Row row : table) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
 		
 		setop.operation = SetOperation.EnumSetOperation.UNION;
 		table = algorithm.perform(setop);
 		a_res = table.getColumn("A"); b_res = table.getColumn("B");
 		System.out.println("result(union)");
-		for(Row row : table.getRows()) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
+		for(Row row : table) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
 		
 		setop.operation = SetOperation.EnumSetOperation.COMPLEMENT;
 		table = algorithm.perform(setop);
 		a_res = table.getColumn("A"); b_res = table.getColumn("B");
 		System.out.println("result(complement)");
-		for(Row row : table.getRows()) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
+		for(Row row : table) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
 		
 		setop.leftHand = kwt; setop.rightHand = kwt2;
 		
@@ -104,18 +104,18 @@ public class TestSetOperations
 		table = algorithm.perform(setop);
 		a_res = table.getColumn("A"); b_res = table.getColumn("B");
 		System.out.println("result2(union)");
-		for(Row row : table.getRows()) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
+		for(Row row : table) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
 		
 		setop.operation = SetOperation.EnumSetOperation.INTERSECTION;
 		table = algorithm.perform(setop);
 		a_res = table.getColumn("A"); b_res = table.getColumn("B");
 		System.out.println("result2(intersection)");
-		for(Row row : table.getRows()) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
+		for(Row row : table) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
 		
 		setop.operation = SetOperation.EnumSetOperation.COMPLEMENT;
 		table = algorithm.perform(setop);
 		a_res = table.getColumn("A"); b_res = table.getColumn("B");
 		System.out.println("result2(complement)");
-		for(Row row : table.getRows()) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
+		for(Row row : table) System.out.println(a_res.getAttribute(row) + " " + b_res.getAttribute(row));
 	}
 }
