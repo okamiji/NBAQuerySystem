@@ -159,46 +159,46 @@ public class ComparePlayerSubPanel extends JPanel
 				DefaultTableColumn team_name = columnModel.addColumn("\u7403\u961F", "team_name_abbr");
 				team_name.padding = 5;	keywordMap.put(team_name, new String[]{"team_name_abbr"});
 				
-				DefaultTableColumn efficiency = columnModel.addColumn("Ч��", "efficiency");
+				DefaultTableColumn efficiency = columnModel.addColumn("\u6548\u7387", "efficiency");
 				efficiency.padding = 2;			keywordMap.put(efficiency, new String[]{"efficiency"});
 				
 				DefaultTableColumn gmsc = columnModel.addColumn("GmSc", "gmsc_efficiency");
 				gmsc.padding = 2;			keywordMap.put(gmsc, new String[]{"gmsc_efficiency"});
 				
-				DefaultTableColumn foul_shoot_rate = columnModel.addColumn("��������", "foul_shoot_rate");
+				DefaultTableColumn foul_shoot_rate = columnModel.addColumn("\u7F5A\u7403\u547D\u4E2D", "foul_shoot_rate");
 				foul_shoot_rate.padding = 2;			keywordMap.put(foul_shoot_rate, new String[]{"foul_shoot_rate"});
 				
-				DefaultTableColumn shoot_rate = columnModel.addColumn("��������", "shoot_rate");
+				DefaultTableColumn shoot_rate = columnModel.addColumn("\u4E8C\u5206\u547D\u4E2D", "shoot_rate");
 				shoot_rate.padding = 2;			keywordMap.put(shoot_rate, new String[]{"shoot_rate"});
 				
-				DefaultTableColumn three_shoot_rate = columnModel.addColumn("��������", "three_shoot_rate");
+				DefaultTableColumn three_shoot_rate = columnModel.addColumn("\u4E09\u5206\u547D\u4E2D", "three_shoot_rate");
 				three_shoot_rate.padding = 2;			keywordMap.put(three_shoot_rate, new String[]{"three_shoot_rate"});
 				
-				DefaultTableColumn true_shoot_rate = columnModel.addColumn("��ʵ����", "true_shoot_rate");
+				DefaultTableColumn true_shoot_rate = columnModel.addColumn("\u771F\u5B9E\u547D\u4E2D", "true_shoot_rate");
 				true_shoot_rate.padding = 2;			keywordMap.put(true_shoot_rate, new String[]{"true_shoot_rate"});
 				
-				DefaultTableColumn shoot_efficiency = columnModel.addColumn("Ͷ����", "shoot_efficiency");
+				DefaultTableColumn shoot_efficiency = columnModel.addColumn("\u6295\u7BEE\u6548\u7387", "shoot_efficiency");
 				shoot_efficiency.padding = 2;			keywordMap.put(shoot_efficiency, new String[]{"shoot_efficiency"});
 				
-				DefaultTableColumn assist_rate = columnModel.addColumn("������", "assist_rate");
+				DefaultTableColumn assist_rate = columnModel.addColumn("\u52A9\u653B\u6548\u7387", "assist_rate");
 				assist_rate.padding = 2;			keywordMap.put(assist_rate, new String[]{"assist_rate"});
 				
-				DefaultTableColumn steal_rate = columnModel.addColumn("������", "steal_rate");
+				DefaultTableColumn steal_rate = columnModel.addColumn("\u62A2\u65AD\u6548\u7387", "steal_rate");
 				steal_rate.padding = 2;			keywordMap.put(steal_rate, new String[]{"steal_rate"});
 				
-				DefaultTableColumn cap_rate = columnModel.addColumn("��ñ��", "cap_rate");
+				DefaultTableColumn cap_rate = columnModel.addColumn("\u76D6\u5E3D\u6548\u7387", "cap_rate");
 				cap_rate.padding = 2;			keywordMap.put(cap_rate, new String[]{"cap_rate"});
 				
-				DefaultTableColumn miss_rate = columnModel.addColumn("ʧ����", "miss_rate");
+				DefaultTableColumn miss_rate = columnModel.addColumn("\u5931\u8BEF\u7387", "miss_rate");
 				miss_rate.padding = 2;			keywordMap.put(miss_rate, new String[]{"miss_rate"});
 				
-				DefaultTableColumn usage = columnModel.addColumn("ʹ����", "usage");
+				DefaultTableColumn usage = columnModel.addColumn("\u4F7F\u7528\u7387", "usage");
 				usage.padding = 2;			keywordMap.put(usage, new String[]{"usage"});
 			}
 		};
 		
 		//XXX adding control panels.
-		final DropList dataScope = new DropList(new String[]{"����������", "��������"})
+		final DropList dataScope = new DropList(new String[]{"\u603B\u6570\u636E", "\u573A\u5747\u6570\u636E"})
 		{
 			@Override
 			protected void onSelectionChanged(int index)
@@ -211,7 +211,7 @@ public class ComparePlayerSubPanel extends JPanel
 		dataScope.setHorizontalAlignment(DropList.CENTER);
 		this.add(dataScope);
 		
-		final DropList dataModel = new DropList(new String[]{"��������", "��������"})
+		final DropList dataModel = new DropList(new String[]{"\u57FA\u672C\u6570\u636E", "\u5206\u6790\u6570\u636E"})
 		{
 			@Override
 			protected void onSelectionChanged(int index)
@@ -227,7 +227,7 @@ public class ComparePlayerSubPanel extends JPanel
 		dataModel.setHorizontalAlignment(DropList.CENTER);
 		this.add(dataModel);
 		
-		final DropList matchArea = new DropList(new String[]{"��������", "��������", "��������"})
+		final DropList matchArea = new DropList(new String[]{"\u6240\u6709\u8D5B\u533A", "\u4E1C\u90E8\u8D5B\u533A", "\u897F\u90E8\u8D5B\u533A"})
 		{
 			@Override
 			protected void onSelectionChanged(int index)
@@ -242,7 +242,7 @@ public class ComparePlayerSubPanel extends JPanel
 		matchArea.setHorizontalAlignment(DropList.CENTER);
 		this.add(matchArea);
 		
-		final DropList position = new DropList(new String[]{"����λ��", "ǰ��", "�з�", "����"})
+		final DropList position = new DropList(new String[]{"\u6240\u6709\u4F4D\u7F6E", "\u524D\u950B", "\u4E2D\u950B", "\u540E\u536B"})
 		{
 			@Override
 			protected void onSelectionChanged(int index)

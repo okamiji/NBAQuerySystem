@@ -34,8 +34,8 @@ public abstract class CompareMatchSubPanel extends JPanel
 	protected int year;
 	protected int month;
 
-	public final JLabel toSymbol = new JLabel("~");
-	public final JLabel seasonText = new JLabel("Èü¼¾");
+	public final JLabel toSymbol = new JLabel("-");
+	public final JLabel seasonText = new JLabel("\u8D5B\u5B63");
 	
 	public final JTextField fromSeason = new JTextField(), toSeason = new JTextField();
 	public final MatchEnumerator enumerator;

@@ -111,19 +111,6 @@ public abstract class DropMenu extends JFrame implements MouseListener, MouseMot
 		this.setLocation(x, y);
 		this.setVisible(true);
 	}
-	
-	public static void main(String[] arguments)
-	{
-		new DropMenu(new String[]{"aaa", "bbb", "ccc", "ddd", "eee", "fff"})
-		{
-			@Override
-			protected void onSelectedItem(int itemIndex)
-			{
-				System.out.println(itemIndex);
-			}
-		}
-		.popupWindow(20, 200);
-	}
 
 	@Override
 	public void mouseDragged(MouseEvent arg0)

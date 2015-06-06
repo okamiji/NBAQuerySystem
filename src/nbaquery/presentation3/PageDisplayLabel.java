@@ -14,7 +14,6 @@ public class PageDisplayLabel extends JLabel
 	public PageDisplayLabel(DisplayTable table)
 	{
 		this.table = table;
-		this.setToolTipText("<html>上一页：滚轮上滚<br>下一页：滚轮下滚</html>");
 		this.setHorizontalAlignment(RIGHT);
 	}
 	

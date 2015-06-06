@@ -23,7 +23,7 @@ import nbaquery.presentation3.match.CompareMatchSubPanel;
 public class DetailedPlayerPanel extends JPanel
 {
 	static final String[] keyName = new String[]{"player_name", "team_name", "player_position", "player_birth", "player_age", "player_exp", "player_height", "player_weight", "player_school"};
-	static final String[] keyDisplayName = new String[]{"��Ա����", "��������", "λ��", "��������", "����", "����", "���", "����", "��ҵѧУ"};
+	static final String[] keyDisplayName = new String[]{"\u7403\u5458\u540D\u79F0", "\u6240\u5C5E\u7403\u961F", "\u4F4D\u7F6E", "\u51FA\u751F\u65E5\u671F", "\u5E74\u9F84", "\u7403\u9F84", "\u8EAB\u9AD8", "\u4F53\u91CD", "\u6BD5\u4E1A\u5B66\u6821"};
 	
 	KeyValueDisplay[] configuration = new KeyValueDisplay[keyName.length];
 	
@@ -58,9 +58,9 @@ public class DetailedPlayerPanel extends JPanel
 					{
 						if(value == null) return "";
 						String pos = value.toString();
-						if(pos.equals("C")) return "�з�";
-						if(pos.equals("G")) return "����";
-						return "ǰ��";
+						if(pos.equals("C")) return "\u4E2D\u950B";
+						if(pos.equals("G")) return "\u540E\u536B";
+						return "\u524D\u950B";
 					}
 				};
 			}

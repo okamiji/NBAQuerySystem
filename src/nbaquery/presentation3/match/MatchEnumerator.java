@@ -23,10 +23,10 @@ public class MatchEnumerator extends Component
 	protected MatchComponent[] matchComponents;
 	protected DetailedInfoContainer container;
 	
-	protected JLabel upArrow = new JLabel("¡ü");
-	protected JLabel downArrow = new JLabel("¡ý");
-	protected JLabel leftArrow = new JLabel("¡û");
-	protected JLabel rightArrow = new JLabel("¡ú");
+	protected JLabel upArrow = new JLabel("^");
+	protected JLabel downArrow = new JLabel("v");
+	protected JLabel leftArrow = new JLabel("<");
+	protected JLabel rightArrow = new JLabel(">");
 	protected boolean shouldStack;
 	
 	public MatchEnumerator(DetailedInfoContainer container, int width, int height, boolean isHorizontal, boolean shouldStack)
