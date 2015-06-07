@@ -9,7 +9,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import nbaquery.data.Column;
 import nbaquery.data.DirtyDataInfo;
+import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.Query;
@@ -25,7 +27,7 @@ public class SqlTableHost implements TableHost
 	public SqlTableHost(String host, String username, String password) throws Exception
 	{
 		Class.forName("com.mysql.jdbc.Driver");
-		host = "jdbc:mysql://".concat(host);
+		host = "jdbc:mysql://".concat(host).concat("?rewriteBatchedStatements=true");
 		
 		if(username == null && password == null)
 			connection = java.sql.DriverManager.getConnection(host);
@@ -51,7 +53,6 @@ public class SqlTableHost implements TableHost
 		ResultSet tables = metadata.getTables("nbaquery", null, null, null);
 		while(tables.next())
 			this.declaredTable.add(tables.getString(3));
-		
 	}
 	
 	public static void main(String[] arguments) throws Exception
@@ -59,8 +60,27 @@ public class SqlTableHost implements TableHost
 		System.out.print("password: ");
 		java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
 		SqlTableHost host = new SqlTableHost("localhost", "root", reader.readLine());
-		new MutableSqlTable(host, "zz", new String[]{"b", "a", "c"}, new Class<?>[]{Integer.class, String.class, Float.class},
+		MutableSqlTable table = new MutableSqlTable(host, "zz", new String[]{"b", "a", "c"}, new Class<?>[]{Integer.class, String.class, Float.class},
 				new String[]{"int", "char(8)", "real"}, "a");
+		
+		Column a = table.getColumn("a");
+		Column c = table.getColumn("c");
+		Column b = table.getColumn("b");
+		
+		for(int i = 0; i < 1000; i ++)
+		{
+			MutableSqlRow mtb = table.createRow();
+			a.setAttribute(mtb, Integer.toString(i));
+			c.setAttribute(mtb, 20f * i);
+			b.setAttribute(mtb, i);
+			mtb.submit();
+		}
+		
+		for(Row result : table)
+		{
+			System.out.println(a.getAttribute(result) + " " + b.getAttribute(result) + " " +  c.getAttribute(result));
+		}
+		
 	}
 	
 	@Override
@@ -72,9 +92,10 @@ public class SqlTableHost implements TableHost
 	public void deleteTable(String tableName) {
 		try
 		{
-			this.connection.createStatement().execute(String.format("delete from %s"));
+			this.connection.createStatement().execute(String.format("delete from %s", tableName));
 		}
-		catch (SQLException e) {
+		catch (SQLException e)
+		{
 			e.printStackTrace();
 		}
 	}

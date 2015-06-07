@@ -46,6 +46,28 @@ public abstract class SqlObjectConverter<Type>
 	
 	protected abstract Type read(ResultSet resultSet, int index) throws Exception;
 	
+	@SuppressWarnings("unchecked")
+	public void update(ResultSet rs, int index, Object obj)
+	{
+		try {
+			Type value = null;
+			if(obj != null)
+			{
+				if(obj.getClass().equals(dataClass))
+					value = (Type) obj;
+				else if(obj.getClass().equals(String.class))
+					value = this.convert((String) obj);
+				else throw new RuntimeException("Cannot update value to field with incompatible type.");
+				this.updateStatement(rs, index, value);
+			}
+			else rs.updateNull(index);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	protected abstract void updateStatement(ResultSet rs, int index, Type value) throws Exception;
+	
 	public static final HashMap<Class<?>, SqlObjectConverter<?>> converters = new HashMap<Class<?>, SqlObjectConverter<?>>();
 	
 	static
@@ -68,6 +90,12 @@ public abstract class SqlObjectConverter<Type>
 			{
 				return resultSet.getString(index);
 			}
+
+			@Override
+			protected void updateStatement(ResultSet rs, int index, String value)
+					throws Exception {
+				rs.updateString(index, value);
+			}
 		});
 		
 		converters.put(Integer.class, new SqlObjectConverter<Integer>(Integer.class, Types.INTEGER)
@@ -85,6 +113,12 @@ public abstract class SqlObjectConverter<Type>
 			@Override
 			protected Integer read(ResultSet resultSet, int index) throws Exception {
 				return resultSet.getInt(index);
+			}
+
+			@Override
+			protected void updateStatement(ResultSet rs, int index,
+					Integer value) throws Exception {
+				rs.updateInt(index, value);
 			}
 		});
 		
@@ -104,6 +138,12 @@ public abstract class SqlObjectConverter<Type>
 			@Override
 			protected Float read(ResultSet resultSet, int index) throws Exception {
 				return resultSet.getFloat(index);
+			}
+
+			@Override
+			protected void updateStatement(ResultSet rs, int index, Float value)
+					throws Exception {
+				rs.updateFloat(index, value);
 			}
 		});
 		
@@ -129,6 +169,12 @@ public abstract class SqlObjectConverter<Type>
 					throws Exception {
 				return (char)resultSet.getInt(index);
 			}
+
+			@Override
+			protected void updateStatement(ResultSet rs, int index,
+					Character value) throws Exception {
+				rs.updateInt(index, value);
+			}
 		});
 		
 		converters.put(Image.class, new SqlObjectConverter<Image>(Image.class, Types.CHAR)
@@ -150,6 +196,12 @@ public abstract class SqlObjectConverter<Type>
 					throws Exception {
 				return new Image(new File(resultSet.getString(index)));
 			}
+
+			@Override
+			protected void updateStatement(ResultSet rs, int index, Image value)
+					throws Exception {
+				rs.updateString(index, value.getImageFile().getAbsolutePath());
+			}
 		});
 		
 		converters.put(Date.class, new SqlObjectConverter<Date>(Date.class, Types.BIGINT)
@@ -169,6 +221,12 @@ public abstract class SqlObjectConverter<Type>
 			@Override
 			protected Date read(ResultSet resultSet, int index) throws Exception {
 				return new Date(resultSet.getLong(index));
+			}
+
+			@Override
+			protected void updateStatement(ResultSet rs, int index, Date value)
+					throws Exception {
+				rs.updateLong(index, value.getTime());
 			}
 		});
 	}

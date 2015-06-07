@@ -3,9 +3,9 @@ package nbaquery.data.sql;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -22,7 +22,7 @@ public class MutableSqlTable implements Table
 	final Statement statement;
 	
 	TreeMap<String, Column> columns = new TreeMap<String, Column>();
-	public String insertQuery;
+	public PreparedStatement insertionQuery;
 	public PreparedStatement selectionQuery;
 	
 	public MutableSqlTable(SqlTableHost tableHost, String tableName, 
@@ -41,9 +41,10 @@ public class MutableSqlTable implements Table
 		}
 		
 		String selectQuery = String.format("select %s from %s", paramList, tableName);
-		insertQuery = String.format("insert into %s (%s) values (%s)", tableName, paramList,  questionList);
+		String insertQuery = String.format("insert into %s (%s) values (%s)", tableName, paramList,  questionList);
 		
 		this.selectionQuery = this.tableHost.connection.prepareStatement(selectQuery);
+		this.insertionQuery = this.tableHost.connection.prepareStatement(insertQuery);
 		
 		boolean shouldMakeTable = true;
 		if(this.tableHost.declaredTable.contains(tableName))
@@ -85,23 +86,28 @@ public class MutableSqlTable implements Table
 
 	public MutableSqlRow createRow()
 	{
-		try {
-			PreparedStatement statement = this.tableHost.connection.prepareStatement(insertQuery);
-			return new MutableSqlRow(this, statement, this.columns.size());
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
+		notifier.clear();
+		return new MutableSqlRow(this, this.insertionQuery, this.columns.size());
 	}
 	
 	@Override
 	public Cursor getRows() {
-		return null;
+		try
+		{
+			while(MutableSqlRow.batchUpdateThread.get(insertionQuery) != null)
+				Thread.yield();
+			ResultSet resultSet = this.selectionQuery.executeQuery();
+			return new SqlTableCursor(this, resultSet);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
 	public Column getColumn(String columnName) {
-		return this.getColumn(columnName.toLowerCase());
+		return this.columns.get(columnName.toLowerCase());
 	}
 
 	@Override
@@ -109,9 +115,14 @@ public class MutableSqlTable implements Table
 		return this.tableHost;
 	}
 	
+	public final HashSet<Object> notifier = new HashSet<Object>(); 
 	@Override
 	public boolean hasTableChanged(Object accessor) {
-		// TODO Auto-generated method stub
+		if(!notifier.contains(accessor))
+		{
+			notifier.add(accessor);
+			return true;
+		}
 		return false;
 	}
 

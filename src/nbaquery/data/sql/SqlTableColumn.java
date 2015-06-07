@@ -10,6 +10,7 @@ public class SqlTableColumn implements Column
 	public final Table table;
 	public final String columnName;
 	public final Class<?> dataClass;
+	public final SqlObjectConverter<?> converter;
 	
 	public SqlTableColumn(Table table, String columnName, Class<?> dataClass, int index)
 	{
@@ -17,6 +18,7 @@ public class SqlTableColumn implements Column
 		this.columnName = columnName;
 		this.dataClass = dataClass;
 		this.index = index;
+		this.converter = SqlObjectConverter.converters.get(dataClass);
 	}
 
 	@Override
@@ -37,12 +39,12 @@ public class SqlTableColumn implements Column
 	@Override
 	public Object getAttribute(Row row) {
 		if(!(row.getDeclaredTable() == this.table)) return null;
-		return ((SqlTableRow)row).getAttribute(index);
+		return ((SqlTableRow)row).getAttribute(index, this.converter);
 	}
 
 	@Override
 	public void setAttribute(Row row, Object value){
 		if(!(row.getDeclaredTable() == this.table)) return;
-		((SqlTableRow)row).setAttribute(index, this.getDataClass(), value);
+		((SqlTableRow)row).setAttribute(index, this.converter, value);
 	}
 }
