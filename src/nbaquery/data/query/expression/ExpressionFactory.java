@@ -270,7 +270,12 @@ public class ExpressionFactory
 				{
 					Column column = null;
 					if(currentPointerLowered.matches(".+[.].+"))
-						column = tableHost.getColumn(currentPointerLowered);
+					{
+						String[] splitted = currentPointerLowered.split("[.]");
+						Table namedTable = tableHost.getTable(splitted[0]);
+						if(namedTable != null)
+							column = namedTable.getColumn(splitted[1]);
+					}
 					else 
 					{
 						for(Table table : enrolledTables)

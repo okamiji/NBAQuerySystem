@@ -26,7 +26,7 @@ public class JoinAlgorithm implements FileTableAlgorithm
 		{
 			Column column = null;
 			String columnName = join.projectColumns[i];
-			if(!columnName.matches(".*[.].*"))
+			if(!columnName.matches(".+[.].+"))
 			{
 				column = join.leftTable.getColumn(columnName);
 				if(column == null)
@@ -37,7 +37,8 @@ public class JoinAlgorithm implements FileTableAlgorithm
 			}
 			else
 			{
-				column = join.leftTable.getTableHost().getColumn(columnName);
+				String[] splitted = columnName.split("[,]");
+				column = join.leftTable.getTableHost().getTable(splitted[0]).getColumn(splitted[1]);
 				if(column != null) if(column.getDeclaringTable().equals(join.rightTable))
 					ofRightTable[i] = true;
 			}

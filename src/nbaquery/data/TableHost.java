@@ -46,8 +46,6 @@ public interface TableHost
 	 */
 	public Table getTable(String tableName);
 	
-	public Column getColumn(String columnName);
-	
 	/**
 	 * @param tableName the table to delete.
 	 */

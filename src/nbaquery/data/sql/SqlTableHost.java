@@ -5,7 +5,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import nbaquery.data.Column;
 import nbaquery.data.DirtyDataInfo;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
@@ -56,13 +55,7 @@ public class SqlTableHost implements TableHost
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public Column getColumn(String columnName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public void deleteTable(String tableName) {
 		// TODO Auto-generated method stub
