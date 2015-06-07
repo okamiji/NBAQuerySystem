@@ -1,6 +1,7 @@
 package nbaquery.data.sql;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import nbaquery.data.Table;
@@ -68,16 +69,27 @@ public class MutableSqlRow implements SqlTableRow
 					@Override
 					public void run()
 					{
+						
+						try
+						{	
+							Thread.sleep(100);
+						}
+						catch(Exception e)
+						{
+						}
 						try
 						{
-							Thread.sleep(100);
 							statement.executeBatch();
-							System.out.println("Thread starts.");
-							batchUpdateThread.remove(statement);
 						}
 						catch (Exception e) {
+							try {
+								statement.clearBatch();
+							} catch (SQLException e1) {
+								throw new Error("Cannot clean batches!");
+							}
 							e.printStackTrace();
 						}
+						batchUpdateThread.remove(statement);
 					}
 				};
 				batchUpdateThread.put(this.statement, batchUpdate);
