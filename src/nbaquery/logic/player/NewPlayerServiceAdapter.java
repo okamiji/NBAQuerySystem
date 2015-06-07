@@ -140,26 +140,26 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		try
 		{
 			SelectProjectQuery sq = new SelectProjectQuery(String.format("progress_player.%s > 0.0 and progress_player.%s < 1000.0", head, head), table);
-			tableHost.performQuery(sq, "progress_player_query_result");
-			table = tableHost.getTable("progress_player_query_result");
+			tableHost.performQuery(sq, "progress_player_query_result_select");
+			table = tableHost.getTable("progress_player_query_result_select");
 		}
 		catch(Exception e)
 		{
 			
 		}
-		
+
 		NaturalJoinQuery joinQuery = new NaturalJoinQuery(table, tableHost.getTable("player"),
 				new String[]{"player_name"}, new String[]{"player_name"});
-		tableHost.performQuery(joinQuery, "progress_player_query_result");
+		tableHost.performQuery(joinQuery, "progress_player_query_result_join");
 		
-		NaturalJoinQuery nj = new NaturalJoinQuery(tableHost.getTable("progress_player_query_result"), tableHost.getTable("team"),
+		NaturalJoinQuery nj = new NaturalJoinQuery(tableHost.getTable("progress_player_query_result_join"), tableHost.getTable("team"),
 				new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
-		tableHost.performQuery(nj, "progress_player_query_result");
+		tableHost.performQuery(nj, "progress_player_query_result_join2");
 		
-		SortQuery sort = new SortQuery(tableHost.getTable("progress_player_query_result"), head, 5, true);		//"5" stands for top 5 here. 
-		tableHost.performQuery(sort, "progress_player_query_result");
+		SortQuery sort = new SortQuery(tableHost.getTable("progress_player_query_result_join2"), head, 5, true);		//"5" stands for top 5 here. 
+		tableHost.performQuery(sort, "progress_player_query_result_sort");
 		
-		return tableHost.getTable("progress_player_query_result");
+		return tableHost.getTable("progress_player_query_result_sort");
 	}
 
 	@Override

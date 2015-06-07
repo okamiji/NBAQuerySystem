@@ -26,8 +26,8 @@ public class ProgressPlayerGroup implements LogicPipeline{
 		if(base.checkDepenency() || tableHost.getTable("match").hasTableChanged(this))
 		{
 			SortQuery sort=new SortQuery(base.getTable(), "match_id", true);
-			tableHost.performQuery(sort, "progress_player_group");
-			Table intermediateTable = tableHost.getTable("progress_player_group");
+			tableHost.performQuery(sort, "progress_player_group_sorted");
+			Table intermediateTable = tableHost.getTable("progress_player_group_sorted");
 		
 			GroupQuery groupQuery = new GroupQuery(intermediateTable,  new String[]{"match_season", "player_name", "team_name_abbr"},
 				
@@ -227,7 +227,7 @@ public class ProgressPlayerGroup implements LogicPipeline{
 							getGroupColumn().setAttribute(resultRow, sum);	
 						}
 					}
-					);
+				);
 			
 			tableHost.performQuery(groupQuery, "progress_player_group");
 			table = tableHost.getTable("progress_player_group");

@@ -31,7 +31,7 @@ public class ProgressPlayer {
 				derive = new DeriveQuery(base.getTable(), new DeriveColumnInfo[]{
 					new ExpressionDeriveColumnInfo("self_score_rate", Float.class,
 							"1.0F * (progress_player_group.self_score_now - progress_player_group.self_score_before )/ " +
-							"progress_player_group.self_score_before ")
+							"progress_player_group.self_score_before")
 					,
 					new ExpressionDeriveColumnInfo("total_board_rate", Float.class,
 							"1.0F * (progress_player_group.total_board_now- progress_player_group.total_board_before ) / " +
