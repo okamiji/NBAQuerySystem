@@ -2,6 +2,7 @@ package nbaquery_test.data;
 
 import nbaquery.data.Column;
 import nbaquery.data.Row;
+import nbaquery.data.sql.BaseTableConstants;
 import nbaquery.data.sql.MutableSqlRow;
 import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableHost;
@@ -13,7 +14,7 @@ public class TestSqlTableHost {
 	{
 		System.out.print("password: ");
 		java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
-		SqlTableHost host = new SqlTableHost("localhost", "root", reader.readLine());
+		SqlTableHost host = new SqlTableHost("localhost", "root", reader.readLine(), new BaseTableConstants[]{BaseTableConstants.player, BaseTableConstants.team});
 		MutableSqlTable table = new MutableSqlTable(host, "zz", new String[]{"b", "a", "c"}, new Class<?>[]{Integer.class, String.class, Float.class},
 				new String[]{"int", "char(8)", "real"}, "a");
 		

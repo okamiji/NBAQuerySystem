@@ -22,7 +22,7 @@ public class SqlTableHost implements TableHost
 	final Set<String> declaredTable = new TreeSet<String>();
 	final TreeMap<String, Table> tables = new TreeMap<String, Table>();
 	
-	public SqlTableHost(String host, String username, String password) throws Exception
+	public SqlTableHost(String host, String username, String password, BaseTableConstants[] baseTables) throws Exception
 	{
 		Class.forName("com.mysql.jdbc.Driver");
 		host = "jdbc:mysql://".concat(host).concat("?rewriteBatchedStatements=true");
@@ -51,6 +51,10 @@ public class SqlTableHost implements TableHost
 		ResultSet tables = metadata.getTables("nbaquery", null, null, null);
 		while(tables.next())
 			this.declaredTable.add(tables.getString(3));
+		
+		for(BaseTableConstants baseTable : baseTables)
+			this.tables.put(baseTable.getTableName(), new MutableSqlTable(this, baseTable.getTableName(),
+					baseTable.getColumns(), baseTable.getDataClasses(), baseTable.getSqlTypes(), baseTable.getKeyword()));
 	}
 	
 	@Override
