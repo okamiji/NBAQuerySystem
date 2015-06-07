@@ -55,6 +55,15 @@ public interface Converter<T>
 					return new Date(input);
 				}
 			});
+			
+			conversion.put(Float.class, new Converter<Float>()
+			{
+				@Override
+				public Float convert(String input)
+				{
+					return Float.parseFloat(input);
+				}
+			});
 		}
 	}
 	

@@ -3,7 +3,11 @@ package nbaquery.data.sql;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import nbaquery.data.DirtyDataInfo;
 import nbaquery.data.Table;
@@ -12,8 +16,11 @@ import nbaquery.data.query.Query;
 
 public class SqlTableHost implements TableHost
 {
-	protected final Connection connection;
-	protected final Statement statement;
+	final Connection connection;
+	final DatabaseMetaData metadata;
+	
+	final Set<String> declaredTable = new TreeSet<String>();
+	final TreeMap<String, Table> tables = new TreeMap<String, Table>();
 	
 	public SqlTableHost(String host, String username, String password) throws Exception
 	{
@@ -24,14 +31,15 @@ public class SqlTableHost implements TableHost
 			connection = java.sql.DriverManager.getConnection(host);
 		else connection = java.sql.DriverManager.getConnection(host, username, password);
 
-		statement = connection.createStatement();
+		connection.setCatalog("nbaquery");
+		Statement statement = connection.createStatement();
 		
-		DatabaseMetaData metadata = connection.getMetaData();
+		metadata = connection.getMetaData();
 		
-		ResultSet tables = metadata.getCatalogs();
+		ResultSet catalogs = metadata.getCatalogs();
 		boolean nbaqueryDatabaseExists = false;
-		while(tables.next())
-			if(tables.getString(1).equals("nbaquery"))
+		while(catalogs.next())
+			if(catalogs.getString(1).equals("nbaquery"))
 			{
 				nbaqueryDatabaseExists = true;
 				break;
@@ -40,26 +48,35 @@ public class SqlTableHost implements TableHost
 		if(!nbaqueryDatabaseExists)
 			statement.execute("create database nbaquery");
 		
-		connection.setCatalog("nbaquery");
+		ResultSet tables = metadata.getTables("nbaquery", null, null, null);
+		while(tables.next())
+			this.declaredTable.add(tables.getString(3));
+		
 	}
 	
 	public static void main(String[] arguments) throws Exception
 	{
 		System.out.print("password: ");
 		java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
-		new SqlTableHost("localhost", "root", reader.readLine());
+		SqlTableHost host = new SqlTableHost("localhost", "root", reader.readLine());
+		new MutableSqlTable(host, "zz", new String[]{"b", "a", "c"}, new Class<?>[]{Integer.class, String.class, Float.class},
+				new String[]{"int", "char(8)", "real"}, "a");
 	}
 	
 	@Override
 	public Table getTable(String tableName) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.tables.get(tableName.toLowerCase());
 	}
 	
 	@Override
 	public void deleteTable(String tableName) {
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			this.connection.createStatement().execute(String.format("delete from %s"));
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -70,7 +87,6 @@ public class SqlTableHost implements TableHost
 
 	@Override
 	public DirtyDataInfo nextDirtyDataInfo() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
