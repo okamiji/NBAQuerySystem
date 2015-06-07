@@ -9,9 +9,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import nbaquery.data.Column;
 import nbaquery.data.DirtyDataInfo;
-import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.Query;
@@ -74,8 +72,7 @@ public class SqlTableHost implements TableHost
 
 	@Override
 	public void performQuery(Query query, String tableName) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override

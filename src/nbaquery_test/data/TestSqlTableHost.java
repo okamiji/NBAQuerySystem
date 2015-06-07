@@ -5,6 +5,7 @@ import nbaquery.data.Row;
 import nbaquery.data.sql.MutableSqlRow;
 import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableHost;
+import nbaquery.data.sql.ViewSqlTable;
 
 public class TestSqlTableHost {
 	
@@ -29,11 +30,18 @@ public class TestSqlTableHost {
 			mtb.submit();
 		}
 		
-		for(Row result : table)
-		{
-			System.out.println(a.getAttribute(result) + " " + b.getAttribute(result) + " " +  c.getAttribute(result));
-		}
+		ViewSqlTable viewTable = new ViewSqlTable(host, "sss", new String[]{"e", "f", "g"}, new Class<?>[]{Integer.class, String.class, Float.class},
+				"select b as e, a as f, b / c as g from zz", new String[]{"zz"});
 		
-		//host.deleteTable("zz");
+		Column e = viewTable.getColumn("e");
+		Column f = viewTable.getColumn("f");
+		Column g = viewTable.getColumn("g");
+		
+		while(true)
+			if(viewTable.hasTableChanged("x"))
+				for(Row result : viewTable)
+		{
+			System.out.println(e.getAttribute(result) + " " + f.getAttribute(result) + " " +  g.getAttribute(result));
+		}
 	}
 }
