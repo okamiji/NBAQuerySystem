@@ -54,7 +54,6 @@ public class SelectProjectAlgorithm extends SqlQueryAlgorithm<SelectProjectQuery
 		if(query.expression != null)
 			queryString = queryString.concat(" where ").concat(query.expression.rebuild());
 		
-		System.out.println(queryString);
 		return new QuerySqlTable(((SqlTableHost)query.table.getTableHost()), !notDependsViewTable, tableName,
 				columns.toArray(new String[0]), dataTypes.toArray(new Class<?>[0]), queryString, new String[]{query.table.getTableName()});
 	}
