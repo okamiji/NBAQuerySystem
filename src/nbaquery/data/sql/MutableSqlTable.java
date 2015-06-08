@@ -86,7 +86,6 @@ public class MutableSqlTable implements Table
 
 	public MutableSqlRow createRow()
 	{
-		notifier.clear();
 		return new MutableSqlRow(this, this.insertionQuery, this.columns.size());
 	}
 	

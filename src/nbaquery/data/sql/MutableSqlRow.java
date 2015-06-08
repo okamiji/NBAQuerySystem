@@ -15,7 +15,7 @@ public class MutableSqlRow implements SqlTableRow
 	public final PreparedStatement statement;
 	public final Object[] creations;
 	public final SqlObjectConverter<?>[] converters;
-	public Table declaredTable;
+	public MutableSqlTable declaredTable;
 	
 	public static final HashMap<PreparedStatement, Thread> batchUpdateThread
 		= new HashMap<PreparedStatement, Thread>();
@@ -90,6 +90,7 @@ public class MutableSqlRow implements SqlTableRow
 							e.printStackTrace();
 						}
 						batchUpdateThread.remove(statement);
+						declaredTable.notifier.clear();
 					}
 				};
 				batchUpdateThread.put(this.statement, batchUpdate);

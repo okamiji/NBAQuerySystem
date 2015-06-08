@@ -22,7 +22,7 @@ public class TestSqlTableHost {
 		Column c = table.getColumn("c");
 		Column b = table.getColumn("b");
 		
-		for(int i = 0; i < 20; i ++)
+		for(int i = 40; i < 50; i ++)
 		{
 			MutableSqlRow mtb = table.createRow();
 			a.setAttribute(mtb, Integer.toString(i));
