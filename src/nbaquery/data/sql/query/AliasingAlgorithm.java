@@ -13,7 +13,7 @@ public class AliasingAlgorithm extends SqlQueryAlgorithm<AliasingQuery>
 	@Override
 	public Table perform(String tableName, AliasingQuery query) throws Exception
 	{
-		String queryString = "select ";
+		StringBuilder queryString = new StringBuilder("select ");
 		
 		ArrayList<String> columns = new ArrayList<String>();
 		ArrayList<Class<?>> dataTypes = new ArrayList<Class<?>>();
@@ -24,20 +24,19 @@ public class AliasingAlgorithm extends SqlQueryAlgorithm<AliasingQuery>
 			Column column = query.table.getColumn(query.columnNames[i]);
 			columns.add(query.aliases[i]);
 			dataTypes.add(column.getDataClass());
-			if(!isFirst) queryString = queryString.concat(", ");
-			queryString = queryString.concat(String.format("%s as %s", query.columnNames[i], query.aliases[i]));
+			if(!isFirst) queryString.append(", ");
+			queryString.append(String.format("%s as %s", query.columnNames[i], query.aliases[i]));
 			isFirst = false;
 		}
 		
 		boolean notDependsViewTable = query.table instanceof QuerySqlTable && ((QuerySqlTable)query.table).query != null;
 		
 		if(notDependsViewTable)
-			queryString = queryString.concat(String.format(" from (%s) as %s", ((QuerySqlTable)query.table).query, query.table.getTableName()));
-		else queryString = queryString.concat(String.format(" from %s", query.table.getTableName()));
+			queryString = queryString.append(String.format(" from (%s) as %s", ((QuerySqlTable)query.table).query, query.table.getTableName()));
+		else queryString = queryString.append(String.format(" from %s", query.table.getTableName()));
 		
-		System.out.println(queryString);
 		return new QuerySqlTable(((SqlTableHost)query.table.getTableHost()), !notDependsViewTable, tableName,
-				columns.toArray(new String[0]), dataTypes.toArray(new Class<?>[0]), queryString, new String[]{query.table.getTableName()});
+				columns.toArray(new String[0]), dataTypes.toArray(new Class<?>[0]), new String(queryString), new String[]{query.table.getTableName()});
 	}
 
 	@Override

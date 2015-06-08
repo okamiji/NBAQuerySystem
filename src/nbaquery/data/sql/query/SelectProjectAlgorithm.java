@@ -14,7 +14,7 @@ public class SelectProjectAlgorithm extends SqlQueryAlgorithm<SelectProjectQuery
 	@Override
 	public Table perform(String tableName, SelectProjectQuery query) throws Exception
 	{
-		String queryString = "select ";
+		StringBuilder queryString = new StringBuilder("select ");
 		
 		ArrayList<String> columns = new ArrayList<String>();
 		ArrayList<Class<?>> dataTypes = new ArrayList<Class<?>>();
@@ -26,8 +26,8 @@ public class SelectProjectAlgorithm extends SqlQueryAlgorithm<SelectProjectQuery
 			{
 				columns.add(column.getColumnName());
 				dataTypes.add(column.getDataClass());;
-				if(!isFirst) queryString = queryString.concat(", ");
-				queryString = queryString.concat(column.getColumnName());
+				if(!isFirst) queryString.append(", ");
+				queryString.append(column.getColumnName());
 				isFirst = false;
 			}
 		}
@@ -39,8 +39,8 @@ public class SelectProjectAlgorithm extends SqlQueryAlgorithm<SelectProjectQuery
 			{
 				columns.add(column.getColumnName());
 				dataTypes.add(column.getDataClass());
-				if(!isFirst) queryString = queryString.concat(", ");
-				queryString = queryString.concat(column.getColumnName());
+				if(!isFirst) queryString.append(", ");
+				queryString.append(column.getColumnName());
 				isFirst = false;
 			}
 		}
@@ -48,14 +48,14 @@ public class SelectProjectAlgorithm extends SqlQueryAlgorithm<SelectProjectQuery
 		boolean notDependsViewTable = query.table instanceof QuerySqlTable && ((QuerySqlTable)query.table).query != null;
 		
 		if(notDependsViewTable)
-			queryString = queryString.concat(String.format(" from (%s) as %s", ((QuerySqlTable)query.table).query, query.table.getTableName()));
-		else queryString = queryString.concat(String.format(" from %s", query.table.getTableName()));
+			queryString.append(String.format(" from (%s) as %s", ((QuerySqlTable)query.table).query, query.table.getTableName()));
+		else queryString.append(String.format(" from %s", query.table.getTableName()));
 		
 		if(query.expression != null)
-			queryString = queryString.concat(" where ").concat(query.expression.rebuild());
+			queryString.append(" where ").append(query.expression.rebuild());
 		
 		return new QuerySqlTable(((SqlTableHost)query.table.getTableHost()), !notDependsViewTable, tableName,
-				columns.toArray(new String[0]), dataTypes.toArray(new Class<?>[0]), queryString, new String[]{query.table.getTableName()});
+				columns.toArray(new String[0]), dataTypes.toArray(new Class<?>[0]), new String(queryString), new String[]{query.table.getTableName()});
 	}
 
 	@Override
