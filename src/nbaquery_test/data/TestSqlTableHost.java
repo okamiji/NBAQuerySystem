@@ -6,6 +6,7 @@ import nbaquery.data.Table;
 import nbaquery.data.query.AliasingQuery;
 import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
+import nbaquery.data.query.SortQuery;
 import nbaquery.data.sql.BaseTableConstants;
 import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableHost;
@@ -13,6 +14,7 @@ import nbaquery.data.sql.QuerySqlTable;
 import nbaquery.data.sql.query.AliasingAlgorithm;
 import nbaquery.data.sql.query.NaturalJoinAlgorithm;
 import nbaquery.data.sql.query.SelectProjectAlgorithm;
+import nbaquery.data.sql.query.SortAlgorithm;
 import nbaquery.data.sql.query.SqlQueryAlgorithm;
 
 public class TestSqlTableHost {
@@ -23,7 +25,7 @@ public class TestSqlTableHost {
 		java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
 		SqlTableHost host = new SqlTableHost("localhost", "root", reader.readLine(),
 				new BaseTableConstants[]{BaseTableConstants.player, BaseTableConstants.team},
-				new SqlQueryAlgorithm<?>[]{new SelectProjectAlgorithm(), new AliasingAlgorithm(), new NaturalJoinAlgorithm()});
+				new SqlQueryAlgorithm<?>[]{new SelectProjectAlgorithm(), new AliasingAlgorithm(), new NaturalJoinAlgorithm(), new SortAlgorithm()});
 		MutableSqlTable table = new MutableSqlTable(host, "zz", new String[]{"b", "a", "c"}, new Class<?>[]{Integer.class, String.class, Float.class},
 				new String[]{"int", "char(8)", "real"}, "a");
 		host.putTable("zz", table);
@@ -49,7 +51,10 @@ public class TestSqlTableHost {
 		NaturalJoinQuery naturalJoin = new NaturalJoinQuery(host.getTable("zz"), viewTable, new String[]{"b", "a"}, new String[]{"e", "f"});
 		host.performQuery(naturalJoin, "ttt");
 		
-		Table resultTable = host.getTable("ttt");
+		SortQuery query = new SortQuery(host.getTable("ttt"), "b", 50);
+		host.performQuery(query, "uuu");
+		
+		Table resultTable = host.getTable("uuu");
 		
 		Column a = resultTable.getColumn("a");
 		Column b = resultTable.getColumn("b");
