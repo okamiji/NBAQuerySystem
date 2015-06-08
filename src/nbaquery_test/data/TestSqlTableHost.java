@@ -6,7 +6,7 @@ import nbaquery.data.sql.BaseTableConstants;
 import nbaquery.data.sql.MutableSqlRow;
 import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableHost;
-import nbaquery.data.sql.ViewSqlTable;
+import nbaquery.data.sql.QuerySqlTable;
 
 public class TestSqlTableHost {
 	
@@ -17,12 +17,13 @@ public class TestSqlTableHost {
 		SqlTableHost host = new SqlTableHost("localhost", "root", reader.readLine(), new BaseTableConstants[]{BaseTableConstants.player, BaseTableConstants.team});
 		MutableSqlTable table = new MutableSqlTable(host, "zz", new String[]{"b", "a", "c"}, new Class<?>[]{Integer.class, String.class, Float.class},
 				new String[]{"int", "char(8)", "real"}, "a");
+		host.putTable("zz", table);
 		
 		Column a = table.getColumn("a");
 		Column c = table.getColumn("c");
 		Column b = table.getColumn("b");
 		
-		for(int i = 40; i < 50; i ++)
+		for(int i = 60; i < 1000; i ++)
 		{
 			MutableSqlRow mtb = table.createRow();
 			a.setAttribute(mtb, Integer.toString(i));
@@ -31,8 +32,9 @@ public class TestSqlTableHost {
 			mtb.submit();
 		}
 		
-		ViewSqlTable viewTable = new ViewSqlTable(host, "sss", new String[]{"e", "f", "g"}, new Class<?>[]{Integer.class, String.class, Float.class},
+		QuerySqlTable viewTable = new QuerySqlTable(host, true, "sss", new String[]{"e", "f", "g"}, new Class<?>[]{Integer.class, String.class, Float.class},
 				"select b as e, a as f, b / c as g from zz", new String[]{"zz"});
+		host.putTable("sss", table);
 		
 		Column e = viewTable.getColumn("e");
 		Column f = viewTable.getColumn("f");

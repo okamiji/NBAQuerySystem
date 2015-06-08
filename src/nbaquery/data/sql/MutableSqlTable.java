@@ -72,11 +72,11 @@ public class MutableSqlTable implements Table
 			if(keyword != null) creationQuery = creationQuery.concat(String.format(", primary key(%s)", keyword));
 			creationQuery = creationQuery.concat(")");
 			this.statement.execute(creationQuery);
+			this.tableHost.declaredTable.add(tableName);
 		}
 		
 		for(int i = 1; i <= columns.length; i ++)
 			this.columns.put(columns[i - 1].toLowerCase(), new SqlTableColumn(this, columns[i - 1], types[i - 1], i));
-		this.tableHost.tables.put(tableName, this);
 	}
 	
 	@Override

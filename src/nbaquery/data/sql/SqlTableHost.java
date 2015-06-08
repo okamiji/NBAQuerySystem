@@ -79,6 +79,11 @@ public class SqlTableHost implements TableHost
 	
 	}
 
+	public void putTable(String tableName, Table table)
+	{
+		this.tables.put(tableName, table);
+	}
+	
 	@Override
 	public DirtyDataInfo nextDirtyDataInfo() {
 		return null;
