@@ -18,17 +18,21 @@ public class QuerySqlTable implements Table
 	public final TreeMap<String, Column> columns = new TreeMap<String, Column>();
 	public final PreparedStatement executeQuery;
 	public final String[] dependTables;
+	public final String tableName;
+	public final boolean isViewTable;
 	
 	public QuerySqlTable(SqlTableHost tableHost, boolean shouldCreateView, String viewName, String[] columns, Class<?>[] types, String viewQuery, String[] dependTables) throws Exception
 	{
 		this.tableHost = tableHost;
 		this.dependTables = dependTables;
+		this.isViewTable = shouldCreateView;
 		if(shouldCreateView)
 		{
 			this.tableHost.connection.createStatement().execute(String.format("create or replace view %s as %s", viewName, viewQuery));
 			this.executeQuery = this.tableHost.connection.prepareStatement(String.format("select * from %s", viewName));
 		}
 		else this.executeQuery = this.tableHost.connection.prepareStatement(viewQuery);
+		this.tableName = viewName;
 		
 		for(int i = 0; i < columns.length; i ++)
 			this.columns.put(columns[i], new SqlTableColumn(this, columns[i], types[i], i + 1));

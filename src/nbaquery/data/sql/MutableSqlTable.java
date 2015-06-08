@@ -18,7 +18,7 @@ import nbaquery.data.TableHost;
 public class MutableSqlTable implements Table
 {
 	final SqlTableHost tableHost;
-	final String tableName;
+	public final String tableName;
 	final Statement statement;
 	
 	TreeMap<String, Column> columns = new TreeMap<String, Column>();

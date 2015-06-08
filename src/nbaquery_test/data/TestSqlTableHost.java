@@ -3,7 +3,6 @@ package nbaquery_test.data;
 import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.sql.BaseTableConstants;
-import nbaquery.data.sql.MutableSqlRow;
 import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableHost;
 import nbaquery.data.sql.QuerySqlTable;
@@ -19,6 +18,7 @@ public class TestSqlTableHost {
 				new String[]{"int", "char(8)", "real"}, "a");
 		host.putTable("zz", table);
 		
+		/*
 		Column a = table.getColumn("a");
 		Column c = table.getColumn("c");
 		Column b = table.getColumn("b");
@@ -31,9 +31,9 @@ public class TestSqlTableHost {
 			b.setAttribute(mtb, i);
 			mtb.submit();
 		}
-		
-		QuerySqlTable viewTable = new QuerySqlTable(host, true, "sss", new String[]{"e", "f", "g"}, new Class<?>[]{Integer.class, String.class, Float.class},
-				"select b as e, a as f, b / c as g from zz", new String[]{"zz"});
+		*/
+		QuerySqlTable viewTable = new QuerySqlTable(host, false, "sss", new String[]{"e", "f", "g"}, new Class<?>[]{Integer.class, String.class, Float.class},
+				"select b as e, a as f, b / c as g from zz order by e desc", new String[]{"zz"});
 		host.putTable("sss", table);
 		
 		Column e = viewTable.getColumn("e");
