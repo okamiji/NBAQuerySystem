@@ -130,4 +130,9 @@ public class MutableSqlTable implements Table
 		return this.getRows();
 	}
 
+	@Override
+	public String getTableName() {
+		return this.tableName;
+	}
+
 }

@@ -22,7 +22,7 @@ public class ExpressionFactory
 		char[] blanks = new char[]{' ', '\t', '\n', '\b', '\0'};
 		for(int i = 0; i < blanks.length; i ++) partitionList[blanks[i]] = BLANK_SEQUENCE;
 		
-		char[] operators = new char[]{'&', '|', '!', '+', '-', '*', '/', '=', '>', '<'};
+		char[] operators = new char[]{'&', '|', '!', '+', '-', '*', '/', '=', '>', '<', '^'};
 		for(int i = 0; i < operators.length; i ++) partitionList[operators[i]] = OPERATOR_SEQUENCE;
 		
 		char[] parenthesis = new char[]{'(', ')', '[', ']', '{', '}'};
@@ -168,7 +168,7 @@ public class ExpressionFactory
 		putRPNConvertInfo(8, 9, ArithmeticOperator.Mult.class, "*");
 		putRPNConvertInfo(8, 9, ArithmeticOperator.Div.class, "/");
 		
-		putRPNConvertInfo(10, 11, ArithmeticOperator.Pow.class, "**");
+		putRPNConvertInfo(10, 11, ArithmeticOperator.Pow.class, "**", "^");
 	}
 	
 	void putRPNConvertInfo(int incoming, int instack, Class<? extends Operator> inst, String... notations)

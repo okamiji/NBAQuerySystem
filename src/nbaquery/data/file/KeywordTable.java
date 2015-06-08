@@ -165,4 +165,12 @@ public class KeywordTable implements Table
 	public final Iterator<Row> iterator() {
 		return this.getRows();
 	}
+	
+	/**
+	 * File Table Hosts Doesn't Need Rebuild Operation.
+	 */
+	@Override
+	public String getTableName() {
+		return null;
+	}
 }

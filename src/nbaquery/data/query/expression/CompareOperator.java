@@ -15,6 +15,11 @@ public interface CompareOperator extends Operator
 			if(leftResult == null) return rightResult == null;
 			else return leftResult.equals(rightResult);
 		}
+		
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " = " + this.rightHand.rebuild() + ")";
+		}
 	}
 	
 	public class NotEqual extends BinaryOperator implements CompareOperator
@@ -27,6 +32,11 @@ public interface CompareOperator extends Operator
 			
 			if(leftResult == null) return rightResult != null;
 			else return !leftResult.equals(rightResult);
+		}
+		
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " <> " + this.rightHand.rebuild() + ")";
 		}
 	}
 	
@@ -42,6 +52,11 @@ public interface CompareOperator extends Operator
 			if(leftResult == null) return rightResult == null;
 			else return leftResult.compareTo(rightResult) > 0;
 		}
+		
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " > " + this.rightHand.rebuild() + ")";
+		}
 	}
 	
 	public class GreaterEq extends BinaryOperator implements CompareOperator
@@ -55,6 +70,11 @@ public interface CompareOperator extends Operator
 			
 			if(leftResult == null) return rightResult == null;
 			else return leftResult.compareTo(rightResult) >= 0;
+		}
+		
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " >= " + this.rightHand.rebuild() + ")";
 		}
 	}
 	
@@ -70,6 +90,11 @@ public interface CompareOperator extends Operator
 			if(leftResult == null) return rightResult == null;
 			else return leftResult.compareTo(rightResult) < 0;
 		}
+		
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " < " + this.rightHand.rebuild() + ")";
+		}
 	}
 	
 	public class LessEq extends BinaryOperator implements CompareOperator
@@ -83,6 +108,11 @@ public interface CompareOperator extends Operator
 			
 			if(rightResult == null) return leftResult == null;
 			else return rightResult.compareTo(leftResult) >= 0;
+		}
+		
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " <= " + this.rightHand.rebuild() + ")";
 		}
 	}
 }

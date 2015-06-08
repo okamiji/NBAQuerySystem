@@ -18,6 +18,11 @@ public interface LogicOperator extends Operator
 			
 			return Boolean.TRUE == super.rightHand.calculate(row);
 		}
+
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " and " + this.rightHand.rebuild() + ")";
+		}
 	}
 	
 	public class Or extends BinaryOperator implements LogicOperator
@@ -30,6 +35,11 @@ public interface LogicOperator extends Operator
 			
 			return super.rightHand.calculate(row) == Boolean.TRUE;
 		}
+		
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " or " + this.rightHand.rebuild() + ")";
+		}
 	}
 	
 	public class Not extends BinaryOperator implements LogicOperator
@@ -38,6 +48,11 @@ public interface LogicOperator extends Operator
 		public Object calculate(Row... row)
 		{
 			return super.rightHand.calculate(row) == Boolean.FALSE;
+		}
+		
+		@Override
+		public String rebuild() {
+			return "(not " + this.rightHand.rebuild() + ")";
 		}
 	}
 }

@@ -22,7 +22,11 @@ public class ColumnOperator implements Operator
 			return null;
 		}
 		else return column.getAttribute(row[index]);
-		
+	}
+
+	@Override
+	public String rebuild() {
+		return this.column.getDeclaringTable().getTableName() + "." + this.column.getColumnName();
 	}
 	
 }

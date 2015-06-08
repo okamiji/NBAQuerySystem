@@ -5,4 +5,6 @@ import nbaquery.data.Row;
 public interface Operator
 {
 	public Object calculate(Row... row);
+	
+	public String rebuild();
 }

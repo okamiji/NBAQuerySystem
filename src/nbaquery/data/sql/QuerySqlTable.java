@@ -17,21 +17,25 @@ public class QuerySqlTable implements Table
 	public final SqlTableHost tableHost;
 	public final TreeMap<String, Column> columns = new TreeMap<String, Column>();
 	public final PreparedStatement executeQuery;
+	public final String query;
 	public final String[] dependTables;
 	public final String tableName;
-	public final boolean isViewTable;
 	
 	public QuerySqlTable(SqlTableHost tableHost, boolean shouldCreateView, String viewName, String[] columns, Class<?>[] types, String viewQuery, String[] dependTables) throws Exception
 	{
 		this.tableHost = tableHost;
 		this.dependTables = dependTables;
-		this.isViewTable = shouldCreateView;
 		if(shouldCreateView)
 		{
 			this.tableHost.connection.createStatement().execute(String.format("create or replace view %s as %s", viewName, viewQuery));
 			this.executeQuery = this.tableHost.connection.prepareStatement(String.format("select * from %s", viewName));
+			this.query = null;
 		}
-		else this.executeQuery = this.tableHost.connection.prepareStatement(viewQuery);
+		else
+		{
+			this.executeQuery = this.tableHost.connection.prepareStatement(viewQuery);
+			this.query = viewQuery;
+		}
 		this.tableName = viewName;
 		
 		for(int i = 0; i < columns.length; i ++)
@@ -87,6 +91,11 @@ public class QuerySqlTable implements Table
 			notified.add(accessor);
 			return true;
 		}
+	}
+
+	@Override
+	public String getTableName() {
+		return tableName;
 	}
 
 }

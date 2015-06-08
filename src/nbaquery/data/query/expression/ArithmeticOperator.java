@@ -20,6 +20,11 @@ public interface ArithmeticOperator extends Operator
 				rightResult = (float)(int)rightResult;
 			return (float)leftResult + (float)rightResult;
 		}
+
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " + " + this.rightHand.rebuild() + ")";
+		}
 	}
 	
 	public class Sub extends BinaryOperator implements ArithmeticOperator
@@ -38,6 +43,11 @@ public interface ArithmeticOperator extends Operator
 				rightResult = (float)(int)rightResult;
 			return (float)leftResult - (float)rightResult;
 		}
+
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " - " + this.rightHand.rebuild() + ")";
+		}
 	}
 	
 	public class Mult extends BinaryOperator implements ArithmeticOperator
@@ -54,6 +64,11 @@ public interface ArithmeticOperator extends Operator
 			else if(rightResult instanceof Integer)
 				rightResult = (float)(int)rightResult;
 			return (float)leftResult * (float)rightResult;
+		}
+		
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " * " + this.rightHand.rebuild() + ")";
 		}
 	}
 	
@@ -73,6 +88,11 @@ public interface ArithmeticOperator extends Operator
 				rightResult = (float)(int)rightResult;
 			return (float)leftResult / (float)rightResult;
 		}
+		
+		@Override
+		public String rebuild() {
+			return "(" + this.leftHand.rebuild() + " / " + this.rightHand.rebuild() + ")";
+		}
 	}
 	
 	public class Pow extends BinaryOperator implements ArithmeticOperator
@@ -89,6 +109,11 @@ public interface ArithmeticOperator extends Operator
 			else if(rightResult instanceof Integer)
 				rightResult = (float)(int)rightResult;
 			return Math.pow((float)leftResult, (float)rightResult);
+		}
+		
+		@Override
+		public String rebuild() {
+			return "pow(" + this.leftHand.rebuild() + "," + this.rightHand.rebuild() + ")";
 		}
 	}
 }

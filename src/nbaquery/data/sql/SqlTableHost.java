@@ -5,6 +5,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -13,6 +14,7 @@ import nbaquery.data.DirtyDataInfo;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.Query;
+import nbaquery.data.sql.query.SqlQueryAlgorithm;
 
 public class SqlTableHost implements TableHost
 {
@@ -21,8 +23,10 @@ public class SqlTableHost implements TableHost
 	
 	final Set<String> declaredTable = new TreeSet<String>();
 	final TreeMap<String, Table> tables = new TreeMap<String, Table>();
+	final HashMap<Class<? extends Query>, SqlQueryAlgorithm<?>> algorithms
+		= new HashMap<Class<? extends Query>, SqlQueryAlgorithm<?>>();
 	
-	public SqlTableHost(String host, String username, String password, BaseTableConstants[] baseTables) throws Exception
+	public SqlTableHost(String host, String username, String password, BaseTableConstants[] baseTables, SqlQueryAlgorithm<?>[] algorithms) throws Exception
 	{
 		Class.forName("com.mysql.jdbc.Driver");
 		host = "jdbc:mysql://".concat(host).concat("?rewriteBatchedStatements=true");
@@ -55,6 +59,9 @@ public class SqlTableHost implements TableHost
 		for(BaseTableConstants baseTable : baseTables)
 			this.tables.put(baseTable.getTableName(), new MutableSqlTable(this, baseTable.getTableName(),
 					baseTable.getColumns(), baseTable.getDataClasses(), baseTable.getSqlTypes(), baseTable.getKeyword()));
+		
+		for(SqlQueryAlgorithm<?> algorithm : algorithms)
+			this.algorithms.put(algorithm.getQueryClass(), algorithm);
 	}
 	
 	@Override
@@ -76,12 +83,15 @@ public class SqlTableHost implements TableHost
 
 	@Override
 	public void performQuery(Query query, String tableName) {
-	
+		SqlQueryAlgorithm<?> algorithm = 
+			this.algorithms.get(query.getClass());
+		if(algorithm != null)
+			this.putTable(tableName, algorithm.perform(tableName, query));
 	}
 
 	public void putTable(String tableName, Table table)
 	{
-		this.tables.put(tableName, table);
+		this.tables.put(tableName.toLowerCase(), table);
 	}
 	
 	@Override

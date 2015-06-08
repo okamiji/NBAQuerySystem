@@ -73,4 +73,6 @@ public interface Table extends Iterable<Row>
 	public TableHost getTableHost();
 	
 	public boolean hasTableChanged(Object accessor);
+	
+	public String getTableName();
 }
