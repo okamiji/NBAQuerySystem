@@ -11,6 +11,7 @@ import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
 import nbaquery.data.sql.BaseTableConstants;
+import nbaquery.data.sql.MutableSqlRow;
 import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableHost;
 import nbaquery.data.sql.QuerySqlTable;
@@ -35,12 +36,12 @@ public class TestSqlTableHost {
 				new String[]{"int", "char(8)", "real"}, "a");
 		host.putTable("zz", table);
 		
-		/*
 		Column a = table.getColumn("a");
 		Column c = table.getColumn("c");
 		Column b = table.getColumn("b");
 		
-		for(int i = 60; i < 1000; i ++)
+		/*
+		for(int i = 999; i < 1000; i ++)
 		{
 			MutableSqlRow mtb = table.createRow();
 			a.setAttribute(mtb, Integer.toString(i));
@@ -49,6 +50,7 @@ public class TestSqlTableHost {
 			mtb.submit();
 		}
 		*/
+		
 		QuerySqlTable viewTable = new QuerySqlTable(host, true, "sss", new String[]{"e", "f", "g"}, new Class<?>[]{Integer.class, String.class, Float.class},
 				"select b as e, a as f, pow(b, 2) as g from zz", new String[]{"zz"});
 		host.putTable("sss", table);
@@ -64,9 +66,9 @@ public class TestSqlTableHost {
 		
 		Table resultTable = host.getTable("uuu");
 		
-		Column a = resultTable.getColumn("a");
-		Column b = resultTable.getColumn("b");
-		Column c = resultTable.getColumn("c");
+		a = resultTable.getColumn("a");
+		b = resultTable.getColumn("b");
+		c = resultTable.getColumn("c");
 		Column g = resultTable.getColumn("g");
 		Column l = resultTable.getColumn("l");
 		
