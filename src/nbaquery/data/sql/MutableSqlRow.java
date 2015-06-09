@@ -46,8 +46,6 @@ public class MutableSqlRow implements SqlTableRow
 		if(this.converters[index - 1] == null)
 			this.converters[index - 1] = converter;
 		this.creations[index - 1] = value;
-		
-	
 	}
 
 	/**
@@ -60,7 +58,7 @@ public class MutableSqlRow implements SqlTableRow
 		{
 			for(int i = 0; i < this.creations.length; i ++)
 				this.converters[i].write(statement, i + 1, this.creations[i]);
-				this.statement.addBatch();
+			this.statement.addBatch();
 			
 			if(batchUpdateThread.get(statement) == null)
 			{

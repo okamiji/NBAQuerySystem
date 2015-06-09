@@ -15,7 +15,7 @@ import nbaquery.data.TableHost;
 public class QuerySqlTable implements Table
 {
 	public final SqlTableHost tableHost;
-	public final TreeMap<String, Column> columns = new TreeMap<String, Column>();
+	public final TreeMap<String, SqlTableColumn> columns = new TreeMap<String, SqlTableColumn>();
 	public final PreparedStatement executeQuery;
 	public final String query;
 	public final String[] dependTables;
@@ -39,7 +39,7 @@ public class QuerySqlTable implements Table
 		this.tableName = viewName;
 		
 		for(int i = 0; i < columns.length; i ++)
-			this.columns.put(columns[i], new SqlTableColumn(this, columns[i], types[i], i + 1));
+			this.columns.put(columns[i].toLowerCase(), new SqlTableColumn(this, columns[i].toLowerCase(), types[i], i + 1));
 		
 	}
 	

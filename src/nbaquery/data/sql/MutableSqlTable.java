@@ -21,7 +21,7 @@ public class MutableSqlTable implements Table
 	public final String tableName;
 	final Statement statement;
 	
-	TreeMap<String, Column> columns = new TreeMap<String, Column>();
+	TreeMap<String, SqlTableColumn> columns = new TreeMap<String, SqlTableColumn>();
 	public PreparedStatement insertionQuery;
 	public PreparedStatement selectionQuery;
 	

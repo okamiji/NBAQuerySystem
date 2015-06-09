@@ -18,7 +18,7 @@ import nbaquery.data.sql.query.SqlQueryAlgorithm;
 
 public class SqlTableHost implements TableHost
 {
-	final Connection connection;
+	public final Connection connection;
 	final DatabaseMetaData metadata;
 	
 	final Set<String> declaredTable = new TreeSet<String>();

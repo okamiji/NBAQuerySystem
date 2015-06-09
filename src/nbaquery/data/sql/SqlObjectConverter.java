@@ -44,7 +44,7 @@ public abstract class SqlObjectConverter<Type>
 	
 	protected abstract Type convert(String string);
 	
-	protected abstract Type read(ResultSet resultSet, int index) throws Exception;
+	public abstract Type read(ResultSet resultSet, int index) throws Exception;
 	
 	@SuppressWarnings("unchecked")
 	public void update(ResultSet rs, int index, Object obj)
@@ -86,7 +86,7 @@ public abstract class SqlObjectConverter<Type>
 			}
 
 			@Override
-			protected String read(ResultSet resultSet, int index) throws Exception
+			public String read(ResultSet resultSet, int index) throws Exception
 			{
 				return resultSet.getString(index);
 			}
@@ -111,7 +111,7 @@ public abstract class SqlObjectConverter<Type>
 			}
 
 			@Override
-			protected Integer read(ResultSet resultSet, int index) throws Exception {
+			public Integer read(ResultSet resultSet, int index) throws Exception {
 				return resultSet.getInt(index);
 			}
 
@@ -127,7 +127,9 @@ public abstract class SqlObjectConverter<Type>
 
 			@Override
 			protected void writeStatement(PreparedStatement ps, int index, Float value) throws Exception {
-				ps.setFloat(index, value);
+				if(Float.isInfinite(value) || Float.isNaN(value))
+					ps.setNull(index, sqlType);
+				else ps.setFloat(index, value);
 			}
 
 			@Override
@@ -136,7 +138,7 @@ public abstract class SqlObjectConverter<Type>
 			}
 
 			@Override
-			protected Float read(ResultSet resultSet, int index) throws Exception {
+			public Float read(ResultSet resultSet, int index) throws Exception {
 				return resultSet.getFloat(index);
 			}
 
@@ -165,7 +167,7 @@ public abstract class SqlObjectConverter<Type>
 			}
 
 			@Override
-			protected Character read(ResultSet resultSet, int index)
+			public Character read(ResultSet resultSet, int index)
 					throws Exception {
 				return (char)resultSet.getInt(index);
 			}
@@ -192,7 +194,7 @@ public abstract class SqlObjectConverter<Type>
 			}
 
 			@Override
-			protected Image read(ResultSet resultSet, int index)
+			public Image read(ResultSet resultSet, int index)
 					throws Exception {
 				return new Image(new File(resultSet.getString(index)));
 			}
@@ -219,7 +221,7 @@ public abstract class SqlObjectConverter<Type>
 			}
 
 			@Override
-			protected Date read(ResultSet resultSet, int index) throws Exception {
+			public Date read(ResultSet resultSet, int index) throws Exception {
 				return new Date(resultSet.getLong(index));
 			}
 

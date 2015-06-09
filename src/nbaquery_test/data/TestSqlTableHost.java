@@ -4,6 +4,9 @@ import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.query.AliasingQuery;
+import nbaquery.data.query.DeriveColumnInfo;
+import nbaquery.data.query.DeriveQuery;
+import nbaquery.data.query.ExpressionDeriveColumnInfo;
 import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
@@ -12,6 +15,7 @@ import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableHost;
 import nbaquery.data.sql.QuerySqlTable;
 import nbaquery.data.sql.query.AliasingAlgorithm;
+import nbaquery.data.sql.query.DeriveAlgorithm;
 import nbaquery.data.sql.query.NaturalJoinAlgorithm;
 import nbaquery.data.sql.query.SelectProjectAlgorithm;
 import nbaquery.data.sql.query.SortAlgorithm;
@@ -25,7 +29,8 @@ public class TestSqlTableHost {
 		java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
 		SqlTableHost host = new SqlTableHost("localhost", "root", reader.readLine(),
 				new BaseTableConstants[]{BaseTableConstants.player, BaseTableConstants.team},
-				new SqlQueryAlgorithm<?>[]{new SelectProjectAlgorithm(), new AliasingAlgorithm(), new NaturalJoinAlgorithm(), new SortAlgorithm()});
+				new SqlQueryAlgorithm<?>[]{new SelectProjectAlgorithm(), new AliasingAlgorithm(),
+				new NaturalJoinAlgorithm(), new SortAlgorithm(), new DeriveAlgorithm()});
 		MutableSqlTable table = new MutableSqlTable(host, "zz", new String[]{"b", "a", "c"}, new Class<?>[]{Integer.class, String.class, Float.class},
 				new String[]{"int", "char(8)", "real"}, "a");
 		host.putTable("zz", table);
@@ -51,7 +56,10 @@ public class TestSqlTableHost {
 		NaturalJoinQuery naturalJoin = new NaturalJoinQuery(host.getTable("zz"), viewTable, new String[]{"b", "a"}, new String[]{"e", "f"});
 		host.performQuery(naturalJoin, "ttt");
 		
-		SortQuery query = new SortQuery(host.getTable("ttt"), "b", 50);
+		DeriveQuery query = new DeriveQuery(host.getTable("ttt"), new DeriveColumnInfo[]
+				{
+					new ExpressionDeriveColumnInfo("l", Float.class, "g / c")
+				});
 		host.performQuery(query, "uuu");
 		
 		Table resultTable = host.getTable("uuu");
@@ -60,12 +68,13 @@ public class TestSqlTableHost {
 		Column b = resultTable.getColumn("b");
 		Column c = resultTable.getColumn("c");
 		Column g = resultTable.getColumn("g");
+		Column l = resultTable.getColumn("l");
 		
 		while(true)
 			if(resultTable.hasTableChanged("x"))
 				for(Row result : resultTable)
 		{
-			System.out.println(a.getAttribute(result) + " " + b.getAttribute(result) + " " + c.getAttribute(result) + " " +  g.getAttribute(result));
+			System.out.println(a.getAttribute(result) + " " + b.getAttribute(result) + " " + c.getAttribute(result) + " " +  g.getAttribute(result) + " " +  l.getAttribute(result));
 		}
 	}
 }
