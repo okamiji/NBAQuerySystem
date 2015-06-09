@@ -2,9 +2,23 @@ package nbaquery.data.sql;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+
+import nbaquery.data.Image;
 
 public abstract class BaseTableConstants
 {
+	public static final HashMap<Class<?>, String> sqlTypeMap = new HashMap<Class<?>, String>();
+	static
+	{
+		sqlTypeMap.put(String.class, "char(32)");
+		sqlTypeMap.put(Integer.class, "int");
+		sqlTypeMap.put(Float.class, "real");
+		sqlTypeMap.put(Character.class, "tinyint");
+		sqlTypeMap.put(Date.class, "bigint");
+		sqlTypeMap.put(Image.class, "char(128)");
+	}
+	
 	ArrayList<String> columns = new ArrayList<String>();
 	ArrayList<Class<?>> dataClasses = new ArrayList<Class<?>>();
 	ArrayList<String> sqlTypes = new ArrayList<String>();
