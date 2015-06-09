@@ -15,6 +15,7 @@ import nbaquery.data.sql.query.NaturalJoinAlgorithm;
 import nbaquery.data.sql.query.SelectProjectAlgorithm;
 import nbaquery.data.sql.query.SortAlgorithm;
 import nbaquery.data.sql.query.SqlQueryAlgorithm;
+import nbaquery.logic.AverageColumnInfo;
 import nbaquery.logic.SumColumnInfo;
 
 public class TestSqlTableGroup {
@@ -44,18 +45,21 @@ public class TestSqlTableGroup {
 			mtb.submit();
 		}
 		
-		GroupQuery gp = new GroupQuery(table, new String[]{"b"}, new SumColumnInfo("s", "c"));
+		while(!table.hasTableChanged("x"));
+		
+		GroupQuery gp = new GroupQuery(table, new String[]{"b"}, new SumColumnInfo("s", "c"), new AverageColumnInfo(c));
 		host.performQuery(gp, "gz");
 		Table resultTable = host.getTable("gz");
 		
 		b = resultTable.getColumn("b");
 		Column s = resultTable.getColumn("s");
+		c = resultTable.getColumn("c");
 		
 		while(true)
 			if(resultTable.hasTableChanged("x"))
 				for(Row result : resultTable)
 		{
-			System.out.println(b.getAttribute(result) + " " + s.getAttribute(result));
+			System.out.println(b.getAttribute(result) + " " + s.getAttribute(result) + " " + c.getAttribute(result));
 		}
 	}
 }
