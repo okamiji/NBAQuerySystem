@@ -35,7 +35,6 @@ public class SqlTableHost implements TableHost
 			connection = java.sql.DriverManager.getConnection(host);
 		else connection = java.sql.DriverManager.getConnection(host, username, password);
 
-		connection.setCatalog("nbaquery");
 		Statement statement = connection.createStatement();
 		
 		metadata = connection.getMetaData();
@@ -52,6 +51,7 @@ public class SqlTableHost implements TableHost
 		if(!nbaqueryDatabaseExists)
 			statement.execute("create database nbaquery");
 		
+		connection.setCatalog("nbaquery");
 		ResultSet tables = metadata.getTables("nbaquery", null, null, null);
 		while(tables.next())
 			this.declaredTable.add(tables.getString(3));
