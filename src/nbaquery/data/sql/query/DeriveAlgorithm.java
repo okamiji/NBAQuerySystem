@@ -77,7 +77,7 @@ public class DeriveAlgorithm extends SqlQueryAlgorithm<DeriveQuery>
 		
 		MutableSqlTable mutable = new MutableSqlTable(host,
 				tableName, columns.toArray(new String[0]), dataTypes.toArray(new Class<?>[0]),
-				sqlTypes.toArray(new String[0]), new String(projection));
+				sqlTypes.toArray(new String[0]), new String(projection), query.table.getTableName());
 		
 		String originTableDenotion = query.table.getTableName();
 		if(query.table instanceof QuerySqlTable && ((QuerySqlTable)query.table).query != null)

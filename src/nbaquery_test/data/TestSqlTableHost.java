@@ -40,8 +40,7 @@ public class TestSqlTableHost {
 		Column c = table.getColumn("c");
 		Column b = table.getColumn("b");
 		
-		/*
-		for(int i = 999; i < 1000; i ++)
+		for(int i = 0; i < 1000; i ++)
 		{
 			MutableSqlRow mtb = table.createRow();
 			a.setAttribute(mtb, Integer.toString(i));
@@ -49,7 +48,6 @@ public class TestSqlTableHost {
 			b.setAttribute(mtb, i);
 			mtb.submit();
 		}
-		*/
 		
 		QuerySqlTable viewTable = new QuerySqlTable(host, true, "sss", new String[]{"e", "f", "g"}, new Class<?>[]{Integer.class, String.class, Float.class},
 				"select b as e, a as f, pow(b, 2) as g from zz", new String[]{"zz"});

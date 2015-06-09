@@ -24,13 +24,15 @@ public class MutableSqlTable implements Table
 	TreeMap<String, SqlTableColumn> columns = new TreeMap<String, SqlTableColumn>();
 	public PreparedStatement insertionQuery;
 	public PreparedStatement selectionQuery;
+	public String[] dependencies;
 	
 	public MutableSqlTable(SqlTableHost tableHost, String tableName, 
-			String[] columns, Class<?>[] types, String[] sqlTypes, String keyword) throws Exception
+			String[] columns, Class<?>[] types, String[] sqlTypes, String keyword, String... dependencies) throws Exception
 	{
 		this.tableHost = tableHost;
 		this.tableName = tableName;
 		this.statement = this.tableHost.connection.createStatement();
+		this.dependencies = dependencies;
 		
 		String paramList = columns[0];
 		String questionList = "?";
@@ -117,6 +119,15 @@ public class MutableSqlTable implements Table
 	public final HashSet<Object> notifier = new HashSet<Object>(); 
 	@Override
 	public boolean hasTableChanged(Object accessor) {
+		if(this.dependencies != null && this.dependencies.length > 0)
+		{
+			boolean noChanged = true;
+			for(String table : dependencies)
+				if(this.tableHost.getTable(table).hasTableChanged(this))
+					noChanged = false;
+			if(!noChanged) notifier.clear();
+		}
+		
 		if(!notifier.contains(accessor))
 		{
 			notifier.add(accessor);
