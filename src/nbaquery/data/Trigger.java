@@ -19,7 +19,6 @@ public interface Trigger
 	
 	public static final Trigger board = new Trigger()
 	{
-
 		Column attack_board, defence_board, total_board;
 		
 		@Override
@@ -40,6 +39,35 @@ public interface Trigger
 		{
 			total_board.setAttribute(row, (Integer)attack_board.getAttribute(row) + (Integer)defence_board.getAttribute(row));
 		}
-		
 	};
+	
+	public static final Trigger self_score = new Trigger()
+	{
+		Column self_score;
+		Column foul_shoot_score;
+		Column shoot_score;
+		Column three_shoot_score;
+		
+		@Override
+		public void retrieve(Table table) {
+			self_score = table.getColumn("self_score");
+			foul_shoot_score = table.getColumn("foul_shoot_count");
+			shoot_score = table.getColumn("shoot_count");
+			three_shoot_score = table.getColumn("three_shoot_count");
+		}
+
+		@Override
+		public boolean checkCondition(Row row)
+		{
+			return 1 * (Integer)foul_shoot_score.getAttribute(row) + 2 * (Integer)shoot_score.getAttribute(row)
+					+ 3 * (Integer)three_shoot_score.getAttribute(row) == (Integer)self_score.getAttribute(row); 
+		}
+
+		@Override
+		public void doCorrection(Row row)
+		{
+			self_score.setAttribute(row, 1 * (Integer)foul_shoot_score.getAttribute(row) + 2 * (Integer)shoot_score.getAttribute(row)
+					+ 3 * (Integer)three_shoot_score.getAttribute(row)); 
+		}
+	};	
 }

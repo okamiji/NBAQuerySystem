@@ -69,6 +69,7 @@ public class MatchLoader implements FileLoader
 		
 		Table performance = this.host.getTable("performance");
 		performance.registerTrigger(Trigger.board);
+		performance.registerTrigger(Trigger.self_score);
 		
 		identity = host.getColumn("match.match_id");
 		season = host.getColumn("match.match_season");
@@ -185,6 +186,11 @@ public class MatchLoader implements FileLoader
 				
 				three_shoot_score.setAttribute(performance, tokens.get(5));
 				three_shoot_count.setAttribute(performance, tokens.get(6));
+				
+				shoot_score.setAttribute(performance,
+						(Integer)shoot_score.getAttribute(performance) - (Integer)three_shoot_score.getAttribute(performance));
+				shoot_count.setAttribute(performance,
+						(Integer)shoot_count.getAttribute(performance) - (Integer)three_shoot_count.getAttribute(performance));
 				
 				foul_shoot_score.setAttribute(performance, tokens.get(7));
 				foul_shoot_count.setAttribute(performance, tokens.get(8));
