@@ -40,6 +40,15 @@ public abstract class SqlObjectConverter<Type>
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public Type convertObjectDirect(Object obj)
+	{
+		if(obj == null) return null;
+		if(obj.getClass().equals(dataClass)) return (Type)obj;
+		if(obj.getClass().equals(String.class)) return this.convert((String)obj);
+		throw new RuntimeException("Cannot write value to field with incompatible type.");
+	}
+	
 	protected abstract void writeStatement(PreparedStatement ps, int index, Type value) throws Exception;
 	
 	protected abstract Type convert(String string);

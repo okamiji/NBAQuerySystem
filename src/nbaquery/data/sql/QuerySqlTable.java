@@ -11,6 +11,7 @@ import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.Trigger;
 
 public class QuerySqlTable implements Table
 {
@@ -98,4 +99,9 @@ public class QuerySqlTable implements Table
 		return tableName;
 	}
 
+	@Override
+	public void registerTrigger(Trigger trigger)
+	{
+		throw new RuntimeException("Cannot register trigger for a table that's not mutable!");
+	}
 }

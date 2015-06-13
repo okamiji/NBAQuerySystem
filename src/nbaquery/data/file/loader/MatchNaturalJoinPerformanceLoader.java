@@ -232,7 +232,6 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 					game_minute.setAttribute(performance, game_time[0]);
 					game_second.setAttribute(performance, game_time[1]);
 				}
-				else host.processDirtyData(performance, game_minute, tokens.get(2));
 				
 				shoot_score.setAttribute(performance, tokens.get(3));
 				shoot_count.setAttribute(performance, tokens.get(4));

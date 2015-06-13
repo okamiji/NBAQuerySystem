@@ -28,19 +28,13 @@ public class FileTableColumn implements Column
 		{
 			Object obj = converter.convert((String)value);
 			if(obj == null)
-			{
-				((FileTableHost)table.getTableHost()).processDirtyData(row, this, value);
 				return;
-			}
 			else value = obj;
 		}
 		else
 		{
 			if(!dataClass.equals(value.getClass()))
-			{
-				((FileTableHost)table.getTableHost()).processDirtyData(row, this, value);
 				return;
-			}
 		}
 		row.getAttributes()[columnIndex] = value;
 	}

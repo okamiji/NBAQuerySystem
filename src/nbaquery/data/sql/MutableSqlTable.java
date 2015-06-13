@@ -4,9 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
 
 import nbaquery.data.Column;
@@ -14,6 +16,7 @@ import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.Trigger;
 
 public class MutableSqlTable implements Table
 {
@@ -144,6 +147,14 @@ public class MutableSqlTable implements Table
 	@Override
 	public String getTableName() {
 		return this.tableName;
+	}
+
+	public final List<Trigger> triggers = new ArrayList<Trigger>();
+	@Override
+	public void registerTrigger(Trigger trigger)
+	{
+		this.triggers.add(trigger);
+		trigger.retrieve(this);
 	}
 
 }

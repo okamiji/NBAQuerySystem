@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import nbaquery.data.DirtyDataInfo;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.query.Query;
@@ -93,9 +92,5 @@ public class SqlTableHost implements TableHost
 	{
 		this.tables.put(tableName.toLowerCase(), table);
 	}
-	
-	@Override
-	public DirtyDataInfo nextDirtyDataInfo() {
-		return null;
-	}
+
 }

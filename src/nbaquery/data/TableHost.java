@@ -58,10 +58,4 @@ public interface TableHost
 	 * @param tableName
 	 */
 	public void performQuery(Query query, String tableName);
-	
-	/**
-	 * @return the next dirty data information to process, or null if no dirty data or
-	 * having finished process.
-	 */
-	public DirtyDataInfo nextDirtyDataInfo();
 }

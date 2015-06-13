@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import nbaquery.data.Table;
+import nbaquery.data.Trigger;
 
 /**
  * This row can only be retrieved by calling createSqlRow method of MutableSqlTable
@@ -38,7 +39,7 @@ public class MutableSqlRow implements SqlTableRow
 	
 	@Override
 	public Object getAttribute(int index, SqlObjectConverter<?> converter) {
-		return creations[index - 1];
+		return converter.convertObjectDirect(creations[index - 1]);
 	}
 	
 	@Override
@@ -56,6 +57,12 @@ public class MutableSqlRow implements SqlTableRow
 	{
 		try
 		{
+			for(Trigger trigger : this.declaredTable.triggers)
+			{
+				if(trigger.checkCondition(this)) continue;
+				trigger.doCorrection(this);
+			}
+			
 			for(int i = 0; i < this.creations.length; i ++)
 				this.converters[i].write(statement, i + 1, this.creations[i]);
 			this.statement.addBatch();
