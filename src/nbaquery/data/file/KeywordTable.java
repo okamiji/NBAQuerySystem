@@ -177,7 +177,7 @@ public class KeywordTable implements Table
 	 */
 	@Override
 	public String getTableName() {
-		return null;
+		return this.toString();
 	}
 	
 	@Override
