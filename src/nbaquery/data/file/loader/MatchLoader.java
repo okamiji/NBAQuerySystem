@@ -134,6 +134,7 @@ public class MatchLoader implements FileLoader
 		
 		host_score.setAttribute(tuple, Integer.parseInt(scores[0]));
 		guest_score.setAttribute(tuple, Integer.parseInt(scores[1]));
+		tuple.submit();
 		
 		currentLine = br.readLine();
 		if(currentLine == null)
@@ -150,6 +151,7 @@ public class MatchLoader implements FileLoader
 			quarter_number.setAttribute(scoreTuple, i + 1);
 			quarter_host_score.setAttribute(scoreTuple, Integer.parseInt(scores[0]));
 			quarter_guest_score.setAttribute(scoreTuple, Integer.parseInt(scores[1]));
+			scoreTuple.submit();
 		}
 		
 		String currentTeam = null;
@@ -193,6 +195,7 @@ public class MatchLoader implements FileLoader
 				miss.setAttribute(performance, tokens.get(15));
 				foul.setAttribute(performance, tokens.get(16));
 				self_score.setAttribute(performance, tokens.get(17));
+				performance.submit();
 			}
 		}
 		br.close();

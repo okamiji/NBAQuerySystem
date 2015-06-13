@@ -193,6 +193,8 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 		int guest_score_int = Integer.parseInt(scores[1]);
 		guest_score.setAttribute(matchTuple, guest_score_int);
 		
+		matchTuple.submit();
+		
 		currentLine = br.readLine();
 		if(currentLine == null)
 		{
@@ -208,6 +210,7 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 			quarter_number.setAttribute(scoreTuple, i + 1);
 			quarter_host_score.setAttribute(scoreTuple, Integer.parseInt(scores[0]));
 			quarter_guest_score.setAttribute(scoreTuple, Integer.parseInt(scores[1]));
+			scoreTuple.submit();
 		}
 		
 		String currentTeam = null;
@@ -263,6 +266,7 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 				
 				joinied_host_score.setAttribute(tuple, host_score_int);
 				joined_guest_score.setAttribute(tuple, guest_score_int);
+				tuple.submit();
 			}
 		}
 		br.close();

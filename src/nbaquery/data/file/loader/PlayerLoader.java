@@ -90,6 +90,7 @@ public class PlayerLoader implements FileLoader
 		
 		File actionFile = new File(actionFolder, file.getName() + ".png");
 		if(actionFile.exists() && actionFile.isFile()) action.setAttribute(player, new Image(actionFile));
+		player.submit();
 	}
 
 	File fileFolder;
