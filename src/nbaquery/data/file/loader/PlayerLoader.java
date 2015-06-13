@@ -38,7 +38,7 @@ public class PlayerLoader implements FileLoader
 		
 		this.host.makeProtectedTable(EnumTable.PLAYER.toString(), 
 				this.host.getTableFromPreset(EnumTable.PLAYER));
-		
+
 		player_name = host.getColumn("player.player_name");
 		player_number = host.getColumn("player.player_number");
 		player_position = host.getColumn("player.player_position");

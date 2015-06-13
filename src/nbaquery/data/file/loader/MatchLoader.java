@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import nbaquery.data.Table;
+import nbaquery.data.Trigger;
 import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
@@ -64,6 +66,9 @@ public class MatchLoader implements FileLoader
 		
 		this.host.makeProtectedTable(EnumTable.QUARTER_SCORE.toString(),
 				this.host.getTableFromPreset(EnumTable.QUARTER_SCORE));
+		
+		Table performance = this.host.getTable("performance");
+		performance.registerTrigger(Trigger.board);
 		
 		identity = host.getColumn("match.match_id");
 		season = host.getColumn("match.match_season");

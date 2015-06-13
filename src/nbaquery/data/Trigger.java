@@ -15,4 +15,31 @@ public interface Trigger
 	public boolean checkCondition(Row row);
 	
 	public void doCorrection(Row row);
+	
+	
+	public static final Trigger board = new Trigger()
+	{
+
+		Column attack_board, defence_board, total_board;
+		
+		@Override
+		public void retrieve(Table table) {
+			attack_board = table.getColumn("attack_board");
+			defence_board = table.getColumn("defence_board");
+			total_board = table.getColumn("total_board");
+		}
+
+		@Override
+		public boolean checkCondition(Row row)
+		{
+			return (Integer)attack_board.getAttribute(row) + (Integer)defence_board.getAttribute(row) == (Integer)total_board.getAttribute(row);
+		}
+
+		@Override
+		public void doCorrection(Row row)
+		{
+			total_board.setAttribute(row, (Integer)attack_board.getAttribute(row) + (Integer)defence_board.getAttribute(row));
+		}
+		
+	};
 }
