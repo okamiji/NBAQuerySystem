@@ -82,10 +82,15 @@ public class SqlTableHost implements TableHost
 
 	@Override
 	public void performQuery(Query query, String tableName) {
-		SqlQueryAlgorithm<?> algorithm = 
-			this.algorithms.get(query.getClass());
-		if(algorithm != null)
-			this.putTable(tableName, algorithm.perform(tableName, query));
+		Class<?> specificClass = query.getClass();
+		SqlQueryAlgorithm<?> algorithm;
+		while((algorithm = algorithms.get(specificClass)) == null)
+		{
+			specificClass = specificClass.getSuperclass();
+			if(!Query.class.isAssignableFrom(specificClass)) return;
+		}
+		
+		this.putTable(tableName, algorithm.perform(tableName, query));
 	}
 
 	public void putTable(String tableName, Table table)
