@@ -7,41 +7,41 @@ public interface NewPlayerService
 	public boolean shouldRedoQuery(Object host);
 	
 	/**
-	 * ²éÑ¯ÇòÔ±ĞÅÏ¢
-	 * @param isGross trueÎªÈ«¾ÖĞÅÏ¢ falseÎª³¡¾ùĞÅÏ¢
-	 * @param index ÅÅĞòÒÀ¾İÔÚcolumnNamesÀïÃæµÄË³Ğò
-	 * @param isUp trueÎªÉıĞò falseÎª½µĞò
-	 * @param position ÇòÔ±Î»ÖÃ
-	 * @param league ÇòÔ±ÁªÃË
-	 * @return Ëù²éÑ¯µÄÇòÔ±ĞÅÏ¢±í¸ñ
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½Ô±ï¿½ï¿½Ï¢
+	 * @param isGross trueÎªÈ«ï¿½ï¿½ï¿½ï¿½Ï¢ falseÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+	 * @param index ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½columnNamesï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½
+	 * @param isUp trueÎªï¿½ï¿½ï¿½ï¿½ falseÎªï¿½ï¿½ï¿½ï¿½
+	 * @param position ï¿½ï¿½Ô±Î»ï¿½ï¿½
+	 * @param league ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
+	 * @return ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½
 	 */
 	public Table searchForPlayers(boolean isGross, String[] head, boolean isUp, String position, String league);
 	
 	public Table searchForPlayers(boolean isGross, String[] fields, boolean[] sortDescend, String position, String league);
 	
 	/**
-	 * ²éÑ¯½ñÈÕÈÈµãÇòÔ±ĞÅÏ¢
-	 * @param head ËùĞèÒªÅÅĞòµÄÏîÄ¿ÔÚhotPlayerColumnNamesÊı×éÖĞµÄindex
-	 * @return Ç°ÎåÃûHotPlayersµÄĞÅÏ¢£¨°üÀ¨ĞÕÃûºÍÎå¸öÅÅĞòÑ¡ÏîµÄÊı¾İ£©
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ï¢
+	 * @param head ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½hotPlayerColumnNamesï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½index
+	 * @return Ç°ï¿½ï¿½ï¿½ï¿½HotPlayersï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½
 	 */
 	public Table searchForTodayHotPlayers(String head);
 	/**
-	 * ²éÑ¯½ø²½×î´óÇòÔ±ĞÅÏ¢
-	 * @param head ËùĞèÒªÅÅĞòµÄÏîÄ¿ÔÚprogressPlayerColumnNamesÊı×éÖĞµÄindex
-	 * @return Ç°ÎåÃû½ø²½×î¿ìÇòÔ±µÄĞÅÏ¢
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ï¢
+	 * @param head ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½progressPlayerColumnNamesï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½index
+	 * @return Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 	 */
 	public Table searchForProgressPlayers(String head);
 	/**
-	 * ²éÑ¯Èü¼¾ÈÈÃÅÇòÔ±ĞÅÏ¢
-	 * @param head ËùĞèÒªÅÅĞòµÄÏîÄ¿ÔÚhotPlayerColumnNamesÊı×éÖĞµÄindex
-	 * @return Ç°ÎåÃûHotPlayersµÄĞÅÏ¢£¨°üÀ¨ĞÕÃûºÍÎå¸öÅÅĞòÑ¡ÏîµÄÊı¾İ£©
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ï¢
+	 * @param head ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½hotPlayerColumnNamesï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½index
+	 * @return Ç°ï¿½ï¿½ï¿½ï¿½HotPlayersï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½
 	 */
 	public Table searchForSeasonHotPlayers(String head);
 	/**
-	 * ²éÑ¯Ò»¸öÇòÔ±µÄĞÅÏ¢<br>
-	 * <i><b>ÆúÓÃ: </b>ÆäËûÈÎºÎ²Ù×÷¶¼ÒÑ¾­·µ»ØÁË±ØÒªµÄÊôĞÔÖµ¡£</i>
-	 * @param playerName ²éÑ¯µÄÇòÔ±ĞÕÃû
-	 * @return ·µ»ØÇòÔ±»ù±¾ĞÅÏ¢
+	 * ï¿½ï¿½Ñ¯Ò»ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢<br>
+	 * <i><b>ï¿½ï¿½ï¿½ï¿½: </b>ï¿½ï¿½ï¿½ï¿½ï¿½ÎºÎ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë±ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½</i>
+	 * @param playerName ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
+	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 */
 	@Deprecated
 	public Table searchForOnePlayerTable(String playerName);

@@ -247,4 +247,23 @@ public class NewMatchServiceAdapter implements NewMatchService
 		}
 		return this.searchForMatchesTable(new String[]{"match_id"}, season, date, true);
 	}
+
+	@Override
+	public Table searchPerformancesByPlayer(String player_name) {
+		SelectProjectQuery select_project_query = null;
+		try {
+			select_project_query = new SelectProjectQuery(String.format("player_name=='%s'", player_name), tableHost.getTable("derived_player_performance"));
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		tableHost.performQuery(select_project_query, "single_player_performance_select");
+		Table selected = tableHost.getTable("single_player_performance_select");
+		
+		SortQuery sort_query = new SortQuery(selected, "match_id");
+		tableHost.performQuery(sort_query, "single_player_performance");		
+		
+		return tableHost.getTable("single_player_performance");
+	}
 }

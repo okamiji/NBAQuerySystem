@@ -25,7 +25,7 @@ public class AliasedTable extends KeywordTable
 			Column theColumn = sourceTable.getColumn(columns[i]);
 			if(theColumn == null) continue;
 			AliasedColumn result = new AliasedColumn(this, (FileTableColumn) theColumn, aliases[i]);
-			this.columns.put(aliases[i], result);
+			this.columns.put(aliases[i].toLowerCase(), result);
 			if(theColumn instanceof KeywordColumn) keyword = result;
 		}
 		aliasedKeyword = keyword;
@@ -67,7 +67,7 @@ public class AliasedTable extends KeywordTable
 			super(column.getDeclaringTable(), column.getDataClass(), column.columnIndex, column.getColumnName());
 			this.aliasTable = aliasTable;
 			this.column = column;
-			this.alias = alias;
+			this.alias = alias.toLowerCase();
 		}
 		
 		@Override

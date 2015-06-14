@@ -6,7 +6,6 @@ import java.util.HashMap;
 import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
-import nbaquery.data.file.Tuple;
 import nbaquery.launcher.Main;
 
 public class GetData extends Main{
@@ -85,7 +84,7 @@ public class GetData extends Main{
 	
 	public HashMap<String, ArrayList<Float>> get_single_player_data(String name){
 
-		Table tbl = this.matchService.searchMatchesByPlayer(name);
+		Table tbl = this.matchService.searchPerformancesByPlayer(name);
 		
 		HashMap<String , ArrayList<Float>> player_map = new HashMap<String , ArrayList<Float>>(); 
 		
@@ -107,45 +106,47 @@ public class GetData extends Main{
 		Column foul_column = tbl.getColumn("foul");
 		Column self_score_column = tbl.getColumn("self_score");
 
-		Row row = new Tuple();
-		//TODO
-		Float get_time_minute = (Float) get_time_minute_column.getAttribute(row);
-		Float get_time_second = (Float) get_time_second_column.getAttribute(row);
-		Float foul_shoot_score = (Float) foul_shoot_score_column.getAttribute(row);
-		Float foul_shoot_count = (Float) foul_shoot_count_column.getAttribute(row);
-		Float shoot_score = (Float) shoot_score_column.getAttribute(row);
-		Float shoot_count = (Float) shoot_count_column.getAttribute(row);
-		Float three_shoot_score = (Float) three_shoot_score_column.getAttribute(row);
-		Float three_shoot_count = (Float) three_shoot_count_column.getAttribute(row);
-		Float attack_board = (Float) attack_board_column.getAttribute(row);
-		Float defence_board = (Float) defence_board_column.getAttribute(row);
-		Float total_board = (Float) total_board_column.getAttribute(row);
-		Float assist = (Float) assist_column.getAttribute(row);
-		Float cap = (Float) cap_column.getAttribute(row);
-		Float steal = (Float) steal_column.getAttribute(row);
-		Float miss = (Float) miss_column.getAttribute(row);
-		Float foul = (Float) foul_column.getAttribute(row);
-		Float self_score = (Float) self_score_column.getAttribute(row);
-		
 		ArrayList<Float> list = new ArrayList<Float>();
-		list.add(get_time_minute);
-		list.add(get_time_second);
-		list.add(foul_shoot_score);
-		list.add(foul_shoot_count); 
-		list.add(shoot_score);
-		list.add(shoot_count);
-		list.add(three_shoot_score);
-		list.add(three_shoot_count); 
-		list.add(attack_board);
-		list.add(defence_board);
-		list.add(total_board);
-		list.add(assist); 
-		list.add(cap);
-		list.add(steal);
-		list.add(miss);
-		list.add(foul);
-		list.add(self_score);
 		
+		for(Row row : tbl)
+		{
+			Integer get_time_minute = (Integer) get_time_minute_column.getAttribute(row);
+			Integer get_time_second = (Integer) get_time_second_column.getAttribute(row);
+			Integer foul_shoot_score = (Integer) foul_shoot_score_column.getAttribute(row);
+			Integer foul_shoot_count = (Integer) foul_shoot_count_column.getAttribute(row);
+			Integer shoot_score = (Integer) shoot_score_column.getAttribute(row);
+			Integer shoot_count = (Integer) shoot_count_column.getAttribute(row);
+			Integer three_shoot_score = (Integer) three_shoot_score_column.getAttribute(row);
+			Integer three_shoot_count = (Integer) three_shoot_count_column.getAttribute(row);
+			Integer attack_board = (Integer) attack_board_column.getAttribute(row);
+			Integer defence_board = (Integer) defence_board_column.getAttribute(row);
+			Integer total_board = (Integer) total_board_column.getAttribute(row);
+			Integer assist = (Integer) assist_column.getAttribute(row);
+			Integer cap = (Integer) cap_column.getAttribute(row);
+			Integer steal = (Integer) steal_column.getAttribute(row);
+			Integer miss = (Integer) miss_column.getAttribute(row);
+			Integer foul = (Integer) foul_column.getAttribute(row);
+			Integer self_score = (Integer) self_score_column.getAttribute(row);
+			
+			
+			list.add((float)get_time_minute);
+			list.add((float)get_time_second);
+			list.add((float)foul_shoot_score);
+			list.add((float)foul_shoot_count); 
+			list.add((float)shoot_score);
+			list.add((float)shoot_count);
+			list.add((float)three_shoot_score);
+			list.add((float)three_shoot_count); 
+			list.add((float)attack_board);
+			list.add((float)defence_board);
+			list.add((float)total_board);
+			list.add((float)assist); 
+			list.add((float)cap);
+			list.add((float)steal);
+			list.add((float)miss);
+			list.add((float)foul);
+			list.add((float)self_score);
+		}
 		player_map.put(name, list);
 		
 		return player_map;

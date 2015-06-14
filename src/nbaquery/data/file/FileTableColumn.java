@@ -18,7 +18,7 @@ public class FileTableColumn implements Column
 		this.dataClass = dataType;
 		this.columnIndex = columnIndex;
 		this.converter = (Converter<?>)Converter.ConverterMap.conversion.get(dataType);
-		this.columnName = columnName;
+		this.columnName = columnName.toLowerCase();
 	}
 	
 	public void setAttribute(Row row, Object value)

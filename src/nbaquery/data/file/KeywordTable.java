@@ -52,12 +52,12 @@ public class KeywordTable implements Table
 			throw new IllegalArgumentException("Mismatch between the length of header and data type array!");
 		for(int i = 0; i < headerLength; i ++)
 		{
-			FileTableColumn column = new FileTableColumn(this, dataType[i], i, header[i]);
-			index.put(header[i].toUpperCase(), column);
+			FileTableColumn column = new FileTableColumn(this, dataType[i], i, header[i].toLowerCase());
+			index.put(header[i].toLowerCase(), column);
 		}
 		if(keyword != null)
 		{
-			keyword = keyword.toUpperCase();
+			keyword = keyword.toLowerCase();
 			FileTableColumn keywordColumn = index.get(keyword);
 			if(keywordColumn != null)
 			{
@@ -109,7 +109,7 @@ public class KeywordTable implements Table
 	@Override
 	public FileTableColumn getColumn(String columnName)
 	{
-		return this.index.get(columnName.toUpperCase());
+		return this.index.get(columnName.toLowerCase());
 	}
 
 	public FileTableColumn getKeyword()
