@@ -44,7 +44,7 @@ public class GetData extends Main{
 		Column steal_rate_column = tbl.getColumn("steal_rate");
 		Column cap_rate_column = tbl.getColumn("cap_rate");
 		Column miss_rate_column = tbl.getColumn("miss_rate");
-		Column usage_column = tbl.getColumn("usage");
+		Column usage_column = tbl.getColumn("usage_rate");
 
 		HashMap<String , ArrayList<Float>> player_map = new HashMap<String , ArrayList<Float>>(); 
 		

@@ -192,8 +192,8 @@ public class ComparePlayerSubPanel extends JPanel
 				DefaultTableColumn miss_rate = columnModel.addColumn("\u5931\u8BEF\u7387", "miss_rate");
 				miss_rate.padding = 2;			keywordMap.put(miss_rate, new String[]{"miss_rate"});
 				
-				DefaultTableColumn usage = columnModel.addColumn("\u4F7F\u7528\u7387", "usage");
-				usage.padding = 2;			keywordMap.put(usage, new String[]{"usage"});
+				DefaultTableColumn usage = columnModel.addColumn("\u4F7F\u7528\u7387", "usage_rate");
+				usage.padding = 2;			keywordMap.put(usage, new String[]{"usage_rate"});
 			}
 		};
 		

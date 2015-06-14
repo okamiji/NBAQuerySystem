@@ -48,7 +48,7 @@ public class PlayerServiceAdapter extends NewPlayerServiceAdapter implements Pla
 				"steal_rate",//"������"
 				"cap_rate",//"��ñ��"
 				"miss_rate",//"ʧ����"
-				"usage",//"ʹ����"
+				"usage_rate",//"ʹ����"
 				"player_position",//"��Աλ��"
 				"team_sector",//"����"
 				"score_board_assist",//"��/��/��"

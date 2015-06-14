@@ -378,7 +378,7 @@ public class PlayerDeriveQuery extends DeriveQuery
 				}
 			},
 			
-			new DeriveColumnInfo("usage", Float.class)
+			new DeriveColumnInfo("usage_rate", Float.class)
 			{
 				Column three_shoot;
 				Column shoot;
