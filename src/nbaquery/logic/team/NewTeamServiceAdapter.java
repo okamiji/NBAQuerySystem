@@ -41,8 +41,8 @@ public class NewTeamServiceAdapter implements NewTeamService
 		for(int i = keywords.length - 1; i >= 0; i --)
 		{
 			SortQuery sort = new SortQuery(queryResult, keywords[i], descend[i]);
-			tableHost.performQuery(sort, "team_query_result");
-			queryResult = tableHost.getTable("team_query_result");
+			tableHost.performQuery(sort, "team_query_result_sorted_" + i);
+			queryResult = tableHost.getTable("team_query_result_sorted_" + i);
 		}
 		
 		return queryResult;
@@ -85,7 +85,7 @@ public class NewTeamServiceAdapter implements NewTeamService
 			Table grossTable = this.gross.getTable();
 			try
 			{
-				tableHost.performQuery(new SelectProjectQuery("gross_team.match_season==\"%season\"".replace("%season", latestSeason), grossTable), "season_hot_team_result");
+				tableHost.performQuery(new SelectProjectQuery(String.format("match_season==\"%s\"", latestSeason), grossTable), "season_hot_team_result");
 			}
 			catch(Exception e)
 			{
@@ -102,8 +102,8 @@ public class NewTeamServiceAdapter implements NewTeamService
 		Table queryResult = tableHost.getTable("team");
 		SelectProjectQuery query = null;
 		try {
-			if(isAbbr) query = new SelectProjectQuery("team.TEAM_NAME_ABBR=='%1'".replace("%1", teamNameAbbr), queryResult);
-			else query = new SelectProjectQuery("team.TEAM_NAME=='%1'".replace("%1", teamNameAbbr), queryResult);
+			if(isAbbr) query = new SelectProjectQuery(String.format("team_name_abbr=='%s'", teamNameAbbr), queryResult);
+			else query = new SelectProjectQuery(String.format("team_name=='%s'", teamNameAbbr), queryResult);
 		} catch (Exception e) {	
 		}
 		tableHost.performQuery(query, "team_query_result");
