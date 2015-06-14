@@ -88,16 +88,16 @@ public class AveragePlayer
 	
 			
 			GroupQuery group = new GroupQuery(table, new String[]{"match_season", "player_name", "team_name_abbr"}, groupColumns.toArray(new GroupColumnInfo[0]));
-			tableHost.performQuery(group, "average_player");
-			table = tableHost.getTable("average_player");
+			tableHost.performQuery(group, "average_player_group");
+			table = tableHost.getTable("average_player_group");
 			
 			NaturalJoinQuery join = new NaturalJoinQuery(table, nativeTeam.getTable(), new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
-			tableHost.performQuery(join, "average_player");
-			table = tableHost.getTable("average_player");
+			tableHost.performQuery(join, "average_player_joined1");
+			table = tableHost.getTable("average_player_joined1");
 			
 			join = new NaturalJoinQuery(table, nativePlayer.getTable(), new String[]{"player_name"}, new String[]{"player_name"}); 
-			tableHost.performQuery(join, "average_player");
-			this.table = tableHost.getTable("average_player");
+			tableHost.performQuery(join, "average_player_joined2");
+			this.table = tableHost.getTable("average_player_joined2");
 		}
 		return table;
 	}

@@ -214,15 +214,14 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 		SelectProjectQuery query = null;
 		Table table = searchPerformanceByID(matchID, new String[]{"team_name_abbr"}, true);
 		try {
-			query = new SelectProjectQuery("match_query_result_id.PLAYER_NAME='" + player_name + "'", table);
+			query = new SelectProjectQuery("player_name='" + player_name + "'", table);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		tableHost.performQuery(query, "match_query_result_player_and_id");
-		Table queryResult = tableHost.getTable("match_query_result_player_and_id");
-		tableHost.deleteTable("match_query_result_player_and_id");
+		tableHost.performQuery(query, "match_query_result_player_and_id_select");
+		Table queryResult = tableHost.getTable("match_query_result_player_and_id_select");
 		return convertTableToStrings(queryResult);
 	}
 	
@@ -230,7 +229,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 		SelectProjectQuery query = null;
 		Table table = searchPerformanceByID(matchID, new String[]{"team_name_abbr"}, true);
 		try {
-			query = new SelectProjectQuery("match_query_result_id.TEAM_NAME_ABBR='" + team_name_abbr + "'", table);
+			query = new SelectProjectQuery("team_name_abbr='" + team_name_abbr + "'", table);
 		}
 		catch (Exception e)
 		{
@@ -245,7 +244,7 @@ public class MatchServiceAdapter extends NewMatchServiceAdapter implements Match
 		SelectProjectQuery query = null;
 		Table table = tableHost.getTable("match_natural_join_performance");
 		try {
-			query = new SelectProjectQuery("match_natural_join_performance.team_name_abbr='" + team_name_abbr + "'", table);
+			query = new SelectProjectQuery("team_name_abbr='" + team_name_abbr + "'", table);
 		}
 		catch (Exception e)
 		{

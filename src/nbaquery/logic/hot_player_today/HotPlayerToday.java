@@ -30,8 +30,8 @@ public class HotPlayerToday {
 					new SumColumnInfo("cap", "cap"),
 					new SumColumnInfo("steal", "steal")
 			);
-			tableHost.performQuery(groupQuery, "hot_player_performance_today");
-			table = tableHost.getTable("hot_player_performance_today");
+			tableHost.performQuery(groupQuery, "hot_player_performance_today_group");
+			table = tableHost.getTable("hot_player_performance_today_group");
 			
 			NaturalJoinQuery joinQuery = new NaturalJoinQuery(table, nativePlayer,
 					new String[]{"player_name"}, new String[]{"player_name"});
