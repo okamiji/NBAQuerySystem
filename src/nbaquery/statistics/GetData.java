@@ -11,7 +11,7 @@ import nbaquery.launcher.Main;
 public class GetData extends Main{
 	
 	public void loadPresentation(){
-		
+
 	}
 	
 	public ArrayList<String> get_player_name(){

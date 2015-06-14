@@ -1,8 +1,11 @@
-package nbaquery.data.sql.loader;
+package nbaquery.data.sql.loader.file;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import nbaquery.data.sql.MutableSqlRow;
@@ -50,17 +53,19 @@ public class MatchLoader implements FileLoader
 	SqlTableColumn foul;
 	SqlTableColumn self_score;
 	
-	public MatchLoader(SqlTableHost host)
+	PreparedStatement get_max_match_id;
+	
+	public MatchLoader(SqlTableHost host) throws SQLException
 	{
 		this.host = host;
 				
-		identity = (SqlTableColumn) host.getTable("match").getColumn("match_id");
-		season = (SqlTableColumn)host.getTable("match").getColumn("match_season");
-		date = (SqlTableColumn)host.getTable("match").getColumn("match_date");
-		host_abbr = (SqlTableColumn)host.getTable("match").getColumn("match_host_abbr");
-		host_score = (SqlTableColumn)host.getTable("match").getColumn("match_host_score");
-		guest_abbr = (SqlTableColumn)host.getTable("match").getColumn("match_guest_abbr");
-		guest_score = (SqlTableColumn)host.getTable("match").getColumn("match_guest_score");
+		identity = (SqlTableColumn) host.getTable("matches").getColumn("match_id");
+		season = (SqlTableColumn)host.getTable("matches").getColumn("match_season");
+		date = (SqlTableColumn)host.getTable("matches").getColumn("match_date");
+		host_abbr = (SqlTableColumn)host.getTable("matches").getColumn("match_host_abbr");
+		host_score = (SqlTableColumn)host.getTable("matches").getColumn("match_host_score");
+		guest_abbr = (SqlTableColumn)host.getTable("matches").getColumn("match_guest_abbr");
+		guest_score = (SqlTableColumn)host.getTable("matches").getColumn("match_guest_score");
 		
 		quarter_id = (SqlTableColumn)host.getTable("quarter_score").getColumn("match_id");
 		quarter_number = (SqlTableColumn)host.getTable("quarter_score").getColumn("quarter_number");
@@ -88,6 +93,8 @@ public class MatchLoader implements FileLoader
 		miss = (SqlTableColumn)host.getTable("performance").getColumn("miss");
 		foul = (SqlTableColumn)host.getTable("performance").getColumn("foul");
 		self_score = (SqlTableColumn)host.getTable("performance").getColumn("self_score");
+		
+		get_max_match_id = host.connection.prepareStatement("select max(match_id) from matches");
 	}
 	
 	public void record(File file, int matchId, MutableSqlTable matchTable, MutableSqlTable quarterTable, MutableSqlTable performanceTable) throws Exception
@@ -210,11 +217,9 @@ public class MatchLoader implements FileLoader
 		return splitted;
 	}
 	
-	int matchId = 1;
-	
-	public void setRoot(File root)
+	public void setRoot(File root) throws Exception
 	{
-		FileMonitor fileMonitor = new FileMonitor(new File(root, "matches"), this);
+		FileMonitor fileMonitor = new FileMonitor(new File(root, "matches"), this, host);
 		fileMonitor.start();
 	}
 
@@ -225,7 +230,15 @@ public class MatchLoader implements FileLoader
 		MutableSqlTable quarterTable = (MutableSqlTable) host.getTable("quarter_score");
 		MutableSqlTable performanceTable = (MutableSqlTable) host.getTable("performance");
 		
-		this.record(aFile, matchId, matchTable, quarterTable, performanceTable);
-		matchId ++;
+		ResultSet max_match_id = get_max_match_id.executeQuery();
+		max_match_id.next();
+		int matchId = max_match_id.getInt(1);
+		
+		this.record(aFile, matchId + 1, matchTable, quarterTable, performanceTable);
+	}
+
+	@Override
+	public String getLoaderName() {
+		return "match";
 	}
 }

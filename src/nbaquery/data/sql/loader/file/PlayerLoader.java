@@ -1,4 +1,4 @@
-package nbaquery.data.sql.loader;
+package nbaquery.data.sql.loader.file;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -95,12 +95,12 @@ public class PlayerLoader implements FileLoader
 	File actionFolder;
 	File portraitFolder;
 	
-	public void setRoot(File root)
+	public void setRoot(File root) throws Exception
 	{
 		fileFolder = new File(root, "players");
 		actionFolder = new File(fileFolder, "action");
 		portraitFolder = new File(fileFolder, "portrait");
-		FileMonitor fileMonitor = new FileMonitor(new File(fileFolder, "info"), this);
+		FileMonitor fileMonitor = new FileMonitor(new File(fileFolder, "info"), this, host);
 		fileMonitor.start();
 	}
 	
@@ -109,5 +109,10 @@ public class PlayerLoader implements FileLoader
 	{
 		MutableSqlTable playerTable = (MutableSqlTable) host.getTable("player");
 		this.record(aFile, actionFolder, portraitFolder, playerTable);
+	}
+
+	@Override
+	public String getLoaderName() {
+		return "player";
 	}
 }
