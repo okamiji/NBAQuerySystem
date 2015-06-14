@@ -297,6 +297,11 @@ public class Configuration
 		dataConfig.appendChild(dataAlgorithms);
 	}
 	
+	/**
+	 * Used For Testing Configuration Format Only!!
+	 * @param arguments
+	 * @throws Exception
+	 */
 	public static void main(String[] arguments) throws Exception
 	{
 		new Configuration(new File("config.xml"));
