@@ -90,6 +90,7 @@ public class SqlInstaller implements Installer<TableHost>
 						SqlInstaller.this.algorithms.add(instance);
 					}
 				});
+				algorithms.parse(node);
 			}
 		});
 		

@@ -22,7 +22,10 @@ public class NaturalJoinAlgorithm extends SqlQueryAlgorithm<NaturalJoinQuery>
 		TreeSet<String> rightColumnExclusives = new TreeSet<String>();
 		for(String rightColumnName : query.joinColumnRight)
 			rightColumnExclusives.add(rightColumnName.toLowerCase());
-			
+		
+		for(Column column : query.leftTable.getColumns())
+			rightColumnExclusives.add(column.getColumnName());
+		
 		boolean isFirst = true;
 		for(Column column : query.leftTable.getColumns())
 		{

@@ -73,7 +73,6 @@ public class MatchTeamPerformance implements LogicPipeline
 		,		new SumColumnInfo("attack_board_sum", "attack_board")
 		,		new SumColumnInfo("defence_board_sum", "defence_board")
 		,		new SumColumnInfo("total_board_sum", "total_board")
-		,		new SumColumnInfo("defence_board_sum", "defence_board")
 		,		new SumColumnInfo("assist_sum", "assist")
 		,		new SumColumnInfo("steal_sum", "steal")
 		,		new SumColumnInfo("cap_sum", "cap")

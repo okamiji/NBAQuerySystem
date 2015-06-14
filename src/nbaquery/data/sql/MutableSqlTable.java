@@ -76,6 +76,7 @@ public class MutableSqlTable implements Table
 				creationQuery = creationQuery.concat(String.format(", %s %s", columns[i], sqlTypes[i]));
 			if(keyword != null) creationQuery = creationQuery.concat(String.format(", primary key (%s)", keyword));
 			creationQuery = creationQuery.concat(")");
+			System.out.println(creationQuery);
 			this.statement.execute(creationQuery);
 			this.tableHost.declaredTable.add(tableName);
 		}
