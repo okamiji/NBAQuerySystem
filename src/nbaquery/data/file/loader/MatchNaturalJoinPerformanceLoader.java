@@ -79,22 +79,22 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 		quarter_host_score = host.getColumn("quarter_score.quarter_host_score");
 		quarter_guest_score = host.getColumn("quarter_score.quarter_guest_score");
 
-		this.host.makeProtectedTable(EnumTable.MATCH.toString(),
-				this.host.getTableFromPreset(EnumTable.MATCH));
+		this.host.makeProtectedTable(EnumTable.MATCHES.toString(),
+				this.host.getTableFromPreset(EnumTable.MATCHES));
 		
-		identity = host.getColumn("match.match_id");
-		season = host.getColumn("match.match_season");
-		date = host.getColumn("match.match_date");
-		host_abbr = host.getColumn("match.match_host_abbr");
-		host_score = host.getColumn("match.match_host_score");
-		guest_abbr = host.getColumn("match.match_guest_abbr");
-		guest_score = host.getColumn("match.match_guest_score");
+		identity = host.getColumn("matches.match_id");
+		season = host.getColumn("matches.match_season");
+		date = host.getColumn("matches.match_date");
+		host_abbr = host.getColumn("matches.match_host_abbr");
+		host_score = host.getColumn("matches.match_host_score");
+		guest_abbr = host.getColumn("matches.match_guest_abbr");
+		guest_score = host.getColumn("matches.match_guest_score");
 		
 		String[] performanceAttributes = EnumTable.PERFORMANCE.getTableAttributes();
 		Class<?>[] performanceClasses = EnumTable.PERFORMANCE.getDataClasses();
 		
-		String[] matchAttributes = EnumTable.MATCH.getTableAttributes();
-		Class<?>[] matchClasses = EnumTable.MATCH.getDataClasses();
+		String[] matchAttributes = EnumTable.MATCHES.getTableAttributes();
+		Class<?>[] matchClasses = EnumTable.MATCHES.getDataClasses();
 		
 		ArrayList<String> joinedAttributes = new ArrayList<String>();
 		ArrayList<Class<?>> joinedClasses = new ArrayList<Class<?>>();
@@ -296,7 +296,7 @@ public class MatchNaturalJoinPerformanceLoader implements FileLoader
 	@Override
 	public void load(File aFile) throws Exception
 	{
-		KeywordTable matchTable = (KeywordTable) host.getTable("match");
+		KeywordTable matchTable = (KeywordTable) host.getTable("matches");
 		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
 		MultivaluedTable joinedTable = (MultivaluedTable) host.getTable("match_natural_join_performance");
 		

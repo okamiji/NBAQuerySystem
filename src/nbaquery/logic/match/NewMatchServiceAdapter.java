@@ -23,16 +23,16 @@ public class NewMatchServiceAdapter implements NewMatchService
 
 	public Table searchMatchesByDateAndSeason(String date, String season)
 	{
-		Table table = tableHost.getTable("match");
+		Table table = tableHost.getTable("matches");
 		if(date == null && season == null) return table;
 		
 		SelectProjectQuery query = null;
 		try
 		{
 			if(date == null)
-				query = new SelectProjectQuery("match.match_season='%season'"
+				query = new SelectProjectQuery("match_season='%season'"
 						.replace("%season", season), table);
-			else query = new SelectProjectQuery("match.match_season='%season' and match.match_date='%date'"
+			else query = new SelectProjectQuery("match_season='%season' and match_date='%date'"
 					.replace("%season", season).replace("%date", date), table);
 		}
 		catch (Exception e)
@@ -50,7 +50,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 		Table table = this.searchForMatchesTable(new String[]{"match_id"}, null, null, true);
 		try
 		{
-			query = new SelectProjectQuery("match_query_result.match_host_abbr='%1' or match_query_result.match_guest_abbr='%1'"
+			query = new SelectProjectQuery("match_host_abbr='%1' or match_guest_abbr='%1'"
 					.replace("%1", team_name_abbr), table);
 		}
 		catch (Exception e)
@@ -74,13 +74,13 @@ public class NewMatchServiceAdapter implements NewMatchService
 		{
 			
 		}
-		tableHost.performQuery(query, "match_query_result_player");
-		Table queryResult = tableHost.getTable("match_query_result_player");
+		tableHost.performQuery(query, "match_query_result_player_select");
+		Table queryResult = tableHost.getTable("match_query_result_player_select");
 
 		Table matches = this.searchForMatchesTable(new String[]{"match_id"}, null, null, true);
 		NaturalJoinQuery naturalJoin = new NaturalJoinQuery(matches, queryResult, new String[]{"match_id"}, new String[]{"match_id"});
-		tableHost.performQuery(naturalJoin, "match_query_result_player");
-		queryResult = tableHost.getTable("match_query_result_player");
+		tableHost.performQuery(naturalJoin, "match_query_result_player_joined");
+		queryResult = tableHost.getTable("match_query_result_player_joined");
 
 		SortQuery sort = new SortQuery(queryResult, "match_id", true);
 		tableHost.performQuery(sort, "match_query_result_player");
@@ -101,24 +101,24 @@ public class NewMatchServiceAdapter implements NewMatchService
 		{
 
 		}
-		tableHost.performQuery(query, "match_query_result_id");
-		Table queryResult = tableHost.getTable("match_query_result_id");
+		tableHost.performQuery(query, "match_query_result_id_select");
+		Table queryResult = tableHost.getTable("match_query_result_id_select");
 		
 		NaturalJoinQuery naturalJoin = new NaturalJoinQuery(this.tableHost.getTable("team"),
 				queryResult, new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
-		tableHost.performQuery(naturalJoin, "match_query_result_id");
-		queryResult = tableHost.getTable("match_query_result_id");
+		tableHost.performQuery(naturalJoin, "match_query_result_id_joined1");
+		queryResult = tableHost.getTable("match_query_result_id_joined1");
 		
 		naturalJoin = new NaturalJoinQuery(this.tableHost.getTable("player"),
 				queryResult, new String[]{"player_name"}, new String[]{"player_name"});
-		tableHost.performQuery(naturalJoin, "match_query_result_id");
-		queryResult = tableHost.getTable("match_query_result_id");
+		tableHost.performQuery(naturalJoin, "match_query_result_id_joined2");
+		queryResult = tableHost.getTable("match_query_result_id_joined2");
 		
 		for(int i = header.length - 1; i >= 0; i --)
 		{
 			SortQuery sort = new SortQuery(queryResult, header[i], descend);
-			tableHost.performQuery(sort, "match_query_result_id");
-			queryResult = tableHost.getTable("match_query_result_id");
+			tableHost.performQuery(sort, "match_query_result_id_" + i);
+			queryResult = tableHost.getTable("match_query_result_id_" + i);
 		}
 		
 		return queryResult;
@@ -142,14 +142,14 @@ public class NewMatchServiceAdapter implements NewMatchService
 		{
 			e.printStackTrace();
 		}
-		tableHost.performQuery(derive, "match_query_result");
-		queryResult = tableHost.getTable("match_query_result");
+		tableHost.performQuery(derive, "match_query_result_derive");
+		queryResult = tableHost.getTable("match_query_result_derive");
 		
 		if(keyword != null) for(int i = keyword.length - 1; i >= 0; i --)
 		{
 			SortQuery sort = new SortQuery(queryResult, keyword[i], descend[i]);
-			tableHost.performQuery(sort, "match_query_result");
-			queryResult = tableHost.getTable("match_query_result");
+			tableHost.performQuery(sort, "match_query_result" + i);
+			queryResult = tableHost.getTable("match_query_result" + i);
 		}
 		return queryResult;
 	}
@@ -230,20 +230,20 @@ public class NewMatchServiceAdapter implements NewMatchService
 	@Override
 	public boolean shouldRedoQuery(Object host)
 	{
-		return tableHost.getTable("match").hasTableChanged(host);
+		return tableHost.getTable("matches").hasTableChanged(host);
 	}
 
 	@Override
 	public Table listTodayMatches()
 	{
-		Cursor rows = tableHost.getTable("match").getRows();
+		Cursor rows = tableHost.getTable("matches").getRows();
 		String season = null, date = null;
 		if(rows.getLength() > 0)
 		{
 			rows.absolute(rows.getLength() - 1);
 			Row current = rows.next();
-			season = (String) tableHost.getTable("match").getColumn("match_season").getAttribute(current);
-			date = (String) tableHost.getTable("match").getColumn("match_date").getAttribute(current);
+			season = (String) tableHost.getTable("matches").getColumn("match_season").getAttribute(current);
+			date = (String) tableHost.getTable("matches").getColumn("match_date").getAttribute(current);
 		}
 		return this.searchForMatchesTable(new String[]{"match_id"}, season, date, true);
 	}

@@ -14,7 +14,7 @@ public abstract class BaseTableConstants
 		sqlTypeMap.put(String.class, "char(32)");
 		sqlTypeMap.put(Integer.class, "int");
 		sqlTypeMap.put(Float.class, "real");
-		sqlTypeMap.put(Character.class, "tinyint");
+		sqlTypeMap.put(Character.class, "char(1)");
 		sqlTypeMap.put(Date.class, "bigint");
 		sqlTypeMap.put(Image.class, "char(128)");
 	}
@@ -89,6 +89,71 @@ public abstract class BaseTableConstants
 		@Override
 		public String getKeyword() {
 			return "team_name_abbr";
+		}
+	};
+	
+	public static final BaseTableConstants match = new BaseTableConstants("matches")
+	{
+		{
+			this.addColumn("match_id", Integer.class, "int");
+			this.addColumn("match_season", String.class, "char(5)");
+			this.addColumn("match_date", String.class, "char(5)");
+			this.addColumn("match_host_abbr", String.class, "char(3)");
+			this.addColumn("match_host_score", Integer.class, "smallint");
+			this.addColumn("match_guest_abbr", String.class, "char(3)");
+			this.addColumn("match_guest_score", Integer.class, "smallint");
+		}
+		
+		@Override
+		public String getKeyword() {
+			return "match_id";
+		}
+	};
+	
+	public static final BaseTableConstants quarter_score = new BaseTableConstants("quarter_score")
+	{
+		{
+			this.addColumn("match_id", Integer.class, "int");
+			this.addColumn("quarter_number", Integer.class, "tinyint");
+			this.addColumn("quarter_host_score", Integer.class, "tinyint");
+			this.addColumn("quarter_guest_score", Integer.class, "tinyint");
+		}
+		
+		@Override
+		public String getKeyword() {
+			return "match_id, quarter_number";
+		}
+	};
+	
+	public static final BaseTableConstants performance = new BaseTableConstants("performance")
+	{
+		{
+			this.addColumn("match_id", Integer.class, "int");
+			this.addColumn("team_name_abbr", String.class, "char(3)");
+			this.addColumn("player_name", String.class, "char(32)");
+			this.addColumn("player_position", Character.class, "char(1)");
+			this.addColumn("game_time_minute", Integer.class, "smallint");
+			this.addColumn("game_time_second", Integer.class, "tinyint");
+			this.addColumn("shoot_score", Integer.class, "tinyint");
+			this.addColumn("shoot_count", Integer.class, "tinyint");
+			this.addColumn("three_shoot_score", Integer.class, "tinyint");
+			this.addColumn("three_shoot_count", Integer.class, "tinyint");
+			this.addColumn("foul_shoot_score", Integer.class, "tinyint");
+			this.addColumn("foul_shoot_count", Integer.class, "tinyint");
+			this.addColumn("attack_board", Integer.class, "tinyint");
+			this.addColumn("defence_board", Integer.class, "tinyint");
+			this.addColumn("total_board", Integer.class, "tinyint");
+			this.addColumn("assist", Integer.class, "tinyint");
+			this.addColumn("steal", Integer.class, "tinyint");
+			this.addColumn("cap", Integer.class, "tinyint");
+			this.addColumn("miss", Integer.class, "tinyint");
+			this.addColumn("foul", Integer.class, "tinyint");
+			this.addColumn("self_score", Integer.class, "smallint");
+		}
+		
+		@Override
+		public String getKeyword() {
+			return "match_id, team_name_abbr, player_name";
 		}
 	};
 }

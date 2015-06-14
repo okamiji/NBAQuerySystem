@@ -18,7 +18,7 @@ public class ProgressPlayer {
 	{
 		this.tableHost = tableHost;
 		this.base = new LogicWatcher(base);
-		this.match = new LogicWatcher(new NativeTablePipeline(tableHost, "match"));
+		this.match = new LogicWatcher(new NativeTablePipeline(tableHost, "matches"));
 	}
 	
 	public Table getTable(){

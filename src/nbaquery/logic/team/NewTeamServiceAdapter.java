@@ -74,7 +74,7 @@ public class NewTeamServiceAdapter implements NewTeamService
 		/*
 		return this.searchForTeams(true, new String[]{keywords}, true);
 		*/
-		Table matchTable = tableHost.getTable("match");
+		Table matchTable = tableHost.getTable("matches");
 		if(matchTable.hasTableChanged("setchForSeasonHotTeams"))
 		{
 			Cursor rows = matchTable.getRows();
@@ -114,7 +114,7 @@ public class NewTeamServiceAdapter implements NewTeamService
 	public boolean shouldRedoQuery(Object host)
 	{
 		boolean shouldRedo = tableHost.getTable("team").hasTableChanged(host);
-		shouldRedo |= tableHost.getTable("match").hasTableChanged(host);
+		shouldRedo |= tableHost.getTable("matches").hasTableChanged(host);
 		shouldRedo |= tableHost.getTable("match_natural_join_performance").hasTableChanged(host);
 		return shouldRedo;
 	}

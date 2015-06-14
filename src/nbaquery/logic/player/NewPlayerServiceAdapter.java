@@ -39,7 +39,7 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	public boolean shouldRedoQuery(Object host)
 	{
 		boolean shouldRedo = tableHost.getTable("player").hasTableChanged(host);
-		shouldRedo |= tableHost.getTable("match").hasTableChanged(host);
+		shouldRedo |= tableHost.getTable("matches").hasTableChanged(host);
 		shouldRedo |= tableHost.getTable("match_natural_join_performance").hasTableChanged(host);
 		return shouldRedo;
 	}
@@ -155,7 +155,7 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 	@Override
 	public Table searchForSeasonHotPlayers(String head)
 	{
-		Table matchTable = tableHost.getTable("match");
+		Table matchTable = tableHost.getTable("matches");
 		if(matchTable.hasTableChanged("setchForSeasonHotPlayers"))
 		{
 			Cursor rows = matchTable.getRows();

@@ -18,7 +18,7 @@ public class MatchNaturalJoinPerformance implements LogicPipeline
 	public MatchNaturalJoinPerformance(TableHost tableHost)
 	{
 		this.tableHost = tableHost;
-		match = tableHost.getTable("match");
+		match = tableHost.getTable("matches");
 		performance = tableHost.getTable("performance");
 		this.joinQuery = new NaturalJoinQuery(match, performance, new String[]{"match_id"}, new String[]{"match_id"});
 	}
