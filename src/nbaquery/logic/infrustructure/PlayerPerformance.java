@@ -31,8 +31,8 @@ public class PlayerPerformance implements LogicPipeline
 		if(teamChanged || rivalChanged || playerChanged)
 		{
 			NaturalJoinQuery joinQuery = new NaturalJoinQuery(team.getTable(), rival.getTable(), new String[]{"match_id", "team_name_abbr"}, new String[]{"match_id", "current_name_abbr"});
-			tableHost.performQuery(joinQuery, "player_performance");
-			table = tableHost.getTable("player_performance");
+			tableHost.performQuery(joinQuery, "player_performance_joined");
+			table = tableHost.getTable("player_performance_joined");
 			
 			joinQuery = new NaturalJoinQuery(player.getTable(), table, new String[]{"match_id", "team_name_abbr"}, new String[]{"match_id", "team_name_abbr"});
 			tableHost.performQuery(joinQuery, "player_performance");

@@ -30,18 +30,18 @@ public class GrossPlayer
 		if(playerChanged || nativePlayerChanged || nativeTeamChanged)
 		{
 			PlayerDeriveQuery deriveQuery = new PlayerDeriveQuery(this.gross.getTable());
-			tableHost.performQuery(deriveQuery, "gross_player");
-			Table intermediateTable = tableHost.getTable("gross_player");
+			tableHost.performQuery(deriveQuery, "gross_player_derive");
+			Table intermediateTable = tableHost.getTable("gross_player_derive");
 			
 			NaturalJoinQuery joinQuery = new NaturalJoinQuery(intermediateTable, nativeTeam.getTable(),
 					new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
-			tableHost.performQuery(joinQuery, "gross_player");
-			intermediateTable = tableHost.getTable("gross_player");
+			tableHost.performQuery(joinQuery, "gross_player_joined1");
+			intermediateTable = tableHost.getTable("gross_player_joined1");
 			
 			joinQuery = new NaturalJoinQuery(intermediateTable, nativePlayer.getTable(),
 					new String[]{"player_name"}, new String[]{"player_name"});
-			tableHost.performQuery(joinQuery, "gross_player");
-			table = tableHost.getTable("gross_player");
+			tableHost.performQuery(joinQuery, "gross_player_joined2");
+			table = tableHost.getTable("gross_player_joined2");
 		}
 		return table;
 	}

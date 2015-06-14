@@ -148,8 +148,8 @@ public class NewMatchServiceAdapter implements NewMatchService
 		if(keyword != null) for(int i = keyword.length - 1; i >= 0; i --)
 		{
 			SortQuery sort = new SortQuery(queryResult, keyword[i], descend[i]);
-			tableHost.performQuery(sort, "match_query_result" + i);
-			queryResult = tableHost.getTable("match_query_result" + i);
+			tableHost.performQuery(sort, "match_query_result_" + i);
+			queryResult = tableHost.getTable("match_query_result_" + i);
 		}
 		return queryResult;
 	}
@@ -215,7 +215,7 @@ public class NewMatchServiceAdapter implements NewMatchService
 		SelectProjectQuery query = null;
 		try
 		{
-			query = new SelectProjectQuery("quarter_score.MATCH_ID=".concat(Integer.toString(matchID)),
+			query = new SelectProjectQuery("match_id=".concat(Integer.toString(matchID)),
 					tableHost.getTable("quarter_score"));
 		}
 		catch (Exception e)

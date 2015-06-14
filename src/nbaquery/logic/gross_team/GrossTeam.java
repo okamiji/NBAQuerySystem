@@ -28,8 +28,9 @@ public class GrossTeam
 		if(joinedChanged || teamChanged)
 		{
 			TeamDeriveQuery deriveQuery = new TeamDeriveQuery(this.joined.getTable());
-			tableHost.performQuery(deriveQuery, "gross_team");
-			Table interMediateTable = tableHost.getTable("gross_team");
+			tableHost.performQuery(deriveQuery, "gross_team_derived");
+			Table interMediateTable = tableHost.getTable("gross_team_derived");
+			
 			NaturalJoinQuery joinQuery = new NaturalJoinQuery(interMediateTable, tableHost.getTable("team"),
 					new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
 			tableHost.performQuery(joinQuery, "gross_team");

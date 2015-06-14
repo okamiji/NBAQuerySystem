@@ -56,23 +56,23 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		for(int i = head.length - 1; i > 0; i --)
 		{
 			sort = new SortQuery(table, head[i], isUp[i]);
-			tableHost.performQuery(sort, "player_query_result");
-			table = tableHost.getTable("player_query_result");
+			tableHost.performQuery(sort, "player_query_result_sort_" + i);
+			table = tableHost.getTable("player_query_result_sort_" + i);
 		}
 		
 		if(position != null || league != null) try
 		{
-			String thePosition = "player_position='"+ position + "'";
-			String theLeague = "team_match_area='" + league + "'";
+			String thePosition = String.format("player_position='%s'", position);
+			String theLeague = String.format("team_match_area='%s'", league);
 			
 			String statement = null;
-			if(position != null && league != null) statement = thePosition + " and " + theLeague;
+			if(position != null && league != null) statement = String.format("%s and %s", thePosition, theLeague);
 			else if(position != null) statement = thePosition;
 			else statement = theLeague;
 			
 			SelectProjectQuery selectPosition = new SelectProjectQuery(statement, table);
-			tableHost.performQuery(selectPosition, "player_query_result");
-			table = tableHost.getTable("player_query_result");
+			tableHost.performQuery(selectPosition, "player_query_result_select");
+			table = tableHost.getTable("player_query_result_select");
 			
 			//Filter top 50 in this case.
 			sort = new SortQuery(table, head[0], 50, isUp[0]);
@@ -85,7 +85,6 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		
 		tableHost.performQuery(sort, "player_query_result");
 		return tableHost.getTable("player_query_result");
-
 	}
 	
 	@Override
@@ -114,9 +113,9 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		
 		NaturalJoinQuery nj = new NaturalJoinQuery(table,
 				tableHost.getTable("team"), new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
-		tableHost.performQuery(nj, "today_hot_player_query_result");
+		tableHost.performQuery(nj, "today_hot_player_query_result_joined");
 		
-		SortQuery sort = new SortQuery(tableHost.getTable("today_hot_player_query_result"), head, 5, true);		//"5" stands for top 5 here.
+		SortQuery sort = new SortQuery(tableHost.getTable("today_hot_player_query_result_joined"), head, 5, true);		//"5" stands for top 5 here.
 		tableHost.performQuery(sort, "today_hot_player_query_result");
 		
 		return tableHost.getTable("today_hot_player_query_result");
@@ -166,13 +165,12 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 			Table grossTable = this.gross.getTable();
 			try
 			{
-				tableHost.performQuery(new SelectProjectQuery("gross_player.match_season==\"%season\"".replace("%season", latestSeason), grossTable), "season_hot_player_result");
+				tableHost.performQuery(new SelectProjectQuery(String.format("match_season==\"%s\"", latestSeason), grossTable), "season_hot_player_result");
 			}
 			catch(Exception e)
 			{
 
 			}
-			
 		}
 		tableHost.performQuery(new SortQuery(tableHost.getTable("season_hot_player_result"), head, 5, true), "season_hot_player_result_final");
 		return tableHost.getTable("season_hot_player_result_final");
@@ -185,7 +183,7 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		SelectProjectQuery query = null;
 		try
 		{
-			query = new SelectProjectQuery("player.PLAYER_NAME=='%1'".replace("%1", playerName), player);
+			query = new SelectProjectQuery(String.format("player_name=='%s'", playerName), player);
 		}
 		catch (Exception e)
 		{

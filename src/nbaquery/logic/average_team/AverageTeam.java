@@ -44,8 +44,9 @@ public class AverageTeam
 			}
 			
 			GroupQuery group = new GroupQuery(joined.getTable(), new String[]{"team_name_abbr", "match_season"}, groupInfos.toArray(new GroupColumnInfo[0]));
-			tableHost.performQuery(group, "average_team");
-			Table interMediateTable = tableHost.getTable("average_team");
+			tableHost.performQuery(group, "average_team_group");
+			Table interMediateTable = tableHost.getTable("average_team_group");
+			
 			NaturalJoinQuery joinQuery = new NaturalJoinQuery(interMediateTable, nativeTeam.getTable(),
 					new String[]{"team_name_abbr"}, new String[]{"team_name_abbr"});
 			tableHost.performQuery(joinQuery, "average_team");

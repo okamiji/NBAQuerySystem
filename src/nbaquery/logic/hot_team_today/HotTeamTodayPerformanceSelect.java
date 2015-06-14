@@ -48,15 +48,15 @@ public class HotTeamTodayPerformanceSelect implements LogicPipeline {
 			try
 			{
 				SelectProjectQuery query = new SelectProjectQuery(
-					"match_natural_join_performance.match_date=\"%1\" and match_natural_join_performance.match_season=\"%2\""
+					"match_date=\"%1\" and match_season=\"%2\""
 						.replace("%1", date).replace("%2", season), joinedPerformance.getTable());
-				tableHost.performQuery(query, "todayTeamPerformance");
+				tableHost.performQuery(query, "today_team_performance");
 			}
 			catch (Exception e)
 			{
 				e.printStackTrace();
 			}	
-			table = tableHost.getTable("todayTeamPerformance");
+			table = tableHost.getTable("today_team_performance");
 		}
 		return table;
 	}
