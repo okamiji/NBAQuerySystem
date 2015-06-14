@@ -75,4 +75,6 @@ public interface Table extends Iterable<Row>
 	public boolean hasTableChanged(Object accessor);
 	
 	public String getTableName();
+	
+	public void registerTrigger(Trigger trigger);
 }

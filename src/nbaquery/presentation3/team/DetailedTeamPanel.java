@@ -18,7 +18,7 @@ import nbaquery.presentation3.match.CompareMatchSubPanel;
 public class DetailedTeamPanel extends JPanel
 {
 	static final String[] keyName = new String[]{"team_name", "team_location", "team_host", "team_match_area", "team_sector", "team_foundation"};
-	static final String[] keyDisplayName = new String[]{"��������", "������", "������", "����", "����", "����ʱ��"};
+	static final String[] keyDisplayName = new String[]{"\u7403\u961F\u540D\u79F0", "\u6240\u5C5E\u5DDE", "\u4E3B\u573A\u9986\u540D\u79F0", "\u8D5B\u533A", "\u8054\u76DF", "\u521B\u5EFA\u5E74\u4EFD"};
 	
 	KeyValueDisplay[] configuration = new KeyValueDisplay[keyName.length];
 	
@@ -52,8 +52,8 @@ public class DetailedTeamPanel extends JPanel
 					public String convertValueToString(Object value)
 					{
 						if(value == null) return "";
-						if(value.toString().equals("E")) return "����";
-						else return "����";
+						if(value.toString().equals("E")) return "\u4E1C\u90E8";
+						else return "\u897F\u90E8";
 					}
 				};
 			}

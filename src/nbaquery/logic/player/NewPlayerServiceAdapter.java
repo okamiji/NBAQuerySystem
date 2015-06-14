@@ -48,17 +48,8 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 			String position, String league)
 	{
 		Table table;
-		String tableName;
-		if(isGross)
-		{
-			table = this.gross.getTable();
-			tableName = "gross_player";
-		}
-		else
-		{
-			table = this.average.getTable();
-			tableName = "average_player";
-		}
+		if(isGross) table = this.gross.getTable();
+		else table = this.average.getTable();
 		
 		SortQuery sort = null;
 		
@@ -67,13 +58,12 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 			sort = new SortQuery(table, head[i], isUp[i]);
 			tableHost.performQuery(sort, "player_query_result");
 			table = tableHost.getTable("player_query_result");
-			tableName = "player_query_result";
 		}
 		
 		if(position != null || league != null) try
 		{
-			String thePosition = tableName + ".player_position='"+ position + "'";
-			String theLeague = tableName + ".team_match_area='" + league + "'";
+			String thePosition = "player_position='"+ position + "'";
+			String theLeague = "team_match_area='" + league + "'";
 			
 			String statement = null;
 			if(position != null && league != null) statement = thePosition + " and " + theLeague;
@@ -139,13 +129,13 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 
 		try
 		{
-			SelectProjectQuery sq = new SelectProjectQuery(String.format("progress_player.%s > 0.0 and progress_player.%s < 1000.0", head, head), table);
+			SelectProjectQuery sq = new SelectProjectQuery(String.format("%s > 0.0 and %s < 1000.0", head, head), table);
 			tableHost.performQuery(sq, "progress_player_query_result_select");
 			table = tableHost.getTable("progress_player_query_result_select");
 		}
 		catch(Exception e)
 		{
-			
+			e.printStackTrace();
 		}
 
 		NaturalJoinQuery joinQuery = new NaturalJoinQuery(table, tableHost.getTable("player"),

@@ -68,6 +68,7 @@ public class TeamLoader implements FileLoader
 					if(vector.exists() && vector.isFile())
 						team_logo.setAttribute(team, new Image(vector));
 				}
+				team.submit();
 			}
 		}
 		reader.close();

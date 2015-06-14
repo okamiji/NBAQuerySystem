@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import nbaquery.data.Table;
+import nbaquery.data.Trigger;
 import nbaquery.data.file.EnumTable;
 import nbaquery.data.file.FileTableColumn;
 import nbaquery.data.file.FileTableHost;
@@ -64,6 +66,10 @@ public class MatchLoader implements FileLoader
 		
 		this.host.makeProtectedTable(EnumTable.QUARTER_SCORE.toString(),
 				this.host.getTableFromPreset(EnumTable.QUARTER_SCORE));
+		
+		Table performance = this.host.getTable("performance");
+		performance.registerTrigger(Trigger.board);
+		performance.registerTrigger(Trigger.self_score);
 		
 		identity = host.getColumn("match.match_id");
 		season = host.getColumn("match.match_season");
@@ -134,6 +140,7 @@ public class MatchLoader implements FileLoader
 		
 		host_score.setAttribute(tuple, Integer.parseInt(scores[0]));
 		guest_score.setAttribute(tuple, Integer.parseInt(scores[1]));
+		tuple.submit();
 		
 		currentLine = br.readLine();
 		if(currentLine == null)
@@ -150,6 +157,7 @@ public class MatchLoader implements FileLoader
 			quarter_number.setAttribute(scoreTuple, i + 1);
 			quarter_host_score.setAttribute(scoreTuple, Integer.parseInt(scores[0]));
 			quarter_guest_score.setAttribute(scoreTuple, Integer.parseInt(scores[1]));
+			scoreTuple.submit();
 		}
 		
 		String currentTeam = null;
@@ -172,13 +180,17 @@ public class MatchLoader implements FileLoader
 					game_minute.setAttribute(performance, game_time[0]);
 					game_second.setAttribute(performance, game_time[1]);
 				}
-				else host.processDirtyData(performance, game_minute, tokens.get(2));
 				
 				shoot_score.setAttribute(performance, tokens.get(3));
 				shoot_count.setAttribute(performance, tokens.get(4));
 				
 				three_shoot_score.setAttribute(performance, tokens.get(5));
 				three_shoot_count.setAttribute(performance, tokens.get(6));
+				
+				shoot_score.setAttribute(performance,
+						(Integer)shoot_score.getAttribute(performance) - (Integer)three_shoot_score.getAttribute(performance));
+				shoot_count.setAttribute(performance,
+						(Integer)shoot_count.getAttribute(performance) - (Integer)three_shoot_count.getAttribute(performance));
 				
 				foul_shoot_score.setAttribute(performance, tokens.get(7));
 				foul_shoot_count.setAttribute(performance, tokens.get(8));
@@ -194,6 +206,7 @@ public class MatchLoader implements FileLoader
 				miss.setAttribute(performance, tokens.get(15));
 				foul.setAttribute(performance, tokens.get(16));
 				self_score.setAttribute(performance, tokens.get(17));
+				performance.submit();
 			}
 		}
 		br.close();

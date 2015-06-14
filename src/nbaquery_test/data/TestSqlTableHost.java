@@ -3,15 +3,15 @@ package nbaquery_test.data;
 import nbaquery.data.Column;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
-import nbaquery.data.query.AliasingQuery;
+//import nbaquery.data.query.AliasingQuery;
 import nbaquery.data.query.DeriveColumnInfo;
 import nbaquery.data.query.DeriveQuery;
 import nbaquery.data.query.ExpressionDeriveColumnInfo;
 import nbaquery.data.query.NaturalJoinQuery;
-import nbaquery.data.query.SelectProjectQuery;
-import nbaquery.data.query.SortQuery;
+//import nbaquery.data.query.SelectProjectQuery;
+//import nbaquery.data.query.SortQuery;
 import nbaquery.data.sql.BaseTableConstants;
-import nbaquery.data.sql.MutableSqlRow;
+//import nbaquery.data.sql.MutableSqlRow;
 import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableHost;
 import nbaquery.data.sql.QuerySqlTable;
@@ -41,7 +41,7 @@ public class TestSqlTableHost {
 		Column b = table.getColumn("b");
 		
 		/*
-		for(int i = 999; i < 1000; i ++)
+		for(int i = 0; i < 1000; i ++)
 		{
 			MutableSqlRow mtb = table.createRow();
 			a.setAttribute(mtb, Integer.toString(i));

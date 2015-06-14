@@ -1,14 +1,17 @@
 package nbaquery.data.file;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
 
 import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
+import nbaquery.data.Trigger;
 
 public class KeywordTable implements Table
 {
@@ -17,6 +20,8 @@ public class KeywordTable implements Table
 	public final KeywordColumn keyword;
 	public TreeMap<Object, Tuple> keyToTupleMap = new TreeMap<Object, Tuple>();
 	public TreeMap<String, FileTableColumn> index = new TreeMap<String, FileTableColumn>();
+	
+	public final List<Trigger> triggers = new ArrayList<Trigger>();
 	
 	boolean tableLocked = false;
 	public void gainLock()
@@ -42,6 +47,7 @@ public class KeywordTable implements Table
 	{
 		this.host = host;
 		this.headerLength = header.length;
+		
 		if(header.length != dataType.length) 
 			throw new IllegalArgumentException("Mismatch between the length of header and data type array!");
 		for(int i = 0; i < headerLength; i ++)
@@ -171,6 +177,12 @@ public class KeywordTable implements Table
 	 */
 	@Override
 	public String getTableName() {
-		return null;
+		return this.toString();
+	}
+	
+	@Override
+	public void registerTrigger(Trigger trigger) {
+		this.triggers.add(trigger);
+		trigger.retrieve(this);
 	}
 }

@@ -30,16 +30,13 @@ public class ProgressPlayer {
 			{
 				derive = new DeriveQuery(base.getTable(), new DeriveColumnInfo[]{
 					new ExpressionDeriveColumnInfo("self_score_rate", Float.class,
-							"1.0F * (progress_player_group.self_score_now - progress_player_group.self_score_before )/ " +
-							"progress_player_group.self_score_before")
+							"1.0F * (self_score_now - self_score_before ) / self_score_before")
 					,
 					new ExpressionDeriveColumnInfo("total_board_rate", Float.class,
-							"1.0F * (progress_player_group.total_board_now- progress_player_group.total_board_before ) / " +
-							"progress_player_group.total_board_before")
+							"1.0F * (total_board_now - total_board_before ) / total_board_before")
 					,
 					new ExpressionDeriveColumnInfo("assist_rate", Float.class,
-							"1.0F * (progress_player_group.assist_now - progress_player_group.assist_before ) / " +
-							"progress_player_group.assist_before")
+							"1.0F * (assist_now - assist_before ) / assist_before")
 					}, "self_score_now", "self_score_before", "total_board_now", "total_board_before", 
 					"assist_now","assist_before" ,"player_name","team_name_abbr");
 			}

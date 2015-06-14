@@ -95,40 +95,40 @@ public class CompareTeamSubPanel extends JPanel
 				DefaultTableColumn team_name_abbr = columnModel.addColumn("\u7F29\u5199", "team_name_abbr");
 				team_name_abbr.padding = 10;	keywordMap.put(team_name_abbr, new String[]{"team_name_abbr"});
 				
-				DualTableColumn attendance = new DualTableColumn("����", "win", "game", "%1-%2"); attendance.padding = 15;
+				DualTableColumn attendance = new DualTableColumn("\u80DC\u573A", "win", "game", "%1-%2"); attendance.padding = 15;
 				columnModel.addColumn(attendance);	keywordMap.put(attendance, new String[]{"game", "win"});
 				
-				DualTableColumn foul_shoot = new DualTableColumn("����", "foul_shoot_score", "foul_shoot", "%1-%2"); foul_shoot.padding = 10;
+				DualTableColumn foul_shoot = new DualTableColumn("\u7F5A\u7403", "foul_shoot_score", "foul_shoot", "%1-%2"); foul_shoot.padding = 10;
 				columnModel.addColumn(foul_shoot);	keywordMap.put(foul_shoot, new String[]{"foul_shoot", "foul_shoot_score"});
 				
-				DualTableColumn two_shoot = new DualTableColumn("Ͷ��", "shoot_score", "shoot", "%1-%2"); two_shoot.padding = 10;
+				DualTableColumn two_shoot = new DualTableColumn("\u4E8C\u5206", "shoot_score", "shoot", "%1-%2"); two_shoot.padding = 10;
 				columnModel.addColumn(two_shoot);	keywordMap.put(two_shoot, new String[]{"shoot", "shoot_score"});
 				
-				DualTableColumn three_shoot = new DualTableColumn("����", "three_shoot_score", "three_shoot", "%1-%2"); three_shoot.padding = 10;
+				DualTableColumn three_shoot = new DualTableColumn("\u4E09\u5206", "three_shoot_score", "three_shoot", "%1-%2"); three_shoot.padding = 10;
 				columnModel.addColumn(three_shoot);	keywordMap.put(three_shoot, new String[]{"three_shoot", "three_shoot_score"});
 				
-				DefaultTableColumn self_score = columnModel.addColumn("�÷�", "self_score");
+				DefaultTableColumn self_score = columnModel.addColumn("\u5F97\u5206", "self_score");
 				self_score.padding = 10;			keywordMap.put(self_score, new String[]{"self_score"});
 				
-				DualTableColumn attack_defence = new DualTableColumn("����", "attack_board", "defence_board", "%1-%2"); attack_defence.padding = 15;
+				DualTableColumn attack_defence = new DualTableColumn("\u653B\u5B88", "attack_board", "defence_board", "%1-%2"); attack_defence.padding = 15;
 				columnModel.addColumn(attack_defence);	keywordMap.put(attack_defence, new String[]{"attack_board", "defence_board"});
 				
-				DefaultTableColumn total_board = columnModel.addColumn("����", "total_board");
+				DefaultTableColumn total_board = columnModel.addColumn("\u7BEE\u677F", "total_board");
 				total_board.padding = 10;	keywordMap.put(total_board, new String[]{"total_board"});
 				
-				DefaultTableColumn assist = columnModel.addColumn("����", "assist");
+				DefaultTableColumn assist = columnModel.addColumn("\u52A9\u653B", "assist");
 				assist.padding = 10;		keywordMap.put(assist, new String[]{"assist"});
 				
-				DefaultTableColumn cap = columnModel.addColumn("��ñ", "cap");
+				DefaultTableColumn cap = columnModel.addColumn("\u76D6\u5E3D", "cap");
 				cap.padding = 10;	keywordMap.put(cap, new String[]{"cap"});
 				
-				DefaultTableColumn steal = columnModel.addColumn("����", "steal");
+				DefaultTableColumn steal = columnModel.addColumn("\u62A2\u65AD", "steal");
 				steal.padding = 10;	keywordMap.put(steal, new String[]{"steal"});
 				
-				DefaultTableColumn miss = columnModel.addColumn("ʧ��", "miss");
+				DefaultTableColumn miss = columnModel.addColumn("\u5931\u8BEF", "miss");
 				miss.padding = 10;	keywordMap.put(miss, new String[]{"miss"});
 				
-				DefaultTableColumn foul = columnModel.addColumn("����", "foul");
+				DefaultTableColumn foul = columnModel.addColumn("\u72AF\u89C4", "foul");
 				foul.padding = 10;	keywordMap.put(foul, new String[]{"foul"});
 			}
 		};
@@ -137,57 +137,56 @@ public class CompareTeamSubPanel extends JPanel
 		{
 			{
 				setSectionPerPage(sectionPerPageParam);
-				DefaultTableColumn season = columnModel.addColumn("����", "match_season");
+				DefaultTableColumn season = columnModel.addColumn("\u8D5B\u5B63", "match_season");
 				season.padding = 10;	keywordMap.put(season, new String[]{"match_season"});
 				
 				DefaultTableColumn logo = columnModel.addColumn("", "team_logo");
 				logo.padding = teamTable.getHeight() / (sectionPerPage + 1);
 				
-				DefaultTableColumn team_name = columnModel.addColumn("�������", "team_name");
+				DefaultTableColumn team_name = columnModel.addColumn("\u7403\u961F\u540D\u79F0", "team_name");
 				team_name.padding = 40;	keywordMap.put(team_name, new String[]{"team_name"});
 				
-				DefaultTableColumn win_rate = columnModel.addColumn("ʤ��", "win_rate");
+				DefaultTableColumn win_rate = columnModel.addColumn("\u80DC\u7387", "win_rate");
 				win_rate.padding = 5;	keywordMap.put(win_rate, new String[]{"win_rate"});
 				
-				DefaultTableColumn assist_efficiency = columnModel.addColumn("����Ч��", "assist_efficiency");
+				DefaultTableColumn assist_efficiency = columnModel.addColumn("\u52A9\u653B\u6548\u7387", "assist_efficiency");
 				assist_efficiency.padding = 0;	keywordMap.put(assist_efficiency, new String[]{"assist_efficiency"});
 				
-				DefaultTableColumn steal_efficiency = columnModel.addColumn("����Ч��", "steal_efficiency");
+				DefaultTableColumn steal_efficiency = columnModel.addColumn("\u62A2\u65AD\u6548\u7387", "steal_efficiency");
 				steal_efficiency.padding = 0;	keywordMap.put(steal_efficiency, new String[]{"steal_efficiency"});
 				
-				DefaultTableColumn attack_board_efficiency = columnModel.addColumn("����������", "attack_board_efficiency");
+				DefaultTableColumn attack_board_efficiency = columnModel.addColumn("\u8FDB\u653B\u7BEE\u677F\u7387", "attack_board_efficiency");
 				attack_board_efficiency.padding = 0;	keywordMap.put(attack_board_efficiency, new String[]{"attack_board_efficiency"});
 				
-				DefaultTableColumn defence_board_efficiency = columnModel.addColumn("����������", "defence_board_efficiency");
+				DefaultTableColumn defence_board_efficiency = columnModel.addColumn("\u9632\u5B88\u7BEE\u677F\u7387", "defence_board_efficiency");
 				defence_board_efficiency.padding = 0;	keywordMap.put(defence_board_efficiency, new String[]{"defence_board_efficiency"});
 				
-				DefaultTableColumn attack_efficiency = columnModel.addColumn("����Ч��", "attack_efficiency");
+				DefaultTableColumn attack_efficiency = columnModel.addColumn("\u8FDB\u653B\u6548\u7387", "attack_efficiency");
 				attack_efficiency.padding = 0;	keywordMap.put(attack_efficiency, new String[]{"attack_efficiency"});
 
-				DefaultTableColumn defence_efficiency = columnModel.addColumn("����Ч��", "defence_efficiency");
+				DefaultTableColumn defence_efficiency = columnModel.addColumn("\u9632\u5B88\u6548\u7387", "defence_efficiency");
 				defence_efficiency.padding = 0;	keywordMap.put(defence_efficiency, new String[]{"defence_efficiency"});
 				
-				DefaultTableColumn attack_round = columnModel.addColumn("�����غ�", "attack_round");
+				DefaultTableColumn attack_round = columnModel.addColumn("\u8FDB\u653B\u56DE\u5408", "attack_round");
 				attack_round.padding = 0;	keywordMap.put(attack_round, new String[]{"attack_round"});
 				
-				DefaultTableColumn defence_round = columnModel.addColumn("���ػغ�", "defence_round");
+				DefaultTableColumn defence_round = columnModel.addColumn("\u9632\u5B88\u56DE\u5408", "defence_round");
 				defence_round.padding = 0;	keywordMap.put(defence_round, new String[]{"defence_round"});
 				
-				DefaultTableColumn foul_shoot_rate = columnModel.addColumn("������", "foul_shoot_rate");
+				DefaultTableColumn foul_shoot_rate = columnModel.addColumn("\u7F5A\u7403\u547D\u4E2D", "foul_shoot_rate");
 				foul_shoot_rate.padding = 0;	keywordMap.put(foul_shoot_rate, new String[]{"foul_shoot_rate"});
 				
-				DefaultTableColumn shoot_rate = columnModel.addColumn("������", "shoot_rate");
+				DefaultTableColumn shoot_rate = columnModel.addColumn("\u4E8C\u5206\u547D\u4E2D", "shoot_rate");
 				shoot_rate.padding = 0;	keywordMap.put(shoot_rate, new String[]{"shoot_rate"});
 				
-				DefaultTableColumn three_shoot_rate = columnModel.addColumn("������", "three_shoot_rate");
+				DefaultTableColumn three_shoot_rate = columnModel.addColumn("\u4E09\u5206\u547D\u4E2D", "three_shoot_rate");
 				three_shoot_rate.padding = 0;	keywordMap.put(three_shoot_rate, new String[]{"three_shoot_rate"});
-				
 
 			}
 		};
 		
 		//XXX adding control panels.
-		final DropList dataScope = new DropList(new String[]{"����������", "��������"})
+		final DropList dataScope = new DropList(new String[]{"\u603B\u6570\u636E", "\u573A\u5747\u6570\u636E"})
 		{
 			@Override
 			protected void onSelectionChanged(int index)
@@ -200,7 +199,7 @@ public class CompareTeamSubPanel extends JPanel
 		dataScope.setHorizontalAlignment(DropList.CENTER);
 		this.add(dataScope);
 		
-		final DropList dataModel = new DropList(new String[]{"��������", "��������"})
+		final DropList dataModel = new DropList(new String[]{"\u57FA\u672C\u6570\u636E", "\u5206\u6790\u6570\u636E"})
 		{
 			@Override
 			protected void onSelectionChanged(int index)

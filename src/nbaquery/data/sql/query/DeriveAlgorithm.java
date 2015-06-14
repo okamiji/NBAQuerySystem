@@ -2,13 +2,11 @@ package nbaquery.data.sql.query;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 import nbaquery.data.Column;
-import nbaquery.data.Image;
 import nbaquery.data.Table;
 import nbaquery.data.query.DeriveQuery;
+import nbaquery.data.sql.BaseTableConstants;
 import nbaquery.data.sql.MutableSqlRow;
 import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.QuerySqlTable;
@@ -16,17 +14,7 @@ import nbaquery.data.sql.SqlTableColumn;
 import nbaquery.data.sql.SqlTableHost;
 
 public class DeriveAlgorithm extends SqlQueryAlgorithm<DeriveQuery>
-{
-	HashMap<Class<?>, String> sqlTypeMap = new HashMap<Class<?>, String>();
-	{
-		sqlTypeMap.put(String.class, "char(32)");
-		sqlTypeMap.put(Integer.class, "int");
-		sqlTypeMap.put(Float.class, "real");
-		sqlTypeMap.put(Character.class, "tinyint");
-		sqlTypeMap.put(Date.class, "bigint");
-		sqlTypeMap.put(Image.class, "char(128)");
-	}
-	
+{	
 	@Override
 	public Table perform(String tableName, DeriveQuery query) throws Exception {
 		SqlTableHost host = (SqlTableHost) query.table.getTableHost();
@@ -45,7 +33,7 @@ public class DeriveAlgorithm extends SqlQueryAlgorithm<DeriveQuery>
 				
 				columns.add(query.table.getColumn(project).getColumnName());
 				dataTypes.add(query.table.getColumn(project).getDataClass());
-				sqlTypes.add(sqlTypeMap.get(query.table.getColumn(project).getDataClass()));
+				sqlTypes.add(BaseTableConstants.sqlTypeMap.get(query.table.getColumn(project).getDataClass()));
 				isFirst = false;
 			}
 		}
@@ -58,7 +46,7 @@ public class DeriveAlgorithm extends SqlQueryAlgorithm<DeriveQuery>
 				
 				columns.add(column.getColumnName());
 				dataTypes.add(column.getDataClass());
-				sqlTypes.add(sqlTypeMap.get(column.getDataClass()));
+				sqlTypes.add(BaseTableConstants.sqlTypeMap.get(column.getDataClass()));
 				isFirst = false;
 			}
 		}
@@ -66,18 +54,18 @@ public class DeriveAlgorithm extends SqlQueryAlgorithm<DeriveQuery>
 		String[] projectColumns = columns.toArray(new String[0]);
 		
 		for(Class<?> dataClass : dataTypes)
-			sqlTypes.add(sqlTypeMap.get(dataClass));
+			sqlTypes.add(BaseTableConstants.sqlTypeMap.get(dataClass));
 		
 		for(int i = 0; i < query.deriveColumns.length; i ++)
 		{
 			columns.add(query.deriveColumns[i]);
 			dataTypes.add(query.deriveClasses[i]);
-			sqlTypes.add(sqlTypeMap.get(query.deriveClasses[i]));
+			sqlTypes.add(BaseTableConstants.sqlTypeMap.get(query.deriveClasses[i]));
 		}
 		
 		MutableSqlTable mutable = new MutableSqlTable(host,
 				tableName, columns.toArray(new String[0]), dataTypes.toArray(new Class<?>[0]),
-				sqlTypes.toArray(new String[0]), new String(projection));
+				sqlTypes.toArray(new String[0]), new String(projection), query.table.getTableName());
 		
 		String originTableDenotion = query.table.getTableName();
 		if(query.table instanceof QuerySqlTable && ((QuerySqlTable)query.table).query != null)

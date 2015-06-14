@@ -1,15 +1,11 @@
 package nbaquery.data.file;
 
 import java.io.File;
-import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import nbaquery.data.DirtyDataInfo;
-import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
 import nbaquery.data.file.loader.FileLoader;
@@ -28,7 +24,6 @@ import nbaquery.data.query.Query;
 
 public class FileTableHost implements TableHost
 {
-	protected Deque<DirtyDataInfo> dirtyData = new LinkedList<DirtyDataInfo>();
 	protected Map<Class<? extends Query>, FileTableAlgorithm> queryAlgorithm = new HashMap<Class<? extends Query>, FileTableAlgorithm>();
 	
 	@Override
@@ -45,23 +40,6 @@ public class FileTableHost implements TableHost
 		}
 		
 		tables.put(tableName.toUpperCase(), algorithm.perform(query));
-	}
-
-	@Override
-	public DirtyDataInfo nextDirtyDataInfo()
-	{
-		return dirtyData.removeFirst();
-	}
-	
-	public void processDirtyData(Row tuple, FileTableColumn column, Object value)
-	{
-		DirtyDataInfo dirtyDataInfo = new DirtyDataInfo();
-		dirtyDataInfo.column = column;
-		dirtyDataInfo.data = value;
-		dirtyDataInfo.table = column.table;
-		dirtyDataInfo.row = tuple;
-
-		this.dirtyData.addLast(dirtyDataInfo);
 	}
 
 	protected TreeMap<String, Table> tables = new TreeMap<String, Table>();
