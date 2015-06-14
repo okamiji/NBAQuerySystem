@@ -61,8 +61,8 @@ public class MatchLoader implements FileLoader
 		this.host.makeProtectedTable(EnumTable.PERFORMANCE.toString(),
 				this.host.getTableFromPreset(EnumTable.PERFORMANCE));
 		
-		this.host.makeProtectedTable(EnumTable.MATCH.toString(),
-				this.host.getTableFromPreset(EnumTable.MATCH));
+		this.host.makeProtectedTable(EnumTable.MATCHES.toString(),
+				this.host.getTableFromPreset(EnumTable.MATCHES));
 		
 		this.host.makeProtectedTable(EnumTable.QUARTER_SCORE.toString(),
 				this.host.getTableFromPreset(EnumTable.QUARTER_SCORE));
@@ -71,13 +71,13 @@ public class MatchLoader implements FileLoader
 		performance.registerTrigger(Trigger.board);
 		performance.registerTrigger(Trigger.self_score);
 		
-		identity = host.getColumn("match.match_id");
-		season = host.getColumn("match.match_season");
-		date = host.getColumn("match.match_date");
-		host_abbr = host.getColumn("match.match_host_abbr");
-		host_score = host.getColumn("match.match_host_score");
-		guest_abbr = host.getColumn("match.match_guest_abbr");
-		guest_score = host.getColumn("match.match_guest_score");
+		identity = host.getColumn("matches.match_id");
+		season = host.getColumn("matches.match_season");
+		date = host.getColumn("matches.match_date");
+		host_abbr = host.getColumn("matches.match_host_abbr");
+		host_score = host.getColumn("matches.match_host_score");
+		guest_abbr = host.getColumn("matches.match_guest_abbr");
+		guest_score = host.getColumn("matches.match_guest_score");
 		
 		quarter_id = host.getColumn("quarter_score.match_id");
 		quarter_number = host.getColumn("quarter_score.quarter_number");
@@ -238,7 +238,7 @@ public class MatchLoader implements FileLoader
 	@Override
 	public void load(File aFile) throws Exception
 	{
-		KeywordTable matchTable = (KeywordTable) host.getTable("match");
+		KeywordTable matchTable = (KeywordTable) host.getTable("matches");
 		KeywordTable quarterTable = (KeywordTable) host.getTable("quarter_score");
 		KeywordTable performanceTable = (KeywordTable) host.getTable("performance");
 		

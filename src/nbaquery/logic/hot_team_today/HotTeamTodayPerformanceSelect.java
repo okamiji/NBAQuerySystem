@@ -25,7 +25,7 @@ public class HotTeamTodayPerformanceSelect implements LogicPipeline {
 	public HotTeamTodayPerformanceSelect(TableHost tableHost, MatchNaturalJoinPerformance joinedPerformance){
 		this.tableHost = tableHost;
 		this.joinedPerformance = new LogicWatcher(joinedPerformance);
-		this.match = this.tableHost.getTable("match");
+		this.match = this.tableHost.getTable("matches");
 		this.match_season = this.match.getColumn("match_season");
 		this.match_date = this.match.getColumn("match_date");
 	}

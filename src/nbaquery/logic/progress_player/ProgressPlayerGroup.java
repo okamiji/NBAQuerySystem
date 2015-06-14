@@ -23,7 +23,7 @@ public class ProgressPlayerGroup implements LogicPipeline{
 	}
 	
 	public Table getTable(){
-		if(base.checkDepenency() || tableHost.getTable("match").hasTableChanged(this))
+		if(base.checkDepenency() || tableHost.getTable("matches").hasTableChanged(this))
 		{
 			SortQuery sort=new SortQuery(base.getTable(), "match_id", true);
 			tableHost.performQuery(sort, "progress_player_group_sorted");

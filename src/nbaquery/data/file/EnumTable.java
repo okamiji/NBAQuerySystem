@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 public enum EnumTable
 {
-	TEAM, PLAYER, MATCH, QUARTER_SCORE, PERFORMANCE;
+	TEAM, PLAYER, MATCHES, QUARTER_SCORE, PERFORMANCE;
 	
 	private String[] attributes;
 	private Class<?>[] dataClasses;
