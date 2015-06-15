@@ -33,7 +33,11 @@ public class GroupAlgorithm extends SqlQueryAlgorithm<GroupQuery>
 		for(String columnName : query.collapseColumn)
 		{
 			Column column = query.table.getColumn(columnName);
-			if(!isFirst) projections.append(", ");
+			if(!isFirst)
+			{
+				projections.append(", ");
+				projectionQuestions.append(", ");
+			}
 			projections.append(column.getColumnName());
 			projectionQuestions.append("?");
 			
@@ -57,7 +61,7 @@ public class GroupAlgorithm extends SqlQueryAlgorithm<GroupQuery>
 		
 		String legacyDenotion = query.table.getTableName();
 		if(query.table instanceof QuerySqlTable && ((QuerySqlTable)query.table).query != null)
-			legacyDenotion = ((QuerySqlTable)query.table).query;
+			legacyDenotion = String.format("(%s) as %s", ((QuerySqlTable)query.table).query, ((QuerySqlTable)query.table).getTableName());
 		
 		SqlTableColumn[] projectionColumns = new SqlTableColumn[query.collapseColumn.length];
 		SqlTableColumn[] writeColumns = new SqlTableColumn[query.collapseColumn.length];

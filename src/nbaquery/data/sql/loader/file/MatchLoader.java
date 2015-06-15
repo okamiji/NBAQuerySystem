@@ -54,6 +54,7 @@ public class MatchLoader implements SqlFileLoader
 	SqlTableColumn self_score;
 	
 	PreparedStatement get_max_match_id;
+	int matchId = 1;
 	
 	public MatchLoader(SqlTableHost host) throws SQLException
 	{
@@ -94,7 +95,8 @@ public class MatchLoader implements SqlFileLoader
 		foul = (SqlTableColumn)host.getTable("performance").getColumn("foul");
 		self_score = (SqlTableColumn)host.getTable("performance").getColumn("self_score");
 		
-		get_max_match_id = host.connection.prepareStatement("select max(match_id) from matches");
+		ResultSet max_match_id = host.connection.createStatement().executeQuery("select max(match_id) from matches");
+		max_match_id.next();	this.matchId = max_match_id.getInt(1) + 1;
 	}
 	
 	public void record(File file, int matchId, MutableSqlTable matchTable, MutableSqlTable quarterTable, MutableSqlTable performanceTable) throws Exception
@@ -170,6 +172,11 @@ public class MatchLoader implements SqlFileLoader
 					game_minute.setAttribute(performance, game_time[0]);
 					game_second.setAttribute(performance, game_time[1]);
 				}
+				else
+				{
+					game_minute.setAttribute(performance, 0);
+					game_second.setAttribute(performance, 0);	
+				}
 				
 				shoot_score.setAttribute(performance, tokens.get(3));
 				shoot_count.setAttribute(performance, tokens.get(4));
@@ -230,11 +237,8 @@ public class MatchLoader implements SqlFileLoader
 		MutableSqlTable quarterTable = (MutableSqlTable) host.getTable("quarter_score");
 		MutableSqlTable performanceTable = (MutableSqlTable) host.getTable("performance");
 		
-		ResultSet max_match_id = get_max_match_id.executeQuery();
-		max_match_id.next();
-		int matchId = max_match_id.getInt(1);
-		
-		this.record(aFile, matchId + 1, matchTable, quarterTable, performanceTable);
+		this.record(aFile, matchId, matchTable, quarterTable, performanceTable);
+		matchId ++;
 	}
 
 	@Override

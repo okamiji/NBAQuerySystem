@@ -71,7 +71,7 @@ public class PlayerLoader implements SqlFileLoader
 			//if(readLine.charAt(0) == '�U' && readLine.charAt(readLine.length() - 1) == '�U')
 			if(readLine.charAt(0) == '\u2551' && readLine.charAt(readLine.length() - 1) == '\u2551')
 			{
-				String sq = readLine.substring(1, readLine.length() - 1);
+				String sq = readLine.substring(1, readLine.	length() - 1);
 				//int splitter = sq.indexOf('��');
 				int splitter = sq.indexOf('\u2502');
 				if(splitter < 0) continue;

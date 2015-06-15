@@ -26,14 +26,19 @@ public abstract class SqlObjectConverter<Type>
 		try {
 			Type value = null;
 			if(obj != null)
-			{
 				if(obj.getClass().equals(dataClass))
 					value = (Type) obj;
 				else if(obj.getClass().equals(String.class))
-					value = this.convert((String) obj);
-				else throw new RuntimeException("Cannot write value to field with incompatible type.");
-				this.writeStatement(ps, index, value);
-			}
+					try
+					{
+						value = this.convert((String) obj);
+					}
+					catch(RuntimeException e)
+					{
+						
+					}
+				else throw new RuntimeException("Cannot write value to field with incompatible type: " + obj.getClass() + " : " + dataClass);
+			if(value != null) this.writeStatement(ps, index, value);
 			else ps.setNull(index, sqlType);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -170,8 +175,8 @@ public abstract class SqlObjectConverter<Type>
 			@Override
 			protected Character convert(String string)
 			{
-				if(string.length() > 0)
-					return string.charAt(0);
+				if(string != null && string.length() > 0)
+						return string.charAt(0);
 				else return '\0';
 			}
 

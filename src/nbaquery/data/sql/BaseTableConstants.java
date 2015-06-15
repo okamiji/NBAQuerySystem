@@ -14,9 +14,9 @@ public abstract class BaseTableConstants
 		sqlTypeMap.put(String.class, "char(32)");
 		sqlTypeMap.put(Integer.class, "int");
 		sqlTypeMap.put(Float.class, "real");
-		sqlTypeMap.put(Character.class, "char(1)");
+		sqlTypeMap.put(Character.class, "tinyint");
 		sqlTypeMap.put(Date.class, "bigint");
-		sqlTypeMap.put(Image.class, "char(128)");
+		sqlTypeMap.put(Image.class, "char(140)");
 	}
 	
 	ArrayList<String> columns = new ArrayList<String>();
@@ -56,15 +56,15 @@ public abstract class BaseTableConstants
 		{
 			this.addColumn("player_name", String.class, "char(32)");
 			this.addColumn("player_number", Integer.class, "smallint");
-			this.addColumn("player_position", Character.class, "char(1)");
+			this.addColumn("player_position", Character.class, "tinyint");
 			this.addColumn("player_height", String.class, "char(10)");
 			this.addColumn("player_weight", String.class, "smallint");
 			this.addColumn("player_birth", Date.class, "bigint");
 			this.addColumn("player_age", Integer.class, "tinyint");
 			this.addColumn("player_exp", Integer.class, "tinyint");
-			this.addColumn("player_school", String.class, "char(32)");
-			this.addColumn("player_portrait", String.class, "char(128)");
-			this.addColumn("player_action", String.class, "char(128)");
+			this.addColumn("player_school", String.class, "char(64)");
+			this.addColumn("player_portrait", Image.class, "char(140)");
+			this.addColumn("player_action", Image.class, "char(140)");
 		}
 		
 		@Override
@@ -83,7 +83,7 @@ public abstract class BaseTableConstants
 			this.addColumn("team_sector", String.class, "char(12)");
 			this.addColumn("team_host", String.class, "char(32)");
 			this.addColumn("team_foundation", Integer.class, "smallint");
-			this.addColumn("team_logo", String.class, "char(128)");
+			this.addColumn("team_logo", Image.class, "char(140)");
 		}
 		
 		@Override
@@ -131,7 +131,7 @@ public abstract class BaseTableConstants
 			this.addColumn("match_id", Integer.class, "int");
 			this.addColumn("team_name_abbr", String.class, "char(3)");
 			this.addColumn("player_name", String.class, "char(32)");
-			this.addColumn("player_position", Character.class, "char(1)");
+			this.addColumn("player_position", Character.class, "tinyint");
 			this.addColumn("game_time_minute", Integer.class, "smallint");
 			this.addColumn("game_time_second", Integer.class, "tinyint");
 			this.addColumn("shoot_score", Integer.class, "tinyint");

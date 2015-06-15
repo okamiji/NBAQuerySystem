@@ -21,9 +21,6 @@ public class MutableSqlRow implements SqlTableRow
 	public static final HashMap<PreparedStatement, Thread> batchUpdateThread
 		= new HashMap<PreparedStatement, Thread>();
 	
-	public static final HashMap<PreparedStatement, Integer> batchUpdate
-		= new HashMap<PreparedStatement, Integer>();
-	
 	public MutableSqlRow(MutableSqlTable table, PreparedStatement statement, int attributes)
 	{
 		this.declaredTable = table;
@@ -63,8 +60,14 @@ public class MutableSqlRow implements SqlTableRow
 				trigger.doCorrection(this);
 			}
 			
-			for(int i = 0; i < this.creations.length; i ++)
+			for(int i = 0; i < this.creations.length; i ++) try
+			{
 				this.converters[i].write(statement, i + 1, this.creations[i]);
+			}
+			catch(NullPointerException e)
+			{
+				System.err.println("insertion null at " + i + " of table " + declaredTable.getTableName());
+			}
 			this.statement.addBatch();
 			
 			if(batchUpdateThread.get(statement) == null)
@@ -74,20 +77,19 @@ public class MutableSqlRow implements SqlTableRow
 					@Override
 					public void run()
 					{
-						
 						try
 						{	
-							Thread.sleep(100);
+							Thread.sleep(1);
 						}
 						catch(Exception e)
 						{
 						}
 						try
 						{
-							System.out.println(declaredTable);
+							statement.executeBatch();
 						}
 						catch (Exception e) {
-							System.out.println(declaredTable.getTableName());
+							System.err.println("Error occurs while operating on ".concat(declaredTable.getTableName()));
 							try {
 								statement.clearBatch();
 							} catch (SQLException e1) {
