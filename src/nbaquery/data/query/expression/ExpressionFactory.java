@@ -221,13 +221,20 @@ public class ExpressionFactory
 					constant.constant = Float.parseFloat(currentPointerLowered);
 					reversedPolishForm.add(constant);
 				}
-				else if(currentPointer.matches("\'.*\'") || currentPointer.matches("\".*\""))
+				else if(currentPointer.matches("\'.*\'"))
 				{
 					ConstantOperator constant = new ConstantOperator();
 					String theString = currentPointer.substring(1, currentPointer.length() - 1);
 					if(theString.length() > 1) constant.constant = theString;
 					else if(theString.length() == 1) constant.constant = theString.charAt(0);
 					else constant.constant = '\0';
+					reversedPolishForm.add(constant);
+				}
+				else if(currentPointer.matches("\".*\""))
+				{
+					ConstantOperator constant = new ConstantOperator();
+					String theString = currentPointer.substring(1, currentPointer.length() - 1);
+					constant.constant = theString;
 					reversedPolishForm.add(constant);
 				}
 				else if(currentPointerLowered.equals("true"))
