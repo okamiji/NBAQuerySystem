@@ -38,13 +38,13 @@ public class SqlTableColumn implements Column
 
 	@Override
 	public Object getAttribute(Row row) {
-		if(!(row.getDeclaredTable() == this.table)) return null;
+		if(!(row.getDeclaredTable().getTableName().equalsIgnoreCase(this.table.getTableName()))) return null;
 		return ((SqlTableRow)row).getAttribute(index, this.converter);
 	}
 
 	@Override
 	public void setAttribute(Row row, Object value){
-		if(!(row.getDeclaredTable() == this.table)) return;
+		if(!(row.getDeclaredTable().getTableName().equalsIgnoreCase(this.table.getTableName())))  return;
 		((SqlTableRow)row).setAttribute(index, this.converter, value);
 	}
 }

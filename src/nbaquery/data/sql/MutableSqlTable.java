@@ -118,7 +118,7 @@ public class MutableSqlTable implements Table
 	public TableHost getTableHost() {
 		return this.tableHost;
 	}
-	
+
 	public final HashSet<Object> notifier = new HashSet<Object>(); 
 	@Override
 	public boolean hasTableChanged(Object accessor) {
@@ -129,7 +129,7 @@ public class MutableSqlTable implements Table
 				if(this.tableHost.getTable(table).hasTableChanged(this))
 					noChanged = false;
 			if(!noChanged) notifier.clear();
-		}
+		}		
 		
 		if(!notifier.contains(accessor))
 		{
