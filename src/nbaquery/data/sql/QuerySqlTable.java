@@ -2,7 +2,6 @@ package nbaquery.data.sql;
 
 import java.sql.PreparedStatement;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -77,22 +76,20 @@ public class QuerySqlTable implements Table
 	public TableHost getTableHost() {
 		return this.tableHost;
 	}
-
-	HashSet<Object> notified = new HashSet<Object>();
+	
 	@Override
 	public boolean hasTableChanged(Object accessor){
 		boolean noChanged = true;
-		for(String table : dependTables)
-			if(this.tableHost.getTable(table).hasTableChanged(this))
-				noChanged = false;
-		if(!noChanged) notified.clear();
-		
-		if(notified.contains(accessor)) return false;
-		else
+		for(String table : dependTables) try
 		{
-			notified.add(accessor);
-			return true;
+			if(this.tableHost.getTable(table).hasTableChanged(accessor))
+				noChanged = false;
 		}
+		catch(Exception e)
+		{
+			
+		}
+		return !noChanged;
 	}
 
 	@Override
