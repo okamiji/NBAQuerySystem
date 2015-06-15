@@ -79,6 +79,7 @@ public class Main
 	public void loadDataLayer() throws Exception
 	{
 		host = this.dataInstaller.install(dataNode);
+		System.out.println("Finished loading of data layer!");
 	}
 	
 	public NewTeamService teamService;
@@ -87,6 +88,7 @@ public class Main
 	public void loadLogicLayer() throws Exception
 	{
 		this.logicInstaller.install(logicNode, this);
+		System.out.println("Finished loading of logic layer!");
 	}
 
 	public void loadPresentation() throws Exception
@@ -111,6 +113,7 @@ public class Main
 		 * 
 		 */
 		this.interfaceInstaller.install(interfaceNode, this);
+		System.out.println("Finished loading of presentation layer!");
 	}
 	
 	public void launch() throws Exception

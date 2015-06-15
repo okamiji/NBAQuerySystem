@@ -101,6 +101,7 @@ public class MutableSqlRow implements SqlTableRow
 						}
 						batchUpdateThread.remove(statement);
 						declaredTable.notifier.clear();
+						declaredTable.tableHost.setLatestUpdate(declaredTable);
 					}
 				};
 				batchUpdateThread.put(this.statement, batchUpdate);

@@ -59,6 +59,8 @@ public class GroupAlgorithm extends SqlQueryAlgorithm<GroupQuery>
 				sqlTypes.toArray(new String[0]), new String(projections), query.table.getTableName());
 		tableHost.connection.createStatement().execute(String.format("delete from %s", tableName));
 		
+		if(tableHost.getLastestUpdate(mutable) > tableHost.getLastestUpdate(query.table)) return tableHost.getTable(tableName);
+		
 		String legacyDenotion = query.table.getTableName();
 		if(query.table instanceof QuerySqlTable && ((QuerySqlTable)query.table).query != null)
 			legacyDenotion = String.format("(%s) as %s", ((QuerySqlTable)query.table).query, ((QuerySqlTable)query.table).getTableName());

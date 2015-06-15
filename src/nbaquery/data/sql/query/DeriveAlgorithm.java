@@ -64,6 +64,8 @@ public class DeriveAlgorithm extends SqlQueryAlgorithm<DeriveQuery>
 				tableName, columns.toArray(new String[0]), dataTypes.toArray(new Class<?>[0]),
 				sqlTypes.toArray(new String[0]), null, query.table.getTableName());
 		
+		if(host.getLastestUpdate(mutable) > host.getLastestUpdate(query.table)) return host.getTable(tableName);
+		
 		String originTableDenotion = query.table.getTableName();
 		if(query.table instanceof QuerySqlTable && ((QuerySqlTable)query.table).query != null)
 			originTableDenotion = String.format("(%s) as %s", ((QuerySqlTable)query.table).query, originTableDenotion);
@@ -87,7 +89,6 @@ public class DeriveAlgorithm extends SqlQueryAlgorithm<DeriveQuery>
 		/**
 		 * Finally, derive to the rows which are just created or modified.
 		 */
-		
 		int[] projections = new int[projectColumns.length];
 		SqlTableColumn[] sqlTableColumns = new SqlTableColumn[projectColumns.length];
 		for(int i = 0; i < projectColumns.length; i ++)

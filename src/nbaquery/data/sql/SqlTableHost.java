@@ -2,9 +2,11 @@ package nbaquery.data.sql;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeMap;
@@ -56,11 +58,47 @@ public class SqlTableHost implements TableHost
 			this.declaredTable.add(tables.getString(3));
 		
 		for(BaseTableConstants baseTable : baseTables)
-			this.tables.put(baseTable.getTableName(), new MutableSqlTable(this, baseTable.getTableName(),
+			this.tables.put(baseTable.getTableName().toLowerCase(), new MutableSqlTable(this, baseTable.getTableName(),
 					baseTable.getColumns(), baseTable.getDataClasses(), baseTable.getSqlTypes(), baseTable.getKeyword()));
+		
+		new MutableSqlTable(this, "table_updtracker", new String[]{"table_name", "latest_update"}, 
+				new Class<?>[]{String.class, Date.class}, new String[]{"char(50)", "bigint"}, "table_name");
+		
+		table_checkupd = this.connection.prepareStatement("select latest_update from table_updtracker where table_name=?");
+		table_setupd = this.connection.prepareStatement("update table_updtracker set latest_update=? where table_name=?");
 		
 		for(SqlQueryAlgorithm<?> algorithm : algorithms)
 			this.algorithms.put(algorithm.getQueryClass(), algorithm);
+	}
+	
+	final PreparedStatement table_checkupd;
+	final PreparedStatement table_setupd;
+	
+	public long getLastestUpdate(Table table)
+	{
+		try {
+			table_checkupd.setString(1, table.getTableName());
+			ResultSet result = table_checkupd.executeQuery();
+			if(result.next()) return result.getLong(1);
+			return 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0L;
+		}
+	}
+	
+	public void setLatestUpdate(Table table)
+	{
+		try
+		{
+			table_setupd.setLong(1, System.currentTimeMillis());
+			table_setupd.setString(2, table.getTableName());
+			table_setupd.execute();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
