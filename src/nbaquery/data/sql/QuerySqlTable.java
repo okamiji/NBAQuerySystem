@@ -96,6 +96,17 @@ public class QuerySqlTable implements Table
 	public String getTableName() {
 		return tableName;
 	}
+	
+	public boolean isTableLocked()
+	{
+		for(String table :dependTables)
+		{
+			Table theTable = this.tableHost.getTable(table);
+			if(theTable instanceof MutableSqlTable)
+				if(((MutableSqlTable) theTable).getTableLocked()) return true;
+		}
+		return false;
+	}
 
 	@Override
 	public void registerTrigger(Trigger trigger)

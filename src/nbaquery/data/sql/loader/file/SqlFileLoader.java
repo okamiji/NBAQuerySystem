@@ -8,5 +8,7 @@ public interface SqlFileLoader
 	
 	public void load(File aFile) throws Exception;
 	
+	public void shouldLock(boolean l);
+	
 	public String getLoaderName();
 }

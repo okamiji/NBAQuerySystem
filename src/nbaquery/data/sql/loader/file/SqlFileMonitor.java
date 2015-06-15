@@ -36,11 +36,14 @@ public class SqlFileMonitor extends Thread
 		while(isSystemRunning) try
 		{
 			File[] files = root.listFiles();
+			boolean findNewRecord = false;
 			if(files != null) for(File file : files)
 			{
 				String fileName = file.getName();
 				if(!loadedFile.contains(fileName))
 				{
+					findNewRecord = true;
+					loader.shouldLock(true);
 					loader.load(file);
 					loadedFile.add(fileName);
 					MutableSqlRow row = traceTable.createRow();
@@ -48,8 +51,11 @@ public class SqlFileMonitor extends Thread
 					row.submit();
 				}
 			}
-			//Thread.sleep(interval);
-			Thread.yield();
+			if(!findNewRecord)
+			{
+				loader.shouldLock(false);
+				Thread.yield();
+			}
 		}
 		catch(Exception e)
 		{

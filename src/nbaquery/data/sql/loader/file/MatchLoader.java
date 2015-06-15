@@ -245,4 +245,15 @@ public class MatchLoader implements SqlFileLoader
 	public String getLoaderName() {
 		return "match";
 	}
+
+	@Override
+	public void shouldLock(boolean l) {
+		MutableSqlTable matchTable = (MutableSqlTable) host.getTable("matches");
+		MutableSqlTable quarterTable = (MutableSqlTable) host.getTable("quarter_score");
+		MutableSqlTable performanceTable = (MutableSqlTable) host.getTable("performance");
+		
+		matchTable.setTableLocked(l);
+		quarterTable.setTableLocked(l);
+		performanceTable.setTableLocked(l);
+	}
 }

@@ -93,4 +93,10 @@ public class TeamLoader implements SqlFileLoader
 	public String getLoaderName() {
 		return "team";
 	}
+
+	@Override
+	public void shouldLock(boolean l) {
+		MutableSqlTable teamTable = (MutableSqlTable) host.getTable("team");
+		teamTable.setTableLocked(l);
+	}
 }

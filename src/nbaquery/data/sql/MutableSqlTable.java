@@ -94,12 +94,24 @@ public class MutableSqlTable implements Table
 		return new MutableSqlRow(this, this.insertionQuery);
 	}
 	
+	boolean tableLocked = false;
+	public void setTableLocked(boolean l)
+	{
+		this.tableLocked = l;
+	}
+	
+	public boolean getTableLocked()
+	{
+		return this.tableLocked;
+	}
+	
 	@Override
 	public Cursor getRows() {
 		try
 		{
-			while(MutableSqlRow.batchUpdateThread.get(insertionQuery) != null)
+			while(MutableSqlRow.batchUpdateThread.get(insertionQuery) != null || tableLocked)
 				Thread.yield();
+			
 			ResultSet resultSet = this.selectionQuery.executeQuery();
 			return new SqlTableCursor(this, resultSet);
 		}

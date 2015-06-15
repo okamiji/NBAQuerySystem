@@ -115,4 +115,10 @@ public class PlayerLoader implements SqlFileLoader
 	public String getLoaderName() {
 		return "player";
 	}
+
+	@Override
+	public void shouldLock(boolean l) {
+		MutableSqlTable playerTable = (MutableSqlTable) host.getTable("player");
+		playerTable.setTableLocked(l);
+	}
 }
