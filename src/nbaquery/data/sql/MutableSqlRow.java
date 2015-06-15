@@ -1,7 +1,6 @@
 package nbaquery.data.sql;
 
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import nbaquery.data.Table;
@@ -60,6 +59,7 @@ public class MutableSqlRow implements SqlTableRow
 				trigger.doCorrection(this);
 			}
 			
+			this.statement.clearParameters();
 			for(int i = 0; i < this.creations.length; i ++) try
 			{
 				this.converters[i].write(statement, i + 1, this.creations[i]);
@@ -90,11 +90,6 @@ public class MutableSqlRow implements SqlTableRow
 						}
 						catch (Exception e) {
 							System.err.println("Error occurs while operating on ".concat(declaredTable.getTableName()));
-							try {
-								statement.clearBatch();
-							} catch (SQLException e1) {
-								throw new Error("Cannot clean batches!");
-							}
 							e.printStackTrace();
 						}
 						batchUpdateThread.remove(statement);
