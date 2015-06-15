@@ -15,12 +15,18 @@ public class SortAlgorithm extends SqlQueryAlgorithm<SortQuery>
 		ArrayList<String> columns = new ArrayList<String>();
 		ArrayList<Class<?>> dataTypes = new ArrayList<Class<?>>();
 		
+		StringBuilder argumentList = new StringBuilder();
+		boolean isFirst = true;
 		for(Column column : query.table.getColumns())
 		{
 			columns.add(column.getColumnName());
 			dataTypes.add(column.getDataClass());
+			if(!isFirst) argumentList.append(", ");
+			argumentList.append(String.format("%s", column.getColumnName()));
+			isFirst = false;
 		}
-		String queryString = String.format("select * from %s order by %s %s", query.table.getTableName(), query.keyword, query.descend? "desc" : "asc");
+		
+		String queryString = String.format("select %s from %s order by %s %s", new String(argumentList), query.table.getTableName(), query.keyword, query.descend? "desc" : "asc");
 		if(query.interval > 0)
 			queryString = queryString.concat(String.format(" limit %d", query.interval));
 		

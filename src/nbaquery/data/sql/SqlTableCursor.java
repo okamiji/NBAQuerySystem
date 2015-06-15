@@ -35,7 +35,7 @@ public class SqlTableCursor implements Cursor
 
 	@Override
 	public void absolute(int position) {
-		this.cursor = position;
+		this.cursor = position + 1;
 	}
 
 	@Override
