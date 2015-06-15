@@ -79,7 +79,7 @@ public class SqlTableHost implements TableHost
 	{
 		try {
 			if(table == null) return 0;
-			if(table instanceof MutableSqlTable)
+			if(table instanceof MutableSqlTable) synchronized(table_checkupd)
 			{
 				table_checkupd.setString(1, table.getTableName());
 				ResultSet result = table_checkupd.executeQuery();
@@ -108,13 +108,13 @@ public class SqlTableHost implements TableHost
 		{
 			if(table == null) return;
 			if(!(table instanceof MutableSqlTable)) return;
-			if(this.getLastestUpdate(table) == 0)
+			if(this.getLastestUpdate(table) == 0) synchronized(this.table_setins)
 			{
 				table_setins.setLong(2, System.currentTimeMillis());
 				table_setins.setString(1, table.getTableName());
 				table_setins.execute();
 			}
-			else
+			else synchronized(table_setupd)
 			{
 				table_setupd.setLong(1, System.currentTimeMillis());
 				table_setupd.setString(2, table.getTableName());

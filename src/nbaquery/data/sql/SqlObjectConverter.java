@@ -210,7 +210,11 @@ public abstract class SqlObjectConverter<Type>
 			@Override
 			public Image read(ResultSet resultSet, int index)
 					throws Exception {
-				return new Image(new File(resultSet.getString(index)));
+				String path = resultSet.getString(index);
+				if(path == null) return null;
+				File image = new File(path);
+				if(image.exists()) return new Image(image);
+				else return null;
 			}
 
 			@Override

@@ -26,7 +26,11 @@ public class SortAlgorithm extends SqlQueryAlgorithm<SortQuery>
 			isFirst = false;
 		}
 		
-		String queryString = String.format("select %s from %s order by %s %s", new String(argumentList), query.table.getTableName(), query.keyword, query.descend? "desc" : "asc");
+		String parentTableQuery = query.table.getTableName();
+		if(query.table instanceof QuerySqlTable && ((QuerySqlTable)query.table).query != null)
+			parentTableQuery = String.format("(%s) as %s", ((QuerySqlTable)query.table).query, parentTableQuery);
+		
+		String queryString = String.format("select %s from %s order by %s %s", new String(argumentList), parentTableQuery, query.keyword, query.descend? "desc" : "asc");
 		if(query.interval > 0)
 			queryString = queryString.concat(String.format(" limit %d", query.interval));
 		
