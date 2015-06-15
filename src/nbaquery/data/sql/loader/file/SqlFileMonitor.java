@@ -9,19 +9,19 @@ import nbaquery.data.sql.MutableSqlRow;
 import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableHost;
 
-public class FileMonitor extends Thread
+public class SqlFileMonitor extends Thread
 {
 	public static long interval = 1000L;
 	public static boolean isSystemRunning = true;
 	
 	protected File root;
-	protected FileLoader loader;
+	protected SqlFileLoader loader;
 	
-	protected TreeSet<String> loadedFile;
+	protected TreeSet<String> loadedFile = new TreeSet<String>();
 	protected MutableSqlTable traceTable;
 	protected Column file_name;
 	
-	public FileMonitor(File root, FileLoader loader, SqlTableHost host) throws Exception
+	public SqlFileMonitor(File root, SqlFileLoader loader, SqlTableHost host) throws Exception
 	{
 		this.root = root;
 		this.loader = loader;

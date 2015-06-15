@@ -84,9 +84,10 @@ public class MutableSqlRow implements SqlTableRow
 						}
 						try
 						{
-							statement.executeBatch();
+							System.out.println(declaredTable);
 						}
 						catch (Exception e) {
+							System.out.println(declaredTable.getTableName());
 							try {
 								statement.clearBatch();
 							} catch (SQLException e1) {

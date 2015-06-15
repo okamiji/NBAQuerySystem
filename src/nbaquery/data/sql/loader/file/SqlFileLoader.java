@@ -2,7 +2,7 @@ package nbaquery.data.sql.loader.file;
 
 import java.io.File;
 
-public interface FileLoader
+public interface SqlFileLoader
 {
 	public void setRoot(File root) throws Exception;
 	

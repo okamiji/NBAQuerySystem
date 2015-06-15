@@ -20,6 +20,9 @@ public class SqlInstaller implements Installer<TableHost>
 	ArrayList<BaseTableConstants> base_tables = new ArrayList<BaseTableConstants>();
 	ArrayList<SqlQueryAlgorithm<?>> algorithms = new ArrayList<SqlQueryAlgorithm<?>>();
 	
+	Installer<?> loaderInstaller;
+	Node loaderNode;
+	
 	@Override
 	public TableHost install(Node documentNode, Object... params) throws Exception
 	{
@@ -94,9 +97,22 @@ public class SqlInstaller implements Installer<TableHost>
 			}
 		});
 		
+		notifier.registerListener("loaders", new XmlEventListener()
+		{
+			@Override
+			public void onEncounter(Node node) throws Exception {
+				Element loaders = (Element) node;
+				@SuppressWarnings("unchecked")
+				Class<? extends Installer<?>> loaderClazz = (Class<? extends Installer<?>>) Class.forName(loaders.getAttribute("installer"));
+				SqlInstaller.this.loaderInstaller = loaderClazz.newInstance();
+				SqlInstaller.this.loaderNode = node;
+			}
+		});
+		
 		notifier.parse(documentNode);
 		
 		SqlTableHost tableHost = new SqlTableHost(host, username, password, base_tables.toArray(new BaseTableConstants[0]), algorithms.toArray(new SqlQueryAlgorithm<?>[0]));
+		loaderInstaller.install(loaderNode, tableHost);
 		return tableHost;
 	}
 }

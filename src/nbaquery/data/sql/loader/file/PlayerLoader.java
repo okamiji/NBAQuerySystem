@@ -13,7 +13,7 @@ import nbaquery.data.sql.SqlTableColumn;
 import nbaquery.data.sql.SqlTableHost;
 
 
-public class PlayerLoader implements FileLoader
+public class PlayerLoader implements SqlFileLoader
 {
 	TreeMap<String, SqlTableColumn> keyToColumnMap = new TreeMap<String, SqlTableColumn>();
 	
@@ -100,7 +100,7 @@ public class PlayerLoader implements FileLoader
 		fileFolder = new File(root, "players");
 		actionFolder = new File(fileFolder, "action");
 		portraitFolder = new File(fileFolder, "portrait");
-		FileMonitor fileMonitor = new FileMonitor(new File(fileFolder, "info"), this, host);
+		SqlFileMonitor fileMonitor = new SqlFileMonitor(new File(fileFolder, "info"), this, host);
 		fileMonitor.start();
 	}
 	

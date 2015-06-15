@@ -13,7 +13,7 @@ import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableColumn;
 import nbaquery.data.sql.SqlTableHost;
 
-public class MatchLoader implements FileLoader
+public class MatchLoader implements SqlFileLoader
 {
 
 	final SqlTableHost host;
@@ -219,14 +219,14 @@ public class MatchLoader implements FileLoader
 	
 	public void setRoot(File root) throws Exception
 	{
-		FileMonitor fileMonitor = new FileMonitor(new File(root, "matches"), this, host);
+		SqlFileMonitor fileMonitor = new SqlFileMonitor(new File(root, "matches"), this, host);
 		fileMonitor.start();
 	}
 
 	@Override
 	public void load(File aFile) throws Exception
 	{
-		MutableSqlTable matchTable = (MutableSqlTable) host.getTable("match");
+		MutableSqlTable matchTable = (MutableSqlTable) host.getTable("matches");
 		MutableSqlTable quarterTable = (MutableSqlTable) host.getTable("quarter_score");
 		MutableSqlTable performanceTable = (MutableSqlTable) host.getTable("performance");
 		

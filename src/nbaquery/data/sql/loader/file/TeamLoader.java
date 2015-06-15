@@ -11,7 +11,7 @@ import nbaquery.data.sql.MutableSqlTable;
 import nbaquery.data.sql.SqlTableColumn;
 import nbaquery.data.sql.SqlTableHost;
 
-public class TeamLoader implements FileLoader
+public class TeamLoader implements SqlFileLoader
 {	
 	final SqlTableHost host;
 	
@@ -75,7 +75,7 @@ public class TeamLoader implements FileLoader
 	public void setRoot(File root) throws Exception
 	{
 		this.fileFolder = new File(root, "teams");
-		FileMonitor fileMonitor = new FileMonitor(this.fileFolder, this, host);
+		SqlFileMonitor fileMonitor = new SqlFileMonitor(this.fileFolder, this, host);
 		fileMonitor.start();
 	}
 
