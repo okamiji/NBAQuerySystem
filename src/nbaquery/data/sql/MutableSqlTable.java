@@ -3,6 +3,7 @@ package nbaquery.data.sql;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -112,8 +113,15 @@ public class MutableSqlTable implements Table
 			while(MutableSqlRow.batchUpdateThread.get(insertionQuery) != null || tableLocked)
 				Thread.yield();
 			
-			ResultSet resultSet = this.selectionQuery.executeQuery();
-			return new SqlTableCursor(this, resultSet);
+			return new SqlTableCursor(this)
+			{
+				@Override
+				protected ResultSet getResultSet() throws SQLException {
+					// TODO Auto-generated method stub
+					return MutableSqlTable.this.selectionQuery.executeQuery();
+				}
+				
+			};
 		}
 		catch (Exception e) {
 			e.printStackTrace();

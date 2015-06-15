@@ -1,24 +1,28 @@
 package nbaquery.data.sql;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import nbaquery.data.Cursor;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 
-public class SqlTableCursor implements Cursor
+public abstract class SqlTableCursor implements Cursor
 {
 	int cursor = 1;
 	final Table declaredTable;
-	final ResultSet resultSet;
+	ResultSet resultSet;
 	final int resultLength;
-	public SqlTableCursor(Table declaredTable, ResultSet resultSet) throws Exception
+	
+	public SqlTableCursor(Table declaredTable) throws Exception
 	{
 		this.declaredTable = declaredTable;
-		this.resultSet = resultSet;
-		resultSet.last();
+		this.resultSet = this.getResultSet();
+		this.resultSet.last();
 		this.resultLength = resultSet.getRow();
 	}
+	
+	protected abstract ResultSet getResultSet() throws SQLException;
 	
 	@Override
 	public boolean hasNext() {
@@ -30,7 +34,7 @@ public class SqlTableCursor implements Cursor
 	{
 		if(cursor <= resultLength)
 		{
-			Row returnRow = new ResultSetRow(declaredTable, resultSet, cursor);
+			Row returnRow = new ResultSetRow(declaredTable, this, cursor);
 			cursor ++;
 			return returnRow;
 		}

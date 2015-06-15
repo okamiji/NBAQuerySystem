@@ -1,19 +1,17 @@
 package nbaquery.data.sql;
 
-import java.sql.ResultSet;
-
 import nbaquery.data.Table;
 
 public class ResultSetRow implements SqlTableRow
 {
-	final ResultSet resultSet;
+	final SqlTableCursor cursor;
 	final Table declaredTable;
 	final int rowId;
 	
-	public ResultSetRow(Table declaredTable, ResultSet resultSet, int rowId)
+	public ResultSetRow(Table declaredTable, SqlTableCursor cursor, int rowId)
 	{
 		this.declaredTable = declaredTable;
-		this.resultSet = resultSet;
+		this.cursor = cursor;
 		this.rowId = rowId;
 	}
 	
@@ -31,10 +29,12 @@ public class ResultSetRow implements SqlTableRow
 	public Object getAttribute(int index, SqlObjectConverter<?> converter) {
 		try
 		{
-			synchronized(resultSet)
+			synchronized(cursor.resultSet)
 			{
-				resultSet.absolute(rowId);
-				return converter.read(resultSet, index);
+				if(cursor.resultSet == null || cursor.resultSet.isClosed()) 
+					cursor.resultSet = this.cursor.getResultSet();
+				cursor.resultSet.absolute(rowId);
+				return converter.read(cursor.resultSet, index);
 			}
 		}
 		catch (Exception e) 
@@ -48,10 +48,12 @@ public class ResultSetRow implements SqlTableRow
 	public void setAttribute(int index, SqlObjectConverter<?> converter, Object value) {
 		try
 		{
-			synchronized(resultSet)
+			synchronized(cursor.resultSet)
 			{
-				resultSet.absolute(rowId);
-				converter.update(resultSet, index, value);
+				if(cursor.resultSet == null || cursor.resultSet.isClosed()) 
+					cursor.resultSet = this.cursor.getResultSet();
+				cursor.	resultSet.absolute(rowId);
+				converter.update(cursor.resultSet, index, value);
 			}
 		}
 		catch (Exception e) 

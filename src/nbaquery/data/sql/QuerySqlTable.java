@@ -1,6 +1,8 @@
 package nbaquery.data.sql;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeMap;
@@ -58,7 +60,13 @@ public class QuerySqlTable implements Table
 	public Cursor getRows() {
 		try
 		{
-			return new SqlTableCursor(this, this.executeQuery.executeQuery());
+			return new SqlTableCursor(this)
+			{
+				@Override
+				protected ResultSet getResultSet() throws SQLException {
+					return QuerySqlTable.this.executeQuery.executeQuery();
+				}
+			};
 		}
 		catch(Exception e)
 		{

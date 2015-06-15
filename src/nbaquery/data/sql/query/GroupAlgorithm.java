@@ -2,6 +2,7 @@ package nbaquery.data.sql.query;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -104,7 +105,7 @@ public class GroupAlgorithm extends SqlQueryAlgorithm<GroupQuery>
 						
 						ResultSet distinctProjections = 
 								tableHost.connection.createStatement().executeQuery(String.format("select distinct %s from %s", new String(projections), legacyDenotion));
-						PreparedStatement collapseSelection = 
+						final PreparedStatement collapseSelection = 
 								tableHost.connection.prepareStatement(String.format("select * from %s where (%s) = (%s)", legacyDenotion, new String(projections), new String(projectionQuestions)));
 						
 						query.retrieve(mutable);
@@ -123,9 +124,17 @@ public class GroupAlgorithm extends SqlQueryAlgorithm<GroupQuery>
 							}
 							/**
 							 * Find All Rows That Matches Current Columns.
-							 */
-							ResultSet results = collapseSelection.executeQuery();
-							SqlTableCursor cursor = new SqlTableCursor(query.table, results);
+							 */ 
+							SqlTableCursor cursor = new SqlTableCursor(query.table)
+							{
+
+								@Override
+								protected ResultSet getResultSet()
+										throws SQLException {
+									return collapseSelection.executeQuery();
+								}
+								
+							};
 							ArrayList<Row> rows = new ArrayList<Row>();
 							while(cursor.hasNext()) rows.add(cursor.next());
 							query.collapse(rows.toArray(new Row[0]), resultRow);
