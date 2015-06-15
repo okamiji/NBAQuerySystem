@@ -14,9 +14,10 @@ public class ConstantOperator implements Operator
 	@Override
 	public String rebuild() {
 		if(constant == null) return "null";
-		else if(constant instanceof String) return String.format("'%s'", constant);
-		else if(constant instanceof Integer) return String.format("%d", constant);
-		else if(constant instanceof Float) return String.format("%f", constant);
+		else if(constant instanceof String) return String.format("'%s'", (String)constant);
+		else if(constant instanceof Integer) return String.format("%d", (int)constant);
+		else if(constant instanceof Float) return String.format("%f", (float)constant);
+		else if(constant instanceof Character) return String.format("%d", (int)((char)constant));
 		return null;
 	}
 }
