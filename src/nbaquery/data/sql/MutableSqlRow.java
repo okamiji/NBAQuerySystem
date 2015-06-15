@@ -1,6 +1,7 @@
 package nbaquery.data.sql;
 
 import java.sql.PreparedStatement;
+import java.util.Collection;
 import java.util.HashMap;
 
 import nbaquery.data.Table;
@@ -20,12 +21,14 @@ public class MutableSqlRow implements SqlTableRow
 	public static final HashMap<PreparedStatement, Thread> batchUpdateThread
 		= new HashMap<PreparedStatement, Thread>();
 	
-	public MutableSqlRow(MutableSqlTable table, PreparedStatement statement, int attributes)
+	public MutableSqlRow(MutableSqlTable table, PreparedStatement statement)
 	{
 		this.declaredTable = table;
 		this.statement = statement;
-		this.creations = new Object[attributes];
-		this.converters = new SqlObjectConverter<?>[attributes];
+		Collection<SqlTableColumn> columns = this.declaredTable.getColumns();
+		this.creations = new Object[columns.size()];
+		this.converters = new SqlObjectConverter<?>[columns.size()];
+		for(SqlTableColumn column : columns) this.converters[column.index - 1] = column.converter;
 	}
 
 	@Override
@@ -68,7 +71,8 @@ public class MutableSqlRow implements SqlTableRow
 				}
 				catch(NullPointerException e)
 				{
-					System.err.println("insertion null at " + i + " of table " + declaredTable.getTableName());
+					System.err.println("Warning: insertion null at " + i + " of table " + declaredTable.getTableName());
+					this.converters[i].writeStatement(statement, i + 1, null);
 				}
 				this.statement.addBatch();
 			}

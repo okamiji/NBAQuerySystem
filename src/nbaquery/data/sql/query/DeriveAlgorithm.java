@@ -53,9 +53,6 @@ public class DeriveAlgorithm extends SqlQueryAlgorithm<DeriveQuery>
 		
 		String[] projectColumns = columns.toArray(new String[0]);
 		
-		for(Class<?> dataClass : dataTypes)
-			sqlTypes.add(BaseTableConstants.sqlTypeMap.get(dataClass));
-		
 		for(int i = 0; i < query.deriveColumns.length; i ++)
 		{
 			columns.add(query.deriveColumns[i]);

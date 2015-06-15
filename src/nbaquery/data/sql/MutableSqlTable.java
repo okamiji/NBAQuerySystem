@@ -85,13 +85,13 @@ public class MutableSqlTable implements Table
 	}
 	
 	@Override
-	public Collection<? extends Column> getColumns() {
+	public Collection<SqlTableColumn> getColumns() {
 		return this.columns.values();
 	}
 
 	public MutableSqlRow createRow()
 	{
-		return new MutableSqlRow(this, this.insertionQuery, this.columns.size());
+		return new MutableSqlRow(this, this.insertionQuery);
 	}
 	
 	@Override
