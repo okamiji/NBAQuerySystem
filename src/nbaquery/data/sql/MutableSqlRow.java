@@ -59,16 +59,19 @@ public class MutableSqlRow implements SqlTableRow
 				trigger.doCorrection(this);
 			}
 			
-			this.statement.clearParameters();
-			for(int i = 0; i < this.creations.length; i ++) try
+			synchronized(this.statement)
 			{
-				this.converters[i].write(statement, i + 1, this.creations[i]);
+				this.statement.clearParameters();
+				for(int i = 0; i < this.creations.length; i ++) try
+				{
+					this.converters[i].write(statement, i + 1, this.creations[i]);
+				}
+				catch(NullPointerException e)
+				{
+					System.err.println("insertion null at " + i + " of table " + declaredTable.getTableName());
+				}
+				this.statement.addBatch();
 			}
-			catch(NullPointerException e)
-			{
-				System.err.println("insertion null at " + i + " of table " + declaredTable.getTableName());
-			}
-			this.statement.addBatch();
 			
 			if(batchUpdateThread.get(statement) == null)
 			{

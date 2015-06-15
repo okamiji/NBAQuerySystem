@@ -16,7 +16,7 @@ public abstract class BaseTableConstants
 		sqlTypeMap.put(Float.class, "real");
 		sqlTypeMap.put(Character.class, "tinyint");
 		sqlTypeMap.put(Date.class, "bigint");
-		sqlTypeMap.put(Image.class, "char(140)");
+		sqlTypeMap.put(Image.class, "char(255)");
 	}
 	
 	ArrayList<String> columns = new ArrayList<String>();
@@ -63,8 +63,8 @@ public abstract class BaseTableConstants
 			this.addColumn("player_age", Integer.class, "tinyint");
 			this.addColumn("player_exp", Integer.class, "tinyint");
 			this.addColumn("player_school", String.class, "char(64)");
-			this.addColumn("player_portrait", Image.class, "char(140)");
-			this.addColumn("player_action", Image.class, "char(140)");
+			this.addColumn("player_portrait", Image.class, "char(255)");
+			this.addColumn("player_action", Image.class, "char(255)");
 		}
 		
 		@Override
@@ -83,7 +83,7 @@ public abstract class BaseTableConstants
 			this.addColumn("team_sector", String.class, "char(12)");
 			this.addColumn("team_host", String.class, "char(32)");
 			this.addColumn("team_foundation", Integer.class, "smallint");
-			this.addColumn("team_logo", Image.class, "char(140)");
+			this.addColumn("team_logo", Image.class, "char(255)");
 		}
 		
 		@Override
