@@ -28,9 +28,13 @@ public class SqlTableCursor implements Cursor
 	@Override
 	public Row next()
 	{
-		Row returnRow = new ResultSetRow(declaredTable, resultSet, cursor);
-		cursor ++;
-		return returnRow;
+		if(cursor <= resultLength)
+		{
+			Row returnRow = new ResultSetRow(declaredTable, resultSet, cursor);
+			cursor ++;
+			return returnRow;
+		}
+		else return null;
 	}
 
 	@Override

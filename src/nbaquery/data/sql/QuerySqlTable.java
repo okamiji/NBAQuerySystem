@@ -42,7 +42,7 @@ public class QuerySqlTable implements Table
 		for(int i = 0; i < columns.length; i ++)
 			this.columns.put(columns[i].toLowerCase(), new SqlTableColumn(this, columns[i].toLowerCase(), types[i], i + 1));
 		
-		System.out.println(this.tableName + " : " + this.query);
+		//System.out.println(this.tableName + " : " + this.query);
 	}
 	
 	@Override
