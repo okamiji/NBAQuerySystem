@@ -48,7 +48,8 @@ public class SqlFileMonitor extends Thread
 					row.submit();
 				}
 			}
-			Thread.sleep(interval);
+			//Thread.sleep(interval);
+			Thread.yield();
 		}
 		catch(Exception e)
 		{
