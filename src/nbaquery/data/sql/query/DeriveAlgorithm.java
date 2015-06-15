@@ -64,7 +64,11 @@ public class DeriveAlgorithm extends SqlQueryAlgorithm<DeriveQuery>
 				tableName, columns.toArray(new String[0]), dataTypes.toArray(new Class<?>[0]),
 				sqlTypes.toArray(new String[0]), null, query.table.getTableName());
 		
-		if(host.getLastestUpdate(mutable) > host.getLastestUpdate(query.table)) return host.getTable(tableName);
+		if(host.getLastestUpdate(mutable) > host.getLastestUpdate(query.table))
+		{
+			Table originalTable = host.getTable(tableName);
+			return originalTable == null? mutable : originalTable;
+		}
 		
 		String originTableDenotion = query.table.getTableName();
 		if(query.table instanceof QuerySqlTable && ((QuerySqlTable)query.table).query != null)

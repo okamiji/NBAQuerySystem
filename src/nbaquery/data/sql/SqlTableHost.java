@@ -66,13 +66,14 @@ public class SqlTableHost implements TableHost
 		
 		table_checkupd = this.connection.prepareStatement("select latest_update from table_updtracker where table_name=?");
 		table_setupd = this.connection.prepareStatement("update table_updtracker set latest_update=? where table_name=?");
+		table_setins = this.connection.prepareStatement("insert into table_updtracker (table_name, latest_update) values (?, ?)");
 		
 		for(SqlQueryAlgorithm<?> algorithm : algorithms)
 			this.algorithms.put(algorithm.getQueryClass(), algorithm);
 	}
 	
 	final PreparedStatement table_checkupd;
-	final PreparedStatement table_setupd;
+	final PreparedStatement table_setupd, table_setins;
 	
 	public long getLastestUpdate(Table table)
 	{
@@ -80,7 +81,7 @@ public class SqlTableHost implements TableHost
 			table_checkupd.setString(1, table.getTableName());
 			ResultSet result = table_checkupd.executeQuery();
 			if(result.next()) return result.getLong(1);
-			return 0;
+			return 0L;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 0L;
@@ -91,9 +92,18 @@ public class SqlTableHost implements TableHost
 	{
 		try
 		{
-			table_setupd.setLong(1, System.currentTimeMillis());
-			table_setupd.setString(2, table.getTableName());
-			table_setupd.execute();
+			if(this.getLastestUpdate(table) == 0)
+			{
+				table_setins.setLong(2, System.currentTimeMillis());
+				table_setins.setString(1, table.getTableName());
+				table_setins.execute();
+			}
+			else
+			{
+				table_setupd.setLong(1, System.currentTimeMillis());
+				table_setupd.setString(2, table.getTableName());
+				table_setupd.execute();
+			}
 		}
 		catch(SQLException e)
 		{
