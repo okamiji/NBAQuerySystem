@@ -79,7 +79,7 @@ public class MutableSqlRow implements SqlTableRow
 					{
 						try
 						{	
-							Thread.sleep(1);
+							Thread.sleep(100);
 						}
 						catch(Exception e)
 						{

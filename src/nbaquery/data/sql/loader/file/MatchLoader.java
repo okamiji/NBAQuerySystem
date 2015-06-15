@@ -231,7 +231,7 @@ public class MatchLoader implements SqlFileLoader
 	}
 
 	@Override
-	public void load(File aFile) throws Exception
+	public synchronized void load(File aFile) throws Exception
 	{
 		MutableSqlTable matchTable = (MutableSqlTable) host.getTable("matches");
 		MutableSqlTable quarterTable = (MutableSqlTable) host.getTable("quarter_score");
