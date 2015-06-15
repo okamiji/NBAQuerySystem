@@ -78,10 +78,24 @@ public class SqlTableHost implements TableHost
 	public long getLastestUpdate(Table table)
 	{
 		try {
-			table_checkupd.setString(1, table.getTableName());
-			ResultSet result = table_checkupd.executeQuery();
-			if(result.next()) return result.getLong(1);
-			return 0L;
+			if(table == null) return 0;
+			if(table instanceof MutableSqlTable)
+			{
+				table_checkupd.setString(1, table.getTableName());
+				ResultSet result = table_checkupd.executeQuery();
+				if(result.next()) return result.getLong(1);
+				else return 0L;
+			}
+			else
+			{
+				QuerySqlTable theTable = (QuerySqlTable) table;
+				long returnValue = 0L;
+				Table temp;
+				for(String dependency : theTable.dependTables)
+					if((temp = this.tables.get(dependency)) != null)
+						returnValue = Math.max(returnValue, this.getLastestUpdate(temp));
+				return returnValue;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 0L;
@@ -92,6 +106,8 @@ public class SqlTableHost implements TableHost
 	{
 		try
 		{
+			if(table == null) return;
+			if(!(table instanceof MutableSqlTable)) return;
 			if(this.getLastestUpdate(table) == 0)
 			{
 				table_setins.setLong(2, System.currentTimeMillis());
