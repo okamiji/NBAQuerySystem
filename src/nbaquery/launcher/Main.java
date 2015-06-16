@@ -23,7 +23,7 @@ public class Main
 	
 	public void loadConfiguration() throws Exception
 	{
-		Configuration config = new SqledConfiguration(new File("config.xml"));
+		Configuration config = new Configuration(new File("config.xml"));
 		Document dom = config.getDocument();
 		NodeList nodelist = dom.getChildNodes();
 		
