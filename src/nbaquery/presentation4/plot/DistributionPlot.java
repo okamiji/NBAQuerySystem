@@ -89,6 +89,7 @@ public class DistributionPlot extends Component
 
 	private Table model;
 	private Column column;
+	
 	public void setModel(Table model, Column column)
 	{
 		if(model == null) return;
