@@ -135,7 +135,7 @@ public class DistributionPlot extends Component
 		this.plotNumbers = plotNumbers.toArray(new Float[0]);
 		this.correspondingRows = correspondingRows.toArray(new Row[0]);
 		this.mean = (float) (sum / this.plotNumbers.length);
-		this.deviation = (float) Math.sqrt(sum_square / (this.plotNumbers.length - 1));
+		this.deviation = (float) Math.sqrt(sum_square / (this.plotNumbers.length - 1) - this.mean * this.mean);
 		float onePoint = 1.0f / this.plotNumbers.length;
 		
 		for(int i = 0; i < intervals; i ++) plotPercentages[i] = 0.0f;

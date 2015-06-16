@@ -176,8 +176,8 @@ public class DistributePlayerPanel extends JPanel
 		this.add(dataScope);
 		
 		
-		final String[] keywordName = new String[]{"self_score", "total_board", "assist", "cap", "steal"};
-		String[] keywordLabel = new String[]{"\u5F97\u5206", "\u7BEE\u677F", "\u52A9\u653B", "\u76D6\u5E3D", "\u62A2\u65AD"};
+		final String[] keywordName = new String[]{"self_score", "total_board", "assist", "cap", "steal", "miss", "foul"};
+		String[] keywordLabel = new String[]{"\u5F97\u5206", "\u7BEE\u677F", "\u52A9\u653B", "\u76D6\u5E3D", "\u62A2\u65AD", "\u5931\u8BEF", "\u72AF\u89C4"};
 		
 		final DropList dataModel = new DropList(keywordLabel)
 		{
