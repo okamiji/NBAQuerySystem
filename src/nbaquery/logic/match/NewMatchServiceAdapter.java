@@ -1,13 +1,10 @@
 package nbaquery.logic.match;
 
-import nbaquery.data.Column;
 import nbaquery.data.Cursor;
-import nbaquery.data.Image;
 import nbaquery.data.Row;
 import nbaquery.data.Table;
 import nbaquery.data.TableHost;
-import nbaquery.data.query.DeriveColumnInfo;
-import nbaquery.data.query.DeriveQuery;
+import nbaquery.data.query.AliasingQuery;
 import nbaquery.data.query.NaturalJoinQuery;
 import nbaquery.data.query.SelectProjectQuery;
 import nbaquery.data.query.SortQuery;
@@ -129,21 +126,23 @@ public class NewMatchServiceAdapter implements NewMatchService
 	{
 		Table queryResult = this.searchMatchesByDateAndSeason(date, season);
 		
-		DeriveQuery derive = null;
-		try
-		{
-			derive = new DeriveQuery(queryResult,
-					new DeriveColumnInfo[]
-					{
-						new ImageJointer(tableHost, "match_host_abbr", "match_host_image"),
-						new ImageJointer(tableHost, "match_guest_abbr", "match_guest_image")
-					});
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		tableHost.performQuery(derive, "match_query_result_derive");
-		queryResult = tableHost.getTable("match_query_result_derive");
+		AliasingQuery match_host_alias
+			= new AliasingQuery(tableHost.getTable("team"), new String[]{"team_name_abbr", "team_logo"}, new String[]{"match_host_abbr", "match_host_image"});
+		tableHost.performQuery(match_host_alias, "match_host_alias");
+		Table match_host_alias_table = tableHost.getTable("match_host_alias");
+
+		AliasingQuery match_guest_alias
+			= new AliasingQuery(tableHost.getTable("team"), new String[]{"team_name_abbr", "team_logo"}, new String[]{"match_guest_abbr", "match_guest_image"});
+		tableHost.performQuery(match_guest_alias, "match_guest_alias");
+		Table match_guest_alias_table = tableHost.getTable("match_guest_alias");
+		
+		NaturalJoinQuery match_query_host_name_joined = new NaturalJoinQuery(queryResult, match_host_alias_table, new String[]{"match_host_abbr"}, new String[]{"match_host_abbr"});
+		tableHost.performQuery(match_query_host_name_joined, "match_query_host_name_joined");
+		queryResult = tableHost.getTable("match_query_host_name_joined");
+
+		NaturalJoinQuery match_query_guest_name_joined = new NaturalJoinQuery(queryResult,match_guest_alias_table, new String[]{"match_guest_abbr"}, new String[]{"match_guest_abbr"});
+		tableHost.performQuery(match_query_guest_name_joined, "match_query_guest_name_joined");
+		queryResult = tableHost.getTable("match_query_guest_name_joined");
 		
 		if(keyword != null) for(int i = keyword.length - 1; i >= 0; i --)
 		{
@@ -167,48 +166,6 @@ public class NewMatchServiceAdapter implements NewMatchService
 		return this.searchForMatchesTable(keyword, season, date, sortDescend);
 	}
 	
-	class ImageJointer extends DeriveColumnInfo
-	{
-		public ImageJointer(TableHost host, String fetchColumnName, String columnName)
-		{
-			super(columnName, Image.class);
-			this.host = host;
-			this.fetchColumnName = fetchColumnName;
-		}
-		String fetchColumnName;
-		Column team_name;
-		TableHost host;
-		Table table;
-
-		@Override
-		public void retrieve(Table resultTable)
-		{
-			table = host.getTable("team");
-			team_name = resultTable.getColumn(fetchColumnName);
-		}
-
-		@Override
-		public void derive(Row resultRow)
-		{
-			String teamName = (String)(team_name.getAttribute(resultRow));
-			Table team_info = host.getTable("team_info_".concat(teamName));
-			if(team_info == null)
-			try
-			{
-				SelectProjectQuery query = new SelectProjectQuery("team.team_name_abbr='%1'"
-						.replace("%1", teamName), table);
-				host.performQuery(query, "team_info_".concat(teamName));
-				
-				team_info = host.getTable("team_info_".concat(teamName));
-			}
-			catch(Exception e)
-			{
-				
-			}
-			getDeriveColumn().setAttribute(resultRow, team_info.getColumn("team_logo").getAttribute(team_info.getRows().next()));
-		}
-	}
-
 	@Override
 	public Table searchQuarterScoreByID(int matchID)
 	{
