@@ -63,7 +63,7 @@ public class NewPlayerServiceAdapter implements NewPlayerService
 		if(position != null || league != null) try
 		{
 			String thePosition = String.format("player_position='%s'", position);
-			String theLeague = String.format("team_match_area=\"%s\"", league);
+			String theLeague = String.format("team_match_area='%s'", league);
 			
 			String statement = null;
 			if(position != null && league != null) statement = String.format("%s and %s", thePosition, theLeague);

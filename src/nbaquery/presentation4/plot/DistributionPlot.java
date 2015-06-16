@@ -12,7 +12,7 @@ public class DistributionPlot extends Component
 {
 	private final int intervals;
 	
-	public static Color chartColor = new Color(1.0f, 1.0f, 1.0f, 0.8f);
+	public static Color chartColor = new Color(1.0f, 1.0f, 1.0f, 0.4f);
 	public static Color HistroColor = Color.gray;
 	public static Color addonColor = Color.orange;
 	public static Color frameColor = Color.black;

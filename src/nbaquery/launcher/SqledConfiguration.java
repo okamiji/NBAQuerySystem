@@ -224,7 +224,7 @@ public class SqledConfiguration extends Configuration
 		);
 		
 		Element player_service = dom.createElement("player_service");
-		player_service.setAttribute("class", "nbaquery.logic.player.NewPlayerServiceAdapter");
+		player_service.setAttribute("class", "nbaquery.logic.player.DatabasedPlayerServiceAdapter");
 		this.createDependenciesUnder(dom, player_service, new String[]{"gross_player", "average_player", "hot_player_today", "progress_player"});
 		logicConfig.appendChild(player_service);
 		

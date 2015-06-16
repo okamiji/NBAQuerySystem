@@ -13,9 +13,9 @@ public class TestDistributionPlot extends Main{
 		JFrame fr = new JFrame();
 		fr.setSize(600, 480);
 		fr.setLayout(null);
-		Table table = this.playerService.searchForPlayers(true, new String[]{"three_shoot_rate"}, true, null, null);
+		Table table = this.playerService.searchForPlayers(true, new String[]{"usage_rate"}, true, null, null);
 		DistributionPlot dp = new DistributionPlot(20);
-		dp.setModel(table, table.getColumn("three_shoot_rate"));	
+		dp.setModel(table, table.getColumn("usage_rate"));	
 		dp.setLocation(50, 20);
 		dp.setSize(500, 400);
 		fr.add(dp);
