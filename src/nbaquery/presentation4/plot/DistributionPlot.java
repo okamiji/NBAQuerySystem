@@ -45,8 +45,6 @@ public class DistributionPlot extends Component
 		int mainPlotAreaHeight = getHeight() - 30;
 		
 		Graphics mainPlotArea = g.create(mainPlotAreaX, mainPlotAreaY, mainPlotAreaWidth, mainPlotAreaHeight);
-		mainPlotArea.setColor(frameColor);
-		mainPlotArea.drawRect(0, 0, mainPlotAreaWidth - 1, mainPlotAreaHeight - 1);
 		
 		for(int i = 0; i < intervals; i ++)
 		{
@@ -85,6 +83,9 @@ public class DistributionPlot extends Component
 				current += 20;
 			}
 		}
+		
+		mainPlotArea.setColor(frameColor);
+		mainPlotArea.drawRect(0, 0, mainPlotAreaWidth - 1, mainPlotAreaHeight - 1);
 	}
 
 	private Table model;

@@ -1,10 +1,15 @@
 package nbaquery.presentation3.player;
 
+import java.awt.Graphics;
+
 import javax.swing.JPanel;
 
+import nbaquery.data.Column;
+import nbaquery.data.Table;
 import nbaquery.logic.player.NewPlayerService;
 import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.DropList;
+import nbaquery.presentation4.plot.DistributionPlot;
 
 @SuppressWarnings("serial")
 public class DistributePlayerPanel extends JPanel
@@ -20,6 +25,8 @@ public class DistributePlayerPanel extends JPanel
 	public boolean shouldRedoQuery = true;
 	
 	String currentKeyword;
+
+	DistributionPlot distributionPlot;
 	
 	public DistributePlayerPanel(NewPlayerService playerService, DetailedInfoContainer detailedInfo, int width, int height)
 	{
@@ -169,14 +176,15 @@ public class DistributePlayerPanel extends JPanel
 		this.add(dataScope);
 		
 		
-		String[] keywordName = new String[]{"self_score"};
-		String[] keywordLabel = new String[]{"\u5F97\u5206"};
+		final String[] keywordName = new String[]{"self_score", "total_board", "assist", "cap", "steal"};
+		String[] keywordLabel = new String[]{"\u5F97\u5206", "\u7BEE\u677F", "\u52A9\u653B", "\u76D6\u5E3D", "\u62A2\u65AD"};
 		
 		final DropList dataModel = new DropList(keywordLabel)
 		{
 			@Override
 			protected void onSelectionChanged(int index)
 			{
+				currentKeyword = keywordName[index];
 				shouldRedoQuery = true;
 			}
 		};
@@ -216,5 +224,21 @@ public class DistributePlayerPanel extends JPanel
 		position.setBounds(166, 2, 80, 20);
 		position.setHorizontalAlignment(DropList.CENTER);
 		this.add(position);
+		
+		this.distributionPlot = new DistributionPlot(20);
+		this.distributionPlot.setBounds(0, 32, width, height - 64);
+		this.add(distributionPlot);
+	}
+	
+	public void paint(Graphics g)
+	{
+		super.paint(g);
+		if(shouldRedoQuery)
+		{
+			Table table = this.playerService.searchForPlayers(isGross, null, true, position, league);
+			Column column = table.getColumn(currentKeyword);
+			this.distributionPlot.setModel(table, column);
+			shouldRedoQuery = false;
+		}
 	}
 }
