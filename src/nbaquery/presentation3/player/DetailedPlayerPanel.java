@@ -21,6 +21,7 @@ import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.KeyValueDisplay;
 import nbaquery.presentation3.match.CompareMatchSubPanel;
 import nbaquery_stats.MeanTest;
+import nbaquery_stats.VarianceTest;
 
 @SuppressWarnings("serial")
 public class DetailedPlayerPanel extends JPanel
@@ -67,8 +68,11 @@ public class DetailedPlayerPanel extends JPanel
 						for(Row row : player_performance)
 							player_score.add((float)(Integer) self_score.getAttribute(row));
 						int trend = MeanTest.get_mean_trend(player_score.toArray(new Float[0]));
+						int stability = VarianceTest.get_variance_trend(player_score.toArray(new Float[0]));
 						
-						return player_name.concat(trend == 0? "(0)" : trend > 0? "(+)" : "(-)");
+						String addedTrend = player_name.concat(trend == 0? "(0, " : trend > 0? "(+, " : "(-, ");
+						
+						return addedTrend.concat(stability > 0? "Unstable)": "Stable)");
 					}
 				};
 			}

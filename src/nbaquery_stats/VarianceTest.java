@@ -3,7 +3,7 @@ package nbaquery_stats;
 import org.apache.commons.math3.stat.descriptive.moment.Variance;
 
 public class VarianceTest {
-	public static int get_variance_trend(float[] data){
+	public static int get_variance_trend(Float[] data){
 		float a = 0.05f;
 		
 		double[] d_data = new double[data.length];
