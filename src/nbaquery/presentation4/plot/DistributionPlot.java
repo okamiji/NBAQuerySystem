@@ -3,6 +3,8 @@ package nbaquery.presentation4.plot;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import nbaquery.data.*;
@@ -13,14 +15,36 @@ public class DistributionPlot extends Component
 	private final int intervals;
 	
 	public static Color chartColor = new Color(1.0f, 1.0f, 1.0f, 0.4f);
-	public static Color HistroColor = Color.gray;
-	public static Color addonColor = Color.orange;
+	public static Color histroColor = Color.gray;
+	public static Color addonColor = nbaquery.presentation3.MainFrame.selectedShadow;
+	public static Color shadowColor = nbaquery.presentation3.MainFrame.selectedShadow.brighter();
 	public static Color frameColor = Color.black;
+	
+	public static int horizontalPadding = 0;
 	
 	public DistributionPlot(int intervals)
 	{
 		this.intervals = intervals;
 		this.plotPercentages = new float[intervals];
+		MouseAdapter mouse = new MouseAdapter()
+		{
+			public void mouseMoved(MouseEvent me)
+			{
+				currentIndex = DistributionPlot.this.intervals * (me.getX() - horizontalPadding) / (getWidth() - horizontalPadding);
+			}
+			
+			public void mouseEntered(MouseEvent me)
+			{
+				addMouseMotionListener(this);
+			}
+			
+			public void mouseExited(MouseEvent me)
+			{
+				currentIndex = -1;
+				removeMouseMotionListener(this);
+			}
+		};
+		this.addMouseListener(mouse);
 	}
 	
 	private float minimal;
@@ -29,31 +53,55 @@ public class DistributionPlot extends Component
 	private float[] plotPercentages;
 	
 	private Float[] plotNumbers;
+	@SuppressWarnings("unused")
 	private Row[] correspondingRows;
 	
 	private float mean;
 	private float deviation;
+	
+	private int currentIndex = -1;
 	
 	public void paint(Graphics g)
 	{
 		g.setColor(chartColor);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
-		int mainPlotAreaX = 40;
+		int mainPlotAreaX = horizontalPadding;
 		int mainPlotAreaY = 0;
-		int mainPlotAreaWidth = getWidth() - 40;
-		int mainPlotAreaHeight = getHeight() - 30;
+		int mainPlotAreaWidth = getWidth() - horizontalPadding;
+		int mainPlotAreaHeight = getHeight();
 		
 		Graphics mainPlotArea = g.create(mainPlotAreaX, mainPlotAreaY, mainPlotAreaWidth, mainPlotAreaHeight);
 		
+		int width = mainPlotAreaWidth / intervals;
 		for(int i = 0; i < intervals; i ++)
 		{
-			mainPlotArea.setColor(HistroColor);
-			mainPlotArea.fillRect(i * mainPlotAreaWidth / intervals, (int)(mainPlotAreaHeight * (1 - plotPercentages[i])),
-					mainPlotAreaWidth / intervals, (int)(mainPlotAreaHeight * plotPercentages[i]));
+			int positionX = i * mainPlotAreaWidth / intervals;
+			if(currentIndex == i)
+			{
+				mainPlotArea.setColor(shadowColor);
+				mainPlotArea.fillRect(positionX, 0, width, mainPlotAreaHeight);
+				
+				mainPlotArea.setColor(frameColor);
+				mainPlotArea.drawString(String.format("%.1f%%", plotPercentages[i] * 100), positionX, (int)(mainPlotAreaHeight * (1 - plotPercentages[i])) - 5);
+			
+				String upperBound = Float.toString(minimal + (maximal - minimal) * (i + 1) / intervals);
+				mainPlotArea.drawString(upperBound.length() < 5? upperBound : upperBound.substring(0, 5), 
+						positionX, 125);
+				
+				mainPlotArea.drawString("~", positionX + width / 2 - 5, 112);
+				
+				String lowerBound = Float.toString(minimal + (maximal - minimal) * i / intervals);
+				mainPlotArea.drawString(lowerBound.length() < 5? lowerBound : lowerBound.substring(0, 5), 
+						positionX, 100);
+			}
+			
+			mainPlotArea.setColor(histroColor);
+			mainPlotArea.fillRect(positionX, (int)(mainPlotAreaHeight * (1 - plotPercentages[i])),
+					width, (int)(mainPlotAreaHeight * plotPercentages[i]));
 			mainPlotArea.setColor(frameColor);
-			mainPlotArea.drawRect(i * mainPlotAreaWidth / intervals, (int)(mainPlotAreaHeight * (1 - plotPercentages[i])),
-					mainPlotAreaWidth / intervals, (int)(mainPlotAreaHeight * plotPercentages[i]));
+			mainPlotArea.drawRect(positionX, (int)(mainPlotAreaHeight * (1 - plotPercentages[i])),
+					width, (int)(mainPlotAreaHeight * plotPercentages[i]));
 		}
 		
 		mainPlotArea.setColor(addonColor);
@@ -91,11 +139,16 @@ public class DistributionPlot extends Component
 		mainPlotArea.drawLine(mainPlotAreaWidth - 106, 35, mainPlotAreaWidth - 100, 35);
 		mainPlotArea.drawString(" \u03C3 = ".concat(Float.toString(deviation)), mainPlotAreaWidth - 100, 40);
 		
+		mainPlotArea.drawString(" min = ".concat(Float.toString(minimal)), mainPlotAreaWidth - 100, 60);
+		mainPlotArea.drawString(" max = ".concat(Float.toString(maximal)), mainPlotAreaWidth - 100, 80);
+		
 		mainPlotArea.setColor(frameColor);
 		mainPlotArea.drawRect(0, 0, mainPlotAreaWidth - 1, mainPlotAreaHeight - 1);
 	}
 
+	@SuppressWarnings("unused")
 	private Table model;
+	@SuppressWarnings("unused")
 	private Column column;
 	
 	public void setModel(Table model, Column column)
