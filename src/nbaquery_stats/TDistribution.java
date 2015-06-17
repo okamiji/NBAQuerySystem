@@ -1,0 +1,45 @@
+package nbaquery_stats;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+
+import nbaquery.statistics.RunPython;
+
+public class TDistribution {
+	public static float get_tdistribution(String para){
+		RunPython.run_python("C:\\users\\lenovo\\desktop\\tdistribution.py", para);
+		float return_f = readTxtFile("C:\\users\\lenovo\\desktop\\tdistribution.txt");
+		//TODO
+		return_f = Math.abs(return_f);
+		return return_f;
+	}
+	private static float readTxtFile(String filePath){
+        float return_f = 0f;
+		try {
+            String encoding="GBK";
+            File file=new File(filePath);
+            if(file.isFile() && file.exists()){ //判断文件是否存在
+                InputStreamReader read = new InputStreamReader(
+                new FileInputStream(file),encoding);//考虑到编码格式
+                BufferedReader bufferedReader = new BufferedReader(read);
+                String lineTxt = null;
+                while((lineTxt = bufferedReader.readLine()) != null){
+                    return_f = Float.parseFloat(lineTxt);
+                	System.out.println(lineTxt);
+                }
+                read.close();
+        }else{
+            System.out.println("找不到指定的文件");
+        }
+        } catch (Exception e) {
+            System.out.println("读取文件内容出错");
+            e.printStackTrace();
+        }
+		return return_f;
+    }
+	public static void main(String[] args){
+		System.out.println(get_tdistribution("0.025;15"));
+	}
+}
