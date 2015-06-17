@@ -60,6 +60,9 @@ public class DistributionPlot extends Component
 		float meanPercent =  (mean - minimal) / (maximal - minimal);
 		mainPlotArea.drawLine((int)(mainPlotAreaWidth * meanPercent), 0, (int)(mainPlotAreaWidth * meanPercent), mainPlotAreaHeight);
 		
+		mainPlotArea.drawLine(mainPlotAreaWidth - 120, 15, mainPlotAreaWidth - 100, 15);
+		mainPlotArea.drawString(" \u03BC = ".concat(Float.toString(mean)), mainPlotAreaWidth - 100, 20);
+		
 		float deviationPercent = (mean + deviation - minimal) / (maximal - minimal);
 		if(deviationPercent <= 1.0f)
 		{
@@ -83,6 +86,10 @@ public class DistributionPlot extends Component
 				current += 20;
 			}
 		}
+		
+		mainPlotArea.drawLine(mainPlotAreaWidth - 120, 35, mainPlotAreaWidth - 111, 35);
+		mainPlotArea.drawLine(mainPlotAreaWidth - 106, 35, mainPlotAreaWidth - 100, 35);
+		mainPlotArea.drawString(" \u03C3 = ".concat(Float.toString(deviation)), mainPlotAreaWidth - 100, 40);
 		
 		mainPlotArea.setColor(frameColor);
 		mainPlotArea.drawRect(0, 0, mainPlotAreaWidth - 1, mainPlotAreaHeight - 1);
@@ -146,4 +153,5 @@ public class DistributionPlot extends Component
 			this.plotPercentages[intervalIndex] += onePoint;
 		}
 	}
+	
 }
