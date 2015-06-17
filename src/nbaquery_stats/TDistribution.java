@@ -9,8 +9,8 @@ import nbaquery.statistics.RunPython;
 
 public class TDistribution {
 	public static float get_tdistribution(String para){
-		RunPython.run_python("C:\\users\\lenovo\\desktop\\tdistribution.py", para);
-		float return_f = readTxtFile("C:\\users\\lenovo\\desktop\\tdistribution.txt");
+		RunPython.run_python("py_file/tdistribution.py".replace('/', File.separatorChar), para);
+		float return_f = readTxtFile("py_file/tdistribution.txt".replace('/', File.separatorChar));
 		//TODO
 		return_f = Math.abs(return_f);
 		return return_f;
@@ -27,7 +27,6 @@ public class TDistribution {
                 String lineTxt = null;
                 while((lineTxt = bufferedReader.readLine()) != null){
                     return_f = Float.parseFloat(lineTxt);
-                	System.out.println(lineTxt);
                 }
                 read.close();
         }else{
