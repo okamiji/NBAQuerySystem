@@ -25,7 +25,7 @@ public class RunPython {
 			for(String s : argv){
 				command += " " + s;
 			}
-			System.out.println(command);
+//			System.out.println(command);
 			
 			Process pr = Runtime.getRuntime().exec(command);  
 			BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
@@ -33,8 +33,8 @@ public class RunPython {
 			while ((line = in.readLine()) != null) {
 				System.out.println(line);
 			}
-			in.close();
 			pr.waitFor();
+			in.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
