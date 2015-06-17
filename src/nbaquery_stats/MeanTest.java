@@ -5,7 +5,7 @@ import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
 public class MeanTest {
-	public static int get_mean_trend(float[] data){
+	public static int get_mean_trend(Float[] data){
 		float a = 0.01f;
 		
 		double[] d_data = new double[data.length];

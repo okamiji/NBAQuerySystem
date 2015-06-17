@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import nbaquery.data.Column;
 import nbaquery.data.Cursor;
 import nbaquery.data.Image;
 import nbaquery.data.Row;
@@ -18,6 +20,7 @@ import nbaquery.presentation.resource.ImageIconResource;
 import nbaquery.presentation3.DetailedInfoContainer;
 import nbaquery.presentation3.KeyValueDisplay;
 import nbaquery.presentation3.match.CompareMatchSubPanel;
+import nbaquery_stats.MeanTest;
 
 @SuppressWarnings("serial")
 public class DetailedPlayerPanel extends JPanel
@@ -43,14 +46,33 @@ public class DetailedPlayerPanel extends JPanel
 		}
 	};
 	
-	public DetailedPlayerPanel(final DetailedInfoContainer container, NewMatchService matchService, int width, int height)
+	public DetailedPlayerPanel(final DetailedInfoContainer container, final NewMatchService matchService, int width, int height)
 	{
 		this.setSize(width, height);
 		this.setLayout(null);
 		
 		for(int i = 0; i < keyName.length; i ++) 
 		{
-			if(keyName[i].equals("player_position"))
+			if(keyName[i].equals("player_name"))
+			{
+				configuration[i] = new KeyValueDisplay(keyDisplayName[i], keyName[i])
+				{
+					public String convertValueToString(Object value)
+					{
+						String player_name = super.convertValueToString(value);
+						
+						Table player_performance = matchService.searchPerformancesByPlayer(player_name);
+						ArrayList<Float> player_score = new ArrayList<Float>();
+						Column self_score = player_performance.getColumn("self_score");
+						for(Row row : player_performance)
+							player_score.add((float)(Integer) self_score.getAttribute(row));
+						int trend = MeanTest.get_mean_trend(player_score.toArray(new Float[0]));
+						
+						return player_name.concat(trend == 0? "(0)" : trend > 0? "(+)" : "(-)");
+					}
+				};
+			}
+			else if(keyName[i].equals("player_position"))
 			{
 				configuration[i] = new KeyValueDisplay(keyDisplayName[i], keyName[i])
 				{
