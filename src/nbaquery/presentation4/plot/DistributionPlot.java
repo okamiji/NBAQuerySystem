@@ -169,7 +169,6 @@ public class DistributionPlot extends Component
 		this.maximal = -Float.MAX_VALUE;
 		
 		double sum = 0f;
-		double sum_square = 0f;
 		
 		for(Row row : model)
 		{
@@ -189,22 +188,24 @@ public class DistributionPlot extends Component
 			if(plotNumber < this.minimal) this.minimal = plotNumber;
 			
 			sum += plotNumber;
-			sum_square += plotNumber * plotNumber;
 		}
 	
 		this.plotNumbers = plotNumbers.toArray(new Float[0]);
 		this.correspondingRows = correspondingRows.toArray(new Row[0]);
 		this.mean = (float) (sum / this.plotNumbers.length);
-		this.deviation = (float) Math.sqrt(sum_square / (this.plotNumbers.length - 1) - this.mean * this.mean);
 		float onePoint = 1.0f / this.plotNumbers.length;
 		
 		for(int i = 0; i < intervals; i ++) plotPercentages[i] = 0.0f;
+		
+		double sum_square = 0f;
 		for(Float number : this.plotNumbers)
 		{
 			int intervalIndex = (int)(this.intervals * (number - this.minimal) /(this.maximal - this.minimal));
 			if(intervalIndex >= intervals) intervalIndex = intervals - 1;
 			this.plotPercentages[intervalIndex] += onePoint;
+			sum_square += (number - mean) * (number - mean);
 		}
+		this.deviation = (float) Math.sqrt(sum_square /(this.plotNumbers.length - 1));
 	}
 	
 }
