@@ -18,7 +18,8 @@ public class IntervalEstimation {
 		float standard_deviation = (float) standard_deviation_.evaluate(d_data);
 
 		//TODO
-		float f_value = nbaquery_stats.TDistribution.get_tdistribution((1 - a) / 2 + ";" + (data.length - 1));
+		float s = (1 - a) / 2;
+		float f_value = nbaquery_stats.TDistribution.get_tdistribution(s + ";" + (data.length - 1));
 		float f = (float) ((float) (standard_deviation * f_value) / (Math.sqrt(data.length)));
 		
 		float[] return_f = new float[2];
@@ -26,12 +27,12 @@ public class IntervalEstimation {
 		return_f[1] = mean + f;
 		return return_f;
 	}
-/*	public static void main(String[] args){
+	public static void main(String[] args){
 		float[] data = {112.5f, 102f, 97.8f, 101.5f, 102f,
 				108.8f, 101.6f, 108.6f, 98.4f, 100.5f,
 				115.6f, 102.2f, 105f, 93.3f, 102.6f,
 				123.5f, 95.4f, 102.8f, 103f, 95f};
 		float[] result = get_interval(data);
 		System.out.println(result[0] + " " + result[1]);
-	}*/
+	}
 }
